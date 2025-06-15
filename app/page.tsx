@@ -163,6 +163,36 @@ const rosaryMysteries = {
   },
 }
 
+const cardData = [
+  {
+    number: "1",
+    shortText: "Fix your eyes on Jesus, the author and finisher of our faith.",
+    fullText:
+      "The Rosary is not a mindless incantation. It is a sacred meditation—a spiritual photo album that walks us through the life, love, and sacrifice of Jesus Christ. Each decade reveals a vivid mystery: His joy, His suffering, His glory. By praying the Rosary, we don't lose ourselves in words—we find His face in each mystery. Fix your eyes on Jesus, the author and finisher of our faith.",
+  },
+  {
+    number: "2",
+    shortText: "Where two or three are gathered in my name, I am there among them (Matthew 18:20)",
+    fullText:
+      "Jesus said, Where two or three are gathered in my name, I am there among them (Matthew 18:20). He longs for us to pray together, for one another. Who better to pray with us than the one who walked every step of His earthly life beside Him—His own mother? Mary isn't distant. She is the Queen Mother of Heaven, always interceding for us with tender love. Pray for one another, that you may be healed. The prayer of a righteous person has great power (James 5:16). All these with one accord were devoting themselves to prayer, together with... Mary the mother of Jesus (Acts 1:14).",
+  },
+  {
+    number: "3",
+    shortText: "Mary continues to intercede for us—because she loves as only a mother can.",
+    fullText:
+      "On the Cross, Jesus gave us everything: His body, His blood, His heart—and His mother. Woman, behold your son... Son, behold your mother (John 19:26–27). Mary stood at the foot of the Cross, silent in sorrow, enduring the pain of watching her Son—God Himself—scourged, mocked, and crucified. And yet, she didn't turn away. Her soul pierced by sorrow (Luke 2:35), she became our mother too. His face was like the sun shining in full strength (Revelation 1:16). God did not spare His own Son, but gave Him up for us all (Romans 8:32). Mary continues to intercede for us—because she loves as only a mother can.",
+  },
+]
+
+const mysteryImages = [
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mother%20Mary%20and%20Baby%20Jesus.png-0JeNAZJv87hYt6zZ2jUzbD7n6ZW6fX.jpeg",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jesus%20baptized.png-sZEYyB7s82b78YVh6vDJmGLyHb8Nqu.jpeg",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7d00b0ed1ef04406aabaa13e949ec1bb.png-c2sbiN5V7oDnFruPBdP5ERcEmaQ5Oe.jpeg",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8c9ccf36706f49afae4b2e6148c718d1.png-rL1gIVUCQOFCDgt0iVcMUrcXh4UYiJ.jpeg",
+]
+
+const mysteryTitles = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
+
 const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId)
   if (element) {
@@ -176,28 +206,7 @@ export default function LandingPage() {
   const [selectedMystery, setSelectedMystery] = useState<number | null>(null)
   const [expandedMysteryItems, setExpandedMysteryItems] = useState<number[]>([])
 
-  const headerImageAspectRatio = (500 / 1920) * 100 // ~26.04%
-
-  const cardData = [
-    {
-      number: "1",
-      shortText: "Fix your eyes on Jesus, the author and finisher of our faith.",
-      fullText:
-        "The Rosary is not a mindless incantation. It is a sacred meditation—a spiritual photo album that walks us through the life, love, and sacrifice of Jesus Christ. Each decade reveals a vivid mystery: His joy, His suffering, His glory. By praying the Rosary, we don't lose ourselves in words—we find His face in each mystery. Fix your eyes on Jesus, the author and finisher of our faith.",
-    },
-    {
-      number: "2",
-      shortText: "Where two or three are gathered in my name, I am there among them (Matthew 18:20)",
-      fullText:
-        "Jesus said, Where two or three are gathered in my name, I am there among them (Matthew 18:20). He longs for us to pray together, for one another. Who better to pray with us than the one who walked every step of His earthly life beside Him—His own mother? Mary isn't distant. She is the Queen Mother of Heaven, always interceding for us with tender love. Pray for one another, that you may be healed. The prayer of a righteous person has great power (James 5:16). All these with one accord were devoting themselves to prayer, together with... Mary the mother of Jesus (Acts 1:14).",
-    },
-    {
-      number: "3",
-      shortText: "Mary continues to intercede for us—because she loves as only a mother can.",
-      fullText:
-        "On the Cross, Jesus gave us everything: His body, His blood, His heart—and His mother. Woman, behold your son... Son, behold your mother (John 19:26–27). Mary stood at the foot of the Cross, silent in sorrow, enduring the pain of watching her Son—God Himself—scourged, mocked, and crucified. And yet, she didn't turn away. Her soul pierced by sorrow (Luke 2:35), she became our mother too. His face was like the sun shining in full strength (Revelation 1:16). God did not spare His own Son, but gave Him up for us all (Romans 8:32). Mary continues to intercede for us—because she loves as only a mother can.",
-    },
-  ]
+  const headerImageAspectRatio = (500 / 1920) * 100
 
   const handleCardClick = (index: number) => {
     setExpandedCard(expandedCard === index ? null : index)
@@ -218,15 +227,6 @@ export default function LandingPage() {
   const toggleMysteryItem = (index: number) => {
     setExpandedMysteryItems((prev) => (prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]))
   }
-
-  const mysteryImages = [
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mother%20Mary%20and%20Baby%20Jesus.png-0JeNAZJv87hYt6zZ2jUzbD7n6ZW6fX.jpeg",
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jesus%20baptized.png-sZEYyB7s82b78YVh6vDJmGLyHb8Nqu.jpeg",
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7d00b0ed1ef04406aabaa13e949ec1bb.png-c2sbiN5V7oDnFruPBdP5ERcEmaQ5Oe.jpeg",
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8c9ccf36706f49afae4b2e6148c718d1.png-rL1gIVUCQOFCDgt0iVcMUrcXh4UYiJ.jpeg",
-  ]
-
-  const mysteryTitles = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
 
   return (
     <div className="min-h-screen bg-gray-900 text-white relative">
@@ -250,8 +250,9 @@ export default function LandingPage() {
           </div>
         </header>
 
-        {/* Main Content Sections */}
+        {/* Main Content */}
         <main className="container mx-auto px-4 py-8">
+          {/* Hero Section */}
           <section className="text-center my-32">
             <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold mb-16">
               Welcome to Rosary Decades
@@ -262,7 +263,7 @@ export default function LandingPage() {
             </p>
           </section>
 
-          {/* Scroll Down Arrow */}
+          {/* Scroll Arrow */}
           <div className="flex justify-center my-40">
             <button
               onClick={() => scrollToSection("why-pray-section")}
@@ -272,7 +273,7 @@ export default function LandingPage() {
             </button>
           </div>
 
-          {/* Interactive Cards Section */}
+          {/* Why Pray Section */}
           <section id="why-pray-section" className="my-40">
             <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold text-center mb-40">
               Why Pray the Rosary?
@@ -285,7 +286,7 @@ export default function LandingPage() {
                   onClick={() => handleCardClick(index)}
                 >
                   <div
-                    className={`w-10 h-10 bg-transparent border-2 border-[#82FAFA] text-[#82FAFA] rounded-full flex items-center justify-center font-bold text-sm mb-4 transition-all duration-300 ${
+                    className={`w-10 h-10 bg-transparent border-2 border-[#82FAFA] text-[#82FAFA] rounded-full flex items-center justify-center font-bold text-sm mb-6 transition-all duration-300 ${
                       expandedCard === index ? "shadow-[0_0_20px_rgba(130,250,250,0.8)] scale-110" : ""
                     }`}
                   >
@@ -306,7 +307,7 @@ export default function LandingPage() {
             </div>
           </section>
 
-          {/* Scroll Down Arrow */}
+          {/* Scroll Arrow */}
           <div className="flex justify-center my-40">
             <button
               onClick={() => scrollToSection("mysteries-section")}
@@ -316,7 +317,7 @@ export default function LandingPage() {
             </button>
           </div>
 
-          {/* Rosary Mysteries Grid Section */}
+          {/* Mysteries Section */}
           <section id="mysteries-section" className="my-40">
             <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold text-center mb-16">
               The Mysteries of the Rosary
@@ -339,7 +340,7 @@ export default function LandingPage() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/80 flex items-center justify-center p-6">
-                    <h3 className="text-3xl font-black text-[#FFE552] uppercase tracking-[0.2em] text-center group-hover:text-[#FFE552] transition-colors duration-300">
+                    <h3 className="text-3xl font-black text-[#FFE552] uppercase tracking-[0.2em] text-center transition-colors duration-300">
                       {mysteryTitles[index]}
                     </h3>
                   </div>
@@ -350,27 +351,29 @@ export default function LandingPage() {
         </main>
 
         {/* Footer */}
-        <footer className="text-gray-500 text-center py-8 mt-12 font-inter text-sm">
+        <footer className="text-gray-500 text-center py-8 mt-12 font-inter">
           <div className="flex justify-center items-center gap-6 mb-8">
             <a
               href="https://www.youtube.com/@20RosaryDecades-Narrated"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-400 transition-colors duration-300"
+              className="text-gray-500 hover:text-[#FFE552] transition-colors duration-300"
             >
-              <Youtube size={16} />
+              <Youtube size={18} className="md:w-[22px] md:h-[22px]" />
             </a>
             <a
               href="https://www.linkedin.com/company/20rosarydecades-narrated/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-400 transition-colors duration-300"
+              className="text-gray-500 hover:text-[#FFE552] transition-colors duration-300"
             >
-              <Linkedin size={16} />
+              <Linkedin size={18} className="md:w-[22px] md:h-[22px]" />
             </a>
           </div>
-          <p className="mb-6 text-gray-500">&copy; {new Date().getFullYear()} Rosary Narrated. All rights reserved.</p>
-          <p className="text-gray-500">
+          <p className="mb-6 text-gray-500 text-sm md:text-base">
+            &copy; {new Date().getFullYear()} Rosary Narrated. All rights reserved.
+          </p>
+          <p className="text-gray-500 text-sm md:text-base">
             Powered by{" "}
             <a
               href="https://www.eltaydigital.com/"
@@ -387,28 +390,28 @@ export default function LandingPage() {
       {/* Timeline Modal */}
       {isModalOpen && selectedMystery && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Animated Background GIF */}
+          {/* Background GIF */}
           <div className="absolute inset-0 z-0">
             <Image src="/images/modal-background.gif" alt="Modal Background" fill className="object-cover" priority />
           </div>
 
           {/* Modal Content */}
           <div className="rounded-2xl w-full max-w-7xl h-[90vh] relative overflow-hidden border border-gray-300/20 z-10">
-            {/* Header Section */}
+            {/* Header */}
             <div className="bg-black/90 backdrop-blur-sm p-8 text-center relative z-20">
               <h2 className="text-4xl md:text-6xl font-bold text-white font-sora tracking-wider">
                 {rosaryMysteries[selectedMystery as keyof typeof rosaryMysteries].title}
               </h2>
               <button
                 onClick={closeModal}
-                className="absolute top-6 right-8 text-white text-4xl transition-colors duration-300 z-20 cursor-pointer bg-black/20 rounded-full w-12 h-12 flex items-center justify-center"
+                className="absolute top-6 right-8 text-white text-4xl transition-colors duration-300 z-20 cursor-pointer bg-black/20 rounded-full w-12 h-12 flex items-center justify-center hover:text-[#FFE552]"
                 type="button"
               >
                 ×
               </button>
             </div>
 
-            {/* Background Image Section */}
+            {/* Background Image */}
             <div className="relative flex-1 h-full">
               <Image
                 src={
@@ -542,7 +545,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Clean CSS animations */}
+          {/* Animations */}
           <style jsx>{`
             @keyframes beadReveal {
               0% {
