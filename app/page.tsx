@@ -421,15 +421,19 @@ export default function LandingPage() {
               <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30"></div>
 
               {/* Timeline Content */}
-              <div className="absolute inset-0 flex flex-col pt-[1vh] p-8 z-10">
+              <div className="absolute inset-0 flex flex-col pt-[10vh] p-8 z-10">
                 {/* Desktop Timeline */}
                 <div className="hidden md:block relative">
                   <div
-                    className="absolute top-6 left-1/2 transform -translate-x-1/2 w-full max-w-5xl h-1 bg-[#FFE552] rounded-full shadow-lg shadow-yellow-400/30 animate-[lineRevealLeftToRight_1.5s_ease-out] opacity-0"
-                    style={{ animationDelay: "2.5s", animationFillMode: "forwards" }}
+                    className="absolute left-1/2 transform -translate-x-1/2 w-full max-w-5xl h-1 bg-[#FFE552] rounded-full shadow-lg shadow-yellow-400/30 animate-[lineRevealLeftToRight_1.5s_ease-out] opacity-0"
+                    style={{
+                      top: "112px",
+                      animationDelay: "2.5s",
+                      animationFillMode: "forwards",
+                    }}
                   ></div>
 
-                  <div className="flex justify-between items-start gap-4 max-w-6xl mx-auto">
+                  <div className="flex justify-between items-start gap-4 max-w-6xl mx-auto mt-6">
                     {rosaryMysteries[selectedMystery as keyof typeof rosaryMysteries].mysteries.map(
                       (mystery, index) => (
                         <div
@@ -447,6 +451,7 @@ export default function LandingPage() {
                                 : "hover:scale-110"
                             }`}
                             onClick={() => toggleMysteryItem(index)}
+                            style={{ marginTop: "66px" }}
                           >
                             {index + 1}
                           </div>
