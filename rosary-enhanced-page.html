@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rosary Interactive Content</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Global Box Sizing Reset */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Common Background Styling for page elements (not modal) */
+  .simple-box-wrapper,
+  .courseList_courseList__06SX2,
+  .paragraph-cards-wrapper,
+  .rosary-grid-wrapper {
+    background: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Shorten-darkbluefontforEltayDigitalwebsite-ezgif.com-video-to-gif-converter-2JryclT2KSpnheX2hGotDgmWF1QFm7.gif') !important;
+    background-attachment: fixed !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+  }
+
+  /* Common Font Family 'Inter' */
+  .paragraph-card-number,
+  .paragraph-card-content,
+  .rosary-grid-item-title,
+  .close-modal,
+  .modal-title,
+  .timeline-node,
+  .timeline-content h3,
+  .timeline-content .mystery-description,
+  .significance strong,
+  .reflection strong {
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  /* Paragraph Cards Section */
+  .paragraph-cards-wrapper {
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    padding: 40px 0 !important;
+    position: relative !important;
+    z-index: 10 !important;
+  }
+
+  .paragraph-cards-container {
+    display: flex !important;
+    gap: 30px !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+    position: relative !important;
+  }
+
+  .paragraph-card {
+    flex: 1;
+    background: rgba(20, 30, 60, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    padding: 30px 25px !important;
+    position: relative !important;
+    backdrop-filter: blur(10px) !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    min-height: 180px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .paragraph-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+    background: rgba(25, 35, 70, 0.95) !important;
+  }
+
+  .paragraph-card-number {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 50px !important;
+    height: 50px !important;
+    background: #fff !important;
+    color: #1a1a2e !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: bold !important;
+    font-size: 20px !important;
+    box-shadow: 
+      0 8px 16px rgba(0, 0, 0, 0.3),
+      0 4px 8px rgba(0, 0, 0, 0.2),
+      inset 0 2px 4px rgba(255, 255, 255, 0.3),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.2) !important;
+    margin-bottom: 20px !important;
+  }
+
+  .paragraph-card-content {
+    color: #fff !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
+  }
+
+  .rosary-grid-wrapper {
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    padding: 40px 0 !important;
+    position: relative !important;
+    z-index: 10 !important;
+  }
+
+  .rosary-grid-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    gap: 30px !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+    aspect-ratio: 2/1 !important;
+    max-height: 70vh !important;
+    position: relative !important;
+  }
+
+  .rosary-grid-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    background: #000;
+  }
+
+  .rosary-grid-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .rosary-grid-item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+  }
+
+  .rosary-grid-item:hover .rosary-grid-item-image {
+    transform: scale(1.05);
+  }
+
+  .rosary-grid-item-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: white;
+    transition: all 0.3s ease;
+  }
+
+  .rosary-grid-item:hover .rosary-grid-item-overlay {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8));
+  }
+
+  .rosary-grid-item-title {
+    font-size: 32px;
+    font-weight: 900 !important;
+    margin: 0;
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    letter-spacing: 8px !important;
+    text-transform: uppercase;
+  }
+
+  .rosary-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .rosary-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px; 
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 20px;
+    padding: 40px; 
+    width: 95vw;
+    max-width: 1400px;
+    height: 90vh;
+    position: relative;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+    animation: slideIn 0.4s ease;
+    display: flex; 
+    flex-direction: column; 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+  }
+
+  @keyframes slideIn {
+    from { transform: scale(0.9) translateY(30px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .modal-background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px; 
+    overflow: hidden; 
+    z-index: 0; 
+  }
+
+  #modalBackgroundImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* This is the primary intended change */
+    object-position: center;
+    opacity: 0.15; /* Original opacity */
+    display: block; 
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 10; 
+  }
+
+  .close-modal:hover {
+    color: #FFE552;
+  }
+
+  .modal-title {
+    color: #FFE552 !important;
+    font-size: 67px !important;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px !important; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    position: relative;
+    z-index: 2; 
+    letter-spacing: 8px !important;
+    word-spacing: 16px !important;
+    flex-shrink: 0; 
+  }
+
+  .timeline-container {
+    position: relative; 
+    width: 100%;
+    padding: 0 20px; 
+    z-index: 2; 
+    flex-grow: 1; 
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch; 
+  }
+
+  .timeline-line {
+    position: absolute;
+    top: 125px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 80px); 
+    max-width: 1120px; 
+    height: 4px;
+    background: linear-gradient(to right, #FFE552, #FFF176, #FFE552);
+    border-radius: 2px;
+    z-index: 1; 
+    box-shadow: 0 0 8px rgba(255, 229, 82, 0.4);
+  }
+
+  .timeline-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 100px; 
+    padding-bottom: 20px; 
+  }
+
+  .timeline-item {
+    flex: 1;
+    position: relative; 
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 2; 
+  }
+
+  .timeline-item:hover {
+    transform: translateY(-10px);
+  }
+
+  .timeline-node {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(145deg, #FFE552, #E6CC02);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #1a1a2e;
+    font-size: 18px;
+    position: absolute;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    top: 0px; 
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .timeline-node:hover, .timeline-node.active {
+    transform: translateX(-50%) scale(1.2);
+    box-shadow: 
+      0 0 15px rgba(255, 229, 82, 0.8),
+      inset 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+
+  .timeline-content {
+    background: transparent !important;
+    border: none !important;
+    padding: 25px;
+    border-radius: 15px;
+    backdrop-filter: none !important;
+    transition: all 0.3s ease;
+    min-height: 200px;
+    text-align: center;
+    margin-top: 90px; 
+  }
+
+  .timeline-content.expanded {
+    background: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  .timeline-content.expanded:hover {
+    background: rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  }
+
+  .timeline-content h3 {
+    color: #ffd700;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    line-height: 1.3;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+  .timeline-content .mystery-description {
+    color: #fff !important;
+    font-size: 14px;
+    line-height: 1.6;
+    display: none;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 215, 0, 0.3);
+    text-align: left;
+    letter-spacing: 0.5px;
+  }
+
+  .timeline-content.expanded .mystery-description {
+    display: block;
+    animation: expandText 0.4s ease;
+  }
+
+  @keyframes expandText {
+    from { opacity: 0; max-height: 0; }
+    to { opacity: 1; max-height: 300px; }
+  }
+
+  .significance {
+    margin-bottom: 15px;
+  }
+
+  .significance strong,
+  .reflection strong {
+    color: #ffd700;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* --- Responsive Styles --- */
+  @media (max-width: 1200px) {
+    .modal-title {
+      font-size: 50px !important;
+      letter-spacing: 6px !important;
+      word-spacing: 12px !important;
+    }
+    
+    .timeline-content h3 {
+      font-size: 18px;
+    }
+    
+    .timeline-content .mystery-description {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .paragraph-cards-wrapper,
+    .rosary-grid-wrapper {
+      padding: 30px 0 !important;
+    }
+    
+    .paragraph-cards-container {
+      flex-direction: column !important;
+      gap: 20px !important;
+      padding: 0 15px !important;
+    }
+    
+    .paragraph-card {
+      min-height: 150px !important;
+      padding: 25px 20px !important;
+    }
+    
+    .paragraph-card-number {
+      width: 45px !important;
+      height: 45px !important;
+      font-size: 18px !important;
+      margin-bottom: 15px !important;
+    }
+    
+    .paragraph-card-content {
+      font-size: 15px !important;
+    }
+
+    .rosary-grid-container {
+      grid-template-columns: 1fr !important;
+      grid-template-rows: repeat(4, 1fr) !important;
+      aspect-ratio: auto !important;
+      gap: 20px !important;
+      padding: 0 15px !important;
+    }
+    
+    .rosary-grid-item {
+      height: 200px;
+    }
+    
+    .rosary-grid-item-title {
+      font-size: 26px;
+      letter-spacing: 5px !important;
+    }
+
+    .modal-content {
+      width: 92vw; 
+      height: 95vh;
+      padding: 30px 15px 15px 15px; 
+    }
+    
+    .modal-title {
+      font-size: 34px !important;
+      margin-bottom: 30px !important; 
+      letter-spacing: 4px !important;
+      word-spacing: 8px !important;
+    }
+    
+    .timeline-line {
+      display: none; 
+    }
+    
+    .timeline-container {
+      padding: 0 10px; 
+    }
+    
+    .timeline-items {
+      flex-direction: column;
+      gap: 20px; 
+      margin-top: 25px; 
+    }
+    
+    .timeline-item {
+      width: 100%;
+      padding-top: 15px; 
+      z-index: auto; 
+    }
+
+    .timeline-node {
+      position: relative; 
+      top: auto;
+      left: auto;
+      transform: none; 
+      margin: 0 auto 15px; 
+    }
+    
+    .timeline-node:hover, .timeline-node.active {
+      transform: scale(1.2); 
+    }
+            
+    .timeline-content {
+      min-height: auto;
+      margin-top: 0; 
+      padding: 20px; 
+    }
+    
+    .timeline-content h3 {
+      font-size: 20px;
+    }
+    
+    .timeline-content .mystery-description {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .paragraph-cards-wrapper,
+    .rosary-grid-wrapper {
+      padding: 20px 0 !important;
+    }
+    
+    .paragraph-cards-container {
+      padding: 0 10px !important;
+      gap: 15px !important;
+    }
+    
+    .paragraph-card {
+      padding: 20px 15px !important;
+    }
+    
+    .paragraph-card-content {
+      font-size: 14px !important;
+    }
+
+    .rosary-grid-container {
+      padding: 0 10px !important;
+      gap: 15px !important;
+    }
+    
+    .rosary-grid-item-title {
+      font-size: 22px;
+      letter-spacing: 4px !important;
+    }
+    
+    .rosary-grid-item-overlay {
+      padding: 15px;
+    }
+
+    .modal-content {
+      width: 92vw; 
+      padding: 25px 10px 10px 10px; 
+    }
+    
+    .modal-title {
+      font-size: 25px !important;
+      margin-bottom: 25px !important;
+      letter-spacing: 3px !important;
+      word-spacing: 6px !important;
+    }
+    
+    .timeline-container {
+      padding: 0 5px; 
+    }
+    
+    .timeline-items {
+        margin-top: 25px; 
+    }
+
+    .timeline-item {
+        padding-top: 15px; 
+    }
+
+    .timeline-node {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+      margin-bottom: 10px; 
+    }
+
+    .timeline-content {
+      padding: 15px; 
+    }
+  }
+
+/* CSS for the Mini Course Generator page header image */
+@media screen and (max-width: 12000px) {
+    .collectionDetails_coverContentTitle__Vs6_G {
+        font-size:1.375rem!important;
+        line-height: 1.75rem;
+        color: #fff;
+        font-weight: 500;
+        margin: 0
+    }
+
+    .collectionDetails_image__content__gaJLW {
+    }
+
+    .collectionDetails_coverContent__xRcaL,.collectionDetails_image__content__gaJLW {
+        min-height: 299px;
+        display: flex;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding: 68px 24px 32px
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Modal HTML -->
+<div id="rosaryModal" class="rosary-modal">
+  <div class="modal-content">
+    <div class="modal-background-container" id="modalBackgroundContainer">
+        <img id="modalBackgroundImage" src="/placeholder.svg" alt="Mystery Background" />
+    </div>
+    <span class="close-modal">&times;</span>
+    <h2 class="modal-title" id="modalTitle">Joyful Mysteries</h2>
+    <div class="timeline-container">
+      <div class="timeline-line"></div>
+      <div class="timeline-items" id="timelineContent">
+        <!-- Timeline content will be inserted here by JavaScript -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Rosary mysteries data
+const rosaryMysteries = {
+  1: {
+    title: "Joyful Mysteries",
+    backgroundImage: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mother%20Mary%20and%20Baby%20Jesus.png-0JeNAZJv87hYt6zZ2jUzbD7n6ZW6fX.jpeg",
+    mysteries: [
+      { title: "The Annunciation", significance: "The Annunciation marks the beginning of the Incarnation, where God became human in the person of Jesus Christ.", reflection: "This mystery encourages reflection on God's love and trust in our lives, and on the importance of responding to God's call with humility and faith." },
+      { title: "The Visitation", significance: "Mary visits her cousin Elizabeth, who is pregnant with John the Baptist. Elizabeth's baby leaps in her womb upon hearing Mary's greeting.", reflection: "This mystery teaches us about service to others and the joy that comes from sharing God's blessings with those we love." },
+      { title: "The Nativity", significance: "Jesus is born in Bethlehem, fulfilling the prophecies of the Old Testament and bringing salvation to the world.", reflection: "This mystery invites us to contemplate the humility of God, who chose to be born in poverty and simplicity." },
+      { title: "The Presentation", significance: "Mary and Joseph present the infant Jesus in the Temple, where Simeon and Anna recognize Him as the Messiah.", reflection: "This mystery reminds us of the importance of dedication to God and the wisdom that comes from a life of prayer and devotion." },
+      { title: "Finding Jesus in the Temple", significance: "The twelve-year-old Jesus is found in the Temple, discussing with the teachers and amazing them with His understanding.", reflection: "This mystery teaches us about the importance of seeking God in our lives and the wisdom that comes from studying His word." }
+    ]
+  },
+  2: {
+    title: "Luminous Mysteries",
+    backgroundImage: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jesus%20baptized.png-sZEYyB7s82b78YVh6vDJmGLyHb8Nqu.jpeg",
+    mysteries: [
+      { title: "The Baptism of Jesus", significance: "Jesus is baptized by John the Baptist in the Jordan River, and the Holy Spirit descends upon Him like a dove.", reflection: "This mystery reminds us of our own baptism and our call to live as children of God." },
+      { title: "The Wedding at Cana", significance: "Jesus performs His first miracle, turning water into wine at the wedding feast in Cana.", reflection: "This mystery teaches us about Jesus' care for human joy and celebration, and Mary's role as intercessor." },
+      { title: "The Proclamation of the Kingdom", significance: "Jesus preaches the Gospel, calling people to repentance and announcing the Kingdom of Heaven.", reflection: "This mystery invites us to examine our own response to Jesus' call to conversion and discipleship." },
+      { title: "The Transfiguration", significance: "Jesus is transfigured before Peter, James, and John, revealing His divine glory.", reflection: "This mystery encourages us to seek moments of prayer and contemplation where we can encounter God's glory." },
+      { title: "The Institution of the Eucharist", significance: "Jesus institutes the Eucharist at the Last Supper, giving us His Body and Blood as spiritual food.", reflection: "This mystery deepens our appreciation for the Mass and the gift of Jesus' real presence in the Eucharist." }
+    ]
+  },
+  3: {
+    title: "Sorrowful Mysteries",
+    backgroundImage: " https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7d00b0ed1ef04406aabaa13e949ec1bb.png-c2sbiN5V7oDnFruPBdP5ERcEmaQ5Oe.jpeg",
+    mysteries: [
+      { title: "The Agony in the Garden", significance: "Jesus prays in the Garden of Gethsemane, accepting the Father's will despite His human fear and anguish.", reflection: "This mystery teaches us about surrendering to God's will, even when it involves suffering or sacrifice." },
+      { title: "The Scourging at the Pillar", significance: "Jesus is brutally scourged by Roman soldiers as part of His condemnation.", reflection: "This mystery invites us to contemplate the physical suffering Jesus endured for our salvation." },
+      { title: "The Crowning with Thorns", significance: "Jesus is mocked and crowned with thorns by the soldiers, who ridicule His claim to kingship.", reflection: "This mystery reminds us of the humility of Christ and calls us to reject worldly pride and ambition." },
+      { title: "The Carrying of the Cross", significance: "Jesus carries His cross to Calvary, falling three times under its weight but continuing his journey to save us.", reflection: "This mystery teaches us about perseverance in our own crosses and the importance of helping others carry theirs." },
+      { title: "The Crucifixion", significance: "Jesus dies on the cross, offering His life as a sacrifice for the sins of humanity.", reflection: "This mystery is the heart of our faith, showing us the ultimate expression of God's love for us." }
+    ]
+  },
+  4: {
+    title: "Glorious Mysteries",
+    backgroundImage: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8c9ccf36706f49afae4b2e6148c718d1.png-rL1gIVUCQOFCDgt0iVcMUrcXh4UYiJ.jpeg",
+    mysteries: [
+      { title: "The Resurrection", significance: "Jesus rises from the dead on the third day, conquering sin and death and opening the gates of heaven.", reflection: "This mystery fills us with hope and reminds us that death is not the end, but the beginning of eternal life." },
+      { title: "The Ascension", significance: "Jesus ascends into heaven forty days after His resurrection, taking His place at the right hand of the Father.", reflection: "This mystery reminds us of our own destiny and calls us to keep our eyes fixed on heavenly things." },
+      { title: "The Descent of the Holy Spirit", significance: "The Holy Spirit descends upon the apostles at Pentecost, empowering them to spread the Gospel.", reflection: "This mystery invites us to be open to the gifts and guidance of the Holy Spirit in our own lives." },
+      { title: "The Assumption of Mary", significance: "Mary is taken up into heaven, body and soul, at the end of her earthly life.", reflection: "This mystery shows us the dignity of the human person and the glory that awaits those who are faithful to God." },
+      { title: "The Coronation of Mary", significance: "Mary is crowned as Queen of Heaven and Earth, interceding for all humanity.", reflection: "This mystery reminds us of Mary's special role in salvation history and her continued care for us as our spiritual mother." }
+    ]
+  }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  const courseList = document.querySelector('.courseList_courseList__06SX2') || 
+                    document.querySelector('[class*="courseList"]') ||
+                    document.querySelector('main') ||
+                    document.body;
+  
+  const paragraphWrapper = document.createElement('div');
+  paragraphWrapper.className = 'paragraph-cards-wrapper';
+  const paragraphContainer = document.createElement('div');
+  paragraphContainer.className = 'paragraph-cards-container';
+  paragraphContainer.innerHTML = `
+    <div class="paragraph-card">
+      <div class="paragraph-card-number">01</div>
+      <div class="paragraph-card-content">The Rosary is not a mindless incantation. It is a sacred meditation—a spiritual “photo album” that walks us through the life, love, and sacrifice of Jesus Christ. Each decade reveals a vivid mystery: His joy, His suffering, His glory. By praying the Rosary, we don't lose ourselves in words—we find His face in each mystery. "Fix your eyes on Jesus, the author and finisher of our faith." —Hebrews 12:2</div>
+    </div>
+    <div class="paragraph-card">
+      <div class="paragraph-card-number">02</div>
+      <div class="paragraph-card-content">Jesus said, "Where two or three are gathered in my name, I am there among them" (Matthew 18:20). He longs for us to pray together, for one another. Who better to pray with us than the one who walked every step of His earthly life beside Him—His own mother? Mary isn’t distant. She is the Queen Mother of Heaven, always interceding for us with tender love. “Pray for one another, that you may be healed. The prayer of a righteous person has great power.” —James 5:16. “All these with one accord were devoting themselves to prayer, together with... Mary the mother of Jesus.” —Acts 1:14</div>
+    </div>
+    <div class="paragraph-card">
+      <div class="paragraph-card-number">03</div>
+      <div class="paragraph-card-content">On the Cross, Jesus gave us everything: His body, His blood, His heart—and His mother. "Woman, behold your son... Son, behold your mother." —John 19:26–27. Mary stood at the foot of the Cross, silent in sorrow, enduring the pain of watching her Son—God Himself—scourged, mocked, and crucified. And yet, she didn’t turn away. Her soul pierced by sorrow (Luke 2:35), she became our mother too. “His face was like the sun shining in full strength.” —Revelation 1:16. “God did not spare His own Son, but gave Him up for us all.” —Romans 8:32. Mary continues to intercede for us—because she loves as only a mother can.</div>
+    </div>`;
+  paragraphWrapper.appendChild(paragraphContainer);
+  
+  const gridWrapper = document.createElement('div');
+  gridWrapper.className = 'rosary-grid-wrapper';
+  const gridContainer = document.createElement('div');
+  gridContainer.className = 'rosary-grid-container';
+  gridContainer.id = 'rosaryGridContainer';
+  gridContainer.innerHTML = `
+    <div class="rosary-grid-item" data-mystery-index="1"><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mother%20Mary%20and%20Baby%20Jesus.png-0JeNAZJv87hYt6zZ2jUzbD7n6ZW6fX.jpeg" alt="Joyful" class="rosary-grid-item-image"><div class="rosary-grid-item-overlay"><h2 class="rosary-grid-item-title">JOYFUL</h2></div></div>
+    <div class="rosary-grid-item" data-mystery-index="2"><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jesus%20baptized.png-sZEYyB7s82b78YVh6vDJmGLyHb8Nqu.jpeg" alt="Luminous" class="rosary-grid-item-image"><div class="rosary-grid-item-overlay"><h2 class="rosary-grid-item-title">LUMINOUS</h2></div></div>
+    <div class="rosary-grid-item" data-mystery-index="3"><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7d00b0ed1ef04406aabaa13e949ec1bb.png-c2sbiN5V7oDnFruPBdP5ERcEmaQ5Oe.jpeg" alt="Sorrowful" class="rosary-grid-item-image"><div class="rosary-grid-item-overlay"><h2 class="rosary-grid-item-title">SORROWFUL</h2></div></div>
+    <div class="rosary-grid-item" data-mystery-index="4"><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8c9ccf36706f49afae4b2e6148c718d1.png-rL1gIVUCQOFCDgt0iVcMUrcXh4UYiJ.jpeg" alt="Glorious" class="rosary-grid-item-image"><div class="rosary-grid-item-overlay"><h2 class="rosary-grid-item-title">GLORIOUS</h2></div></div>`;
+  gridWrapper.appendChild(gridContainer);
+  
+  if (courseList && courseList.parentNode) { 
+    courseList.parentNode.insertBefore(paragraphWrapper, courseList);
+    courseList.parentNode.insertBefore(gridWrapper, courseList);
+  } else if (courseList) { 
+    courseList.insertBefore(gridWrapper, courseList.firstChild); 
+    courseList.insertBefore(paragraphWrapper, gridWrapper);
+  } else {
+    document.body.appendChild(paragraphWrapper);
+    document.body.appendChild(gridWrapper);
+  }
+  
+  const gridItems = gridContainer.querySelectorAll('.rosary-grid-item');
+  gridItems.forEach(item => item.addEventListener('click', function() { openModal(this.getAttribute('data-mystery-index')); }));
+  
+  const paragraphCards = paragraphContainer.querySelectorAll('.paragraph-card');
+  paragraphCards.forEach(card => card.addEventListener('click', () => console.log('Paragraph card clicked')));
+
+  const modal = document.getElementById('rosaryModal');
+  const closeModalBtn = document.querySelector('.close-modal');
+  if (closeModalBtn) closeModalBtn.addEventListener('click', () => { if (modal) modal.classList.remove('active'); });
+  if (modal) modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal && modal.classList.contains('active')) modal.classList.remove('active'); });
+});
+
+function openModal(mysteryIndex) {
+  const modal = document.getElementById('rosaryModal'); 
+  const modalTitleEl = document.getElementById('modalTitle');
+  const timelineContentEl = document.getElementById('timelineContent');
+  const modalBackgroundImageEl = document.getElementById('modalBackgroundImage');
+
+  if (!modal || !modalTitleEl || !timelineContentEl || !modalBackgroundImageEl) {
+    console.error("Modal elements not found for openModal. Ensure #modalBackgroundImage exists.");
+    return;
+  }
+
+  const mysterySet = rosaryMysteries[mysteryIndex];
+  if (!mysterySet) return;
+  
+  modalTitleEl.textContent = mysterySet.title;
+  modalBackgroundImageEl.src = mysterySet.backgroundImage; 
+  
+  let timelineHTML = '';
+  mysterySet.mysteries.forEach((mystery, index) => {
+    timelineHTML += `
+      <div class="timeline-item">
+        <div class="timeline-node">${index + 1}</div>
+        <div class="timeline-content">
+          <h3 onclick="toggleMysteryAndActivateNode(this)">${mystery.title}</h3>
+          <div class="mystery-description">
+            <div class="significance"><strong>Significance:</strong> ${mystery.significance}</div>
+            <div class="reflection"><strong>Reflection:</strong> ${mystery.reflection}</div>
+          </div>
+        </div>
+      </div>`;
+  });
+  
+  timelineContentEl.innerHTML = timelineHTML;
+  modal.classList.add('active');
+
+  const nodes = timelineContentEl.querySelectorAll('.timeline-node');
+  nodes.forEach(node => {
+    node.addEventListener('click', function() {
+      const timelineItem = this.closest('.timeline-item');
+      const currentTimelineContent = timelineItem.querySelector('.timeline-content'); 
+      currentTimelineContent.classList.toggle('expanded');
+      this.classList.toggle('active');
+      if (!currentTimelineContent.classList.contains('expanded')) this.classList.remove('active');
+    });
+  });
+}
+
+function toggleMysteryAndActivateNode(element) {
+  const currentTimelineContent = element.closest('.timeline-content'); 
+  const timelineItem = element.closest('.timeline-item');
+  const timelineNode = timelineItem.querySelector('.timeline-node');
+  currentTimelineContent.classList.toggle('expanded');
+  timelineNode.classList.toggle('active');
+  if (!currentTimelineContent.classList.contains('expanded')) timelineNode.classList.remove('active');
+}
+</script>
+</body>
+</html>
