@@ -272,11 +272,7 @@ export default function LandingPage() {
   }
 
   const playAudio = (mysterySetKey: string, mysteryItemIndex: number, perspective: 3 | 7 | 12) => {
-    console.log("=== AUDIO DEBUG START ===")
-    console.log("Input parameters:", { mysterySetKey, mysteryItemIndex, perspective })
-
     const audioSrc = audioData[mysterySetKey]?.[mysteryItemIndex]?.[perspective]
-    console.log("Resolved audioSrc:", audioSrc)
 
     if (!audioSrc) {
       console.warn(`Audio not found for ${mysterySetKey}, item ${mysteryItemIndex}, perspective ${perspective}`)
@@ -295,7 +291,6 @@ export default function LandingPage() {
       nowPlaying.perspective === perspective &&
       !audioPlayerRef.current.paused
     ) {
-      console.log("Pausing current audio")
       audioPlayerRef.current.pause()
       return
     }
@@ -308,13 +303,11 @@ export default function LandingPage() {
       audioPlayerRef.current.paused &&
       audioPlayerRef.current.src === audioSrc
     ) {
-      console.log("Resuming paused audio")
       audioPlayerRef.current.play().catch((error) => console.error("Error resuming audio:", error))
       return
     }
 
     // Load and play new audio
-    console.log("Loading new audio:", audioSrc)
     audioPlayerRef.current.src = audioSrc
     audioPlayerRef.current.playbackRate = playbackSpeed
     audioPlayerRef.current.load()
@@ -322,7 +315,6 @@ export default function LandingPage() {
     audioPlayerRef.current
       .play()
       .then(() => {
-        console.log("Audio started playing successfully")
         setNowPlaying({ src: audioSrc, mysteryIndex: mysteryItemIndex, perspective })
       })
       .catch((error) => {
@@ -577,6 +569,12 @@ export default function LandingPage() {
               <div className="absolute inset-0 flex flex-col pt-[10vh] p-8 z-10">
                 {/* Desktop Timeline */}
                 <div className="hidden md:block relative">
+                  {/* 
+                    Desktop Timeline Line:
+                    - zIndex: 1 (behind beads at z-10)
+                    - Opacity is conditional: 0.3 when a bead is expanded, otherwise undefined to let the animation control it.
+                    - Animation is conditional: Only runs when the modal first opens (no bead expanded).
+                  */}
                   <div
                     className={`absolute left-1/2 transform -translate-x-1/2 w-full max-w-5xl h-1 bg-[#FFE552] rounded-full shadow-lg shadow-yellow-400/30 ${
                       expandedMysteryItem === null ? "animate-[lineRevealLeftToRight_1.5s_ease-out] opacity-0" : ""
