@@ -3,12 +3,14 @@
 import type React from "react"
 
 import Image from "next/image"
-import { useState, useRef, useEffect } from "react"
-import { ChevronDown, Plus, Youtube, Linkedin, Mail, PlayCircle, PauseCircle } from "lucide-react" // Import Mail icon
-import { audioData, getMysterySetKey } from "@/lib/audio-data"
+import { useState, useRef, useEffect, useCallback } from "react"
+import { ChevronDown, Plus, Youtube, Linkedin, Mail, PlayCircle, PauseCircle } from "lucide-react"
+import { audioData } from "@/lib/audio-data" // English audio data
+import { rosaryMysteriesDataVi, cardDataVi, mysteryTitlesVi } from "@/lib/rosary-data-vi" // Vietnamese text data
+import { audioDataVi } from "@/lib/audio-data-vi" // Vietnamese audio data
 
-// Rosary mysteries data (English only)
-const rosaryMysteriesData = {
+// English Rosary mysteries data (Original)
+const rosaryMysteriesDataEn = {
   1: {
     title: "Joyful Mysteries",
     backgroundImage:
@@ -53,8 +55,7 @@ const rosaryMysteriesData = {
   },
   2: {
     title: "Luminous Mysteries",
-    backgroundImage:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jesus%20baptized.png-EsMXC7QK8PA5V6V7x59bMzdOqMsATF.jpeg",
+    backgroundImage: "/images/Jesus-baptized.png", // Using local image
     mysteries: [
       {
         title: "The Baptism of Jesus",
@@ -166,7 +167,7 @@ const rosaryMysteriesData = {
   },
 }
 
-const cardData = [
+const cardDataEn = [
   {
     number: "1",
     shortText: "Fix your eyes on Jesus, the author and finisher of our faith.",
@@ -187,6 +188,8 @@ const cardData = [
   },
 ]
 
+const mysteryTitlesEn = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
+
 const mysteryImages = [
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mother%20Mary%20and%20Baby%20Jesus.png-0JeNAZJv87hYt6zZ2jUzbD7n6ZW6fX.jpeg", // Joyful
   "/images/Jesus-baptized.png", // Luminous
@@ -194,7 +197,7 @@ const mysteryImages = [
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8c9ccf36706f49afae4b2e6148c718d1.png-rL1gIVUCQOFCDgt0iVcMUrcXh4UYiJ.jpeg", // Glorious
 ]
 
-const mysteryTitles = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
+const mysterySetKeys = ["joyful", "luminous", "sorrowful", "glorious"]
 
 const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId)
@@ -203,7 +206,6 @@ const scrollToSection = (sectionId: string) => {
   }
 }
 
-// Helper function to format time in MM:SS format
 const formatTime = (seconds: number): string => {
   const mins = Math.floor(seconds / 60)
   const secs = Math.floor(seconds % 60)
@@ -211,10 +213,11 @@ const formatTime = (seconds: number): string => {
 }
 
 export default function LandingPage() {
+  const [language, setLanguage] = useState<"en" | "vi">("en")
   const [expandedCard, setExpandedCard] = useState<number | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedMysterySetIndex, setSelectedMysterySetIndex] = useState<number | null>(null) // 0-3 for Joyful, Luminous etc.
-  const [expandedMysteryItem, setExpandedMysteryItem] = useState<number | null>(null) // Single item expanded
+  const [selectedMysterySetIndex, setSelectedMysterySetIndex] = useState<number | null>(null)
+  const [expandedMysteryItem, setExpandedMysteryItem] = useState<number | null>(null)
   const [nowPlaying, setNowPlaying] = useState<{ src: string; mysteryIndex: number; perspective: number } | null>(null)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -223,6 +226,11 @@ export default function LandingPage() {
 
   const headerImageAspectRatio = (500 / 1920) * 100
 
+  const currentRosaryData = language === "en" ? rosaryMysteriesDataEn : rosaryMysteriesDataVi
+  const currentCardData = language === "en" ? cardDataEn : cardDataVi
+  const currentMysteryTitles = language === "en" ? mysteryTitlesEn : mysteryTitlesVi
+  const currentAudioData = language === "en" ? audioData : audioDataVi
+
   const handleCardClick = (index: number) => {
     setExpandedCard(expandedCard === index ? null : index)
   }
@@ -230,7 +238,7 @@ export default function LandingPage() {
   const openModal = (mysterySetIdx: number) => {
     setSelectedMysterySetIndex(mysterySetIdx)
     setIsModalOpen(true)
-    setExpandedMysteryItem(null) // Reset expanded item
+    setExpandedMysteryItem(null)
     setNowPlaying(null)
   }
 
@@ -251,7 +259,6 @@ export default function LandingPage() {
     const isOpeningNewItem = expandedMysteryItem !== index
     setExpandedMysteryItem((prev) => (prev === index ? null : index))
 
-    // If a different item was playing audio, stop it
     if (nowPlaying && nowPlaying.mysteryIndex !== index && isOpeningNewItem && audioPlayerRef.current) {
       audioPlayerRef.current.pause()
       setNowPlaying(null)
@@ -263,7 +270,6 @@ export default function LandingPage() {
       nowPlaying.mysteryIndex === index &&
       audioPlayerRef.current
     ) {
-      // If closing the item that is currently playing, stop audio
       audioPlayerRef.current.pause()
       setNowPlaying(null)
       setCurrentTime(0)
@@ -271,56 +277,56 @@ export default function LandingPage() {
     }
   }
 
-  const playAudio = (mysterySetKey: string, mysteryItemIndex: number, perspective: 3 | 7 | 12) => {
-    const audioSrc = audioData[mysterySetKey]?.[mysteryItemIndex]?.[perspective]
+  const playAudio = useCallback(
+    (mysterySetKey: string, mysteryItemIndex: number, perspective: 3 | 7 | 12) => {
+      const audioSrc = currentAudioData[mysterySetKey]?.[mysteryItemIndex]?.[perspective]
 
-    if (!audioSrc) {
-      console.warn(`Audio not found for ${mysterySetKey}, item ${mysteryItemIndex}, perspective ${perspective}`)
-      return
-    }
+      if (!audioSrc) {
+        console.warn(`Audio not found for ${mysterySetKey}, item ${mysteryItemIndex}, perspective ${perspective}`)
+        return
+      }
 
-    if (!audioPlayerRef.current) {
-      console.error("Audio player ref not available")
-      return
-    }
+      if (!audioPlayerRef.current) {
+        console.error("Audio player ref not available")
+        return
+      }
 
-    // If clicking the same audio that's currently playing, pause it
-    if (
-      nowPlaying &&
-      nowPlaying.mysteryIndex === mysteryItemIndex &&
-      nowPlaying.perspective === perspective &&
-      !audioPlayerRef.current.paused
-    ) {
-      audioPlayerRef.current.pause()
-      return
-    }
+      if (
+        nowPlaying &&
+        nowPlaying.mysteryIndex === mysteryItemIndex &&
+        nowPlaying.perspective === perspective &&
+        !audioPlayerRef.current.paused
+      ) {
+        audioPlayerRef.current.pause()
+        return
+      }
 
-    // If clicking the same audio that's paused, resume it
-    if (
-      nowPlaying &&
-      nowPlaying.mysteryIndex === mysteryItemIndex &&
-      nowPlaying.perspective === perspective &&
-      audioPlayerRef.current.paused &&
-      audioPlayerRef.current.src === audioSrc
-    ) {
-      audioPlayerRef.current.play().catch((error) => console.error("Error resuming audio:", error))
-      return
-    }
+      if (
+        nowPlaying &&
+        nowPlaying.mysteryIndex === mysteryItemIndex &&
+        nowPlaying.perspective === perspective &&
+        audioPlayerRef.current.paused &&
+        audioPlayerRef.current.src === audioSrc
+      ) {
+        audioPlayerRef.current.play().catch((error) => console.error("Error resuming audio:", error))
+        return
+      }
 
-    // Load and play new audio
-    audioPlayerRef.current.src = audioSrc
-    audioPlayerRef.current.playbackRate = playbackSpeed
-    audioPlayerRef.current.load()
+      audioPlayerRef.current.src = audioSrc
+      audioPlayerRef.current.playbackRate = playbackSpeed
+      audioPlayerRef.current.load()
 
-    audioPlayerRef.current
-      .play()
-      .then(() => {
-        setNowPlaying({ src: audioSrc, mysteryIndex: mysteryItemIndex, perspective })
-      })
-      .catch((error) => {
-        console.error("Play error:", error)
-      })
-  }
+      audioPlayerRef.current
+        .play()
+        .then(() => {
+          setNowPlaying({ src: audioSrc, mysteryIndex: mysteryItemIndex, perspective })
+        })
+        .catch((error) => {
+          console.error("Play error:", error)
+        })
+    },
+    [currentAudioData, nowPlaying, playbackSpeed],
+  )
 
   const handleSpeedChange = (speed: number) => {
     setPlaybackSpeed(speed)
@@ -374,7 +380,7 @@ export default function LandingPage() {
 
   const currentMysterySetDetails =
     selectedMysterySetIndex !== null
-      ? rosaryMysteriesData[(selectedMysterySetIndex + 1) as keyof typeof rosaryMysteriesData]
+      ? currentRosaryData[(selectedMysterySetIndex + 1) as keyof typeof currentRosaryData]
       : null
 
   return (
@@ -382,7 +388,6 @@ export default function LandingPage() {
       <audio ref={audioPlayerRef} preload="none">
         Your browser does not support the audio tag.
       </audio>
-      {/* Language Toggle Removed */}
 
       <div className="fixed inset-0 z-0">
         <Image src="/images/background.gif" alt="Background" fill className="object-cover" priority />
@@ -401,18 +406,34 @@ export default function LandingPage() {
           </div>
         </header>
 
+        <div className="container mx-auto px-4 py-4 text-center sticky top-0 z-50 backdrop-blur-sm bg-transparent">
+          <button
+            onClick={() => setLanguage("en")}
+            className={`px-4 py-2 rounded-md mr-2 text-sm md:text-base transition-colors duration-200 ${language === "en" ? "bg-[#FFE552] text-gray-900 font-semibold shadow-lg" : "bg-gray-700/70 text-white hover:bg-gray-600/70"}`}
+          >
+            English
+          </button>
+          <button
+            onClick={() => setLanguage("vi")}
+            className={`px-4 py-2 rounded-md text-sm md:text-base transition-colors duration-200 ${language === "vi" ? "bg-[#FFE552] text-gray-900 font-semibold shadow-lg" : "bg-gray-700/70 text-white hover:bg-gray-600/70"}`}
+          >
+            Tiếng Việt
+          </button>
+        </div>
+
         <main className="container mx-auto px-4 py-8">
-          <section className="text-center my-32">
-            <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold mb-16">
-              Welcome to Rosary Narrated
+          <section className="text-center my-16 md:my-32">
+            <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold mb-8 md:mb-16">
+              {language === "en" ? "Welcome to Rosary Narrated" : "Chào Mừng Đến Với Kinh Mân Côi Tường Thuật"}
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed">
-              Explore the profound mysteries of the Rosary and deepen your spiritual journey. This platform is designed
-              to guide you through each decade with rich reflections and insights.
+              {language === "en"
+                ? "Explore the profound mysteries of the Rosary and deepen your spiritual journey. This platform is designed to guide you through each decade with rich reflections and insights."
+                : "Khám phá những mầu nhiệm sâu sắc của Kinh Mân Côi và đào sâu hành trình tâm linh của bạn. Nền tảng này được thiết kế để hướng dẫn bạn qua mỗi chục kinh với những suy niệm và hiểu biết phong phú."}
             </p>
           </section>
 
-          <div className="flex justify-center my-40">
+          <div className="flex justify-center my-20 md:my-40">
             <button
               onClick={() => scrollToSection("why-pray-section")}
               className="text-[#326161] hover:text-[#82FAFA] transition-all duration-300 hover:scale-110"
@@ -421,12 +442,12 @@ export default function LandingPage() {
             </button>
           </div>
 
-          <section id="why-pray-section" className="my-40">
-            <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold text-center mb-40">
-              Why Pray the Rosary?
+          <section id="why-pray-section" className="my-20 md:my-40">
+            <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold text-center mb-20 md:mb-40">
+              {language === "en" ? "Why Pray the Rosary?" : "Tại Sao Nên Lần Hạt Mân Côi?"}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {cardData.map((card, index) => (
+              {currentCardData.map((card, index) => (
                 <div
                   key={index}
                   className="bg-black/60 backdrop-blur-sm p-6 rounded-lg shadow-lg flex flex-col items-center text-center transition-all duration-300 cursor-pointer"
@@ -454,7 +475,7 @@ export default function LandingPage() {
             </div>
           </section>
 
-          <div className="flex justify-center my-40">
+          <div className="flex justify-center my-20 md:my-40">
             <button
               onClick={() => scrollToSection("mysteries-section")}
               className="text-[#326161] hover:text-[#82FAFA] transition-all duration-300 hover:scale-110"
@@ -463,12 +484,14 @@ export default function LandingPage() {
             </button>
           </div>
 
-          <section id="mysteries-section" className="my-40">
-            <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold text-center mb-16">
-              The Mysteries of the Rosary
+          <section id="mysteries-section" className="my-20 md:my-40">
+            <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold text-center mb-8 md:mb-16">
+              {language === "en" ? "The Mysteries of the Rosary" : "Các Mầu Nhiệm Kinh Mân Côi"}
             </h2>
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed text-center mb-40">
-              Learn more about our Savior and Mother Mary through the Rosary Mysteries
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed text-center mb-20 md:mb-40">
+              {language === "en"
+                ? "Learn more about our Savior and Mother Mary through the Rosary Mysteries"
+                : "Tìm hiểu thêm về Đấng Cứu Độ và Mẹ Maria qua các Mầu Nhiệm Kinh Mân Côi"}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {mysteryImages.map((image, index) => (
@@ -478,15 +501,15 @@ export default function LandingPage() {
                   onClick={() => openModal(index)}
                 >
                   <Image
-                    src={image || "/placeholder.svg"} // Luminous image is mysteryImages[1]
-                    alt={`${mysteryTitles[index]} Mysteries`}
+                    src={image || "/placeholder.svg"}
+                    alt={`${currentMysteryTitles[index]} Mysteries`}
                     width={600}
                     height={400}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/80 flex items-center justify-center p-6">
                     <h3 className="text-3xl font-black text-[#FFE552] uppercase tracking-[0.2em] text-center transition-colors duration-300">
-                      {mysteryTitles[index]}
+                      {currentMysteryTitles[index]}
                     </h3>
                   </div>
                 </div>
@@ -521,10 +544,13 @@ export default function LandingPage() {
             </a>
           </div>
           <p className="mb-6 text-gray-500 text-sm md:text-base">
-            &copy; {new Date().getFullYear()} Rosary Narrated. All rights reserved.
+            &copy; {new Date().getFullYear()}{" "}
+            {language === "en"
+              ? "Rosary Narrated. All rights reserved."
+              : "Kinh Mân Côi Tường Thuật. Bảo lưu mọi quyền."}
           </p>
           <p className="text-gray-500 text-sm md:text-base">
-            Powered by{" "}
+            {language === "en" ? "Powered by" : "Được tạo bởi"}{" "}
             <a
               href="https://www.eltaydigital.com/"
               target="_blank"
@@ -543,8 +569,6 @@ export default function LandingPage() {
             <Image src="/images/modal-background.gif" alt="Modal Background" fill className="object-cover" priority />
           </div>
           <div className="rounded-2xl w-full max-w-7xl h-[90vh] relative overflow-hidden border border-gray-300/20 z-10">
-            {" "}
-            {/* Modal width: max-w-7xl */}
             <div className="bg-black/90 backdrop-blur-sm p-8 text-center relative z-20">
               <h2 className="text-4xl md:text-6xl font-bold text-white font-sora tracking-wider">
                 {currentMysterySetDetails.title}
@@ -567,14 +591,7 @@ export default function LandingPage() {
               <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30"></div>
 
               <div className="absolute inset-0 flex flex-col pt-[10vh] p-8 z-10">
-                {/* Desktop Timeline */}
                 <div className="hidden md:block relative">
-                  {/* 
-                    Desktop Timeline Line:
-                    - zIndex: 1 (behind beads at z-10)
-                    - Opacity is conditional: 0.3 when a bead is expanded, otherwise undefined to let the animation control it.
-                    - Animation is conditional: Only runs when the modal first opens (no bead expanded).
-                  */}
                   <div
                     className={`absolute left-1/2 transform -translate-x-1/2 w-full max-w-5xl h-1 bg-[#FFE552] rounded-full shadow-lg shadow-yellow-400/30 ${
                       expandedMysteryItem === null ? "animate-[lineRevealLeftToRight_1.5s_ease-out] opacity-0" : ""
@@ -587,8 +604,6 @@ export default function LandingPage() {
                       animationFillMode: expandedMysteryItem === null ? "forwards" : undefined,
                     }}
                   ></div>
-
-                  {/* Desktop timeline beads container */}
                   <div className="flex justify-between items-start gap-4 max-w-6xl mx-auto mt-6 relative z-10">
                     {currentMysterySetDetails.mysteries.map((mystery, index) => (
                       <div
@@ -612,10 +627,9 @@ export default function LandingPage() {
                         >
                           {index + 1}
                         </div>
-
                         <div className="text-center">
                           <h3
-                            className={`text-[#FFE552] text-xl font-semibold mb-4 cursor-pointer hover:text-yellow-300 transition-all duration-300 font-inter ${
+                            className={`text-[#FFE552] text-xl font-semibold mb-4 cursor-pointer hover:text-yellow-300 transition-colors duration-300 font-inter ${
                               expandedMysteryItem !== null && expandedMysteryItem !== index ? "opacity-30" : ""
                             }`}
                             onClick={() => toggleMysteryItem(index)}
@@ -626,43 +640,40 @@ export default function LandingPage() {
                       </div>
                     ))}
                   </div>
-
-                  {/* Expanded content - full width card */}
                   {expandedMysteryItem !== null && (
                     <div className="mt-8 max-w-6xl mx-auto animate-in fade-in duration-300">
                       <div className="backdrop-blur-md bg-white/10 rounded-2xl p-8">
                         <div className="grid grid-cols-3 gap-8">
-                          {/* Left column - Text content (2/3 width) */}
                           <div className="col-span-2 space-y-6">
                             <div>
-                              <strong className="text-[#82FAFA] block mb-3 font-inter text-lg">Significance:</strong>
+                              <strong className="text-[#82FAFA] block mb-3 font-inter text-lg">
+                                {language === "en" ? "Significance:" : "Ý Nghĩa:"}
+                              </strong>
                               <p className="font-inter text-white leading-relaxed">
                                 {currentMysterySetDetails.mysteries[expandedMysteryItem].significance}
                               </p>
                             </div>
                             <div>
-                              <strong className="text-[#82FAFA] block mb-3 font-inter text-lg">Reflection:</strong>
+                              <strong className="text-[#82FAFA] block mb-3 font-inter text-lg">
+                                {language === "en" ? "Reflection:" : "Suy Niệm:"}
+                              </strong>
                               <p className="font-inter text-white leading-relaxed">
                                 {currentMysterySetDetails.mysteries[expandedMysteryItem].reflection}
                               </p>
                             </div>
                           </div>
-
-                          {/* Right column - Play buttons and controls (1/3 width) */}
                           <div className="col-span-1 space-y-4">
                             <h4 className="text-[#82FAFA] font-inter text-lg font-semibold mb-4">
-                              Choose Perspectives:
+                              {language === "en" ? "Choose Perspectives:" : "Chọn Góc Nhìn:"}
                             </h4>
                             {[3, 7, 12].map((p) => (
                               <button
                                 key={p}
-                                onClick={() =>
-                                  playAudio(
-                                    getMysterySetKey(currentMysterySetDetails.title),
-                                    expandedMysteryItem,
-                                    p as 3 | 7 | 12,
-                                  )
-                                }
+                                onClick={() => {
+                                  if (selectedMysterySetIndex === null || expandedMysteryItem === null) return
+                                  const setKey = mysterySetKeys[selectedMysterySetIndex]
+                                  playAudio(setKey, expandedMysteryItem, p as 3 | 7 | 12)
+                                }}
                                 className={`w-full py-3 px-4 rounded-md transition-all duration-200 flex items-center justify-center font-inter border-2 ${
                                   nowPlaying &&
                                   nowPlaying.mysteryIndex === expandedMysteryItem &&
@@ -680,14 +691,11 @@ export default function LandingPage() {
                                 ) : (
                                   <PlayCircle size={20} className="mr-2" />
                                 )}
-                                {p} Perspectives
+                                {p} {language === "en" ? "Perspectives" : "Góc Nhìn"}
                               </button>
                             ))}
-
-                            {/* Audio Controls */}
                             {nowPlaying && nowPlaying.mysteryIndex === expandedMysteryItem && (
                               <div className="mt-6 space-y-4 p-4 bg-black/30 rounded-lg">
-                                {/* Progress Bar */}
                                 <div className="space-y-2">
                                   <div className="flex justify-between text-sm text-[#82FAFA]">
                                     <span>{formatTime(currentTime)}</span>
@@ -703,10 +711,10 @@ export default function LandingPage() {
                                     />
                                   </div>
                                 </div>
-
-                                {/* Speed Control */}
                                 <div className="space-y-2">
-                                  <label className="text-sm text-[#82FAFA] font-inter">Speed: {playbackSpeed}x</label>
+                                  <label className="text-sm text-[#82FAFA] font-inter">
+                                    {language === "en" ? "Speed:" : "Tốc độ:"} {playbackSpeed}x
+                                  </label>
                                   <input
                                     type="range"
                                     min="0.5"
@@ -752,7 +760,6 @@ export default function LandingPage() {
                       >
                         {index + 1}
                       </div>
-
                       <div
                         className={`rounded-2xl p-4 text-center transition-all duration-300 ${
                           expandedMysteryItem === index ? "backdrop-blur-md bg-white/10" : "bg-transparent"
@@ -768,34 +775,33 @@ export default function LandingPage() {
                         >
                           {mystery.title}
                         </h3>
-
                         {expandedMysteryItem === index && (
                           <div className="text-white text-sm leading-relaxed space-y-4 animate-in fade-in duration-300 text-left">
                             <div>
-                              <strong className="text-[#82FAFA] block mb-2 font-inter">Significance:</strong>
+                              <strong className="text-[#82FAFA] block mb-2 font-inter">
+                                {language === "en" ? "Significance:" : "Ý Nghĩa:"}
+                              </strong>
                               <p className="font-inter">{mystery.significance}</p>
                             </div>
                             <div>
-                              <strong className="text-[#82FAFA] block mb-2 font-inter">Reflection:</strong>
+                              <strong className="text-[#82FAFA] block mb-2 font-inter">
+                                {language === "en" ? "Reflection:" : "Suy Niệm:"}
+                              </strong>
                               <p className="font-inter">{mystery.reflection}</p>
                             </div>
-
-                            {/* Mobile Audio Buttons Section */}
                             <div className="mt-6">
                               <h4 className="text-[#82FAFA] font-inter text-sm font-semibold mb-3">
-                                Choose Perspectives:
+                                {language === "en" ? "Choose Perspectives:" : "Chọn Góc Nhìn:"}
                               </h4>
                               <div className="space-y-2 flex flex-col items-center">
                                 {[3, 7, 12].map((p) => (
                                   <button
                                     key={p}
-                                    onClick={() =>
-                                      playAudio(
-                                        getMysterySetKey(currentMysterySetDetails.title),
-                                        index,
-                                        p as 3 | 7 | 12,
-                                      )
-                                    }
+                                    onClick={() => {
+                                      if (selectedMysterySetIndex === null) return
+                                      const setKey = mysterySetKeys[selectedMysterySetIndex]
+                                      playAudio(setKey, index, p as 3 | 7 | 12)
+                                    }}
                                     className={`w-full text-sm py-2 px-3 rounded-md transition-all duration-200 flex items-center justify-center border-2 ${
                                       nowPlaying && nowPlaying.mysteryIndex === index && nowPlaying.perspective === p
                                         ? "bg-[#82FAFA] text-black border-[#82FAFA] font-semibold"
@@ -811,16 +817,13 @@ export default function LandingPage() {
                                     ) : (
                                       <PlayCircle size={16} className="mr-2" />
                                     )}
-                                    {p} Perspectives
+                                    {p} {language === "en" ? "Perspectives" : "Góc Nhìn"}
                                   </button>
                                 ))}
                               </div>
                             </div>
-
-                            {/* Mobile Audio Controls */}
                             {nowPlaying && nowPlaying.mysteryIndex === index && (
                               <div className="mt-4 space-y-3 p-3 bg-black/30 rounded-lg">
-                                {/* Progress Bar */}
                                 <div className="space-y-2">
                                   <div className="flex justify-between text-xs text-[#82FAFA]">
                                     <span>{formatTime(currentTime)}</span>
@@ -836,10 +839,10 @@ export default function LandingPage() {
                                     />
                                   </div>
                                 </div>
-
-                                {/* Speed Control */}
                                 <div className="space-y-2">
-                                  <label className="text-xs text-[#82FAFA] font-inter">Speed: {playbackSpeed}x</label>
+                                  <label className="text-xs text-[#82FAFA] font-inter">
+                                    {language === "en" ? "Speed:" : "Tốc độ:"} {playbackSpeed}x
+                                  </label>
                                   <input
                                     type="range"
                                     min="0.5"

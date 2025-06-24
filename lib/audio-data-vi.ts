@@ -1,0 +1,133 @@
+// Vietnamese audio data
+// Structure: { mysterySetKey: { mysteryIndex: { perspectives: url } } }
+
+export const audioDataVi: Record<string, Record<number, Record<number, string>>> = {
+  joyful: {
+    0: {
+      // The Annunciation - Truyền Tin
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Joyful_1_The_Annunciation_20250623_134532_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Joyful_1_The_Annunciation_20250623_111344_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Joyful_1_The_Annunciation_smooth_vietnamese.mp3",
+    },
+    1: {
+      // The Visitation - Viếng Thăm
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Joyful_2_The_Visitation_20250623_134553_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Joyful_2_The_Visitation_20250623_111417_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Joyful_2_The_Visitation_smooth_vietnamese.mp3",
+    },
+    2: {
+      // The Nativity - Giáng Sinh
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Joyful_3_The_Nativity_20250623_134618_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Joyful_3_The_Nativity_20250623_111445_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Joyful_3_The_Nativity_smooth_vietnamese.mp3",
+    },
+    3: {
+      // The Presentation - Dâng Hiến
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Joyful_4_The_Presentation_20250623_134641_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Joyful_4_The_Presentation_20250623_111521_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Joyful_4_The_Presentation_smooth_vietnamese.mp3",
+    },
+    4: {
+      // Finding Jesus in the Temple - Tìm Được Chúa Giêsu Trong Đền Thờ
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Joyful_5_Finding_Jesus_in_the_Temple_20250623_134704_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Joyful_5_Finding_Jesus_in_the_Temple_20250623_111550_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Joyful_5_Finding_Jesus_in_the_Temple_smooth_vietnamese.mp3",
+    },
+  },
+  luminous: {
+    0: {
+      // The Baptism of Jesus - Chúa Giêsu Chịu Phép Rửa
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Luminous_1__The_Baptism_of_Jesus_20250623_135108_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Luminous_1__The_Baptism_of_Jesus_20250623_112129_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Luminous_1_The_Baptism_of_Jesus_smooth_vietnamese.mp3",
+    },
+    1: {
+      // The Wedding at Cana - Hôn Lễ Tại Cana
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Luminous_2__The_Wedding_at_Cana_20250623_135130_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Luminous_2__The_Wedding_at_Cana_20250623_112157_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Luminous_2_The_Wedding_at_Cana_smooth_vietnamese.mp3",
+    },
+    2: {
+      // The Proclamation of the Kingdom - Rao Giảng Nước Thiên Chúa
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Luminous_3__The_Proclamation_of_the_Kingdom_20250623_135156_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Luminous_3__The_Proclamation_of_the_Kingdom_20250623_112228_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Luminous_3_The_Proclamation_of_the_Kingdom_smooth_vietnamese.mp3",
+    },
+    3: {
+      // The Transfiguration - Chúa Giêsu Hiển Dung
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Luminous_4__The_Transfiguration_20250623_135220_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Luminous_4__The_Transfiguration_20250623_112303_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Luminous_4_The_Transfiguration_smooth_vietnamese.mp3",
+    },
+    4: {
+      // The Institution of the Eucharist - Thiết Lập Bí Tích Thánh Thể
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Luminous_5__The_Institution_of_the_Eucharist_20250623_135245_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Luminous_5__The_Institution_of_the_Eucharist_20250623_112340_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Luminous_5_The_Institution_of_the_Eucharist_smooth_vietnamese.mp3",
+    },
+  },
+  sorrowful: {
+    0: {
+      // The Agony in the Garden - Chúa Giêsu Khổ Não Trong Vườn
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Sorrowful_1__The_Agony_in_the_Garden_20250623_134727_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Sorrowful_1__The_Agony_in_the_Garden_20250623_111619_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Sorrowful_1_The_Agony_in_the_Garden_smooth_vietnamese.mp3",
+    },
+    1: {
+      // The Scourging at the Pillar - Chúa Giêsu Chịu Đánh Đòn
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Sorrowful_2__The_Scourging_at_the_Pillar_20250623_134751_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Sorrowful_2__The_Scourging_at_the_Pillar_20250623_111648_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Sorrowful_2_The_Scourging_at_the_Pillar_smooth_vietnamese.mp3",
+    },
+    2: {
+      // The Crowning with Thorns - Chúa Giêsu Chịu Đội Mão Gai
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Sorrowful_3__The_Crowning_with_Thorns_20250623_134816_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Sorrowful_3__The_Crowning_with_Thorns_20250623_111724_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Sorrowful_3_The_Crowning_with_Thorns_smooth_vietnamese.mp3",
+    },
+    3: {
+      // The Carrying of the Cross - Chúa Giêsu Vác Thánh Giá
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Sorrowful_4__The_Carrying_of_the_Cross_20250623_134839_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Sorrowful_4__The_Carrying_of_the_Cross_20250623_111759_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Sorrowful_4_The_Carrying_of_the_Cross_smooth_vietnamese.mp3",
+    },
+    4: {
+      // The Crucifixion - Chúa Giêsu Chết Trên Thánh Giá
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Sorrowful_5__The_Crucifixion_20250623_134901_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Sorrowful_5__The_Crucifixion_20250623_111832_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Sorrowful_5_The_Crucifixion_smooth_vietnamese.mp3",
+    },
+  },
+  glorious: {
+    0: {
+      // The Resurrection - Chúa Giêsu Sống Lại
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Glorious_1__The_Resurrection_20250623_134920_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Glorious_1__The_Resurrection_20250623_111858_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Glorious_1_The_Resurrection_smooth_vietnamese.mp3",
+    },
+    1: {
+      // The Ascension - Chúa Giêsu Lên Trời
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Glorious_2__The_Ascension_20250623_134943_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Glorious_2__The_Ascension_20250623_111930_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Glorious_2_The_Ascension_smooth_vietnamese.mp3",
+    },
+    2: {
+      // The Descent of the Holy Spirit - Chúa Thánh Thần Ngự Xuống
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Glorious_3__The_Descent_of_the_Holy_Spirit_20250623_135006_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Glorious_3__The_Descent_of_the_Holy_Spirit_20250623_112001_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Glorious_3_The_Descent_of_the_Holy_Spirit_smooth_vietnamese.mp3",
+    },
+    3: {
+      // The Assumption of Mary - Đức Maria Lên Trời
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Glorious_4__The_Assumption_of_Mary_20250623_135029_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Glorious_4__The_Assumption_of_Mary_20250623_112029_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Glorious_4_The_Assumption_of_Mary_smooth_vietnamese.mp3",
+    },
+    4: {
+      // The Coronation of Mary - Đức Maria Được Đăng Quang
+      3: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_3/v3_Glorious_5__The_Coronation_of_Mary_20250623_135048_vietnamese.mp3",
+      7: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_7/v7_Glorious_5__The_Coronation_of_Mary_20250623_112100_vietnamese.mp3",
+      12: "https://rosary-narrated-audio-files.s3.us-east-2.amazonaws.com/Rosary-Audio-Files/vn-audio_output_12/Glorious_5_The_Coronation_of_Mary_smooth_vietnamese.mp3",
+    },
+  },
+}
