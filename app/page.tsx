@@ -4,7 +4,7 @@ import type React from "react"
 
 import Image from "next/image"
 import { useState, useRef, useEffect } from "react"
-import { ChevronDown, Plus, Youtube, Linkedin, PlayCircle, PauseCircle } from "lucide-react"
+import { ChevronDown, Plus, Youtube, Linkedin, Mail, PlayCircle, PauseCircle } from "lucide-react" // Import Mail icon
 import { audioData, getMysterySetKey } from "@/lib/audio-data"
 
 // Rosary mysteries data (English only)
@@ -215,7 +215,6 @@ export default function LandingPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedMysterySetIndex, setSelectedMysterySetIndex] = useState<number | null>(null) // 0-3 for Joyful, Luminous etc.
   const [expandedMysteryItem, setExpandedMysteryItem] = useState<number | null>(null) // Single item expanded
-  const [showAudioOptionsForMystery, setShowAudioOptionsForMystery] = useState<number | null>(null)
   const [nowPlaying, setNowPlaying] = useState<{ src: string; mysteryIndex: number; perspective: number } | null>(null)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -232,7 +231,6 @@ export default function LandingPage() {
     setSelectedMysterySetIndex(mysterySetIdx)
     setIsModalOpen(true)
     setExpandedMysteryItem(null) // Reset expanded item
-    setShowAudioOptionsForMystery(null)
     setNowPlaying(null)
   }
 
@@ -240,7 +238,6 @@ export default function LandingPage() {
     setIsModalOpen(false)
     setSelectedMysterySetIndex(null)
     setExpandedMysteryItem(null)
-    setShowAudioOptionsForMystery(null)
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause()
       audioPlayerRef.current.src = ""
@@ -253,9 +250,6 @@ export default function LandingPage() {
   const toggleMysteryItem = (index: number) => {
     const isOpeningNewItem = expandedMysteryItem !== index
     setExpandedMysteryItem((prev) => (prev === index ? null : index))
-
-    // If opening a new item or closing the current one, hide audio options
-    setShowAudioOptionsForMystery(null)
 
     // If a different item was playing audio, stop it
     if (nowPlaying && nowPlaying.mysteryIndex !== index && isOpeningNewItem && audioPlayerRef.current) {
@@ -274,29 +268,6 @@ export default function LandingPage() {
       setNowPlaying(null)
       setCurrentTime(0)
       setDuration(0)
-    }
-  }
-
-  const handlePlayButtonClick = (mysteryIndex: number) => {
-    // For desktop, we don't need this function anymore since buttons are always visible
-    // For mobile, keep the existing logic
-    if (nowPlaying && nowPlaying.mysteryIndex === mysteryIndex) {
-      if (audioPlayerRef.current) {
-        if (audioPlayerRef.current.paused) {
-          audioPlayerRef.current.play().catch((e) => console.error("Error playing audio:", e))
-        } else {
-          audioPlayerRef.current.pause()
-        }
-        setNowPlaying((prev) => (prev ? { ...prev } : null))
-      }
-    } else {
-      if (audioPlayerRef.current && !audioPlayerRef.current.paused) {
-        audioPlayerRef.current.pause()
-        setNowPlaying(null)
-        setCurrentTime(0)
-        setDuration(0)
-      }
-      setShowAudioOptionsForMystery(showAudioOptionsForMystery === mysteryIndex ? null : mysteryIndex)
     }
   }
 
@@ -357,8 +328,6 @@ export default function LandingPage() {
       .catch((error) => {
         console.error("Play error:", error)
       })
-
-    setShowAudioOptionsForMystery(null)
   }
 
   const handleSpeedChange = (speed: number) => {
@@ -552,6 +521,12 @@ export default function LandingPage() {
             >
               <Linkedin size={18} className="md:w-[22px] md:h-[22px]" />
             </a>
+            <a
+              href="mailto:rosarynarrated@gmail.com"
+              className="text-gray-500 hover:text-[#FFE552] transition-colors duration-300"
+            >
+              <Mail size={18} className="md:w-[22px] md:h-[22px]" />
+            </a>
           </div>
           <p className="mb-6 text-gray-500 text-sm md:text-base">
             &copy; {new Date().getFullYear()} Rosary Narrated. All rights reserved.
@@ -603,17 +578,20 @@ export default function LandingPage() {
                 {/* Desktop Timeline */}
                 <div className="hidden md:block relative">
                   <div
-                    className="absolute left-1/2 transform -translate-x-1/2 w-full max-w-5xl h-1 bg-[#FFE552] rounded-full shadow-lg shadow-yellow-400/30 animate-[lineRevealLeftToRight_1.5s_ease-out] opacity-0 transition-opacity duration-300"
+                    className={`absolute left-1/2 transform -translate-x-1/2 w-full max-w-5xl h-1 bg-[#FFE552] rounded-full shadow-lg shadow-yellow-400/30 ${
+                      expandedMysteryItem === null ? "animate-[lineRevealLeftToRight_1.5s_ease-out] opacity-0" : ""
+                    }`}
                     style={{
                       top: "112px",
-                      animationDelay: "2.5s",
-                      animationFillMode: "forwards",
-                      opacity: expandedMysteryItem !== null ? "0.3" : "",
+                      zIndex: 1,
+                      opacity: expandedMysteryItem !== null ? 0.3 : undefined,
+                      animationDelay: expandedMysteryItem === null ? "2.5s" : undefined,
+                      animationFillMode: expandedMysteryItem === null ? "forwards" : undefined,
                     }}
                   ></div>
 
                   {/* Desktop timeline beads container */}
-                  <div className="flex justify-between items-start gap-4 max-w-6xl mx-auto mt-6">
+                  <div className="flex justify-between items-start gap-4 max-w-6xl mx-auto mt-6 relative z-10">
                     {currentMysterySetDetails.mysteries.map((mystery, index) => (
                       <div
                         key={index}
@@ -768,7 +746,7 @@ export default function LandingPage() {
                     >
                       <div
                         className={`w-10 h-10 bg-[#FFE552] rounded-full flex items-center justify-center font-bold text-gray-900 text-base cursor-pointer transition-all duration-300 mx-auto mb-4 ${
-                          expandedMysteryItem === index // Changed to single item check
+                          expandedMysteryItem === index
                             ? "scale-110 shadow-[0_0_20px_rgba(255,229,82,0.8)]"
                             : "hover:scale-105"
                         }`}
@@ -779,101 +757,103 @@ export default function LandingPage() {
 
                       <div
                         className={`rounded-2xl p-4 text-center transition-all duration-300 ${
-                          expandedMysteryItem === index ? "bg-black/80 backdrop-blur-sm" : "bg-transparent" // Changed to single item check
+                          expandedMysteryItem === index ? "backdrop-blur-md bg-white/10" : "bg-transparent"
                         }`}
                       >
                         <h3
-                          className="text-[#FFE552] text-xl font-semibold mb-4 cursor-pointer hover:text-yellow-300 transition-colors duration-300 font-inter"
+                          className={`text-xl font-semibold mb-4 cursor-pointer transition-colors duration-300 font-inter ${
+                            expandedMysteryItem === index
+                              ? "text-white hover:text-gray-300"
+                              : "text-[#FFE552] hover:text-yellow-300"
+                          }`}
                           onClick={() => toggleMysteryItem(index)}
                         >
                           {mystery.title}
                         </h3>
 
-                        {expandedMysteryItem === index && ( // Changed to single item check
+                        {expandedMysteryItem === index && (
                           <div className="text-white text-sm leading-relaxed space-y-4 animate-in fade-in duration-300 text-left">
                             <div>
-                              <strong className="text-[#FFE552] block mb-2 font-inter">Significance:</strong>
+                              <strong className="text-[#82FAFA] block mb-2 font-inter">Significance:</strong>
                               <p className="font-inter">{mystery.significance}</p>
                             </div>
                             <div>
-                              <strong className="text-[#FFE552] block mb-2 font-inter">Reflection:</strong>
+                              <strong className="text-[#82FAFA] block mb-2 font-inter">Reflection:</strong>
                               <p className="font-inter">{mystery.reflection}</p>
                             </div>
+
+                            {/* Mobile Audio Buttons Section */}
                             <div className="mt-6">
-                              <button
-                                onClick={() => handlePlayButtonClick(index)}
-                                className="bg-[#FFE552] text-gray-900 px-4 py-2 rounded-md hover:bg-yellow-300 transition-colors duration-300 flex items-center justify-center w-full"
-                              >
-                                {nowPlaying &&
-                                nowPlaying.mysteryIndex === index &&
-                                audioPlayerRef.current &&
-                                !audioPlayerRef.current.paused ? (
-                                  <PauseCircle size={20} className="mr-2" />
-                                ) : (
-                                  <PlayCircle size={20} className="mr-2" />
-                                )}
-                                Play
-                              </button>
-                              {showAudioOptionsForMystery === index && (
-                                <div className="mt-3 space-y-2 flex flex-col items-center">
-                                  {[3, 7, 12].map((p) => (
-                                    <button
-                                      key={p}
-                                      onClick={() =>
-                                        playAudio(
-                                          getMysterySetKey(currentMysterySetDetails.title),
-                                          index,
-                                          p as 3 | 7 | 12,
-                                        )
-                                      }
-                                      className={`w-full text-sm py-2 px-3 rounded-md transition-colors duration-200 ${
-                                        nowPlaying && nowPlaying.mysteryIndex === index && nowPlaying.perspective === p
-                                          ? "bg-yellow-500 text-black font-semibold"
-                                          : "bg-gray-700/50 hover:bg-gray-600/70 text-white"
-                                      }`}
-                                    >
-                                      {p} Perspectives
-                                    </button>
-                                  ))}
-                                </div>
-                              )}
+                              <h4 className="text-[#82FAFA] font-inter text-sm font-semibold mb-3">
+                                Choose Perspectives:
+                              </h4>
+                              <div className="space-y-2 flex flex-col items-center">
+                                {[3, 7, 12].map((p) => (
+                                  <button
+                                    key={p}
+                                    onClick={() =>
+                                      playAudio(
+                                        getMysterySetKey(currentMysterySetDetails.title),
+                                        index,
+                                        p as 3 | 7 | 12,
+                                      )
+                                    }
+                                    className={`w-full text-sm py-2 px-3 rounded-md transition-all duration-200 flex items-center justify-center border-2 ${
+                                      nowPlaying && nowPlaying.mysteryIndex === index && nowPlaying.perspective === p
+                                        ? "bg-[#82FAFA] text-black border-[#82FAFA] font-semibold"
+                                        : "bg-transparent text-[#82FAFA] border-[#82FAFA] hover:bg-[#82FAFA] hover:text-black"
+                                    }`}
+                                  >
+                                    {nowPlaying &&
+                                    nowPlaying.mysteryIndex === index &&
+                                    nowPlaying.perspective === p &&
+                                    audioPlayerRef.current &&
+                                    !audioPlayerRef.current.paused ? (
+                                      <PauseCircle size={16} className="mr-2" />
+                                    ) : (
+                                      <PlayCircle size={16} className="mr-2" />
+                                    )}
+                                    {p} Perspectives
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
 
-                              {/* Mobile Audio Controls */}
-                              {nowPlaying && nowPlaying.mysteryIndex === index && (
-                                <div className="mt-4 space-y-3 p-3 bg-black/30 rounded-lg">
-                                  {/* Progress Bar */}
-                                  <div className="space-y-2">
-                                    <div className="flex justify-between text-xs text-[#FFE552]">
-                                      <span>{formatTime(currentTime)}</span>
-                                      <span>{formatTime(duration)}</span>
-                                    </div>
-                                    <div
-                                      className="w-full h-2 bg-gray-600 rounded-full cursor-pointer"
-                                      onClick={handleProgressClick}
-                                    >
-                                      <div
-                                        className="h-full bg-[#FFE552] rounded-full transition-all duration-100"
-                                        style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-                                      />
-                                    </div>
+                            {/* Mobile Audio Controls */}
+                            {nowPlaying && nowPlaying.mysteryIndex === index && (
+                              <div className="mt-4 space-y-3 p-3 bg-black/30 rounded-lg">
+                                {/* Progress Bar */}
+                                <div className="space-y-2">
+                                  <div className="flex justify-between text-xs text-[#82FAFA]">
+                                    <span>{formatTime(currentTime)}</span>
+                                    <span>{formatTime(duration)}</span>
                                   </div>
-
-                                  {/* Speed Control */}
-                                  <div className="space-y-2">
-                                    <label className="text-xs text-[#FFE552] font-inter">Speed: {playbackSpeed}x</label>
-                                    <input
-                                      type="range"
-                                      min="0.5"
-                                      max="2"
-                                      step="0.25"
-                                      value={playbackSpeed}
-                                      onChange={(e) => handleSpeedChange(Number.parseFloat(e.target.value))}
-                                      className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                                  <div
+                                    className="w-full h-2 bg-gray-600 rounded-full cursor-pointer"
+                                    onClick={handleProgressClick}
+                                  >
+                                    <div
+                                      className="h-full bg-[#82FAFA] rounded-full transition-all duration-100"
+                                      style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
                                     />
                                   </div>
                                 </div>
-                              )}
-                            </div>
+
+                                {/* Speed Control */}
+                                <div className="space-y-2">
+                                  <label className="text-xs text-[#82FAFA] font-inter">Speed: {playbackSpeed}x</label>
+                                  <input
+                                    type="range"
+                                    min="0.5"
+                                    max="2"
+                                    step="0.25"
+                                    value={playbackSpeed}
+                                    onChange={(e) => handleSpeedChange(Number.parseFloat(e.target.value))}
+                                    className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                                  />
+                                </div>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
@@ -896,17 +876,6 @@ export default function LandingPage() {
               }
             }
 
-            @keyframes lineRevealLeftToRight {
-              0% {
-                opacity: 0;
-                clip-path: inset(0 100% 0 0);
-              }
-              100% {
-                opacity: 1;
-                clip-path: inset(0 0 0 0);
-              }
-            }
-
             .slider::-webkit-slider-thumb {
               appearance: none;
               height: 16px;
@@ -923,6 +892,17 @@ export default function LandingPage() {
               background: #82FAFA;
               cursor: pointer;
               border: none;
+            }
+
+            @keyframes lineRevealLeftToRight {
+              0% {
+                opacity: 0;
+                clip-path: inset(0 100% 0 0);
+              }
+              100% {
+                opacity: 1;
+                clip-path: inset(0 0 0 0);
+              }
             }
           `}</style>
         </div>
