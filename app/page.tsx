@@ -1,11 +1,14 @@
 "use client"
 
-import Image from "next/image"
-import { useState } from "react"
-import { ChevronDown, Plus, Youtube, Linkedin } from "lucide-react"
+import type React from "react"
 
-// Rosary mysteries data
-const rosaryMysteries = {
+import Image from "next/image"
+import { useState, useRef, useEffect } from "react"
+import { ChevronDown, Plus, Youtube, Linkedin, PlayCircle, PauseCircle } from "lucide-react"
+import { audioData, getMysterySetKey } from "@/lib/audio-data"
+
+// Rosary mysteries data (English only)
+const rosaryMysteriesData = {
   1: {
     title: "Joyful Mysteries",
     backgroundImage:
@@ -51,7 +54,7 @@ const rosaryMysteries = {
   2: {
     title: "Luminous Mysteries",
     backgroundImage:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jesus%20baptized.png-sZEYyB7s82b78YVh6vDJmGLyHb8Nqu.jpeg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jesus%20baptized.png-EsMXC7QK8PA5V6V7x59bMzdOqMsATF.jpeg",
     mysteries: [
       {
         title: "The Baptism of Jesus",
@@ -174,21 +177,21 @@ const cardData = [
     number: "2",
     shortText: "Where two or three are gathered in my name, I am there among them (Matthew 18:20)",
     fullText:
-      "Jesus said, Where two or three are gathered in my name, I am there among them (Matthew 18:20). He longs for us to pray together, for one another. Who better to pray with us than the one who walked every step of His earthly life beside Him—His own mother? Mary isn't distant. She is the Queen Mother of Heaven, always interceding for us with tender love. Pray for one another, that you may be healed. The prayer of a righteous person has great power (James 5:16). All these with one accord were devoting themselves to prayer, together with... Mary the mother of Jesus (Acts 1:14).",
+      'Jesus said "Where two or three are gathered in my name, I am there among them" (Matthew 18:20). He longs for us to pray together, for one another. Who better to pray with us than the one who walked every step of His earthly life beside Him—His own mother? Mary isn\'t distant. She is the Queen Mother of Heaven, always interceding for us with tender love. "Pray for one another, that you may be healed". "The prayer of a righteous person has great power" (James 5:16). "All these with one accord were devoting themselves to prayer, together with... Mary the mother of Jesus" (Acts 1:14).',
   },
   {
     number: "3",
     shortText: "Mary continues to intercede for us—because she loves as only a mother can.",
     fullText:
-      "On the Cross, Jesus gave us everything: His body, His blood, His heart—and His mother. Woman, behold your son... Son, behold your mother (John 19:26–27). Mary stood at the foot of the Cross, silent in sorrow, enduring the pain of watching her Son—God Himself—scourged, mocked, and crucified. And yet, she didn't turn away. Her soul pierced by sorrow (Luke 2:35), she became our mother too. His face was like the sun shining in full strength (Revelation 1:16). God did not spare His own Son, but gave Him up for us all (Romans 8:32). Mary continues to intercede for us—because she loves as only a mother can.",
+      'On the Cross, Jesus gave us everything: His body, His blood, His heart—and His mother. "Woman, behold your son... Son, behold your mother" (John 19:26–27). Mary stood at the foot of the Cross, silent in sorrow, enduring the pain of watching her Son—God Himself—scourged, mocked, and crucified. And yet, she didn\'t turn away. "Her soul pierced by sorrow" (Luke 2:35), she became our mother too. "His face was like the sun shining in full strength" (Revelation 1:16). "God did not spare His own Son, but gave Him up for us all" (Romans 8:32). Mary continues to intercede for us—because she loves as only a mother can.',
   },
 ]
 
 const mysteryImages = [
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mother%20Mary%20and%20Baby%20Jesus.png-0JeNAZJv87hYt6zZ2jUzbD7n6ZW6fX.jpeg",
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Jesus%20baptized.png-sZEYyB7s82b78YVh6vDJmGLyHb8Nqu.jpeg",
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7d00b0ed1ef04406aabaa13e949ec1bb.png-c2sbiN5V7oDnFruPBdP5ERcEmaQ5Oe.jpeg",
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8c9ccf36706f49afae4b2e6148c718d1.png-rL1gIVUCQOFCDgt0iVcMUrcXh4UYiJ.jpeg",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mother%20Mary%20and%20Baby%20Jesus.png-0JeNAZJv87hYt6zZ2jUzbD7n6ZW6fX.jpeg", // Joyful
+  "/images/Jesus-baptized.png", // Luminous
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7d00b0ed1ef04406aabaa13e949ec1bb.png-c2sbiN5V7oDnFruPBdP5ERcEmaQ5Oe.jpeg", // Sorrowful
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8c9ccf36706f49afae4b2e6148c718d1.png-rL1gIVUCQOFCDgt0iVcMUrcXh4UYiJ.jpeg", // Glorious
 ]
 
 const mysteryTitles = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
@@ -200,11 +203,24 @@ const scrollToSection = (sectionId: string) => {
   }
 }
 
+// Helper function to format time in MM:SS format
+const formatTime = (seconds: number): string => {
+  const mins = Math.floor(seconds / 60)
+  const secs = Math.floor(seconds % 60)
+  return `${mins}:${secs.toString().padStart(2, "0")}`
+}
+
 export default function LandingPage() {
   const [expandedCard, setExpandedCard] = useState<number | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedMystery, setSelectedMystery] = useState<number | null>(null)
-  const [expandedMysteryItems, setExpandedMysteryItems] = useState<number[]>([])
+  const [selectedMysterySetIndex, setSelectedMysterySetIndex] = useState<number | null>(null) // 0-3 for Joyful, Luminous etc.
+  const [expandedMysteryItem, setExpandedMysteryItem] = useState<number | null>(null) // Single item expanded
+  const [showAudioOptionsForMystery, setShowAudioOptionsForMystery] = useState<number | null>(null)
+  const [nowPlaying, setNowPlaying] = useState<{ src: string; mysteryIndex: number; perspective: number } | null>(null)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [playbackSpeed, setPlaybackSpeed] = useState(1)
+  const audioPlayerRef = useRef<HTMLAudioElement | null>(null)
 
   const headerImageAspectRatio = (500 / 1920) * 100
 
@@ -212,32 +228,206 @@ export default function LandingPage() {
     setExpandedCard(expandedCard === index ? null : index)
   }
 
-  const openModal = (mysteryIndex: number) => {
-    setSelectedMystery(mysteryIndex)
+  const openModal = (mysterySetIdx: number) => {
+    setSelectedMysterySetIndex(mysterySetIdx)
     setIsModalOpen(true)
-    setExpandedMysteryItems([])
+    setExpandedMysteryItem(null) // Reset expanded item
+    setShowAudioOptionsForMystery(null)
+    setNowPlaying(null)
   }
 
   const closeModal = () => {
     setIsModalOpen(false)
-    setSelectedMystery(null)
-    setExpandedMysteryItems([])
+    setSelectedMysterySetIndex(null)
+    setExpandedMysteryItem(null)
+    setShowAudioOptionsForMystery(null)
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.pause()
+      audioPlayerRef.current.src = ""
+    }
+    setNowPlaying(null)
+    setCurrentTime(0)
+    setDuration(0)
   }
 
   const toggleMysteryItem = (index: number) => {
-    setExpandedMysteryItems((prev) => (prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]))
+    const isOpeningNewItem = expandedMysteryItem !== index
+    setExpandedMysteryItem((prev) => (prev === index ? null : index))
+
+    // If opening a new item or closing the current one, hide audio options
+    setShowAudioOptionsForMystery(null)
+
+    // If a different item was playing audio, stop it
+    if (nowPlaying && nowPlaying.mysteryIndex !== index && isOpeningNewItem && audioPlayerRef.current) {
+      audioPlayerRef.current.pause()
+      setNowPlaying(null)
+      setCurrentTime(0)
+      setDuration(0)
+    } else if (
+      expandedMysteryItem === index &&
+      nowPlaying &&
+      nowPlaying.mysteryIndex === index &&
+      audioPlayerRef.current
+    ) {
+      // If closing the item that is currently playing, stop audio
+      audioPlayerRef.current.pause()
+      setNowPlaying(null)
+      setCurrentTime(0)
+      setDuration(0)
+    }
   }
+
+  const handlePlayButtonClick = (mysteryIndex: number) => {
+    // For desktop, we don't need this function anymore since buttons are always visible
+    // For mobile, keep the existing logic
+    if (nowPlaying && nowPlaying.mysteryIndex === mysteryIndex) {
+      if (audioPlayerRef.current) {
+        if (audioPlayerRef.current.paused) {
+          audioPlayerRef.current.play().catch((e) => console.error("Error playing audio:", e))
+        } else {
+          audioPlayerRef.current.pause()
+        }
+        setNowPlaying((prev) => (prev ? { ...prev } : null))
+      }
+    } else {
+      if (audioPlayerRef.current && !audioPlayerRef.current.paused) {
+        audioPlayerRef.current.pause()
+        setNowPlaying(null)
+        setCurrentTime(0)
+        setDuration(0)
+      }
+      setShowAudioOptionsForMystery(showAudioOptionsForMystery === mysteryIndex ? null : mysteryIndex)
+    }
+  }
+
+  const playAudio = (mysterySetKey: string, mysteryItemIndex: number, perspective: 3 | 7 | 12) => {
+    console.log("=== AUDIO DEBUG START ===")
+    console.log("Input parameters:", { mysterySetKey, mysteryItemIndex, perspective })
+
+    const audioSrc = audioData[mysterySetKey]?.[mysteryItemIndex]?.[perspective]
+    console.log("Resolved audioSrc:", audioSrc)
+
+    if (!audioSrc) {
+      console.warn(`Audio not found for ${mysterySetKey}, item ${mysteryItemIndex}, perspective ${perspective}`)
+      return
+    }
+
+    if (!audioPlayerRef.current) {
+      console.error("Audio player ref not available")
+      return
+    }
+
+    // If clicking the same audio that's currently playing, pause it
+    if (
+      nowPlaying &&
+      nowPlaying.mysteryIndex === mysteryItemIndex &&
+      nowPlaying.perspective === perspective &&
+      !audioPlayerRef.current.paused
+    ) {
+      console.log("Pausing current audio")
+      audioPlayerRef.current.pause()
+      return
+    }
+
+    // If clicking the same audio that's paused, resume it
+    if (
+      nowPlaying &&
+      nowPlaying.mysteryIndex === mysteryItemIndex &&
+      nowPlaying.perspective === perspective &&
+      audioPlayerRef.current.paused &&
+      audioPlayerRef.current.src === audioSrc
+    ) {
+      console.log("Resuming paused audio")
+      audioPlayerRef.current.play().catch((error) => console.error("Error resuming audio:", error))
+      return
+    }
+
+    // Load and play new audio
+    console.log("Loading new audio:", audioSrc)
+    audioPlayerRef.current.src = audioSrc
+    audioPlayerRef.current.playbackRate = playbackSpeed
+    audioPlayerRef.current.load()
+
+    audioPlayerRef.current
+      .play()
+      .then(() => {
+        console.log("Audio started playing successfully")
+        setNowPlaying({ src: audioSrc, mysteryIndex: mysteryItemIndex, perspective })
+      })
+      .catch((error) => {
+        console.error("Play error:", error)
+      })
+
+    setShowAudioOptionsForMystery(null)
+  }
+
+  const handleSpeedChange = (speed: number) => {
+    setPlaybackSpeed(speed)
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.playbackRate = speed
+    }
+  }
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!audioPlayerRef.current || !duration) return
+
+    const rect = e.currentTarget.getBoundingClientRect()
+    const clickX = e.clientX - rect.left
+    const percentage = clickX / rect.width
+    const newTime = percentage * duration
+
+    audioPlayerRef.current.currentTime = newTime
+    setCurrentTime(newTime)
+  }
+
+  useEffect(() => {
+    const audio = audioPlayerRef.current
+    if (!audio) return
+
+    const updateTime = () => setCurrentTime(audio.currentTime)
+    const updateDuration = () => setDuration(audio.duration)
+    const handleEnded = () => {
+      setNowPlaying(null)
+      setCurrentTime(0)
+    }
+
+    audio.addEventListener("timeupdate", updateTime)
+    audio.addEventListener("loadedmetadata", updateDuration)
+    audio.addEventListener("ended", handleEnded)
+
+    return () => {
+      audio.removeEventListener("timeupdate", updateTime)
+      audio.removeEventListener("loadedmetadata", updateDuration)
+      audio.removeEventListener("ended", handleEnded)
+    }
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (audioPlayerRef.current) {
+        audioPlayerRef.current.pause()
+        audioPlayerRef.current.src = ""
+      }
+    }
+  }, [])
+
+  const currentMysterySetDetails =
+    selectedMysterySetIndex !== null
+      ? rosaryMysteriesData[(selectedMysterySetIndex + 1) as keyof typeof rosaryMysteriesData]
+      : null
 
   return (
     <div className="min-h-screen bg-gray-900 text-white relative">
-      {/* Background GIF */}
+      <audio ref={audioPlayerRef} preload="none">
+        Your browser does not support the audio tag.
+      </audio>
+      {/* Language Toggle Removed */}
+
       <div className="fixed inset-0 z-0">
         <Image src="/images/background.gif" alt="Background" fill className="object-cover" priority />
       </div>
 
-      {/* Content overlay */}
       <div className="relative z-10">
-        {/* Header Section */}
         <header className="relative w-full overflow-hidden">
           <div className="relative w-full" style={{ paddingBottom: `${headerImageAspectRatio}%` }}>
             <Image
@@ -250,12 +440,10 @@ export default function LandingPage() {
           </div>
         </header>
 
-        {/* Main Content */}
         <main className="container mx-auto px-4 py-8">
-          {/* Hero Section */}
           <section className="text-center my-32">
             <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold mb-16">
-              Welcome to Rosary Decades
+              Welcome to Rosary Narrated
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed">
               Explore the profound mysteries of the Rosary and deepen your spiritual journey. This platform is designed
@@ -263,7 +451,6 @@ export default function LandingPage() {
             </p>
           </section>
 
-          {/* Scroll Arrow */}
           <div className="flex justify-center my-40">
             <button
               onClick={() => scrollToSection("why-pray-section")}
@@ -273,7 +460,6 @@ export default function LandingPage() {
             </button>
           </div>
 
-          {/* Why Pray Section */}
           <section id="why-pray-section" className="my-40">
             <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold text-center mb-40">
               Why Pray the Rosary?
@@ -292,10 +478,10 @@ export default function LandingPage() {
                   >
                     {card.number}
                   </div>
-                  <p className="text-gray-300 font-inter leading-relaxed mb-4">
+                  <p className="text-gray-300 font-inter leading-relaxed mb-4 md:mb-6">
                     {expandedCard === index ? card.fullText : card.shortText}
                   </p>
-                  <div className="mt-auto">
+                  <div className="mt-auto md:pt-4">
                     <Plus
                       className={`w-5 h-5 text-[#326161] hover:text-[#82FAFA] transition-all duration-300 hover:scale-110 ${
                         expandedCard === index ? "rotate-45 text-[#82FAFA]" : ""
@@ -307,7 +493,6 @@ export default function LandingPage() {
             </div>
           </section>
 
-          {/* Scroll Arrow */}
           <div className="flex justify-center my-40">
             <button
               onClick={() => scrollToSection("mysteries-section")}
@@ -317,23 +502,22 @@ export default function LandingPage() {
             </button>
           </div>
 
-          {/* Mysteries Section */}
           <section id="mysteries-section" className="my-40">
             <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold text-center mb-16">
               The Mysteries of the Rosary
             </h2>
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed text-center mb-40">
-              Click on the cards for an interactive immersive experience of our Savior's mysteries
+              Learn more about our Savior and Mother Mary through the Rosary Mysteries
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {mysteryImages.map((image, index) => (
                 <div
                   key={index}
                   className="relative rounded-lg overflow-hidden shadow-lg cursor-pointer group"
-                  onClick={() => openModal(index + 1)}
+                  onClick={() => openModal(index)}
                 >
                   <Image
-                    src={image || "/placeholder.svg"}
+                    src={image || "/placeholder.svg"} // Luminous image is mysteryImages[1]
                     alt={`${mysteryTitles[index]} Mysteries`}
                     width={600}
                     height={400}
@@ -350,7 +534,6 @@ export default function LandingPage() {
           </section>
         </main>
 
-        {/* Footer */}
         <footer className="text-gray-500 text-center py-8 mt-12 font-inter">
           <div className="flex justify-center items-center gap-6 mb-8">
             <a
@@ -379,7 +562,7 @@ export default function LandingPage() {
               href="https://www.eltaydigital.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#FFE552] hover:text-[#FFE552] transition-colors duration-300"
+              className="text-[#FFE552] hover:text-yellow-300 transition-colors duration-300"
             >
               Eltay Digital
             </a>
@@ -387,20 +570,17 @@ export default function LandingPage() {
         </footer>
       </div>
 
-      {/* Timeline Modal */}
-      {isModalOpen && selectedMystery && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Background GIF */}
+      {isModalOpen && currentMysterySetDetails && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 z-0">
             <Image src="/images/modal-background.gif" alt="Modal Background" fill className="object-cover" priority />
           </div>
-
-          {/* Modal Content */}
           <div className="rounded-2xl w-full max-w-7xl h-[90vh] relative overflow-hidden border border-gray-300/20 z-10">
-            {/* Header */}
+            {" "}
+            {/* Modal width: max-w-7xl */}
             <div className="bg-black/90 backdrop-blur-sm p-8 text-center relative z-20">
               <h2 className="text-4xl md:text-6xl font-bold text-white font-sora tracking-wider">
-                {rosaryMysteries[selectedMystery as keyof typeof rosaryMysteries].title}
+                {currentMysterySetDetails.title}
               </h2>
               <button
                 onClick={closeModal}
@@ -410,89 +590,174 @@ export default function LandingPage() {
                 ×
               </button>
             </div>
-
-            {/* Background Image */}
             <div className="relative flex-1 h-full">
               <Image
-                src={
-                  rosaryMysteries[selectedMystery as keyof typeof rosaryMysteries].backgroundImage || "/placeholder.svg"
-                }
+                src={currentMysterySetDetails.backgroundImage || "/placeholder.svg"}
                 alt="Mystery Background"
                 fill
                 className="object-cover opacity-60"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30"></div>
 
-              {/* Timeline Content */}
               <div className="absolute inset-0 flex flex-col pt-[10vh] p-8 z-10">
                 {/* Desktop Timeline */}
                 <div className="hidden md:block relative">
                   <div
-                    className="absolute left-1/2 transform -translate-x-1/2 w-full max-w-5xl h-1 bg-[#FFE552] rounded-full shadow-lg shadow-yellow-400/30 animate-[lineRevealLeftToRight_1.5s_ease-out] opacity-0"
+                    className="absolute left-1/2 transform -translate-x-1/2 w-full max-w-5xl h-1 bg-[#FFE552] rounded-full shadow-lg shadow-yellow-400/30 animate-[lineRevealLeftToRight_1.5s_ease-out] opacity-0 transition-opacity duration-300"
                     style={{
                       top: "112px",
                       animationDelay: "2.5s",
                       animationFillMode: "forwards",
+                      opacity: expandedMysteryItem !== null ? "0.3" : "",
                     }}
                   ></div>
 
+                  {/* Desktop timeline beads container */}
                   <div className="flex justify-between items-start gap-4 max-w-6xl mx-auto mt-6">
-                    {rosaryMysteries[selectedMystery as keyof typeof rosaryMysteries].mysteries.map(
-                      (mystery, index) => (
+                    {currentMysterySetDetails.mysteries.map((mystery, index) => (
+                      <div
+                        key={index}
+                        className="flex-1 relative animate-[beadReveal_0.8s_ease-out] opacity-0"
+                        style={{
+                          animationDelay: `${index * 0.4}s`,
+                          animationFillMode: "forwards",
+                        }}
+                      >
                         <div
-                          key={index}
-                          className="flex-1 relative animate-[beadReveal_0.8s_ease-out] opacity-0"
-                          style={{
-                            animationDelay: `${index * 0.4}s`,
-                            animationFillMode: "forwards",
-                          }}
-                        >
-                          <div
-                            className={`w-12 h-12 bg-[#FFE552] rounded-full flex items-center justify-center font-bold text-gray-900 text-lg cursor-pointer transition-all duration-300 mx-auto mb-8 ${
-                              expandedMysteryItems.includes(index)
-                                ? "scale-125 shadow-[0_0_20px_rgba(255,229,82,0.8)]"
+                          className={`w-12 h-12 bg-[#FFE552] rounded-full flex items-center justify-center font-bold text-gray-900 text-lg cursor-pointer transition-all duration-300 mx-auto mb-8 ${
+                            expandedMysteryItem === index
+                              ? "scale-125 shadow-[0_0_20px_rgba(255,229,82,0.8)]"
+                              : expandedMysteryItem !== null
+                                ? "hover:scale-110 opacity-30"
                                 : "hover:scale-110"
+                          }`}
+                          onClick={() => toggleMysteryItem(index)}
+                          style={{ marginTop: "66px" }}
+                        >
+                          {index + 1}
+                        </div>
+
+                        <div className="text-center">
+                          <h3
+                            className={`text-[#FFE552] text-xl font-semibold mb-4 cursor-pointer hover:text-yellow-300 transition-all duration-300 font-inter ${
+                              expandedMysteryItem !== null && expandedMysteryItem !== index ? "opacity-30" : ""
                             }`}
                             onClick={() => toggleMysteryItem(index)}
-                            style={{ marginTop: "66px" }}
                           >
-                            {index + 1}
+                            {mystery.title}
+                          </h3>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Expanded content - full width card */}
+                  {expandedMysteryItem !== null && (
+                    <div className="mt-8 max-w-6xl mx-auto animate-in fade-in duration-300">
+                      <div className="backdrop-blur-md bg-white/10 rounded-2xl p-8">
+                        <div className="grid grid-cols-3 gap-8">
+                          {/* Left column - Text content (2/3 width) */}
+                          <div className="col-span-2 space-y-6">
+                            <div>
+                              <strong className="text-[#82FAFA] block mb-3 font-inter text-lg">Significance:</strong>
+                              <p className="font-inter text-white leading-relaxed">
+                                {currentMysterySetDetails.mysteries[expandedMysteryItem].significance}
+                              </p>
+                            </div>
+                            <div>
+                              <strong className="text-[#82FAFA] block mb-3 font-inter text-lg">Reflection:</strong>
+                              <p className="font-inter text-white leading-relaxed">
+                                {currentMysterySetDetails.mysteries[expandedMysteryItem].reflection}
+                              </p>
+                            </div>
                           </div>
 
-                          <div
-                            className={`bg-transparent rounded-2xl p-6 text-center transition-all duration-300 min-h-[120px] ${
-                              expandedMysteryItems.includes(index) ? "backdrop-blur-md bg-white/10" : ""
-                            }`}
-                          >
-                            <h3
-                              className="text-[#FFE552] text-xl font-semibold mb-4 cursor-pointer hover:text-yellow-300 transition-colors duration-300 font-inter"
-                              onClick={() => toggleMysteryItem(index)}
-                            >
-                              {mystery.title}
-                            </h3>
+                          {/* Right column - Play buttons and controls (1/3 width) */}
+                          <div className="col-span-1 space-y-4">
+                            <h4 className="text-[#82FAFA] font-inter text-lg font-semibold mb-4">
+                              Choose Perspectives:
+                            </h4>
+                            {[3, 7, 12].map((p) => (
+                              <button
+                                key={p}
+                                onClick={() =>
+                                  playAudio(
+                                    getMysterySetKey(currentMysterySetDetails.title),
+                                    expandedMysteryItem,
+                                    p as 3 | 7 | 12,
+                                  )
+                                }
+                                className={`w-full py-3 px-4 rounded-md transition-all duration-200 flex items-center justify-center font-inter border-2 ${
+                                  nowPlaying &&
+                                  nowPlaying.mysteryIndex === expandedMysteryItem &&
+                                  nowPlaying.perspective === p
+                                    ? "bg-[#82FAFA] text-black border-[#82FAFA] font-semibold"
+                                    : "bg-transparent text-[#82FAFA] border-[#82FAFA] hover:bg-[#82FAFA] hover:text-black"
+                                }`}
+                              >
+                                {nowPlaying &&
+                                nowPlaying.mysteryIndex === expandedMysteryItem &&
+                                nowPlaying.perspective === p &&
+                                audioPlayerRef.current &&
+                                !audioPlayerRef.current.paused ? (
+                                  <PauseCircle size={20} className="mr-2" />
+                                ) : (
+                                  <PlayCircle size={20} className="mr-2" />
+                                )}
+                                {p} Perspectives
+                              </button>
+                            ))}
 
-                            {expandedMysteryItems.includes(index) && (
-                              <div className="text-white text-sm leading-relaxed space-y-4 animate-in fade-in duration-300">
-                                <div>
-                                  <strong className="text-[#FFE552] block mb-2 font-inter">Significance:</strong>
-                                  <p className="font-inter">{mystery.significance}</p>
+                            {/* Audio Controls */}
+                            {nowPlaying && nowPlaying.mysteryIndex === expandedMysteryItem && (
+                              <div className="mt-6 space-y-4 p-4 bg-black/30 rounded-lg">
+                                {/* Progress Bar */}
+                                <div className="space-y-2">
+                                  <div className="flex justify-between text-sm text-[#82FAFA]">
+                                    <span>{formatTime(currentTime)}</span>
+                                    <span>{formatTime(duration)}</span>
+                                  </div>
+                                  <div
+                                    className="w-full h-2 bg-gray-600 rounded-full cursor-pointer"
+                                    onClick={handleProgressClick}
+                                  >
+                                    <div
+                                      className="h-full bg-[#82FAFA] rounded-full transition-all duration-100"
+                                      style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                                    />
+                                  </div>
                                 </div>
-                                <div>
-                                  <strong className="text-[#FFE552] block mb-2 font-inter">Reflection:</strong>
-                                  <p className="font-inter">{mystery.reflection}</p>
+
+                                {/* Speed Control */}
+                                <div className="space-y-2">
+                                  <label className="text-sm text-[#82FAFA] font-inter">Speed: {playbackSpeed}x</label>
+                                  <input
+                                    type="range"
+                                    min="0.5"
+                                    max="2"
+                                    step="0.25"
+                                    value={playbackSpeed}
+                                    onChange={(e) => handleSpeedChange(Number.parseFloat(e.target.value))}
+                                    className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer slider"
+                                  />
+                                  <div className="flex justify-between text-xs text-gray-400">
+                                    <span>0.5x</span>
+                                    <span>1x</span>
+                                    <span>1.5x</span>
+                                    <span>2x</span>
+                                  </div>
                                 </div>
                               </div>
                             )}
                           </div>
                         </div>
-                      ),
-                    )}
-                  </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Mobile Timeline */}
-                <div className="md:hidden space-y-6 overflow-y-auto max-h-[75vh] pb-32 pt-16 overscroll-contain">
-                  {rosaryMysteries[selectedMystery as keyof typeof rosaryMysteries].mysteries.map((mystery, index) => (
+                <div className="md:hidden space-y-6 overflow-y-auto max-h-[calc(90vh-10vh-80px)] pb-32 pt-16 overscroll-contain">
+                  {currentMysterySetDetails.mysteries.map((mystery, index) => (
                     <div
                       key={index}
                       className="relative animate-[beadReveal_0.8s_ease-out] opacity-0"
@@ -503,7 +768,7 @@ export default function LandingPage() {
                     >
                       <div
                         className={`w-10 h-10 bg-[#FFE552] rounded-full flex items-center justify-center font-bold text-gray-900 text-base cursor-pointer transition-all duration-300 mx-auto mb-4 ${
-                          expandedMysteryItems.includes(index)
+                          expandedMysteryItem === index // Changed to single item check
                             ? "scale-110 shadow-[0_0_20px_rgba(255,229,82,0.8)]"
                             : "hover:scale-105"
                         }`}
@@ -514,7 +779,7 @@ export default function LandingPage() {
 
                       <div
                         className={`rounded-2xl p-4 text-center transition-all duration-300 ${
-                          expandedMysteryItems.includes(index) ? "bg-black/80 backdrop-blur-sm" : "bg-transparent"
+                          expandedMysteryItem === index ? "bg-black/80 backdrop-blur-sm" : "bg-transparent" // Changed to single item check
                         }`}
                       >
                         <h3
@@ -524,7 +789,7 @@ export default function LandingPage() {
                           {mystery.title}
                         </h3>
 
-                        {expandedMysteryItems.includes(index) && (
+                        {expandedMysteryItem === index && ( // Changed to single item check
                           <div className="text-white text-sm leading-relaxed space-y-4 animate-in fade-in duration-300 text-left">
                             <div>
                               <strong className="text-[#FFE552] block mb-2 font-inter">Significance:</strong>
@@ -533,6 +798,81 @@ export default function LandingPage() {
                             <div>
                               <strong className="text-[#FFE552] block mb-2 font-inter">Reflection:</strong>
                               <p className="font-inter">{mystery.reflection}</p>
+                            </div>
+                            <div className="mt-6">
+                              <button
+                                onClick={() => handlePlayButtonClick(index)}
+                                className="bg-[#FFE552] text-gray-900 px-4 py-2 rounded-md hover:bg-yellow-300 transition-colors duration-300 flex items-center justify-center w-full"
+                              >
+                                {nowPlaying &&
+                                nowPlaying.mysteryIndex === index &&
+                                audioPlayerRef.current &&
+                                !audioPlayerRef.current.paused ? (
+                                  <PauseCircle size={20} className="mr-2" />
+                                ) : (
+                                  <PlayCircle size={20} className="mr-2" />
+                                )}
+                                Play
+                              </button>
+                              {showAudioOptionsForMystery === index && (
+                                <div className="mt-3 space-y-2 flex flex-col items-center">
+                                  {[3, 7, 12].map((p) => (
+                                    <button
+                                      key={p}
+                                      onClick={() =>
+                                        playAudio(
+                                          getMysterySetKey(currentMysterySetDetails.title),
+                                          index,
+                                          p as 3 | 7 | 12,
+                                        )
+                                      }
+                                      className={`w-full text-sm py-2 px-3 rounded-md transition-colors duration-200 ${
+                                        nowPlaying && nowPlaying.mysteryIndex === index && nowPlaying.perspective === p
+                                          ? "bg-yellow-500 text-black font-semibold"
+                                          : "bg-gray-700/50 hover:bg-gray-600/70 text-white"
+                                      }`}
+                                    >
+                                      {p} Perspectives
+                                    </button>
+                                  ))}
+                                </div>
+                              )}
+
+                              {/* Mobile Audio Controls */}
+                              {nowPlaying && nowPlaying.mysteryIndex === index && (
+                                <div className="mt-4 space-y-3 p-3 bg-black/30 rounded-lg">
+                                  {/* Progress Bar */}
+                                  <div className="space-y-2">
+                                    <div className="flex justify-between text-xs text-[#FFE552]">
+                                      <span>{formatTime(currentTime)}</span>
+                                      <span>{formatTime(duration)}</span>
+                                    </div>
+                                    <div
+                                      className="w-full h-2 bg-gray-600 rounded-full cursor-pointer"
+                                      onClick={handleProgressClick}
+                                    >
+                                      <div
+                                        className="h-full bg-[#FFE552] rounded-full transition-all duration-100"
+                                        style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                                      />
+                                    </div>
+                                  </div>
+
+                                  {/* Speed Control */}
+                                  <div className="space-y-2">
+                                    <label className="text-xs text-[#FFE552] font-inter">Speed: {playbackSpeed}x</label>
+                                    <input
+                                      type="range"
+                                      min="0.5"
+                                      max="2"
+                                      step="0.25"
+                                      value={playbackSpeed}
+                                      onChange={(e) => handleSpeedChange(Number.parseFloat(e.target.value))}
+                                      className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                                    />
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </div>
                         )}
@@ -544,8 +884,6 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-
-          {/* Animations */}
           <style jsx>{`
             @keyframes beadReveal {
               0% {
@@ -567,6 +905,24 @@ export default function LandingPage() {
                 opacity: 1;
                 clip-path: inset(0 0 0 0);
               }
+            }
+
+            .slider::-webkit-slider-thumb {
+              appearance: none;
+              height: 16px;
+              width: 16px;
+              border-radius: 50%;
+              background: #82FAFA;
+              cursor: pointer;
+            }
+
+            .slider::-moz-range-thumb {
+              height: 16px;
+              width: 16px;
+              border-radius: 50%;
+              background: #82FAFA;
+              cursor: pointer;
+              border: none;
             }
           `}</style>
         </div>

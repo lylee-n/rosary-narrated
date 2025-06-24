@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Rosary Decades - Narrated",
-  description: "Created with v0",
+  title: "Rosary Narrated",
+  description: "Audiovisual narration for the Rosary Mysteries",
   generator: "v0.dev",
   icons: {
     icon: "/images/favicon.png",
