@@ -4,11 +4,11 @@ import "./globals.css"
 
 export const metadata: Metadata = {
   title: "Rosary Narrated",
-  description: "Audiovisual narration for the Rosary Mysteries",
-  generator: "v0.dev",
+  description: "Explore the profound mysteries of the Rosary and deepen your spiritual journey.",
   icons: {
-    icon: "/images/favicon.png",
+    icon: "/images/rosary-narrated-logo.png",
   },
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({

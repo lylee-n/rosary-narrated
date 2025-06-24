@@ -490,8 +490,8 @@ export default function LandingPage() {
             </h2>
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed text-center mb-20 md:mb-40">
               {language === "en"
-                ? "Learn more about our Savior and Mother Mary through the Rosary Mysteries"
-                : "Tìm hiểu thêm về Đấng Cứu Độ và Mẹ Maria qua các Mầu Nhiệm Kinh Mân Côi"}
+                ? "Learn more about our Savior and Mother Mary through the Rosary Mysteries. Click on a Mysteries set for an audiovisual storytelling experience."
+                : "Tìm hiểu thêm về Đấng Cứu Độ và Mẹ Maria qua các Mầu Nhiệm Kinh Mân Côi. Nhấp vào một bộ Mầu Nhiệm để có trải nghiệm kể chuyện nghe nhìn."}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {mysteryImages.map((image, index) => (
