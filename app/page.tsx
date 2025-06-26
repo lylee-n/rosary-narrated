@@ -915,6 +915,29 @@ export default function LandingPage() {
                                   >
                                     <Rewind size={20} />
                                   </button>
+                                  {/* New global play/pause button for mobile view */}
+                                  <button
+                                    onClick={() => {
+                                      if (audioPlayerRef.current) {
+                                        if (audioPlayerRef.current.paused) {
+                                          audioPlayerRef.current
+                                            .play()
+                                            .catch((error) => console.error("Error resuming audio:", error))
+                                        } else {
+                                          audioPlayerRef.current.pause()
+                                        }
+                                      }
+                                    }}
+                                    className="text-[#82FAFA] hover:text-white transition-colors duration-200"
+                                    aria-label={audioPlayerRef.current?.paused ? "Play" : "Pause"}
+                                    disabled={!nowPlaying} // Disable if no track is loaded
+                                  >
+                                    {audioPlayerRef.current && !audioPlayerRef.current.paused ? (
+                                      <PauseCircle size={20} />
+                                    ) : (
+                                      <PlayCircle size={20} />
+                                    )}
+                                  </button>
                                   <button
                                     onClick={() => handleFastForward(10)}
                                     className="text-[#82FAFA] hover:text-white transition-colors duration-200"
