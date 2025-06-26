@@ -4,7 +4,7 @@ import type React from "react"
 
 import Image from "next/image"
 import { useState, useRef, useEffect, useCallback } from "react"
-import { ChevronDown, Plus, Youtube, Linkedin, Mail, PlayCircle, PauseCircle } from "lucide-react"
+import { ChevronDown, Plus, Youtube, Linkedin, Mail, PlayCircle, PauseCircle, Rewind, FastForward } from "lucide-react" // Added Rewind and FastForward
 import { audioData } from "@/lib/audio-data" // English audio data
 import { rosaryMysteriesDataVi, cardDataVi, mysteryTitlesVi } from "@/lib/rosary-data-vi" // Vietnamese text data
 import { audioDataVi } from "@/lib/audio-data-vi" // Vietnamese audio data
@@ -345,6 +345,21 @@ export default function LandingPage() {
 
     audioPlayerRef.current.currentTime = newTime
     setCurrentTime(newTime)
+  }
+
+  const handleRewind = (seconds: number) => {
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.currentTime = Math.max(0, audioPlayerRef.current.currentTime - seconds)
+    }
+  }
+
+  const handleFastForward = (seconds: number) => {
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.currentTime = Math.min(
+        audioPlayerRef.current.duration,
+        audioPlayerRef.current.currentTime + seconds,
+      )
+    }
   }
 
   useEffect(() => {
@@ -731,6 +746,45 @@ export default function LandingPage() {
                                     <span>2x</span>
                                   </div>
                                 </div>
+                                <div className="flex justify-center gap-4">
+                                  <button
+                                    onClick={() => handleRewind(10)}
+                                    className="text-[#82FAFA] hover:text-white transition-colors duration-200"
+                                    aria-label="Rewind 10 seconds"
+                                  >
+                                    <Rewind size={24} />
+                                  </button>
+                                  {/* New global play/pause button */}
+                                  <button
+                                    onClick={() => {
+                                      if (audioPlayerRef.current) {
+                                        if (audioPlayerRef.current.paused) {
+                                          audioPlayerRef.current
+                                            .play()
+                                            .catch((error) => console.error("Error resuming audio:", error))
+                                        } else {
+                                          audioPlayerRef.current.pause()
+                                        }
+                                      }
+                                    }}
+                                    className="text-[#82FAFA] hover:text-white transition-colors duration-200"
+                                    aria-label={audioPlayerRef.current?.paused ? "Play" : "Pause"}
+                                    disabled={!nowPlaying} // Disable if no track is loaded
+                                  >
+                                    {audioPlayerRef.current && !audioPlayerRef.current.paused ? (
+                                      <PauseCircle size={24} />
+                                    ) : (
+                                      <PlayCircle size={24} />
+                                    )}
+                                  </button>
+                                  <button
+                                    onClick={() => handleFastForward(10)}
+                                    className="text-[#82FAFA] hover:text-white transition-colors duration-200"
+                                    aria-label="Fast forward 10 seconds"
+                                  >
+                                    <FastForward size={24} />
+                                  </button>
+                                </div>
                               </div>
                             )}
                           </div>
@@ -852,6 +906,22 @@ export default function LandingPage() {
                                     onChange={(e) => handleSpeedChange(Number.parseFloat(e.target.value))}
                                     className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
                                   />
+                                </div>
+                                <div className="flex justify-center gap-4">
+                                  <button
+                                    onClick={() => handleRewind(10)}
+                                    className="text-[#82FAFA] hover:text-white transition-colors duration-200"
+                                    aria-label="Rewind 10 seconds"
+                                  >
+                                    <Rewind size={20} />
+                                  </button>
+                                  <button
+                                    onClick={() => handleFastForward(10)}
+                                    className="text-[#82FAFA] hover:text-white transition-colors duration-200"
+                                    aria-label="Fast forward 10 seconds"
+                                  >
+                                    <FastForward size={20} />
+                                  </button>
                                 </div>
                               </div>
                             )}

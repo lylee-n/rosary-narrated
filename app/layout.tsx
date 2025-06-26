@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/images/rosary-narrated-logo.png",
   },
+  openGraph: {
+    images: "/images/rosary-narrated-logo.png",
+  },
     generator: 'v0.dev'
 }
 
