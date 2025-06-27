@@ -179,4 +179,32 @@ export const cardDataEn = [
 export const mysteryTitlesEn = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
 
 // Alias export for backward-compatibility with legacy imports
-export const rosaryData = rosaryMysteriesDataEn
+// export const rosaryData = rosaryMysteriesDataEn
+// ---------------------------------------------------------------------------
+//  Array version of the same data for components (e.g. PlaySection) that
+//  iterate with `.map()`.  We generate sensible fall-backs for the extra
+//  fields that component expects (`type`, perspective texts, etc.).
+// ---------------------------------------------------------------------------
+
+export const rosaryData = Object.entries(rosaryMysteriesDataEn).map(([key, value]) => {
+  const id = Number(key)
+
+  // Use the first internal mystery’s texts as generic placeholders so
+  // PlaySection has something to show when it looks for them.
+  const firstInternal = value.mysteries?.[0] ?? {
+    significance: "",
+    reflection: "",
+  }
+
+  return {
+    id,
+    title: value.title,
+    type: value.title, // shows in the badge
+
+    // Perspective fields expected by PlaySection ---------------------------
+    significance: firstInternal.significance,
+    scriptural: firstInternal.significance,
+    mystical: firstInternal.significance,
+    personal: firstInternal.reflection ?? firstInternal.significance,
+  }
+})
