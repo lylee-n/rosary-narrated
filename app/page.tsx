@@ -55,7 +55,7 @@ const rosaryMysteriesDataEn = {
   },
   2: {
     title: "Luminous Mysteries",
-    backgroundImage: "/images/Jesus-baptized.png", // Using local image
+    backgroundImage: "/images/jesus-baptism.png", // Updated to new image
     mysteries: [
       {
         title: "The Baptism of Jesus",
@@ -192,7 +192,7 @@ const mysteryTitlesEn = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
 
 const mysteryImages = [
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mother%20Mary%20and%20Baby%20Jesus.png-0JeNAZJv87hYt6zZ2jUzbD7n6ZW6fX.jpeg", // Joyful
-  "/images/Jesus-baptized.png", // Luminous
+  "/images/jesus-baptism.png", // Luminous - Updated to new image
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7d00b0ed1ef04406aabaa13e949ec1bb.png-c2sbiN5V7oDnFruPBdP5ERcEmaQ5Oe.jpeg", // Sorrowful
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8c9ccf36706f49afae4b2e6148c718d1.png-rL1gIVUCQOFCDgt0iVcMUrcXh4UYiJ.jpeg", // Glorious
 ]
