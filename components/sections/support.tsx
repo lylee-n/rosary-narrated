@@ -23,11 +23,7 @@ export function SupportSection() {
             Become a monthly supporter and help us maintain and improve this spiritual resource for the global
             community.
           </p>
-          <CustomButton
-            variant="yellow"
-            size="lg"
-            onClick={() => window.open("https://stripe.com/monthly-support", "_blank")}
-          >
+          <CustomButton variant="cyan" onClick={() => window.open("https://stripe.com/monthly-support", "_blank")}>
             SUPPORT MONTHLY
           </CustomButton>
         </div>
@@ -38,11 +34,7 @@ export function SupportSection() {
           <p className="text-gray-300 mb-8 font-inter leading-relaxed">
             Make a one-time contribution to support the development and hosting of this Rosary experience.
           </p>
-          <CustomButton
-            variant="yellow"
-            size="lg"
-            onClick={() => window.open("https://stripe.com/one-time-donation", "_blank")}
-          >
+          <CustomButton variant="cyan" onClick={() => window.open("https://stripe.com/one-time-donation", "_blank")}>
             DONATE ONCE
           </CustomButton>
         </div>

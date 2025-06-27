@@ -17,7 +17,7 @@ export function ContactSection() {
     const { name, email, message } = formData
 
     // Create mailto link
-    const mailtoLink = `mailto:your-email@example.com?subject=New Contact Form Submission&body=Name: ${name}%0AEmail: ${email}%0AMessage: ${message}`
+    const mailtoLink = `mailto:rosarynarrated@gmail.com?subject=New Contact Form Submission&body=Name: ${name}%0AEmail: ${email}%0AMessage: ${message}`
 
     // Open email client
     window.location.href = mailtoLink
@@ -105,7 +105,7 @@ export function ContactSection() {
           </div>
 
           <div className="text-center mt-8">
-            <CustomButton type="submit" variant="yellow" size="lg">
+            <CustomButton type="submit" variant="cyan">
               SEND MESSAGE
             </CustomButton>
           </div>

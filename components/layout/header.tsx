@@ -18,7 +18,7 @@ export function Header() {
   ]
 
   return (
-    <header className="w-full flex flex-col items-center space-y-8">
+    <header className="w-full flex flex-col items-center space-y-8 pb-5">
       {/* Language Toggle */}
       <div className="backdrop-blur-sm bg-black/20 rounded-lg px-4 py-2">
         <LanguageToggle />

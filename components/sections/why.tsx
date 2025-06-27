@@ -44,7 +44,7 @@ export function WhySection() {
           ))}
         </div>
         <div className="text-center">
-          <CustomButton onClick={() => setView("PLAY")} size="lg">
+          <CustomButton onClick={() => setView("PLAY")} variant="cyan">
             Pray the Rosary
           </CustomButton>
         </div>

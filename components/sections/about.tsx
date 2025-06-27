@@ -16,7 +16,7 @@ export function AboutSection() {
           Explore the profound mysteries of the Rosary and deepen your spiritual journey. This platform is designed to
           guide you through each decade with rich reflections and insights.
         </p>
-        <CustomButton onClick={() => setView("WHY")} size="lg">
+        <CustomButton onClick={() => setView("WHY")} variant="cyan">
           Why Pray the Rosary
         </CustomButton>
       </section>
