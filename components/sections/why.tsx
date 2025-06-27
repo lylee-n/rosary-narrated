@@ -43,8 +43,8 @@ export function WhySection() {
             </div>
           ))}
         </div>
-        <div className="text-center">
-          <CustomButton onClick={() => setView("PLAY")} size="lg">
+        <div className="text-center mt-20">
+          <CustomButton onClick={() => setView("PLAY")} size="md">
             Pray the Rosary
           </CustomButton>
         </div>

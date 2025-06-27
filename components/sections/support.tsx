@@ -25,7 +25,7 @@ export function SupportSection() {
           </p>
           <CustomButton
             variant="yellow"
-            size="lg"
+            size="md"
             onClick={() => window.open("https://stripe.com/monthly-support", "_blank")}
           >
             SUPPORT MONTHLY
@@ -40,7 +40,7 @@ export function SupportSection() {
           </p>
           <CustomButton
             variant="yellow"
-            size="lg"
+            size="md"
             onClick={() => window.open("https://stripe.com/one-time-donation", "_blank")}
           >
             DONATE ONCE

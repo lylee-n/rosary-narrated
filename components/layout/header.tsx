@@ -37,7 +37,7 @@ export function Header() {
                   currentView === view ? "text-[#FFE552]" : "text-gray-400 hover:text-white"
                 }`}
               >
-                <Icon size={20} />
+                <Icon size={22} />
               </button>
 
               {/* Custom Tooltip */}

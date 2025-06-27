@@ -14,8 +14,21 @@ export function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log("Form submitted:", formData)
+
+    // Create mailto link with form data
+    const subject = encodeURIComponent(`Contact from ${formData.name}`)
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)
+    const mailtoLink = `mailto:rosarynarrated@gmail.com?subject=${subject}&body=${body}`
+
+    // Open email client
+    window.location.href = mailtoLink
+
+    // Reset form
+    setFormData({
+      name: "",
+      email: "",
+      message: "",
+    })
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -92,8 +105,8 @@ export function ContactSection() {
             />
           </div>
 
-          <div className="text-center">
-            <CustomButton type="submit" variant="yellow" size="lg">
+          <div className="text-center mt-8">
+            <CustomButton type="submit" variant="yellow" size="md">
               SEND MESSAGE
             </CustomButton>
           </div>
