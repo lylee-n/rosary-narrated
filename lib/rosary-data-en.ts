@@ -177,3 +177,6 @@ export const cardDataEn = [
 ]
 
 export const mysteryTitlesEn = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
+
+// Alias export for backward-compatibility with legacy imports
+export const rosaryData = rosaryMysteriesDataEn
