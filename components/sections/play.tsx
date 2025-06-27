@@ -11,6 +11,19 @@ import { rosaryData } from "@/lib/rosary-data-en"
 import { audioData } from "@/lib/audio-data"
 import type { RosaryMystery, AudioTrack } from "@/lib/types"
 
+// --- make sure we can always iterate safely -------------------------------
+const rosaryArray = Array.isArray(rosaryData)
+  ? rosaryData
+  : Object.entries(rosaryData).map(([key, value]: any) => ({
+      id: Number(key),
+      title: value.title,
+      type: value.title,
+      significance: value.mysteries?.[0]?.significance ?? "",
+      scriptural: value.mysteries?.[0]?.significance ?? "",
+      mystical: value.mysteries?.[0]?.significance ?? "",
+      personal: value.mysteries?.[0]?.reflection ?? "",
+    }))
+
 interface PlaySectionProps {
   selectedMystery?: RosaryMystery
 }
@@ -130,7 +143,7 @@ export function PlaySection({ selectedMystery }: PlaySectionProps) {
             Select one of the mysteries below to begin your prayer journey.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {rosaryData.map((mystery) => (
+            {rosaryArray.map((mystery) => (
               <Card
                 key={mystery.id}
                 className="bg-black/30 backdrop-blur-sm border border-gray-700/50 hover:border-[#FFE552]/50 transition-all duration-300 cursor-pointer group"
