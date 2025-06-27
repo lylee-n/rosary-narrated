@@ -14,16 +14,16 @@ export function CustomButton({ children, className, size = "md", variant = "defa
       className={cn(
         "inline-flex items-center justify-center gap-3 px-8 py-3 rounded-full border-2 border-[#FFE552] bg-transparent text-[#FFE552] font-medium uppercase tracking-wider transition-all duration-300 hover:bg-[#FFE552] hover:text-black",
         {
-          "px-4 py-2 text-xs gap-2": size === "sm",
-          "px-6 py-2 text-sm gap-2": size === "md",
-          "px-10 py-4 text-lg": size === "lg",
+          "px-6 py-2 text-xs": size === "sm",
+          "px-8 py-3 text-sm": size === "md",
+          "px-10 py-4 text-base": size === "lg",
         },
         className,
       )}
       {...props}
     >
       {children}
-      <ArrowRight size={size === "sm" ? 12 : size === "md" ? 14 : 16} />
+      <ArrowRight size={16} />
     </button>
   )
 }

@@ -235,8 +235,8 @@ export function PlaySection() {
           ))}
         </div>
 
-        <div className="text-center mt-20">
-          <CustomButton onClick={() => setView("SUPPORT")} size="md">
+        <div className="text-center mt-24">
+          <CustomButton onClick={() => setView("SUPPORT")} size="lg">
             Support This Mission
           </CustomButton>
         </div>

@@ -20,7 +20,7 @@ export function WhySection() {
         <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold text-center mb-12 md:mb-20">
           Why Pray the Rosary?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-24">
           {cardDataEn.map((card, index) => (
             <div
               key={index}
@@ -43,8 +43,8 @@ export function WhySection() {
             </div>
           ))}
         </div>
-        <div className="text-center mt-20">
-          <CustomButton onClick={() => setView("PLAY")} size="md">
+        <div className="text-center">
+          <CustomButton onClick={() => setView("PLAY")} size="lg">
             Pray the Rosary
           </CustomButton>
         </div>
