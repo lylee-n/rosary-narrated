@@ -13,14 +13,6 @@
   }
 }
 
-.font-sora {
-  font-family: "Sora", sans-serif;
-}
-
-.font-inter {
-  font-family: "Inter", sans-serif;
-}
-
 /* Custom animations */
 @keyframes accordion-down {
   from {

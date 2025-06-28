@@ -4,9 +4,17 @@ import { Inter, Sora } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AppProvider } from "@/components/app-provider"
+import { cn } from "@/lib/utils"
 
-const inter = Inter({ subsets: ["latin"] })
-const sora = Sora({ subsets: ["latin"] })
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+})
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
+})
 
 export const metadata: Metadata = {
   title: "Rosary Narrated",
@@ -20,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-gray-900`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn("font-sans", inter.variable, sora.variable)}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <AppProvider>{children}</AppProvider>
         </ThemeProvider>
