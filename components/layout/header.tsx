@@ -28,14 +28,14 @@ export function Header() {
       <button
         onClick={() => setView("SUPPORT")}
         className="relative flex items-center justify-center text-black hover:scale-110 transition-all duration-300 group"
-        aria-label="Support Us"
+        aria-label="Donate"
       >
         <Heart
           size={60}
           className="fill-[#FFE552] text-[#FFE552] group-hover:fill-[#FFE552]/90 group-hover:text-[#FFE552]/90 transition-colors duration-200"
         />
         <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-black pointer-events-none">
-          Support Us
+          Donate
         </span>
       </button>
     </div>
