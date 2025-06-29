@@ -34,10 +34,10 @@ export function Header() {
           size={60}
           className="fill-[#FFE552] text-[#FFE552] group-hover:fill-[#FFE552]/90 group-hover:text-[#FFE552]/90 transition-colors duration-200"
         />
-        <span className="absolute top-1/2 -translate-y-[55%] left-0 right-0 flex items-center justify-center text-[10px] font-bold text-black pointer-events-none leading-none">
-          show
+        <span className="absolute top-1/2 -translate-y-[60%] left-0 right-0 flex items-center justify-center text-xs font-bold text-black pointer-events-none leading-none">
+          {"support"}
           <br />
-          love
+          {"us"}
         </span>
       </button>
     </div>
