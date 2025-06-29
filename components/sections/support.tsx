@@ -15,11 +15,11 @@ export function SupportSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
         {/* Monthly Support Card */}
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">Monthly Support</h3>
-          <p className="text-gray-300 mb-8 font-inter leading-relaxed">
+          <p className="text-gray-300 font-inter leading-relaxed flex-grow">
             Become a monthly supporter and help us maintain and improve this spiritual resource for the global
             community.
           </p>
@@ -35,7 +35,7 @@ export function SupportSection() {
         {/* One-Time Donation Card */}
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">One-Time Donation</h3>
-          <p className="text-gray-300 mb-8 font-inter leading-relaxed">
+          <p className="text-gray-300 font-inter leading-relaxed flex-grow">
             Make a one-time contribution to support the development and hosting of this Rosary experience.
           </p>
           <CustomButton
@@ -44,6 +44,22 @@ export function SupportSection() {
             onClick={() => window.open("https://stripe.com/one-time-donation", "_blank")}
           >
             DONATE ONCE
+          </CustomButton>
+        </div>
+
+        {/* Volunteering Card */}
+        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
+          <h3 className="text-white text-2xl font-semibold mb-6 font-sora">Volunteering</h3>
+          <p className="text-gray-300 font-inter leading-relaxed flex-grow">
+            Join our team of dedicated volunteers and contribute your time and talents to help us grow and reach more
+            souls.
+          </p>
+          <CustomButton
+            variant="yellow"
+            size="lg"
+            onClick={() => (window.location.href = "mailto:rosarynarrated@gmail.com")}
+          >
+            VOLUNTEER
           </CustomButton>
         </div>
       </div>
