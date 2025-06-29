@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { createPortal } from "react-dom"
-import { Home, HelpCircle, Play, Heart, Mail } from "lucide-react"
+import { Home, Sparkles, Play, Heart, Mail } from "lucide-react"
 import { LanguageToggle } from "@/components/language-toggle"
 import { useApp } from "@/components/app-provider"
 
@@ -17,7 +17,7 @@ export function Header() {
 
   const navigationItems = [
     { icon: Home, label: "ABOUT", view: "ABOUT" as const },
-    { icon: HelpCircle, label: "WHY", view: "WHY" as const },
+    { icon: Sparkles, label: "WHY", view: "WHY" as const },
     { icon: Play, label: "PRAY", view: "PLAY" as const },
     { icon: Heart, label: "SUPPORT", view: "SUPPORT" as const },
     { icon: Mail, label: "CONTACT", view: "CONTACT" as const },
