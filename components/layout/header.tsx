@@ -27,10 +27,15 @@ export function Header() {
     <div className="fixed bottom-4 right-4 z-[9999]">
       <button
         onClick={() => setView("SUPPORT")}
-        className="flex items-center justify-center w-10 h-10 bg-[#FFE552] text-black rounded-full shadow-lg hover:bg-[#FFE552]/90 transition-all duration-300 group"
-        aria-label="Support"
+        className="relative group transition-all duration-300 hover:scale-105"
+        aria-label="Support Us"
       >
-        <Heart size={16} className="group-hover:scale-110 transition-transform duration-200" />
+        <Heart size={48} className="fill-[#FFE552] text-[#FFE552] drop-shadow-lg" />
+        <span className="absolute inset-0 flex items-center justify-center text-black text-xs font-bold leading-tight px-1 pt-1">
+          Support
+          <br />
+          Us
+        </span>
       </button>
     </div>
   )
