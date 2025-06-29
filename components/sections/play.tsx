@@ -32,7 +32,7 @@ export function PlaySection() {
           The Mysteries of the Rosary
         </h2>
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed text-center mb-12 md:mb-20">
-          We're building something meaningful here – making the Rosary accessible for people across the globe. Your support helps us keep the lights on and reach more people who need this.
+          Learn more about our Savior and Mother Mary through the Rosary Mysteries. Click on a Mysteries set for an audiovisual storytelling experience.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
           {mysteryImages.map((image, index) => (
