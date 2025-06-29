@@ -51,8 +51,7 @@ export function SupportSection() {
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">Volunteering</h3>
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
-            Join our team of dedicated volunteers and contribute your time and talents to help us grow and reach more
-            souls.
+            Want to contribute your time and talents to build something bigger for the church? Get Involved!
           </p>
           <CustomButton
             variant="yellow"
