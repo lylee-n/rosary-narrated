@@ -1,4 +1,4 @@
-export type ViewType = "ABOUT" | "WHY" | "PLAY" | "SUPPORT" | "CONTACT"
+export type ViewType = "ABOUT" | "WHY" | "PLAY" | "SUPPORT" | "COMMUNITY"
 
 export interface NavItem {
   name: ViewType
@@ -10,7 +10,7 @@ export const navItems: NavItem[] = [
   { name: "WHY", label: "WHY" },
   { name: "PLAY", label: "PRAY" },
   { name: "SUPPORT", label: "SUPPORT" },
-  { name: "CONTACT", label: "CONTACT" },
+  { name: "COMMUNITY", label: "COMMUNITY" },
 ]
 
 export type Language = "en" | "vi"

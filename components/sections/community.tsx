@@ -1,11 +1,11 @@
 "use client"
 
 import type React from "react"
-
+import { Users } from "lucide-react" // Importing the Users icon
 import { useState } from "react"
 import { CustomButton } from "@/components/ui/custom-button"
 
-export function ContactSection() {
+export function CommunitySection() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -41,12 +41,19 @@ export function ContactSection() {
     <div className="container mx-auto px-4 py-16">
       <div className="text-center mb-16">
         <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold mb-8">
-          Contact Us
+          Our Community
         </h1>
-        <div className="max-w-2xl mx-auto">
+        <div className="flex items-center justify-center mb-8">
+          <Users className="h-16 w-16 text-[#82FAFA]" />
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-300 font-inter font-light leading-relaxed mb-4">
+            We are actively building a vibrant virtual community space designed to bring the Gospel to life for the
+            digitally savvy generation.
+          </p>
           <p className="text-lg md:text-xl text-gray-300 font-inter font-light leading-relaxed">
-            We'd love to hear from you. Whether you have questions, suggestions, or want to support our mission, please
-            don't hesitate to reach out.
+            Prepare for interactive and gamified experiences that will make learning and living the faith more engaging
+            and relatable than ever before. Stay tuned for updates!
           </p>
         </div>
       </div>
