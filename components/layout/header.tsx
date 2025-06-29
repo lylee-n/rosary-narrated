@@ -35,7 +35,7 @@ export function Header() {
           className="fill-[#FFE552] text-[#FFE552] group-hover:fill-[#FFE552]/90 group-hover:text-[#FFE552]/90 transition-colors duration-200"
         />
         <span className="absolute top-1/2 -translate-y-[70%] left-0 right-0 flex items-center justify-center text-xs font-bold text-black pointer-events-none">
-          contribute
+          support
         </span>
       </button>
     </div>
