@@ -35,7 +35,7 @@ export function SupportSection() {
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">One-Time Donation</h3>
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
-            Make a one-time contribution to support the development and hosting of this Rosary experience.
+            Make a one-time contribution to support the development and hosting of this audiovisual Rosary studies experience.
           </p>
           <CustomButton
             variant="yellow"
