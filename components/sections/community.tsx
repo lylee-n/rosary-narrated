@@ -1,11 +1,12 @@
 "use client"
 
 import type React from "react"
-import { Users } from "lucide-react" // Importing the Users icon
 import { useState } from "react"
 import { CustomButton } from "@/components/ui/custom-button"
+import { useApp } from "@/components/app-provider"
 
 export function CommunitySection() {
+  const { setCurrentView } = useApp()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -43,18 +44,21 @@ export function CommunitySection() {
         <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold mb-8">
           Our Community
         </h1>
-        <div className="flex items-center justify-center mb-8">
-          <Users className="h-16 w-16 text-[#82FAFA]" />
-        </div>
-        <div className="max-w-3xl mx-auto">
-          <p className="text-lg md:text-xl text-gray-300 font-inter font-light leading-relaxed mb-4">
-            We are actively building a vibrant virtual community space designed to bring the Gospel to life for the
-            digitally savvy generation.
+        <div className="max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-300 font-inter font-light leading-relaxed mb-8">
+            We are actively working on building a vibrant virtual community space where individuals can connect, share,
+            and grow together in faith. This will include regular online meetups, interactive discussions, and gamified
+            experiences designed to make the Gospel more relatable and engaging for the digitally savvy generation.
           </p>
           <p className="text-lg md:text-xl text-gray-300 font-inter font-light leading-relaxed">
-            Prepare for interactive and gamified experiences that will make learning and living the faith more engaging
-            and relatable than ever before. Stay tuned for updates!
+            Your support is invaluable in helping us develop and maintain this program for the global community. Every
+            contribution helps us create a more enriching and accessible experience for everyone.
           </p>
+        </div>
+        <div className="text-center mt-12">
+          <CustomButton onClick={() => setCurrentView("SUPPORT")} size="lg">
+            SUPPORT OUR MISSION
+          </CustomButton>
         </div>
       </div>
 

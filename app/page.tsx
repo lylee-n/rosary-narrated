@@ -6,7 +6,7 @@ import { AboutSection } from "@/components/sections/about"
 import { WhySection } from "@/components/sections/why"
 import { PlaySection } from "@/components/sections/play"
 import { SupportSection } from "@/components/sections/support"
-import { CommunitySection } from "@/components/sections/community" // Updated import
+import { CommunitySection } from "@/components/sections/community"
 
 function AppContent() {
   const { currentView } = useApp()
@@ -21,7 +21,7 @@ function AppContent() {
         return <PlaySection />
       case "SUPPORT":
         return <SupportSection />
-      case "COMMUNITY": // Updated case
+      case "COMMUNITY":
         return <CommunitySection />
       default:
         return <AboutSection />

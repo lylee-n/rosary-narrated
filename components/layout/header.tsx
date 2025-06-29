@@ -1,85 +1,104 @@
 "use client"
 
+import Link from "next/link"
+import { cn } from "@/lib/utils"
+import { Github, Twitter, Sun, Moon, Menu, X, Users } from "lucide-react"
+import { useTheme } from "next-themes"
 import { useState, useEffect } from "react"
-import { createPortal } from "react-dom"
-import { Home, Play, Heart, Mail, Compass } from "lucide-react"
-import { LanguageToggle } from "@/components/language-toggle"
-import { useApp } from "@/components/app-provider"
 
-export function Header() {
-  const { setView, currentView } = useApp()
-  const [hoveredIcon, setHoveredIcon] = useState<string | null>(null)
-  const [isMounted, setIsMounted] = useState(false)
+interface HeaderProps {
+  className?: string
+}
+
+const Header = ({ className }: HeaderProps) => {
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
-    setIsMounted(true)
+    setMounted(true)
   }, [])
 
-  const navigationItems = [
-    { icon: Home, label: "ABOUT", view: "ABOUT" as const },
-    { icon: Compass, label: "WHY", view: "WHY" as const },
-    { icon: Play, label: "PRAY", view: "PLAY" as const },
-    { icon: Heart, label: "SUPPORT", view: "SUPPORT" as const },
-    { icon: Mail, label: "CONTACT", view: "CONTACT" as const },
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
+  const navigation = [
+    { name: "ABOUT", href: "/about" },
+    { name: "BLOG", href: "/blog" },
+    { name: "PROJECTS", href: "/projects" },
+    { name: "COMMUNITY", href: "/community" },
+    { name: "CONTACT", href: "/contact" },
   ]
 
-  const supportButtonElement = (
-    <div className="fixed bottom-4 right-4 z-[9999]">
-      <button
-        onClick={() => setView("SUPPORT")}
-        className="relative flex items-center justify-center text-black hover:scale-110 transition-all duration-300 group"
-        aria-label="Donate"
-      >
-        <Heart
-          size={60}
-          className="fill-[#FFE552] text-[#FFE552] group-hover:fill-[#FFE552]/90 group-hover:text-[#FFE552]/90 transition-colors duration-200"
-        />
-        <span className="absolute top-1/2 -translate-y-[60%] left-0 right-0 flex items-center justify-center text-[10px] font-semibold text-black pointer-events-none leading-none font-inter">
-          {"support  "}
-          <br />
-          {"us"}
-        </span>
-      </button>
-    </div>
-  )
-
   return (
-    <>
-      {isMounted && createPortal(supportButtonElement, document.body)}
+    <header
+      className={cn(
+        "sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b",
+        className,
+      )}
+    >
+      <div className="container flex items-center justify-between h-16">
+        <Link href="/" className="font-bold text-2xl">
+          My Website
+        </Link>
+        <div className="hidden md:flex items-center gap-4">
+          {navigation.map((item) => (
+            <Link key={item.name} href={item.href} className="hover:underline">
+              {item.name}
+            </Link>
+          ))}
+          <Link href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <Github className="h-5 w-5" />
+          </Link>
+          <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+            <Twitter className="h-5 w-5" />
+          </Link>
+          {mounted && (
+            <button
+              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              className="p-1 rounded-full hover:bg-secondary"
+            >
+              {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+            </button>
+          )}
+        </div>
+        <button className="md:hidden" onClick={toggleMenu}>
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </div>
 
-      <header className="w-full flex flex-col items-center">
-        <div className="w-full flex justify-end px-8 pt-4">
-          <div className="backdrop-blur-sm rounded-lg px-4 py-2">
-            <LanguageToggle />
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-background border-b">
+          <div className="container py-4 flex flex-col items-center gap-4">
+            {navigation.map((item) => (
+              <Link key={item.name} href={item.href} className="hover:underline">
+                {item.name}
+                {item.name === "COMMUNITY" && <Users className="h-5 w-5" />}
+              </Link>
+            ))}
+            <div className="flex items-center gap-4">
+              <Link href="https://github.com" target="_blank" rel="noopener noreferrer">
+                <Github className="h-5 w-5" />
+              </Link>
+              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                <Twitter className="h-5 w-5" />
+              </Link>
+              {mounted && (
+                <button
+                  onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                  className="p-1 rounded-full hover:bg-secondary"
+                >
+                  {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+                </button>
+              )}
+            </div>
           </div>
         </div>
-
-        <nav className="flex justify-center mt-4">
-          <ul className="flex items-center space-x-10 md:space-x-12">
-            {navigationItems.map(({ icon: Icon, label, view }) => (
-              <li key={view} className="relative">
-                <button
-                  onClick={() => setView(view)}
-                  onMouseEnter={() => setHoveredIcon(view)}
-                  onMouseLeave={() => setHoveredIcon(null)}
-                  className={`flex flex-col items-center space-y-2 transition-colors duration-300 ${
-                    currentView === view ? "text-[#FFE552]" : "text-gray-400 hover:text-white"
-                  }`}
-                >
-                  <Icon size={22} />
-                </button>
-
-                {hoveredIcon === view && (
-                  <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white text-black px-3 py-1 rounded-md text-sm font-medium whitespace-nowrap z-[60] shadow-lg">
-                    {label}
-                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45"></div>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </header>
-    </>
+      )}
+    </header>
   )
 }
+
+export default Header
