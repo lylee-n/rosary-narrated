@@ -10,8 +10,7 @@ export function SupportSection() {
           {"Keep This Going\n"}
         </h1>
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed">
-          Help us continue spreading the beauty and power of the Rosary to souls around the world. Your support makes
-          this spiritual journey possible for everyone.
+          We're building something meaningful here – a space where the Rosary connects people across the globe. Your support helps us keep the lights on and reach more people who need this.
         </p>
       </div>
 
