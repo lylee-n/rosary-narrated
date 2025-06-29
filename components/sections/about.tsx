@@ -13,8 +13,8 @@ export function AboutSection() {
           Welcome to Rosary Narrated
         </h1>
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed mb-20">
-          Explore the profound mysteries of the Rosary and deepen your spiritual journey. This platform is designed to
-          guide you through each decade with rich reflections and insights.
+          Explore the mysteries of the Rosary and deepen your spiritual journey. This platform is designed to guide you
+          through each decade with rich reflections and insights.
         </p>
         <CustomButton onClick={() => setView("WHY")} size="lg">
           Why Pray the Rosary
