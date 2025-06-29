@@ -11,7 +11,7 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   return (
-    <div className="min-h-screen text-white">
+    <div className="backdrop-blur-sm rounded-lg px-4 py-2 bg-transparent">
       {/* Background Image - covers the entire viewport */}
       <div className="fixed inset-0 z-0">
         <Image src="/images/background.gif" alt="Background" fill className="object-cover" priority />

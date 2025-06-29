@@ -47,7 +47,7 @@ export function Header() {
 
       <header className="w-full flex flex-col items-center">
         <div className="w-full flex justify-start px-8 pt-4">
-          <div className="backdrop-blur-sm bg-black/20 rounded-lg px-4 py-2">
+          <div className="backdrop-blur-sm rounded-lg px-4 py-2">
             <LanguageToggle />
           </div>
         </div>
