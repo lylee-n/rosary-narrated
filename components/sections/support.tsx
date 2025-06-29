@@ -7,7 +7,7 @@ export function SupportSection() {
     <div className="container mx-auto px-4 py-16">
       <div className="text-center mb-16">
         <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-semibold mb-8">
-          Support Our Mission
+          {"Keep This Going\n"}
         </h1>
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed">
           Help us continue spreading the beauty and power of the Rosary to souls around the world. Your support makes
