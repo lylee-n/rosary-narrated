@@ -5,7 +5,6 @@ import { createPortal } from "react-dom"
 import { Home, HelpCircle, Play, Heart, Mail } from "lucide-react"
 import { LanguageToggle } from "@/components/language-toggle"
 import { useApp } from "@/components/app-provider"
-import { CustomButton } from "@/components/ui/custom-button"
 
 export function Header() {
   const { setView, currentView } = useApp()
@@ -25,10 +24,14 @@ export function Header() {
   ]
 
   const supportButtonElement = (
-    <div className="fixed top-4 right-4 z-[9999]">
-      <CustomButton variant="yellow" size="sm" onClick={() => setView("SUPPORT")} showArrow={false}>
-        Support
-      </CustomButton>
+    <div className="fixed bottom-4 right-4 z-[9999]">
+      <button
+        onClick={() => setView("SUPPORT")}
+        className="flex items-center justify-center w-10 h-10 bg-[#FFE552] text-black rounded-full shadow-lg hover:bg-[#FFE552]/90 transition-all duration-300 group"
+        aria-label="Support"
+      >
+        <Heart size={16} className="group-hover:scale-110 transition-transform duration-200" />
+      </button>
     </div>
   )
 
