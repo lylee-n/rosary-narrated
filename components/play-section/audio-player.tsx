@@ -90,34 +90,37 @@ export function AudioPlayer({
         </div>
       </div>
 
-      <div className="flex justify-center items-center gap-3 lg:gap-4">
-        <button
-          onClick={() => handleRewind(10)}
-          className="text-[#82FAFA] hover:text-white transition-colors duration-200"
-          aria-label="Rewind 10 seconds"
-        >
-          <Rewind size={20} />
-        </button>
-        <button
-          onClick={togglePlayPause}
-          className="text-[#82FAFA] hover:text-white transition-colors duration-200"
-          aria-label={audioPlayerRef.current?.paused ? "Play" : "Pause"}
-        >
-          {audioPlayerRef.current && !audioPlayerRef.current.paused ? (
-            <PauseCircle size={24} />
-          ) : (
-            <PlayCircle size={24} />
-          )}
-        </button>
-        <button
-          onClick={() => handleFastForward(10)}
-          className="text-[#82FAFA] hover:text-white transition-colors duration-200"
-          aria-label="Fast forward 10 seconds"
-        >
-          <FastForward size={20} />
-        </button>
+      <div className="flex justify-between items-center">
+        {/* Center-aligned audio controls */}
+        <div className="flex-1 flex justify-center items-center gap-3 lg:gap-4">
+          <button
+            onClick={() => handleRewind(10)}
+            className="text-[#82FAFA] hover:text-white transition-colors duration-200"
+            aria-label="Rewind 10 seconds"
+          >
+            <Rewind size={20} />
+          </button>
+          <button
+            onClick={togglePlayPause}
+            className="text-[#82FAFA] hover:text-white transition-colors duration-200"
+            aria-label={audioPlayerRef.current?.paused ? "Play" : "Pause"}
+          >
+            {audioPlayerRef.current && !audioPlayerRef.current.paused ? (
+              <PauseCircle size={24} />
+            ) : (
+              <PlayCircle size={24} />
+            )}
+          </button>
+          <button
+            onClick={() => handleFastForward(10)}
+            className="text-[#82FAFA] hover:text-white transition-colors duration-200"
+            aria-label="Fast forward 10 seconds"
+          >
+            <FastForward size={20} />
+          </button>
+        </div>
 
-        {/* Speed Control */}
+        {/* Right-aligned speed control */}
         <div className="relative">
           <button
             onClick={() => setShowSpeedControl(!showSpeedControl)}
