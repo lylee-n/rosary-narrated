@@ -62,9 +62,7 @@ export function Header() {
                   onClick={() => setView(view)}
                   onMouseEnter={() => setHoveredIcon(view)}
                   onMouseLeave={() => setHoveredIcon(null)}
-                  className={`flex flex-col items-center space-y-2 transition-colors duration-300 ${
-                    currentView === view ? "text-[#FFE552]" : "text-gray-400 hover:text-white"
-                  }`}
+                  className={`flex flex-col items-center space-y-2 transition-colors duration-300 ${currentView === view ? "text-[#FFE552]" : "text-gray-400 hover:text-white"}`}
                 >
                   <Icon size={22} />
                 </button>

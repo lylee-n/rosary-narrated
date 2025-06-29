@@ -8,7 +8,7 @@ export interface NavItem {
 export const navItems: NavItem[] = [
   { name: "ABOUT", label: "ABOUT" },
   { name: "WHY", label: "WHY" },
-  { name: "PLAY", label: "PRAY" },
+  { name: "PLAY", label: "PLAY" },
   { name: "COMMUNITY", label: "COMMUNITY" },
   { name: "SUPPORT", label: "SUPPORT" },
 ]

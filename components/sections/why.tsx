@@ -35,9 +35,7 @@ export function WhySection() {
               </p>
               <div className="flex-shrink-0 mt-auto pt-4">
                 <Plus
-                  className={`w-5 h-5 text-[#326161] group-hover:text-[#82FAFA] transition-all duration-300 group-hover:scale-110 ${
-                    expandedCard === index ? "rotate-45 text-[#82FAFA]" : ""
-                  }`}
+                  className={`w-5 h-5 text-[#326161] group-hover:text-[#82FAFA] transition-all duration-300 group-hover:scale-110 ${expandedCard === index ? "rotate-45 text-[#82FAFA]" : ""}`}
                 />
               </div>
             </div>

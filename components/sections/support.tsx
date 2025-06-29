@@ -52,7 +52,7 @@ export function SupportSection() {
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">Volunteering</h3>
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
-            Want to join us in build something bigger with your skills and time? Get Involved!
+            Want to join us in building something bigger with your skills and time? Get Involved!
           </p>
           <CustomButton
             variant="yellow"

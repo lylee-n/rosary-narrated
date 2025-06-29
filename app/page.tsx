@@ -1,22 +1,40 @@
 "use client"
 
-import { useApp } from "@/components/app-provider"
+import { AppProvider, useApp } from "@/components/app-provider"
+import { AppLayout } from "@/components/layout/app-layout"
 import { AboutSection } from "@/components/sections/about"
 import { WhySection } from "@/components/sections/why"
 import { PlaySection } from "@/components/sections/play"
 import { SupportSection } from "@/components/sections/support"
 import { CommunitySection } from "@/components/sections/community"
 
-export default function Home() {
+function AppContent() {
   const { currentView } = useApp()
 
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case "ABOUT":
+        return <AboutSection />
+      case "WHY":
+        return <WhySection />
+      case "PLAY":
+        return <PlaySection />
+      case "COMMUNITY":
+        return <CommunitySection />
+      case "SUPPORT":
+        return <SupportSection />
+      default:
+        return <AboutSection />
+    }
+  }
+
+  return <AppLayout>{renderCurrentView()}</AppLayout>
+}
+
+export default function Home() {
   return (
-    <main className="flex-grow">
-      {currentView === "ABOUT" && <AboutSection />}
-      {currentView === "WHY" && <WhySection />}
-      {currentView === "PLAY" && <PlaySection />}
-      {currentView === "COMMUNITY" && <CommunitySection />}
-      {currentView === "SUPPORT" && <SupportSection />}
-    </main>
+    <AppProvider>
+      <AppContent />
+    </AppProvider>
   )
 }
