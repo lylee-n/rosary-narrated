@@ -20,7 +20,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       {/* Main container for content, centered and with max-width */}
       <div className="relative z-10 min-h-screen flex flex-col max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <header className="w-full py-0">
+        <header className="w-full py-2">
           <Header />
         </header>
         <div className="border-t border-gray-600/30"></div>
