@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useState } from "react"
 import { PlayCircle, PauseCircle, Rewind, FastForward } from "lucide-react"
 
 interface AudioPlayerProps {
@@ -26,6 +27,8 @@ export function AudioPlayer({
   playbackSpeed,
   setPlaybackSpeed,
 }: AudioPlayerProps) {
+  const [showSpeedControl, setShowSpeedControl] = useState(false)
+
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!audioPlayerRef.current || !duration) return
 
@@ -70,6 +73,8 @@ export function AudioPlayer({
     }
   }
 
+  const speedOptions = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
+
   return (
     <div className="mt-4 lg:mt-6 space-y-3 lg:space-y-4 p-3 lg:p-4 bg-black/40 rounded-lg">
       <div className="space-y-2">
@@ -84,25 +89,8 @@ export function AudioPlayer({
           />
         </div>
       </div>
-      <div className="space-y-2">
-        <label className="text-xs lg:text-sm text-[#82FAFA] font-inter">Speed: {playbackSpeed}x</label>
-        <input
-          type="range"
-          min="0.5"
-          max="2"
-          step="0.25"
-          value={playbackSpeed}
-          onChange={(e) => handleSpeedChange(Number.parseFloat(e.target.value))}
-          className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer slider"
-        />
-        <div className="flex justify-between text-xs text-gray-400">
-          <span>0.5x</span>
-          <span>1x</span>
-          <span>1.5x</span>
-          <span>2x</span>
-        </div>
-      </div>
-      <div className="flex justify-center gap-3 lg:gap-4">
+
+      <div className="flex justify-center items-center gap-3 lg:gap-4">
         <button
           onClick={() => handleRewind(10)}
           className="text-[#82FAFA] hover:text-white transition-colors duration-200"
@@ -128,6 +116,37 @@ export function AudioPlayer({
         >
           <FastForward size={20} />
         </button>
+
+        {/* Speed Control */}
+        <div className="relative">
+          <button
+            onClick={() => setShowSpeedControl(!showSpeedControl)}
+            className="text-[#82FAFA] hover:text-white transition-colors duration-200 text-xs lg:text-sm font-inter"
+          >
+            Speed: {playbackSpeed}x
+          </button>
+
+          {showSpeedControl && (
+            <div className="absolute bottom-full right-0 mb-2 bg-black/80 backdrop-blur-sm rounded-lg p-2 border border-gray-600">
+              <div className="flex flex-col gap-1">
+                {speedOptions.map((speed) => (
+                  <button
+                    key={speed}
+                    onClick={() => {
+                      handleSpeedChange(speed)
+                      setShowSpeedControl(false)
+                    }}
+                    className={`px-3 py-1 text-xs rounded transition-colors duration-200 ${
+                      playbackSpeed === speed ? "bg-[#82FAFA] text-black" : "text-[#82FAFA] hover:bg-[#82FAFA]/20"
+                    }`}
+                  >
+                    {speed}x
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
