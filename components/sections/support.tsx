@@ -19,8 +19,7 @@ export function SupportSection() {
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">Monthly Support</h3>
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
-            Become a monthly supporter and help us maintain and improve this spiritual resource for the global
-            community.
+            Become a monthly supporter and help us develop more maintain this audiovisual narration program for the global community.
           </p>
           <CustomButton
             variant="yellow"
