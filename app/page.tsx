@@ -15,8 +15,8 @@ export default function Home() {
       {currentView === "ABOUT" && <AboutSection />}
       {currentView === "WHY" && <WhySection />}
       {currentView === "PLAY" && <PlaySection />}
-      {currentView === "SUPPORT" && <SupportSection />}
       {currentView === "COMMUNITY" && <CommunitySection />}
+      {currentView === "SUPPORT" && <SupportSection />}
     </main>
   )
 }

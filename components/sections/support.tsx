@@ -64,6 +64,7 @@ export function SupportSection() {
           </CustomButton>
         </div>
       </div>
+
       <div className="text-center mt-16">
         <p className="text-gray-400 font-inter">
           Have an awesome idea or feedback? Drop us an email at{" "}
