@@ -20,7 +20,7 @@ export function CustomButton({
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-3 px-8 py-3 rounded-full border-2 font-medium uppercase tracking-wider transition-all duration-300",
+        "inline-flex items-center justify-center gap-3 px-8 py-3 rounded-full border-2 font-medium uppercase tracking-normal transition-all duration-300",
         {
           "border-[#82FAFA] bg-transparent text-[#82FAFA] hover:bg-[#82FAFA] hover:text-black": variant === "default",
           "border-[#FFE552] bg-transparent text-[#FFE552] hover:bg-[#FFE552] hover:text-black": variant === "yellow",
