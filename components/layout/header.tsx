@@ -48,7 +48,7 @@ export function Header() {
       {isMounted && createPortal(supportButtonElement, document.body)}
 
       <header className="w-full flex flex-col items-center">
-        <div className="w-full flex justify-start px-8 pt-4">
+        <div className="w-full flex justify-center px-8 pt-4">
           <div className="backdrop-blur-sm rounded-lg px-4 py-2">
             <LanguageToggle />
           </div>
