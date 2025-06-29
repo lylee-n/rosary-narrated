@@ -1,10 +1,10 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useApp } from "@/components/app-provider"
 
 export function LanguageToggle() {
-  const [language, setLanguage] = useState("en")
+  const { language, setLanguage } = useApp()
 
   return (
     <div className="flex items-center space-x-1 bg-black/20 backdrop-blur-sm rounded-full p-1">
@@ -27,8 +27,6 @@ export function LanguageToggle() {
             ? "bg-[#FFE552] text-gray-900 font-semibold shadow-lg"
             : "bg-transparent text-white hover:bg-gray-700/70",
         )}
-        // This is now just a placeholder
-        // disabled
       >
         Tiếng Việt
       </button>

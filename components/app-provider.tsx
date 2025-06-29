@@ -1,9 +1,9 @@
 "use client"
 
 import type React from "react"
-
 import { createContext, useContext, useState, type Dispatch, type SetStateAction } from "react"
-import type { Section } from "@/lib/types"
+
+type Section = "ABOUT" | "WHY" | "PLAY" | "COMMUNITY" | "SUPPORT"
 
 interface AppContextType {
   language: "en" | "vi"
@@ -16,7 +16,7 @@ const AppContext = createContext<AppContextType | null>(null)
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<"en" | "vi">("en")
-  const [currentView, setCurrentView] = useState<Section>("PLAY")
+  const [currentView, setCurrentView] = useState<Section>("ABOUT")
 
   const setView = (view: Section) => {
     setCurrentView(view)

@@ -4,6 +4,7 @@ import type React from "react"
 import Image from "next/image"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
+import { FloatingSupportButton } from "@/components/ui/floating-support-button"
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -34,6 +35,9 @@ export function AppLayout({ children }: AppLayoutProps) {
           <Footer />
         </footer>
       </div>
+
+      {/* Floating Support Button */}
+      <FloatingSupportButton />
     </div>
   )
 }
