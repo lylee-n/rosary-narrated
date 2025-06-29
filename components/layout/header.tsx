@@ -31,7 +31,7 @@ export function Header() {
         aria-label="Donate"
       >
         <Heart
-          size={80}
+          size={60}
           className="fill-[#FFE552] text-[#FFE552] group-hover:fill-[#FFE552]/90 group-hover:text-[#FFE552]/90 transition-colors duration-200"
         />
         <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-black pointer-events-none">
