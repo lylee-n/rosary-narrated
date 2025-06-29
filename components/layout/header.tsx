@@ -19,8 +19,8 @@ export function Header() {
     { icon: Home, label: "ABOUT", view: "ABOUT" as const },
     { icon: Compass, label: "WHY", view: "WHY" as const },
     { icon: Play, label: "PRAY", view: "PLAY" as const },
-    { icon: Heart, label: "SUPPORT", view: "SUPPORT" as const },
     { icon: Users, label: "COMMUNITY", view: "COMMUNITY" as const },
+    { icon: Heart, label: "SUPPORT", view: "SUPPORT" as const },
   ]
 
   const supportButtonElement = (

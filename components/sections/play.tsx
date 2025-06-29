@@ -32,7 +32,8 @@ export function PlaySection() {
           The Mysteries of the Rosary
         </h2>
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed text-center mb-12 md:mb-20">
-          Learn more about our Savior and Mother Mary through the Rosary Mysteries. Click on a Mysteries set for an audiovisual storytelling experience.
+          Each Mystery tells a story. Experience them through audio and visuals designed to help you connect. Choose a
+          set to get started.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
           {mysteryImages.map((image, index) => (
@@ -58,8 +59,8 @@ export function PlaySection() {
         </div>
 
         <div className="text-center mt-24">
-          <CustomButton onClick={() => setView("SUPPORT")} size="lg" variant="yellow">
-            Support This Mission
+          <CustomButton onClick={() => setView("COMMUNITY")} size="lg" variant="yellow">
+            Community
           </CustomButton>
         </div>
       </section>
