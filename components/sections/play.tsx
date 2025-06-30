@@ -1,4 +1,4 @@
-import type React from "react"
+"use client"
 
 interface DailyScheduleItem {
   day: string
@@ -22,7 +22,7 @@ const isToday = (index: number): boolean => {
   return adjustedIndex === today
 }
 
-const PlaySection: React.FC = () => {
+export function PlaySection() {
   return (
     <section id="play" className="py-20 bg-black">
       <div className="container mx-auto px-4">
@@ -70,5 +70,3 @@ const PlaySection: React.FC = () => {
     </section>
   )
 }
-
-export default PlaySection
