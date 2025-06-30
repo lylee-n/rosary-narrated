@@ -1,59 +1,56 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useRef, useCallback, useEffect } from "react"
 import { audioData } from "@/lib/audio-data"
-import type { NowPlaying, MysterySetKey, PerspectiveType } from "@/types"
+import type { MysterySetKey, PerspectiveType, NowPlaying } from "@/types"
 
-export function useAudioPlayer() {
+interface UseAudioPlayerReturn {
+  nowPlaying: NowPlaying | null
+  isPlaying: boolean
+  currentTime: number
+  duration: number
+  playbackSpeed: number
+  isLoading: boolean
+  error: string | null
+  audioRef: React.RefObject<HTMLAudioElement>
+  play: (mysterySetKey: MysterySetKey, mysteryIndex: number, perspective: PerspectiveType) => void
+  pause: () => void
+  seek: (time: number) => void
+  seekBy: (seconds: number) => void
+  setPlaybackSpeed: (speed: number) => void
+  cleanup: () => void
+  clearError: () => void
+}
+
+export function useAudioPlayer(): UseAudioPlayerReturn {
   const [nowPlaying, setNowPlaying] = useState<NowPlaying | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
-  const [playbackSpeed, setPlaybackSpeed] = useState(1)
+  const [playbackSpeed, setPlaybackSpeedState] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  // Update current time
-  useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return
+  const clearError = useCallback(() => {
+    setError(null)
+  }, [])
 
-    const updateTime = () => setCurrentTime(audio.currentTime)
-    const updateDuration = () => setDuration(audio.duration)
-    const handleLoadStart = () => setIsLoading(true)
-    const handleCanPlay = () => setIsLoading(false)
-    const handleError = () => {
-      setError("Failed to load audio")
-      setIsLoading(false)
-      setIsPlaying(false)
-    }
-    const handleEnded = () => setIsPlaying(false)
-
-    audio.addEventListener("timeupdate", updateTime)
-    audio.addEventListener("loadedmetadata", updateDuration)
-    audio.addEventListener("loadstart", handleLoadStart)
-    audio.addEventListener("canplay", handleCanPlay)
-    audio.addEventListener("error", handleError)
-    audio.addEventListener("ended", handleEnded)
-
-    return () => {
-      audio.removeEventListener("timeupdate", updateTime)
-      audio.removeEventListener("loadedmetadata", updateDuration)
-      audio.removeEventListener("loadstart", handleLoadStart)
-      audio.removeEventListener("canplay", handleCanPlay)
-      audio.removeEventListener("error", handleError)
-      audio.removeEventListener("ended", handleEnded)
-    }
-  }, [nowPlaying])
-
-  // Update playback speed
-  useEffect(() => {
+  const cleanup = useCallback(() => {
     if (audioRef.current) {
-      audioRef.current.playbackRate = playbackSpeed
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
     }
-  }, [playbackSpeed])
+    setNowPlaying(null)
+    setIsPlaying(false)
+    setCurrentTime(0)
+    setDuration(0)
+    setIsLoading(false)
+    setError(null)
+  }, [])
 
   const play = useCallback(
     (mysterySetKey: MysterySetKey, mysteryIndex: number, perspective: PerspectiveType) => {
@@ -64,98 +61,133 @@ export function useAudioPlayer() {
         return
       }
 
-      const audio = audioRef.current
-      if (!audio) return
+      if (!audioRef.current) {
+        setError("Audio player not initialized")
+        return
+      }
 
       setError(null)
       setIsLoading(true)
 
-      // If same track, just resume
-      if (nowPlaying?.src === audioUrl) {
-        audio
-          .play()
-          .then(() => {
-            setIsPlaying(true)
-            setIsLoading(false)
-          })
-          .catch(() => {
-            setError("Failed to play audio")
-            setIsLoading(false)
-          })
-        return
-      }
-
-      // Load new track
-      const newTrack: NowPlaying = {
+      const newNowPlaying: NowPlaying = {
         src: audioUrl,
         mysterySetKey,
         mysteryIndex,
         perspective,
       }
 
-      setNowPlaying(newTrack)
-      audio.src = audioUrl
-      audio.load()
-
-      audio.addEventListener("canplaythrough", function onCanPlay() {
-        audio.removeEventListener("canplaythrough", onCanPlay)
-        audio
-          .play()
-          .then(() => {
-            setIsPlaying(true)
-            setIsLoading(false)
-          })
-          .catch(() => {
+      // If same audio is already loaded, just play/pause
+      if (nowPlaying?.src === audioUrl) {
+        if (audioRef.current.paused) {
+          audioRef.current.play().catch((err) => {
             setError("Failed to play audio")
             setIsLoading(false)
           })
-      })
+        } else {
+          audioRef.current.pause()
+        }
+        return
+      }
+
+      // Load new audio
+      setNowPlaying(newNowPlaying)
+      audioRef.current.src = audioUrl
+      audioRef.current.load()
     },
     [nowPlaying],
   )
 
   const pause = useCallback(() => {
-    const audio = audioRef.current
-    if (audio) {
-      audio.pause()
-      setIsPlaying(false)
+    if (audioRef.current) {
+      audioRef.current.pause()
     }
   }, [])
 
   const seek = useCallback((time: number) => {
-    const audio = audioRef.current
-    if (audio) {
-      audio.currentTime = time
+    if (audioRef.current) {
+      audioRef.current.currentTime = time
       setCurrentTime(time)
     }
   }, [])
 
-  const seekBy = useCallback((seconds: number) => {
-    const audio = audioRef.current
-    if (audio) {
-      const newTime = Math.max(0, Math.min(audio.duration, audio.currentTime + seconds))
-      audio.currentTime = newTime
-      setCurrentTime(newTime)
+  const seekBy = useCallback(
+    (seconds: number) => {
+      if (audioRef.current) {
+        const newTime = Math.max(0, Math.min(duration, currentTime + seconds))
+        audioRef.current.currentTime = newTime
+        setCurrentTime(newTime)
+      }
+    },
+    [currentTime, duration],
+  )
+
+  const setPlaybackSpeed = useCallback((speed: number) => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = speed
+      setPlaybackSpeedState(speed)
     }
   }, [])
 
-  const cleanup = useCallback(() => {
+  // Audio event listeners
+  useEffect(() => {
     const audio = audioRef.current
-    if (audio) {
-      audio.pause()
-      audio.src = ""
-    }
-    setNowPlaying(null)
-    setIsPlaying(false)
-    setCurrentTime(0)
-    setDuration(0)
-    setError(null)
-    setIsLoading(false)
-  }, [])
+    if (!audio) return
 
-  const clearError = useCallback(() => {
-    setError(null)
-  }, [])
+    const handleLoadedData = () => {
+      setDuration(audio.duration)
+      setIsLoading(false)
+      audio.play().catch((err) => {
+        setError("Failed to play audio")
+        setIsLoading(false)
+      })
+    }
+
+    const handlePlay = () => {
+      setIsPlaying(true)
+      setIsLoading(false)
+    }
+
+    const handlePause = () => {
+      setIsPlaying(false)
+    }
+
+    const handleTimeUpdate = () => {
+      setCurrentTime(audio.currentTime)
+    }
+
+    const handleEnded = () => {
+      setIsPlaying(false)
+      setCurrentTime(0)
+    }
+
+    const handleError = () => {
+      setError("Failed to load audio")
+      setIsLoading(false)
+      setIsPlaying(false)
+    }
+
+    const handleLoadStart = () => {
+      setIsLoading(true)
+    }
+
+    audio.addEventListener("loadeddata", handleLoadedData)
+    audio.addEventListener("play", handlePlay)
+    audio.addEventListener("pause", handlePause)
+    audio.addEventListener("timeupdate", handleTimeUpdate)
+    audio.addEventListener("ended", handleEnded)
+    audio.addEventListener("error", handleError)
+    audio.addEventListener("loadstart", handleLoadStart)
+
+    return () => {
+      audio.removeEventListener("loadeddata", handleLoadedData)
+      audio.removeEventListener("play", handlePlay)
+      audio.removeEventListener("pause", handlePause)
+      audio.removeEventListener("timeupdate", handleTimeUpdate)
+      audio.removeEventListener("ended", handleEnded)
+      audio.removeEventListener("error", handleError)
+      audio.removeEventListener("loadstart", handleLoadStart)
+    }
+  }, [nowPlaying])
 
   return {
     nowPlaying,

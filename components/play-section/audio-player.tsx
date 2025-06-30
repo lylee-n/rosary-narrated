@@ -82,7 +82,7 @@ export function AudioPlayer({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onSeekBy(-10)}
+            onClick={() => onSeekBy(-15)}
             disabled={!duration || isLoading}
             className="text-white hover:text-[#82FAFA] hover:bg-white/10"
           >
@@ -110,7 +110,7 @@ export function AudioPlayer({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onSeekBy(10)}
+            onClick={() => onSeekBy(15)}
             disabled={!duration || isLoading}
             className="text-white hover:text-[#82FAFA] hover:bg-white/10"
           >
