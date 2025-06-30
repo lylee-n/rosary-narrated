@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 
 const MOBILE_BREAKPOINT = 768
@@ -16,4 +18,9 @@ export function useIsMobile() {
   }, [])
 
   return !!isMobile
+}
+
+// Alias for backward-compatibility ─ returns the same boolean value
+export function useMobile() {
+  return useIsMobile()
 }
