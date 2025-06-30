@@ -29,13 +29,13 @@ export function PlaySection() {
   }
 
   const dailyMysteries = [
-    { day: "Monday", mystery: "Joyful Mysteries", index: 0 },
-    { day: "Tuesday", mystery: "Sorrowful Mysteries", index: 2 },
-    { day: "Wednesday", mystery: "Glorious Mysteries", index: 3 },
-    { day: "Thursday", mystery: "Luminous Mysteries", index: 1 },
-    { day: "Friday", mystery: "Sorrowful Mysteries", index: 2 },
-    { day: "Saturday", mystery: "Joyful Mysteries", index: 0 },
-    { day: "Sunday", mystery: "Glorious Mysteries", index: 3 },
+    { day: "Monday", mystery: "Joyful", index: 0 },
+    { day: "Tuesday", mystery: "Sorrowful", index: 2 },
+    { day: "Wednesday", mystery: "Glorious", index: 3 },
+    { day: "Thursday", mystery: "Luminous", index: 1 },
+    { day: "Friday", mystery: "Sorrowful", index: 2 },
+    { day: "Saturday", mystery: "Joyful", index: 0 },
+    { day: "Sunday", mystery: "Glorious", index: 3 },
   ]
 
   const currentDay = getCurrentDay()
@@ -55,13 +55,35 @@ export function PlaySection() {
               As a general rule:
             </p>
             <div className="grid grid-cols-7 gap-2 md:gap-4 text-gray-300 text-sm md:text-base">
+              {/* First row: Days of the week */}
               {dailyMysteries.map((item, index) => {
                 const isToday = item.day === currentDay
                 return (
-                  <div key={index} className="flex flex-col items-center">
-                    <p className={`font-bold mb-2 ${isToday ? "text-[#FFE552]" : "text-white"}`}>{item.day}</p>
-                    <p className={`text-center leading-tight ${isToday ? "text-[#FFE552]" : "text-gray-300"}`}>
+                  <div key={`day-${index}`} className="flex flex-col items-center">
+                    <p className={`font-bold mb-1 ${isToday ? "text-[#FFE552]" : "text-white"}`}>{item.day}</p>
+                  </div>
+                )
+              })}
+
+              {/* Second row: Mystery types */}
+              {dailyMysteries.map((item, index) => {
+                const isToday = item.day === currentDay
+                return (
+                  <div key={`mystery-${index}`} className="flex flex-col items-center">
+                    <p className={`text-center leading-tight mb-1 ${isToday ? "text-[#FFE552]" : "text-gray-300"}`}>
                       {item.mystery}
+                    </p>
+                  </div>
+                )
+              })}
+
+              {/* Third row: "Mysteries" text */}
+              {dailyMysteries.map((item, index) => {
+                const isToday = item.day === currentDay
+                return (
+                  <div key={`mysteries-text-${index}`} className="flex flex-col items-center">
+                    <p className={`text-center leading-tight ${isToday ? "text-[#FFE552]" : "text-gray-300"}`}>
+                      Mysteries
                     </p>
                   </div>
                 )
