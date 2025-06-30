@@ -1,50 +1,103 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useMemo } from "react"
+import { useAudioPlayer } from "@/hooks/use-audio-player"
 
-import useMysterySetIndex from "@/hooks/use-mystery-set-index"
-import useSound from "use-sound"
-import { getMysterySetKey } from "@/lib/utils/mystery-utils"
+/**
+ * Keys used to look-up a mystery set by index (0-based)
+ * 0 → joyful, 1 → luminous, 2 → sorrowful, 3 → glorious
+ */
+const MYSTERY_SET_KEYS = ["joyful", "luminous", "sorrowful", "glorious"] as const
 
-interface usePlayModalProps {
-  onOpen: () => void
-  onClose: () => void
-}
+/**
+ * Hook used by <PlayModal/> to encapsulate all UI / audio logic.
+ * It returns the exact shape consumed by the modal component.
+ */
+export function usePlayModal(selectedMysterySetIndex: number) {
+  /* ───────────────────────────── State ───────────────────────────── */
+  const [expandedMysteryItem, setExpandedMysteryItem] = useState<number | null>(null)
 
-const usePlayModal = ({ onOpen, onClose }: usePlayModalProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const { selectedMysterySetIndex } = useMysterySetIndex()
+  /* ──────────────────────── Audio management ─────────────────────── */
+  const {
+    nowPlaying,
+    isPlaying,
+    currentTime,
+    duration,
+    playbackSpeed,
+    isLoading,
+    error,
+    audioRef,
+    play,
+    pause,
+    seek,
+    seekBy,
+    setPlaybackSpeed,
+    cleanup,
+    clearError,
+  } = useAudioPlayer()
 
-  const onOpenPlayModal = useCallback(() => {
-    setIsOpen(true)
-    onOpen()
-  }, [onOpen])
+  /* ───────────────────────── Helper refs ─────────────────────────── */
+  const currentMysterySetKey = useMemo(
+    () => MYSTERY_SET_KEYS[selectedMysterySetIndex] ?? "joyful",
+    [selectedMysterySetIndex],
+  )
 
-  const onClosePlayModal = useCallback(() => {
-    setIsOpen(false)
-    onClose()
-  }, [onClose])
+  /* ────────────────────── UI interaction logic ───────────────────── */
+  const toggleMysteryItem = useCallback(
+    (index: number) => {
+      const isOpeningNewItem = expandedMysteryItem !== index
+      setExpandedMysteryItem((prev) => (prev === index ? null : index))
 
-  const [play, { stop }] = useSound("", {
-    interrupt: true,
-    volume: 0.5,
-  })
+      // stop current audio when switching items / collapsing the same one
+      if (nowPlaying && nowPlaying.mysteryIndex !== index && isOpeningNewItem) {
+        cleanup()
+      } else if (expandedMysteryItem === index && nowPlaying && nowPlaying.mysteryIndex === index) {
+        cleanup()
+      }
+    },
+    [expandedMysteryItem, nowPlaying, cleanup],
+  )
 
   const playAudio = useCallback(
     (mysteryItemIndex: number, perspective: 3 | 7 | 12) => {
-      const mysterySetKey = getMysterySetKey(selectedMysterySetIndex)
-      play(mysterySetKey, mysteryItemIndex, perspective)
+      play(currentMysterySetKey, mysteryItemIndex, perspective)
     },
-    [selectedMysterySetIndex, play],
+    [currentMysterySetKey, play],
   )
 
+  const handlePlayPause = useCallback(() => {
+    if (isPlaying) {
+      pause()
+    } else if (nowPlaying) {
+      play(nowPlaying.mysterySetKey, nowPlaying.mysteryIndex, nowPlaying.perspective)
+    }
+  }, [isPlaying, pause, nowPlaying, play])
+
+  const handleClose = useCallback(() => {
+    cleanup()
+  }, [cleanup])
+
+  /* ───────────────────────────── Return ──────────────────────────── */
   return {
-    isOpen,
-    onOpenPlayModal,
-    onClosePlayModal,
+    /* UI */
+    expandedMysteryItem,
+    toggleMysteryItem,
+    handleClose,
+
+    /* Audio API passthrough */
+    nowPlaying,
+    isPlaying,
+    currentTime,
+    duration,
+    playbackSpeed,
+    isLoading,
+    error,
+    audioRef,
     playAudio,
-    stopAudio: stop,
+    handlePlayPause,
+    seek,
+    seekBy,
+    setPlaybackSpeed,
+    clearError,
   }
 }
-
-export default usePlayModal
