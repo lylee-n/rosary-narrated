@@ -23,8 +23,9 @@ export function SupportSection() {
             Become a monthly supporter and help us develop and maintain this program for the global community.
           </p>
           <CustomButton
+            variant="yellow"
             size="lg"
-            className="w-full bg-[#82FAFA] hover:bg-[#82FAFA]/80 text-black font-semibold"
+            className="w-full"
             onClick={() => window.open("https://stripe.com/monthly-support", "_blank")}
           >
             SUPPORT MONTHLY
@@ -38,8 +39,9 @@ export function SupportSection() {
             Make a one-time contribution to support the development and hosting of these audiovisual experiences.
           </p>
           <CustomButton
+            variant="yellow"
             size="lg"
-            className="w-full bg-[#82FAFA] hover:bg-[#82FAFA]/80 text-black font-semibold"
+            className="w-full"
             onClick={() => window.open("https://stripe.com/one-time-donation", "_blank")}
           >
             DONATE ONCE
@@ -53,8 +55,9 @@ export function SupportSection() {
             Want to join us in building something bigger with your skills and time? Get Involved!
           </p>
           <CustomButton
+            variant="yellow"
             size="lg"
-            className="w-full bg-[#82FAFA] hover:bg-[#82FAFA]/80 text-black font-semibold"
+            className="w-full"
             onClick={() => (window.location.href = "mailto:rosarynarrated@gmail.com")}
           >
             VOLUNTEER
