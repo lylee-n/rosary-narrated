@@ -54,9 +54,9 @@ export function PlaySection() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-                  {/* Centered text on desktop - properly centered */}
+                  {/* Centered text on desktop - properly centered with fatter font and more letter spacing */}
                   <div className="hidden md:flex absolute inset-0 items-center justify-center">
-                    <h3 className="text-white font-bold text-3xl lg:text-4xl font-sora tracking-wider group-hover:text-[#FFE552] transition-colors duration-300 text-center">
+                    <h3 className="text-white font-black text-4xl lg:text-5xl font-sora tracking-[0.2em] group-hover:text-[#FFE552] transition-colors duration-300 text-center">
                       {mysteryTitles[index].toUpperCase()}
                     </h3>
                   </div>
@@ -76,7 +76,8 @@ export function PlaySection() {
 
         <div className="text-center mt-24">
           <CustomButton onClick={() => setView("COMMUNITY")} size="lg" variant="yellow">
-            Community
+            <span className="hidden md:inline">Join the Community</span>
+            <span className="md:hidden">Community</span>
           </CustomButton>
         </div>
       </div>

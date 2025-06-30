@@ -98,7 +98,8 @@ export function WhySection() {
 
         <div className="text-center">
           <CustomButton onClick={() => setView("PLAY")} size="lg">
-            Pray
+            <span className="hidden md:inline">Pray the Rosary</span>
+            <span className="md:hidden">Pray</span>
           </CustomButton>
         </div>
       </section>

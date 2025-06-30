@@ -1,87 +1,117 @@
 "use client"
 
+import { useState } from "react"
+import Image from "next/image"
 import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
 
 export function AboutSection() {
   const { setView } = useApp()
+  const [currentStep, setCurrentStep] = useState(0)
+
+  const steps = [
+    {
+      title: "Choose Your Mystery Set",
+      description: "Select from Joyful, Luminous, Sorrowful, or Glorious Mysteries",
+      image: "/images/rosary-decades-header.png",
+    },
+    {
+      title: "Select Your Perspectives",
+      description: "Select your perspectives set (3, 7 or 12).",
+      image: "/images/Jesus-baptized-new.jpeg",
+    },
+    {
+      title: "Begin Your Prayer",
+      description: "Follow along with guided narration and beautiful visuals",
+      image: "/images/luminous-mysteries.jpeg",
+    },
+  ]
 
   return (
-    <div className="container mx-auto px-4 py-16">
-      <div className="text-center mb-16">
-        <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-8">
-          Welcome to Rosary Narrated
-        </h1>
-        <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed">
-          A guided audiovisual experience through the mysteries of the Rosary, designed to deepen your prayer life and
-          spiritual connection.
-        </p>
-      </div>
-
-      <div className="max-w-4xl mx-auto space-y-12">
-        {/* What is this? */}
-        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 md:p-12">
-          <h2 className="text-white font-sora text-2xl md:text-3xl font-semibold mb-6">What is this?</h2>
-          <p className="text-lg text-gray-300 font-inter leading-relaxed mb-6">
-            This is an audiovisual-guided experience through the traditional Catholic Rosary prayers, enhanced with
-            contemplative reflections on the mysteries of Christ's life.
-          </p>
-          <p className="text-lg text-gray-300 font-inter leading-relaxed">
-            Each mystery is presented with thoughtful narration designed to help you enter more deeply into prayer and
-            meditation.
+    <section className="min-h-screen bg-transparent py-16 px-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-8">
+            Welcome to Rosary Narrated
+          </h1>
+          <p className="text-lg md:text-xl text-gray-300 max-w-4xl mx-auto font-inter font-light leading-relaxed">
+            A guided audiovisual experience through the mysteries of the Rosary. This is an audiovisual-guided
+            experience designed to help you meditate on the life of Christ through the eyes of Mary.
           </p>
         </div>
 
-        {/* How it works */}
-        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 md:p-12">
-          <h2 className="text-white font-sora text-2xl md:text-3xl font-semibold mb-6">How it works</h2>
-          <div className="space-y-4">
-            <div className="flex items-start space-x-4">
-              <div className="w-8 h-8 bg-[#82FAFA] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-black font-bold text-sm">1</span>
-              </div>
-              <p className="text-lg text-gray-300 font-inter leading-relaxed">
-                Choose a set of mysteries (Joyful, Luminous, Sorrowful, or Glorious)
-              </p>
+        {/* How it works section */}
+        <div className="mb-16">
+          <h2 className="text-white font-sora text-3xl md:text-4xl font-bold text-center mb-12">How It Works</h2>
+
+          {/* Step indicators */}
+          <div className="flex justify-center mb-8">
+            <div className="flex space-x-4">
+              {steps.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentStep(index)}
+                  className={`w-3 h-3 rounded-full transition-colors duration-300 ${
+                    currentStep === index ? "bg-[#FFE552]" : "bg-gray-600"
+                  }`}
+                />
+              ))}
             </div>
-            <div className="flex items-start space-x-4">
-              <div className="w-8 h-8 bg-[#82FAFA] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-black font-bold text-sm">2</span>
+          </div>
+
+          {/* Step content */}
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 md:p-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-white font-sora text-2xl md:text-3xl font-bold mb-4">{steps[currentStep].title}</h3>
+                <p className="text-gray-300 font-inter text-lg leading-relaxed">{steps[currentStep].description}</p>
               </div>
-              <p className="text-lg text-gray-300 font-inter leading-relaxed">
-                Select your perspectives set (3, 7 or 12)
-              </p>
-            </div>
-            <div className="flex items-start space-x-4">
-              <div className="w-8 h-8 bg-[#82FAFA] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-black font-bold text-sm">3</span>
+              <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+                <Image
+                  src={steps[currentStep].image || "/placeholder.svg"}
+                  alt={steps[currentStep].title}
+                  fill
+                  className="object-cover"
+                />
               </div>
-              <p className="text-lg text-gray-300 font-inter leading-relaxed">
-                Listen and pray along as you're guided through each mystery with thoughtful reflections
-              </p>
             </div>
           </div>
         </div>
 
-        {/* Who is this for? */}
-        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 md:p-12">
-          <h2 className="text-white font-sora text-2xl md:text-3xl font-semibold mb-6">Who is this for?</h2>
-          <p className="text-lg text-gray-300 font-inter leading-relaxed mb-6">
-            Whether you're new to the Rosary or have been praying it for years, this experience is designed to help you
-            connect more deeply with these timeless prayers.
-          </p>
-          <p className="text-lg text-gray-300 font-inter leading-relaxed">
-            The different perspective levels make it accessible for families, individuals seeking simplicity, or those
-            wanting deeper theological reflection.
-          </p>
+        {/* Features grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-center">
+            <div className="w-12 h-12 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-[#82FAFA] text-2xl">🎧</span>
+            </div>
+            <h3 className="text-white font-sora text-xl font-semibold mb-3">Audio Guided</h3>
+            <p className="text-gray-300 font-inter">Professional narration guides you through each mystery</p>
+          </div>
+
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-center">
+            <div className="w-12 h-12 bg-[#FFE552]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-[#FFE552] text-2xl">🎨</span>
+            </div>
+            <h3 className="text-white font-sora text-xl font-semibold mb-3">Visual Experience</h3>
+            <p className="text-gray-300 font-inter">Beautiful imagery enhances your meditation</p>
+          </div>
+
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-center">
+            <div className="w-12 h-12 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-[#82FAFA] text-2xl">📱</span>
+            </div>
+            <h3 className="text-white font-sora text-xl font-semibold mb-3">Any Device</h3>
+            <p className="text-gray-300 font-inter">Pray anywhere, anytime on any device</p>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <CustomButton onClick={() => setView("WHY")} size="lg">
+            <span className="hidden md:inline">Why Pray the Rosary</span>
+            <span className="md:hidden">Why</span>
+          </CustomButton>
         </div>
       </div>
-
-      <div className="text-center mt-16">
-        <CustomButton onClick={() => setView("WHY")} size="lg">
-          Why Pray the Rosary?
-        </CustomButton>
-      </div>
-    </div>
+    </section>
   )
 }

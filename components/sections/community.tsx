@@ -107,7 +107,8 @@ export function CommunitySection() {
           Build this with us. Help us make this happen.
         </p>
         <CustomButton onClick={() => setView("SUPPORT")} size="lg" variant="yellow">
-          Get Involved!
+          <span className="hidden md:inline">Get Involved</span>
+          <span className="md:hidden">Support</span>
         </CustomButton>
       </div>
     </div>
