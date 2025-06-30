@@ -1,5 +1,3 @@
-"use client"
-
 import { cn } from "@/lib/utils"
 
 interface LoadingSpinnerProps {
@@ -8,7 +6,7 @@ interface LoadingSpinnerProps {
 }
 
 export function LoadingSpinner({ size = "md", className }: LoadingSpinnerProps) {
-  const sizes = {
+  const sizeClasses = {
     sm: "w-4 h-4",
     md: "w-6 h-6",
     lg: "w-8 h-8",
@@ -16,7 +14,15 @@ export function LoadingSpinner({ size = "md", className }: LoadingSpinnerProps) 
 
   return (
     <div
-      className={cn("border-2 border-gray-300 border-t-transparent rounded-full animate-spin", sizes[size], className)}
-    />
+      className={cn(
+        "animate-spin rounded-full border-2 border-gray-300 border-t-[#82FAFA]",
+        sizeClasses[size],
+        className,
+      )}
+      role="status"
+      aria-label="Loading"
+    >
+      <span className="sr-only">Loading...</span>
+    </div>
   )
 }

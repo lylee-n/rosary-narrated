@@ -1,33 +1,39 @@
-"use client"
-
+import type React from "react"
+import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import type { ButtonProps } from "@/types"
 
-interface CustomButtonProps extends ButtonProps {
-  variant?: "primary" | "secondary" | "outline" | "yellow"
+interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode
+  size?: "sm" | "md" | "lg"
+  variant?: "default" | "outline" | "yellow"
+  showArrow?: boolean
 }
 
-export function CustomButton({ variant = "primary", size = "md", className, children, ...props }: CustomButtonProps) {
-  const variants = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white",
-    secondary: "bg-gray-600 hover:bg-gray-700 text-white",
-    outline: "border border-gray-300 hover:bg-gray-100 text-gray-700",
-    yellow: "bg-[#FFE552] hover:bg-[#FFE552]/90 text-black font-semibold",
-  }
-
-  const sizes = {
-    sm: "px-3 py-1.5 text-sm",
-    md: "px-4 py-2 text-base",
-    lg: "px-6 py-3 text-lg",
-  }
-
+export function CustomButton({
+  children,
+  className,
+  size = "md",
+  variant = "default",
+  showArrow = true,
+  ...props
+}: CustomButtonProps) {
   return (
-    <Button
-      className={cn("transition-all duration-200 rounded-lg", variants[variant], sizes[size], className)}
+    <button
+      className={cn(
+        "inline-flex items-center justify-center gap-3 px-8 py-3 rounded-full border-2 font-medium uppercase tracking-normal transition-all duration-300",
+        {
+          "border-[#82FAFA] bg-transparent text-[#82FAFA] hover:bg-[#82FAFA] hover:text-black": variant === "default",
+          "border-[#FFE552] bg-transparent text-[#FFE552] hover:bg-[#FFE552] hover:text-black": variant === "yellow",
+          "px-6 py-2 text-xs": size === "sm",
+          "px-8 py-3 text-sm": size === "md",
+          "px-10 py-4 text-base": size === "lg",
+        },
+        className,
+      )}
       {...props}
     >
       {children}
-    </Button>
+      {showArrow && <ArrowRight size={16} />}
+    </button>
   )
 }

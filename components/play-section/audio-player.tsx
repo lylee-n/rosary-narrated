@@ -6,6 +6,7 @@ import { Play, Pause, SkipBack, SkipForward, Volume2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { PLAYBACK_SPEEDS } from "@/lib/constants/mystery-sets"
 
 interface AudioPlayerProps {
   audioRef: React.RefObject<HTMLAudioElement>
@@ -56,9 +57,6 @@ export function AudioPlayer({
 
   return (
     <div className="bg-black/40 backdrop-blur-sm rounded-lg p-4 mt-4 space-y-3">
-      {/* Hidden audio element */}
-      <audio ref={audioRef} preload="metadata" />
-
       {/* Progress Bar */}
       <div className="space-y-2">
         <Slider
@@ -82,7 +80,7 @@ export function AudioPlayer({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onSeekBy(-15)}
+            onClick={() => onSeekBy(-10)}
             disabled={!duration || isLoading}
             className="text-white hover:text-[#82FAFA] hover:bg-white/10"
           >
@@ -110,7 +108,7 @@ export function AudioPlayer({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onSeekBy(15)}
+            onClick={() => onSeekBy(10)}
             disabled={!duration || isLoading}
             className="text-white hover:text-[#82FAFA] hover:bg-white/10"
           >
@@ -126,12 +124,11 @@ export function AudioPlayer({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="0.5">0.5x</SelectItem>
-              <SelectItem value="0.75">0.75x</SelectItem>
-              <SelectItem value="1">1x</SelectItem>
-              <SelectItem value="1.25">1.25x</SelectItem>
-              <SelectItem value="1.5">1.5x</SelectItem>
-              <SelectItem value="2">2x</SelectItem>
+              {PLAYBACK_SPEEDS.map(({ value, label }) => (
+                <SelectItem key={value} value={value.toString()}>
+                  {label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

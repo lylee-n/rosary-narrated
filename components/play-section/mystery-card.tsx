@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+
 import { PlayCircle, PauseCircle } from "lucide-react"
 import { AudioPlayer } from "./audio-player"
 import type { Mystery } from "@/types"
@@ -8,7 +9,7 @@ import type { Mystery } from "@/types"
 interface MysteryCardProps {
   mystery: Mystery
   mysteryIndex: number
-  onAudioPlay: (mysteryIndex: number, perspective: 3 | 7 | 12) => void
+  onAudioPlay: (mysteryIndex: number, perspective: number) => void
   nowPlaying: { mysteryIndex: number; perspective: number } | null
   audioPlayerRef: React.RefObject<HTMLAudioElement>
   currentTime: number
@@ -16,12 +17,6 @@ interface MysteryCardProps {
   duration: number
   playbackSpeed: number
   setPlaybackSpeed: (speed: number) => void
-  isPlaying: boolean
-  isLoading: boolean
-  onSeek: (time: number) => void
-  onSeekBy: (seconds: number) => void
-  onPlayPause: () => void
-  onSpeedChange: (speed: number) => void
   isExpanded?: boolean
   onToggle?: () => void
   isDesktop: boolean
@@ -38,12 +33,6 @@ export function MysteryCard({
   duration,
   playbackSpeed,
   setPlaybackSpeed,
-  isPlaying,
-  isLoading,
-  onSeek,
-  onSeekBy,
-  onPlayPause,
-  onSpeedChange,
   isExpanded = true,
   onToggle,
   isDesktop,
@@ -74,33 +63,32 @@ export function MysteryCard({
               {[3, 7, 12].map((p) => (
                 <button
                   key={p}
-                  onClick={() => onAudioPlay(mysteryIndex, p as 3 | 7 | 12)}
+                  onClick={() => onAudioPlay(mysteryIndex, p)}
                   className={`w-full py-2 lg:py-3 px-3 lg:px-4 rounded-md transition-all duration-200 flex items-center justify-center font-inter border-2 text-xs lg:text-sm ${
                     nowPlaying?.mysteryIndex === mysteryIndex && nowPlaying?.perspective === p
                       ? "bg-[#82FAFA] text-black border-[#82FAFA] font-semibold"
                       : "bg-transparent text-[#82FAFA] border-[#82FAFA] hover:bg-[#82FAFA] hover:text-black"
                   }`}
                 >
-                  {nowPlaying?.mysteryIndex === mysteryIndex && nowPlaying?.perspective === p && isPlaying ? (
+                  {nowPlaying?.mysteryIndex === mysteryIndex &&
+                  nowPlaying?.perspective === p &&
+                  audioPlayerRef.current &&
+                  !audioPlayerRef.current.paused ? (
                     <PauseCircle size={18} className="mr-2" />
                   ) : (
                     <PlayCircle size={18} className="mr-2" />
                   )}
-                  {p} Year Old
+                  {p} Perspectives
                 </button>
               ))}
               {nowPlaying && nowPlaying.mysteryIndex === mysteryIndex && (
                 <AudioPlayer
-                  audioRef={audioPlayerRef}
+                  audioPlayerRef={audioPlayerRef}
                   currentTime={currentTime}
+                  setCurrentTime={setCurrentTime}
                   duration={duration}
                   playbackSpeed={playbackSpeed}
-                  isPlaying={isPlaying}
-                  isLoading={isLoading}
-                  onSeek={onSeek}
-                  onSeekBy={onSeekBy}
-                  onPlayPause={onPlayPause}
-                  onSpeedChange={onSpeedChange}
+                  setPlaybackSpeed={setPlaybackSpeed}
                 />
               )}
             </div>
@@ -140,35 +128,34 @@ export function MysteryCard({
               {[3, 7, 12].map((p) => (
                 <button
                   key={p}
-                  onClick={() => onAudioPlay(mysteryIndex, p as 3 | 7 | 12)}
+                  onClick={() => onAudioPlay(mysteryIndex, p)}
                   className={`w-full text-sm py-2 px-3 rounded-md transition-all duration-200 flex items-center justify-center border-2 ${
                     nowPlaying?.mysteryIndex === mysteryIndex && nowPlaying?.perspective === p
                       ? "bg-[#82FAFA] text-black border-[#82FAFA] font-semibold"
                       : "bg-transparent text-[#82FAFA] border-[#82FAFA] hover:bg-[#82FAFA] hover:text-black"
                   }`}
                 >
-                  {nowPlaying?.mysteryIndex === mysteryIndex && nowPlaying?.perspective === p && isPlaying ? (
+                  {nowPlaying?.mysteryIndex === mysteryIndex &&
+                  nowPlaying?.perspective === p &&
+                  audioPlayerRef.current &&
+                  !audioPlayerRef.current.paused ? (
                     <PauseCircle size={16} className="mr-2" />
                   ) : (
                     <PlayCircle size={16} className="mr-2" />
                   )}
-                  {p} Year Old
+                  {p} Perspectives
                 </button>
               ))}
             </div>
           </div>
           {nowPlaying && nowPlaying.mysteryIndex === mysteryIndex && (
             <AudioPlayer
-              audioRef={audioPlayerRef}
+              audioPlayerRef={audioPlayerRef}
               currentTime={currentTime}
+              setCurrentTime={setCurrentTime}
               duration={duration}
               playbackSpeed={playbackSpeed}
-              isPlaying={isPlaying}
-              isLoading={isLoading}
-              onSeek={onSeek}
-              onSeekBy={onSeekBy}
-              onPlayPause={onPlayPause}
-              onSpeedChange={onSpeedChange}
+              setPlaybackSpeed={setPlaybackSpeed}
             />
           )}
         </div>

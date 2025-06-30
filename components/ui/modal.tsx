@@ -29,11 +29,19 @@ export function Modal({
 
   useEffect(() => {
     if (isOpen) {
+      // Store the previously focused element
       previousFocusRef.current = document.activeElement as HTMLElement
+
+      // Focus the modal
       modalRef.current?.focus()
+
+      // Prevent body scroll
       document.body.style.overflow = "hidden"
     } else {
+      // Restore body scroll
       document.body.style.overflow = "unset"
+
+      // Restore focus to previously focused element
       if (previousFocusRef.current) {
         previousFocusRef.current.focus()
       }
@@ -75,7 +83,10 @@ export function Modal({
       role="dialog"
       aria-modal="true"
     >
+      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+
+      {/* Modal Content */}
       <div
         ref={modalRef}
         className={cn(
@@ -93,6 +104,7 @@ export function Modal({
             <X size={24} />
           </button>
         )}
+
         {children}
       </div>
     </div>
