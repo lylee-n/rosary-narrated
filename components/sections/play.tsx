@@ -2,72 +2,71 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { rosaryMysteriesDataEn } from "@/lib/rosary-data-en"
+import { CustomButton } from "@/components/ui/custom-button"
+import { useApp } from "@/components/app-provider"
 import { PlayModal } from "@/components/play-section/play-modal"
+import { dataService } from "@/lib/services/data-service"
+import { MYSTERY_IMAGES } from "@/constants"
 
 export function PlaySection() {
+  const { setView } = useApp()
   const [selectedMysterySetIndex, setSelectedMysterySetIndex] = useState<number | null>(null)
 
-  const handleMysterySetClick = (index: number) => {
-    setSelectedMysterySetIndex(index)
+  const openModal = (mysterySetIdx: number) => {
+    setSelectedMysterySetIndex(mysterySetIdx)
   }
 
-  const handleCloseModal = () => {
+  const closeModal = () => {
     setSelectedMysterySetIndex(null)
   }
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-16 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-sora">Choose Your Mystery Set</h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto font-inter">
-            Select from the four traditional mystery sets of the Rosary. Each set contains five mysteries that guide
-            your meditation and prayer.
-          </p>
-        </div>
+    <div className="container mx-auto px-4 py-8">
+      <section className="my-12 md:my-20">
+        <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold text-center mb-8 md:mb-16">
+          The Mysteries of the Rosary
+        </h2>
+        <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed text-center mb-12 md:mb-20">
+          Each Mystery tells a story. Experience them through audio and visuals designed to help you connect. Choose a
+          set to get started.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+          {MYSTERY_IMAGES.map((image, index) => {
+            const mysterySetTitle = dataService.getMysterySetTitle(index)
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {Object.entries(rosaryMysteriesDataEn).map(([key, mysterySet], index) => (
-            <div
-              key={key}
-              className="group cursor-pointer transform transition-all duration-300 hover:scale-105"
-              onClick={() => handleMysterySetClick(index)}
-            >
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 hover:border-[#FFE552] transition-colors duration-300">
-                <div className="aspect-[4/5] relative">
-                  <Image
-                    src={mysterySet.backgroundImage || "/placeholder.svg"}
-                    alt={mysterySet.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                </div>
-
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-2xl font-bold text-white mb-2 font-sora group-hover:text-[#FFE552] transition-colors duration-300">
-                    {mysterySet.title}
+            return (
+              <div
+                key={index}
+                className="relative rounded-lg overflow-hidden shadow-lg cursor-pointer group"
+                onClick={() => openModal(index)}
+              >
+                <Image
+                  src={image || "/placeholder.svg"}
+                  alt={`${mysterySetTitle} Mysteries`}
+                  width={600}
+                  height={400}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40 flex items-center justify-center p-6">
+                  <h3 className="text-3xl font-black text-[#FFE552] uppercase tracking-[0.2em] text-center transition-colors duration-300">
+                    {mysterySetTitle.replace(" Mysteries", "")}
                   </h3>
-                  <p className="text-gray-300 text-sm font-inter">{mysterySet.mysteries.length} Mysteries</p>
                 </div>
-
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-[#FFE552]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
-        <div className="text-center">
-          <p className="text-gray-400 font-inter">Click on any mystery set to begin your guided prayer experience</p>
+        <div className="text-center mt-24">
+          <CustomButton onClick={() => setView("COMMUNITY")} size="lg" variant="yellow">
+            Community
+          </CustomButton>
         </div>
-      </div>
+      </section>
 
-      {/* Modal */}
       {selectedMysterySetIndex !== null && (
-        <PlayModal selectedMysterySetIndex={selectedMysterySetIndex} onClose={handleCloseModal} />
+        <PlayModal selectedMysterySetIndex={selectedMysterySetIndex} onClose={closeModal} />
       )}
-    </section>
+    </div>
   )
 }
