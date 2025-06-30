@@ -54,9 +54,9 @@ export function CommunitySection() {
           </div>
         </div>
 
-        {/* Coming Soon text with chevron arrow */}
+        {/* Coming Soon text with chevron arrow - reduced size */}
         <div className="text-center my-12">
-          <h2 className="text-[#82FAFA] font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-8">
+          <h2 className="text-[#82FAFA] font-sora text-2xl md:text-4xl lg:text-5xl leading-none font-extrabold md:font-bold mb-8">
             Coming Soon
           </h2>
           <div className="flex justify-center mb-8">
@@ -64,22 +64,18 @@ export function CommunitySection() {
           </div>
         </div>
 
-        {/* What We're Building Card - Centered below with reduced width */}
+        {/* What We're Building Card - Centered below with reduced width and left-aligned text */}
         <div className="flex justify-center">
           <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 md:p-8 max-w-2xl w-full">
-            <div className="flex items-center justify-center mb-6">
+            <div className="flex items-center mb-6">
               <div className="w-10 h-10 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-3">
                 <Users size={20} className="text-[#82FAFA]" />
               </div>
-              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold text-center">
-                What We're Building
-              </h2>
+              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">What We're Building</h2>
             </div>
-            <p className="text-base text-gray-300 mx-auto font-inter leading-relaxed text-center mb-8">
-              Some exciting stuff in the works:
-            </p>
+            <p className="text-base text-gray-300 font-inter leading-relaxed mb-8">Some exciting stuff in the works:</p>
             {/* Vertical bullet points list */}
-            <ul className="space-y-3 max-w-xl mx-auto">
+            <ul className="space-y-3 max-w-xl">
               <li className="flex items-start space-x-3">
                 <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
                 <span className="text-white font-inter">Live and virtual spaces for prayer and real talk</span>

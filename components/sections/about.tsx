@@ -13,7 +13,7 @@ export function AboutSection() {
           Welcome to Rosary Narrated
         </h1>
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed">
-          A guided audio experience through the mysteries of the Rosary, designed to deepen your prayer life and
+          A guided audiovisual experience through the mysteries of the Rosary, designed to deepen your prayer life and
           spiritual connection.
         </p>
       </div>
@@ -23,7 +23,7 @@ export function AboutSection() {
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 md:p-12">
           <h2 className="text-white font-sora text-2xl md:text-3xl font-semibold mb-6">What is this?</h2>
           <p className="text-lg text-gray-300 font-inter leading-relaxed mb-6">
-            This is an audio-guided experience through the traditional Catholic Rosary prayers, enhanced with
+            This is an audiovisual-guided experience through the traditional Catholic Rosary prayers, enhanced with
             contemplative reflections on the mysteries of Christ's life.
           </p>
           <p className="text-lg text-gray-300 font-inter leading-relaxed">
@@ -49,7 +49,7 @@ export function AboutSection() {
                 <span className="text-black font-bold text-sm">2</span>
               </div>
               <p className="text-lg text-gray-300 font-inter leading-relaxed">
-                Select your preferred perspective (3-year-old, 7-year-old, or 12-year-old level)
+                Select your perspectives set (3, 7 or 12)
               </p>
             </div>
             <div className="flex items-start space-x-4">
