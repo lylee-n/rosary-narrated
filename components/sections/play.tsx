@@ -4,8 +4,11 @@ import { useState } from "react"
 import Image from "next/image"
 import { rosaryMysteriesDataEn } from "@/lib/rosary-data-en"
 import { PlayModal } from "@/components/play-section/play-modal"
+import { CustomButton } from "@/components/ui/custom-button"
+import { useApp } from "@/components/app-provider"
 
 export function PlaySection() {
+  const { setView } = useApp()
   const [selectedMysterySetIndex, setSelectedMysterySetIndex] = useState<number | null>(null)
 
   const handleMysterySetClick = (index: number) => {
@@ -34,7 +37,7 @@ export function PlaySection() {
               className="group cursor-pointer transform transition-all duration-300 hover:scale-105"
               onClick={() => handleMysterySetClick(index)}
             >
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 hover:border-[#FFE552] transition-colors duration-300">
+              <div className="relative overflow-hidden rounded-2xl border border-gray-700 hover:border-[#FFE552] transition-colors duration-300">
                 <div className="aspect-[4/5] relative">
                   <Image
                     src={mysterySet.backgroundImage || "/placeholder.svg"}
@@ -59,8 +62,10 @@ export function PlaySection() {
           ))}
         </div>
 
-        <div className="text-center">
-          <p className="text-gray-400 font-inter">Click on any mystery set to begin your guided prayer experience</p>
+        <div className="text-center mt-24">
+          <CustomButton onClick={() => setView("COMMUNITY")} size="lg" variant="yellow">
+            Community
+          </CustomButton>
         </div>
       </div>
 
