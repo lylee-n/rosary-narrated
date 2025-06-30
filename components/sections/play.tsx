@@ -31,7 +31,7 @@ export function PlaySection() {
           </h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed mb-20">
             {
-              "Choose a set of Mysteries for an audiovisual theology and storytelling experience.\n\nAs a general rule:\n• Monday: Joyful Mysteries\n• Tuesday: Sorrowful Mysteries\n• Wednesday: Glorious Mysteries\n• Thursday: Luminous Mysteries\n• Friday: Sorrowful Mysteries\n• Saturday: Joyful Mysteries\n• Sunday: Glorious Mysteries"
+              "Choose a set of Mysteries for an audiovisual theology and storytelling experience.\nAs a general rule:\n• Monday: Joyful Mysteries\n• Tuesday: Sorrowful Mysteries\n• Wednesday: Glorious Mysteries\n• Thursday: Luminous Mysteries\n• Friday: Sorrowful Mysteries\n• Saturday: Joyful Mysteries\n• Sunday: Glorious Mysteries"
             }
           </p>
         </div>
