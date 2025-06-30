@@ -1,37 +1,84 @@
-import type { RosaryData, PerspectiveType } from "@/types"
 import { audioData } from "@/lib/audio-data"
 import { rosaryMysteriesDataEn } from "@/lib/rosary-data-en"
+import type { MysterySetKey, PerspectiveType, MysterySet, AudioUrlValidation } from "@/types"
 
 class DataService {
-  private mysterySetKeys = ["joyful", "luminous", "sorrowful", "glorious"]
+  private readonly mysterySetKeys: MysterySetKey[] = ["joyful", "luminous", "sorrowful", "glorious"]
 
   /**
-   * Get audio URL for a specific mystery and perspective
+   * Get mystery set data by index
    */
-  getAudioUrl(mysterySetKey: string, mysteryIndex: number, perspective: 3 | 7 | 12): string | null {
-    return audioData[mysterySetKey as keyof typeof audioData]?.[mysteryIndex]?.[perspective] || null
+  getMysterySet(index: number): MysterySet | null {
+    const mysterySetData = rosaryMysteriesDataEn[(index + 1) as keyof typeof rosaryMysteriesDataEn]
+    return mysterySetData || null
   }
 
   /**
-   * Get rosary data for English
+   * Get all mystery sets
    */
-  getRosaryData(): RosaryData {
-    return rosaryMysteriesDataEn
+  getAllMysterySets(): MysterySet[] {
+    return Object.values(rosaryMysteriesDataEn)
   }
 
   /**
-   * Get specific mystery set by index (0-based)
+   * Get mystery set keys
    */
-  getMysterySet(index: number) {
-    const key = (index + 1) as keyof typeof rosaryMysteriesDataEn
-    return rosaryMysteriesDataEn[key] || null
+  getMysterySetKeys(): MysterySetKey[] {
+    return [...this.mysterySetKeys]
   }
 
   /**
-   * Get all mystery set keys in order
+   * Get audio URL for specific mystery and perspective
    */
-  getMysterySetKeys(): string[] {
-    return this.mysterySetKeys
+  getAudioUrl(mysterySetKey: MysterySetKey, mysteryIndex: number, perspective: PerspectiveType): string | null {
+    return audioData[mysterySetKey]?.[mysteryIndex]?.[perspective] || null
+  }
+
+  /**
+   * Validate audio URL availability
+   */
+  validateAudioUrl(
+    mysterySetKey: MysterySetKey,
+    mysteryIndex: number,
+    perspective: PerspectiveType,
+  ): AudioUrlValidation {
+    const url = this.getAudioUrl(mysterySetKey, mysteryIndex, perspective)
+
+    if (!url) {
+      return {
+        url: "",
+        isValid: false,
+        errors: ["Audio not available for this selection"],
+      }
+    }
+
+    return {
+      url,
+      isValid: true,
+      errors: [],
+    }
+  }
+
+  /**
+   * Get available perspectives for a mystery
+   */
+  getAvailablePerspectives(mysterySetKey: MysterySetKey, mysteryIndex: number): PerspectiveType[] {
+    const mysteryData = audioData[mysterySetKey]?.[mysteryIndex]
+    if (!mysteryData) return []
+
+    const perspectives: PerspectiveType[] = []
+    if (mysteryData[3]) perspectives.push(3)
+    if (mysteryData[7]) perspectives.push(7)
+    if (mysteryData[12]) perspectives.push(12)
+
+    return perspectives
+  }
+
+  /**
+   * Check if mystery set exists
+   */
+  mysterySetExists(index: number): boolean {
+    return !!rosaryMysteriesDataEn[(index + 1) as keyof typeof rosaryMysteriesDataEn]
   }
 
   /**
@@ -43,70 +90,11 @@ class DataService {
   }
 
   /**
-   * Get mystery set background image by index
+   * Get total number of mystery sets
    */
-  getMysterySetBackgroundImage(index: number): string {
-    const mysterySet = this.getMysterySet(index)
-    return mysterySet?.backgroundImage || ""
-  }
-
-  /**
-   * Validate audio URL format
-   */
-  validateAudioUrl(url: string): boolean {
-    return url && url.length > 0
-  }
-
-  /**
-   * Preload audio file
-   */
-  preloadAudio(url: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const audio = new Audio()
-
-      const cleanup = () => {
-        audio.removeEventListener("canplaythrough", onLoad)
-        audio.removeEventListener("error", onError)
-      }
-
-      const onLoad = () => {
-        cleanup()
-        resolve()
-      }
-
-      const onError = () => {
-        cleanup()
-        reject(new Error(`Failed to load audio: ${url}`))
-      }
-
-      audio.addEventListener("canplaythrough", onLoad)
-      audio.addEventListener("error", onError)
-      audio.src = url
-    })
-  }
-
-  /**
-   * Get all available perspectives for a mystery
-   */
-  getAvailablePerspectives(): PerspectiveType[] {
-    return [3, 7, 12]
-  }
-
-  /**
-   * Check if audio exists for a specific combination
-   */
-  hasAudio(mysterySetKey: string, mysteryIndex: number, perspective: 3 | 7 | 12): boolean {
-    const url = this.getAudioUrl(mysterySetKey, mysteryIndex, perspective)
-    return url !== null && this.validateAudioUrl(url)
-  }
-
-  /**
-   * Placeholder methods for future functionality
-   */
-  joinGame(gameId: string, playerName: string): Promise<{ success: boolean; message?: string }> {
-    return Promise.resolve({ success: false, message: "Game functionality not implemented yet." })
+  getTotalMysterySets(): number {
+    return Object.keys(rosaryMysteriesDataEn).length
   }
 }
 
-// Export singleton instance
 export const dataService = new DataService()

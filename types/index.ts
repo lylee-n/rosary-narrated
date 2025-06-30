@@ -1,6 +1,6 @@
 import type React from "react"
-// Core types for the Rosary application
 
+// Core types for the Rosary application
 export type Language = "en" | "vi"
 
 export type MysterySetKey = "joyful" | "luminous" | "sorrowful" | "glorious"
@@ -27,6 +27,13 @@ export interface AudioError {
   type: "PLAY_ERROR" | "LOAD_ERROR" | "NETWORK_ERROR"
   message: string
   url?: string
+}
+
+export interface NowPlaying {
+  src: string
+  mysterySetKey: MysterySetKey
+  mysteryIndex: number
+  perspective: PerspectiveType
 }
 
 // Rosary data types
@@ -75,13 +82,6 @@ export interface AudioPlayerState {
   error: string | null
 }
 
-export interface NowPlaying {
-  src: string
-  mysterySetKey: MysterySetKey
-  mysteryIndex: number
-  perspective: PerspectiveType
-}
-
 // Validation types
 export interface AudioUrlValidation {
   url: string
@@ -92,4 +92,23 @@ export interface AudioUrlValidation {
 export interface ValidationResult {
   isValid: boolean
   errors: string[]
+}
+
+// Component Props
+export interface PlayModalProps {
+  selectedMysterySetIndex: number
+  onClose: () => void
+}
+
+export interface AudioPlayerProps {
+  audioRef: React.RefObject<HTMLAudioElement>
+  currentTime: number
+  duration: number
+  playbackSpeed: number
+  isPlaying: boolean
+  isLoading: boolean
+  onSeek: (time: number) => void
+  onSeekBy: (seconds: number) => void
+  onPlayPause: () => void
+  onSpeedChange: (speed: number) => void
 }
