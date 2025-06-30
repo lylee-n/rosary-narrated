@@ -1,18 +1,34 @@
 "use client"
 
 import { useState, useRef, useCallback, useEffect } from "react"
-import type { AudioPlayerState, AudioTrack, AudioError, MysterySetKey, PerspectiveType } from "@/types"
-import { AUDIO_CONFIG } from "@/constants"
-import { dataService } from "@/services/data-service"
+import { dataService } from "@/lib/services/data-service"
+import type { MysterySetKey, PerspectiveType } from "@/types"
+
+interface NowPlaying {
+  src: string
+  mysterySetKey: MysterySetKey
+  mysteryIndex: number
+  perspective: PerspectiveType
+}
+
+interface AudioPlayerState {
+  nowPlaying: NowPlaying | null
+  isPlaying: boolean
+  currentTime: number
+  duration: number
+  playbackSpeed: number
+  isLoading: boolean
+  error: string | null
+}
 
 export function useAudioPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [state, setState] = useState<AudioPlayerState>({
+    nowPlaying: null,
     isPlaying: false,
     currentTime: 0,
     duration: 0,
-    playbackSpeed: AUDIO_CONFIG.defaultSpeed,
-    currentTrack: null,
+    playbackSpeed: 1,
     isLoading: false,
     error: null,
   })
@@ -47,18 +63,12 @@ export function useAudioPlayer() {
       }))
     }
 
-    const handleError = (event: Event) => {
-      const error: AudioError = {
-        type: "PLAY_ERROR",
-        message: "Failed to load or play audio",
-        url: audio.src,
-      }
-
+    const handleError = () => {
       setState((prev) => ({
         ...prev,
         isLoading: false,
         isPlaying: false,
-        error: error.message,
+        error: "Failed to load or play audio. Please try again.",
       }))
     }
 
@@ -77,6 +87,14 @@ export function useAudioPlayer() {
       }))
     }
 
+    const handlePlay = () => {
+      setState((prev) => ({ ...prev, isPlaying: true }))
+    }
+
+    const handlePause = () => {
+      setState((prev) => ({ ...prev, isPlaying: false }))
+    }
+
     // Add event listeners
     audio.addEventListener("timeupdate", handleTimeUpdate)
     audio.addEventListener("loadedmetadata", handleLoadedMetadata)
@@ -84,6 +102,8 @@ export function useAudioPlayer() {
     audio.addEventListener("error", handleError)
     audio.addEventListener("loadstart", handleLoadStart)
     audio.addEventListener("canplay", handleCanPlay)
+    audio.addEventListener("play", handlePlay)
+    audio.addEventListener("pause", handlePause)
 
     return () => {
       // Cleanup event listeners
@@ -93,6 +113,8 @@ export function useAudioPlayer() {
       audio.removeEventListener("error", handleError)
       audio.removeEventListener("loadstart", handleLoadStart)
       audio.removeEventListener("canplay", handleCanPlay)
+      audio.removeEventListener("play", handlePlay)
+      audio.removeEventListener("pause", handlePause)
     }
   }, [])
 
@@ -111,53 +133,44 @@ export function useAudioPlayer() {
         return
       }
 
-      const newTrack: AudioTrack = { mysterySetKey, mysteryIndex, perspective, url }
-      const isSameTrack = state.currentTrack?.url === url
+      const newTrack: NowPlaying = { src: url, mysterySetKey, mysteryIndex, perspective }
+      const isSameTrack = state.nowPlaying?.src === url
 
       try {
         if (isSameTrack && audio.paused) {
           // Resume current track
           await audio.play()
-          setState((prev) => ({ ...prev, isPlaying: true, error: null }))
         } else if (isSameTrack && !audio.paused) {
           // Pause current track
           audio.pause()
-          setState((prev) => ({ ...prev, isPlaying: false }))
         } else {
           // Load and play new track
           audio.src = url
           audio.playbackRate = state.playbackSpeed
           audio.load()
 
-          await audio.play()
           setState((prev) => ({
             ...prev,
-            isPlaying: true,
-            currentTrack: newTrack,
+            nowPlaying: newTrack,
             error: null,
           }))
+
+          await audio.play()
         }
       } catch (error) {
-        const audioError: AudioError = {
-          type: "PLAY_ERROR",
-          message: error instanceof Error ? error.message : "Failed to play audio",
-          url,
-        }
-
         setState((prev) => ({
           ...prev,
           isPlaying: false,
-          error: audioError.message,
+          error: error instanceof Error ? error.message : "Failed to play audio",
         }))
       }
     },
-    [state.currentTrack, state.playbackSpeed],
+    [state.nowPlaying, state.playbackSpeed],
   )
 
   const pause = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause()
-      setState((prev) => ({ ...prev, isPlaying: false }))
     }
   }, [])
 
@@ -169,7 +182,7 @@ export function useAudioPlayer() {
         ...prev,
         isPlaying: false,
         currentTime: 0,
-        currentTrack: null,
+        nowPlaying: null,
       }))
     }
   }, [])
@@ -203,9 +216,35 @@ export function useAudioPlayer() {
     setState((prev) => ({ ...prev, error: null }))
   }, [])
 
+  const cleanup = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.src = ""
+    }
+    setState((prev) => ({
+      ...prev,
+      nowPlaying: null,
+      isPlaying: false,
+      currentTime: 0,
+      duration: 0,
+      error: null,
+    }))
+  }, [])
+
   return {
-    ...state,
+    // State
+    nowPlaying: state.nowPlaying,
+    isPlaying: state.isPlaying,
+    currentTime: state.currentTime,
+    duration: state.duration,
+    playbackSpeed: state.playbackSpeed,
+    isLoading: state.isLoading,
+    error: state.error,
+
+    // Audio element ref
     audioRef,
+
+    // Actions
     play,
     pause,
     stop,
@@ -213,5 +252,6 @@ export function useAudioPlayer() {
     seekBy,
     setPlaybackSpeed,
     clearError,
+    cleanup,
   }
 }

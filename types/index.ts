@@ -1,13 +1,21 @@
 import type React from "react"
-export type Language = "en" | "vi"
+// Core types for the Rosary application
 
-export type ViewType = "ABOUT" | "WHY" | "PLAY" | "COMMUNITY" | "SUPPORT"
+export type Language = "en" | "vi"
 
 export type MysterySetKey = "joyful" | "luminous" | "sorrowful" | "glorious"
 
 export type PerspectiveType = 3 | 7 | 12
 
-// Audio-related types
+// Audio related types
+export interface AudioData {
+  [key: string]: {
+    [mysteryIndex: number]: {
+      [perspective in PerspectiveType]?: string
+    }
+  }
+}
+
 export interface AudioTrack {
   mysterySetKey: MysterySetKey
   mysteryIndex: number
@@ -15,30 +23,13 @@ export interface AudioTrack {
   url: string
 }
 
-export interface AudioPlayerState {
-  isPlaying: boolean
-  currentTime: number
-  duration: number
-  playbackSpeed: number
-  currentTrack: AudioTrack | null
-  isLoading: boolean
-  error: string | null
-}
-
-// Error types
 export interface AudioError {
-  type: "LOAD_ERROR" | "PLAY_ERROR" | "NETWORK_ERROR"
+  type: "PLAY_ERROR" | "LOAD_ERROR" | "NETWORK_ERROR"
   message: string
   url?: string
 }
 
-export interface AppError {
-  type: "AUDIO_ERROR" | "DATA_ERROR" | "NETWORK_ERROR" | "UNKNOWN_ERROR"
-  message: string
-  details?: unknown
-}
-
-// Data types
+// Rosary data types
 export interface Mystery {
   title: string
   significance: string
@@ -55,48 +46,50 @@ export interface RosaryData {
   [key: number]: MysterySet
 }
 
-export interface AudioData {
-  [mysterySet: string]: {
-    [mysteryIndex: number]: {
-      [perspective in PerspectiveType]?: string
-    }
-  }
-}
-
-// Navigation types
-export interface NavItem {
-  name: ViewType
-  label: string
-  icon: React.ComponentType<{ size?: number }>
-}
-
-// Modal types
-export interface ModalState {
+// UI Component types
+export interface ModalProps {
   isOpen: boolean
-  selectedMysterySetIndex: number | null
-}
-
-// Component prop types
-export interface PlayModalProps {
-  selectedMysterySetIndex: number
   onClose: () => void
+  children: React.ReactNode
+  className?: string
 }
 
-export interface AudioPlayerProps {
-  audioPlayerRef: React.RefObject<HTMLAudioElement>
+export interface ButtonProps {
+  variant?: "primary" | "secondary" | "outline"
+  size?: "sm" | "md" | "lg"
+  disabled?: boolean
+  loading?: boolean
+  children: React.ReactNode
+  onClick?: () => void
+  className?: string
+}
+
+// Audio Player types
+export interface AudioPlayerState {
+  isPlaying: boolean
   currentTime: number
   duration: number
   playbackSpeed: number
-  onTimeChange: (time: number) => void
-  onSpeedChange: (speed: number) => void
+  currentTrack: AudioTrack | null
+  isLoading: boolean
+  error: string | null
+}
+
+export interface NowPlaying {
+  src: string
+  mysterySetKey: MysterySetKey
+  mysteryIndex: number
+  perspective: PerspectiveType
 }
 
 // Validation types
-export interface ValidationResult {
+export interface AudioUrlValidation {
+  url: string
   isValid: boolean
   errors: string[]
 }
 
-export interface AudioUrlValidation extends ValidationResult {
-  url: string
+export interface ValidationResult {
+  isValid: boolean
+  errors: string[]
 }

@@ -5,72 +5,46 @@ import { useState } from "react"
 import { PlayCircle, PauseCircle, Rewind, FastForward } from "lucide-react"
 
 interface AudioPlayerProps {
-  audioPlayerRef: React.RefObject<HTMLAudioElement>
+  audioRef: React.RefObject<HTMLAudioElement>
   currentTime: number
-  setCurrentTime: (time: number) => void
   duration: number
+  isPlaying: boolean
   playbackSpeed: number
-  setPlaybackSpeed: (speed: number) => void
+  onSeek: (time: number) => void
+  onSeekBy: (seconds: number) => void
+  onPlayPause: () => void
+  onSpeedChange: (speed: number) => void
 }
 
 const formatTime = (seconds: number): string => {
+  if (!seconds || !isFinite(seconds)) return "0:00"
   const mins = Math.floor(seconds / 60)
   const secs = Math.floor(seconds % 60)
   return `${mins}:${secs.toString().padStart(2, "0")}`
 }
 
 export function AudioPlayer({
-  audioPlayerRef,
+  audioRef,
   currentTime,
-  setCurrentTime,
   duration,
+  isPlaying,
   playbackSpeed,
-  setPlaybackSpeed,
+  onSeek,
+  onSeekBy,
+  onPlayPause,
+  onSpeedChange,
 }: AudioPlayerProps) {
   const [showSpeedControl, setShowSpeedControl] = useState(false)
 
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!audioPlayerRef.current || !duration) return
+    if (!duration) return
 
     const rect = e.currentTarget.getBoundingClientRect()
     const clickX = e.clientX - rect.left
     const percentage = clickX / rect.width
     const newTime = percentage * duration
 
-    audioPlayerRef.current.currentTime = newTime
-    setCurrentTime(newTime)
-  }
-
-  const handleRewind = (seconds: number) => {
-    if (audioPlayerRef.current) {
-      audioPlayerRef.current.currentTime = Math.max(0, audioPlayerRef.current.currentTime - seconds)
-    }
-  }
-
-  const handleFastForward = (seconds: number) => {
-    if (audioPlayerRef.current) {
-      audioPlayerRef.current.currentTime = Math.min(
-        audioPlayerRef.current.duration,
-        audioPlayerRef.current.currentTime + seconds,
-      )
-    }
-  }
-
-  const handleSpeedChange = (speed: number) => {
-    setPlaybackSpeed(speed)
-    if (audioPlayerRef.current) {
-      audioPlayerRef.current.playbackRate = speed
-    }
-  }
-
-  const togglePlayPause = () => {
-    if (audioPlayerRef.current) {
-      if (audioPlayerRef.current.paused) {
-        audioPlayerRef.current.play().catch(console.error)
-      } else {
-        audioPlayerRef.current.pause()
-      }
-    }
+    onSeek(newTime)
   }
 
   const speedOptions = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
@@ -94,25 +68,21 @@ export function AudioPlayer({
         {/* Center-aligned audio controls */}
         <div className="flex-1 flex justify-center items-center gap-3 lg:gap-4">
           <button
-            onClick={() => handleRewind(10)}
+            onClick={() => onSeekBy(-10)}
             className="text-[#82FAFA] hover:text-white transition-colors duration-200"
             aria-label="Rewind 10 seconds"
           >
             <Rewind size={20} />
           </button>
           <button
-            onClick={togglePlayPause}
+            onClick={onPlayPause}
             className="text-[#82FAFA] hover:text-white transition-colors duration-200"
-            aria-label={audioPlayerRef.current?.paused ? "Play" : "Pause"}
+            aria-label={isPlaying ? "Pause" : "Play"}
           >
-            {audioPlayerRef.current && !audioPlayerRef.current.paused ? (
-              <PauseCircle size={24} />
-            ) : (
-              <PlayCircle size={24} />
-            )}
+            {isPlaying ? <PauseCircle size={24} /> : <PlayCircle size={24} />}
           </button>
           <button
-            onClick={() => handleFastForward(10)}
+            onClick={() => onSeekBy(10)}
             className="text-[#82FAFA] hover:text-white transition-colors duration-200"
             aria-label="Fast forward 10 seconds"
           >
@@ -136,7 +106,7 @@ export function AudioPlayer({
                   <button
                     key={speed}
                     onClick={() => {
-                      handleSpeedChange(speed)
+                      onSpeedChange(speed)
                       setShowSpeedControl(false)
                     }}
                     className={`px-3 py-1 text-xs rounded transition-colors duration-200 ${
