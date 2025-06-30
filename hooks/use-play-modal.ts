@@ -1,71 +1,103 @@
 "use client"
 
-import { useState, useCallback } from "react"
-import { useAudioPlayer } from "./use-audio-player"
-import { useMobile } from "@/lib/hooks/use-mobile"
-import type { MysterySetKey, PerspectiveType } from "@/types"
+import { useState, useCallback, useMemo } from "react"
+import { useAudioPlayer } from "@/hooks/use-audio-player"
 
-export function usePlayModal(mysterySetIndex: number) {
-  const [selectedMysteryIndex, setSelectedMysteryIndex] = useState(0)
-  const [selectedPerspective, setSelectedPerspective] = useState<PerspectiveType>(3)
-  const [isAnimating, setIsAnimating] = useState(false)
+/**
+ * Keys used to look-up a mystery set by index (0-based)
+ * 0 → joyful, 1 → luminous, 2 → sorrowful, 3 → glorious
+ */
+const MYSTERY_SET_KEYS = ["joyful", "luminous", "sorrowful", "glorious"] as const
 
-  const isMobile = useMobile()
-  const audioPlayer = useAudioPlayer()
+/**
+ * Hook used by <PlayModal/> to encapsulate all UI / audio logic.
+ * It returns the exact shape consumed by the modal component.
+ */
+export function usePlayModal(selectedMysterySetIndex: number) {
+  /* ───────────────────────────── State ───────────────────────────── */
+  const [expandedMysteryItem, setExpandedMysteryItem] = useState<number | null>(null)
 
-  const handleMysterySelect = useCallback(
-    (index: number) => {
-      if (index === selectedMysteryIndex) return
+  /* ──────────────────────── Audio management ─────────────────────── */
+  const {
+    nowPlaying,
+    isPlaying,
+    currentTime,
+    duration,
+    playbackSpeed,
+    isLoading,
+    error,
+    audioRef,
+    play,
+    pause,
+    seek,
+    seekBy,
+    setPlaybackSpeed,
+    cleanup,
+    clearError,
+  } = useAudioPlayer()
 
-      setIsAnimating(true)
-      setSelectedMysteryIndex(index)
-
-      // Reset animation after a short delay
-      setTimeout(() => setIsAnimating(false), 300)
-    },
-    [selectedMysteryIndex],
+  /* ───────────────────────── Helper refs ─────────────────────────── */
+  const currentMysterySetKey = useMemo(
+    () => MYSTERY_SET_KEYS[selectedMysterySetIndex] ?? "joyful",
+    [selectedMysterySetIndex],
   )
 
-  const handlePerspectiveChange = useCallback((perspective: PerspectiveType) => {
-    setSelectedPerspective(perspective)
-  }, [])
+  /* ────────────────────── UI interaction logic ───────────────────── */
+  const toggleMysteryItem = useCallback(
+    (index: number) => {
+      const isOpeningNewItem = expandedMysteryItem !== index
+      setExpandedMysteryItem((prev) => (prev === index ? null : index))
 
-  const handlePlayAudio = useCallback(() => {
-    const mysterySetKeys: MysterySetKey[] = ["joyful", "luminous", "sorrowful", "glorious"]
-    const mysterySetKey = mysterySetKeys[mysterySetIndex]
+      // stop current audio when switching items / collapsing the same one
+      if (nowPlaying && nowPlaying.mysteryIndex !== index && isOpeningNewItem) {
+        cleanup()
+      } else if (expandedMysteryItem === index && nowPlaying && nowPlaying.mysteryIndex === index) {
+        cleanup()
+      }
+    },
+    [expandedMysteryItem, nowPlaying, cleanup],
+  )
 
-    if (mysterySetKey) {
-      audioPlayer.play(mysterySetKey, selectedMysteryIndex, selectedPerspective)
-    }
-  }, [audioPlayer, mysterySetIndex, selectedMysteryIndex, selectedPerspective])
-
-  const handlePauseAudio = useCallback(() => {
-    audioPlayer.pause()
-  }, [audioPlayer])
+  const playAudio = useCallback(
+    (mysteryItemIndex: number, perspective: 3 | 7 | 12) => {
+      play(currentMysterySetKey, mysteryItemIndex, perspective)
+    },
+    [currentMysterySetKey, play],
+  )
 
   const handlePlayPause = useCallback(() => {
-    if (audioPlayer.isPlaying) {
-      handlePauseAudio()
-    } else {
-      handlePlayAudio()
+    if (isPlaying) {
+      pause()
+    } else if (nowPlaying) {
+      play(nowPlaying.mysterySetKey, nowPlaying.mysteryIndex, nowPlaying.perspective)
     }
-  }, [audioPlayer.isPlaying, handlePlayAudio, handlePauseAudio])
+  }, [isPlaying, pause, nowPlaying, play])
 
+  const handleClose = useCallback(() => {
+    cleanup()
+  }, [cleanup])
+
+  /* ───────────────────────────── Return ──────────────────────────── */
   return {
-    // State
-    selectedMysteryIndex,
-    selectedPerspective,
-    isAnimating,
-    isMobile,
+    /* UI */
+    expandedMysteryItem,
+    toggleMysteryItem,
+    handleClose,
 
-    // Audio player state
-    ...audioPlayer,
-
-    // Handlers
-    handleMysterySelect,
-    handlePerspectiveChange,
-    handlePlayAudio,
-    handlePauseAudio,
+    /* Audio API passthrough */
+    nowPlaying,
+    isPlaying,
+    currentTime,
+    duration,
+    playbackSpeed,
+    isLoading,
+    error,
+    audioRef,
+    playAudio,
     handlePlayPause,
+    seek,
+    seekBy,
+    setPlaybackSpeed,
+    clearError,
   }
 }

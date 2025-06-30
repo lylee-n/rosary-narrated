@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { memo, useCallback } from "react"
 import { Play, Pause, SkipBack, SkipForward, Volume2 } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
