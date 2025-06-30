@@ -20,7 +20,7 @@ export function PlaySection() {
   }
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-16 px-4">
+    <section className="min-h-screen bg-transparent py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-sora">The Rosary Mysteries</h2>
