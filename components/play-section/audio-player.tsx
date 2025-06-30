@@ -1,9 +1,12 @@
 "use client"
 
 import type React from "react"
+
+import { useCallback } from "react"
 import { Play, Pause, SkipBack, SkipForward, Volume2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface AudioPlayerProps {
   audioRef: React.RefObject<HTMLAudioElement>
@@ -12,12 +15,10 @@ interface AudioPlayerProps {
   playbackSpeed: number
   isPlaying: boolean
   isLoading: boolean
-  error: string | null
   onSeek: (time: number) => void
   onSeekBy: (seconds: number) => void
   onPlayPause: () => void
   onSpeedChange: (speed: number) => void
-  onClearError?: () => void
 }
 
 export function AudioPlayer({
@@ -27,51 +28,39 @@ export function AudioPlayer({
   playbackSpeed,
   isPlaying,
   isLoading,
-  error,
   onSeek,
   onSeekBy,
   onPlayPause,
   onSpeedChange,
-  onClearError,
 }: AudioPlayerProps) {
-  const formatTime = (time: number): string => {
-    if (isNaN(time)) return "0:00"
+  const formatTime = useCallback((time: number): string => {
+    if (!isFinite(time)) return "0:00"
 
     const minutes = Math.floor(time / 60)
     const seconds = Math.floor(time % 60)
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
-  }
+  }, [])
 
-  const handleProgressChange = (value: number[]) => {
-    onSeek(value[0])
-  }
+  const handleProgressChange = useCallback(
+    (value: number[]) => {
+      onSeek(value[0])
+    },
+    [onSeek],
+  )
 
-  const speedOptions = [0.5, 0.75, 1, 1.25, 1.5, 2]
+  const handleSpeedChange = useCallback(
+    (value: string) => {
+      onSpeedChange(Number.parseFloat(value))
+    },
+    [onSpeedChange],
+  )
 
-  if (error) {
-    return (
-      <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 mt-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-            <span className="text-red-400 text-sm">{error}</span>
-          </div>
-          {onClearError && (
-            <Button variant="ghost" size="sm" onClick={onClearError} className="text-red-400 hover:text-red-300">
-              Dismiss
-            </Button>
-          )}
-        </div>
-      </div>
-    )
-  }
+  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0
 
   return (
-    <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 mt-4 border border-white/10">
-      <audio ref={audioRef} preload="metadata" />
-
+    <div className="bg-black/40 backdrop-blur-sm rounded-lg p-4 mt-4 space-y-3">
       {/* Progress Bar */}
-      <div className="mb-4">
+      <div className="space-y-2">
         <Slider
           value={[currentTime]}
           max={duration || 100}
@@ -80,7 +69,7 @@ export function AudioPlayer({
           className="w-full"
           disabled={!duration || isLoading}
         />
-        <div className="flex justify-between text-xs text-gray-400 mt-1">
+        <div className="flex justify-between text-xs text-gray-300">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
@@ -94,8 +83,8 @@ export function AudioPlayer({
             variant="ghost"
             size="sm"
             onClick={() => onSeekBy(-10)}
-            disabled={isLoading || !duration}
-            className="text-white hover:text-[#82FAFA]"
+            disabled={!duration || isLoading}
+            className="text-white hover:text-[#82FAFA] hover:bg-white/10"
           >
             <SkipBack size={16} />
           </Button>
@@ -105,11 +94,11 @@ export function AudioPlayer({
             variant="ghost"
             size="sm"
             onClick={onPlayPause}
-            disabled={isLoading || !duration}
-            className="text-white hover:text-[#82FAFA]"
+            disabled={!duration || isLoading}
+            className="text-white hover:text-[#82FAFA] hover:bg-white/10"
           >
             {isLoading ? (
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
             ) : isPlaying ? (
               <Pause size={16} />
             ) : (
@@ -122,8 +111,8 @@ export function AudioPlayer({
             variant="ghost"
             size="sm"
             onClick={() => onSeekBy(10)}
-            disabled={isLoading || !duration}
-            className="text-white hover:text-[#82FAFA]"
+            disabled={!duration || isLoading}
+            className="text-white hover:text-[#82FAFA] hover:bg-white/10"
           >
             <SkipForward size={16} />
           </Button>
@@ -132,18 +121,19 @@ export function AudioPlayer({
         {/* Speed Control */}
         <div className="flex items-center space-x-2">
           <Volume2 size={14} className="text-gray-400" />
-          <select
-            value={playbackSpeed}
-            onChange={(e) => onSpeedChange(Number(e.target.value))}
-            className="bg-black/50 text-white text-xs rounded px-2 py-1 border border-white/20 focus:border-[#82FAFA] focus:outline-none"
-            disabled={isLoading}
-          >
-            {speedOptions.map((speed) => (
-              <option key={speed} value={speed}>
-                {speed}x
-              </option>
-            ))}
-          </select>
+          <Select value={playbackSpeed.toString()} onValueChange={handleSpeedChange}>
+            <SelectTrigger className="w-20 h-8 text-xs bg-white/10 border-white/20 text-white">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0.5">0.5x</SelectItem>
+              <SelectItem value="0.75">0.75x</SelectItem>
+              <SelectItem value="1">1x</SelectItem>
+              <SelectItem value="1.25">1.25x</SelectItem>
+              <SelectItem value="1.5">1.5x</SelectItem>
+              <SelectItem value="2">2x</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>
