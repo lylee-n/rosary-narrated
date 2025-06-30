@@ -1,16 +1,11 @@
 import type { Config } from "tailwindcss"
+import defaultConfig from "shadcn/ui/tailwind.config"
 
 const config = {
-  darkMode: ["class"],
-  content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-    "*.{js,ts,jsx,tsx,mdx}",
-  ],
-  prefix: "",
+  ...defaultConfig,
+  content: [...defaultConfig.content, "./pages/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}", "*.{js,ts,jsx,tsx,mdx}"],
   theme: {
+    ...defaultConfig.theme,
     container: {
       center: true,
       padding: "2rem",
@@ -19,6 +14,11 @@ const config = {
       },
     },
     extend: {
+      ...defaultConfig.theme.extend,
+      minHeight: {
+        screen: "100vh",
+        "screen-small": "100svh",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -74,12 +74,12 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        inter: ["Inter", "sans-serif"],
-        sora: ["Sora", "sans-serif"],
+        sans: ["var(--font-inter)", "sans-serif"],
+        sora: ["var(--font-sora)", "sans-serif"],
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [...defaultConfig.plugins, require("tailwindcss-animate")],
 } satisfies Config
 
 export default config
