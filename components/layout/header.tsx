@@ -23,6 +23,7 @@ export function Header() {
         <ul className="flex items-center space-x-10 md:space-x-12">
           {NAV_ITEMS.map(({ icon: Icon, label, name }) => {
             const translatedLabel = t.nav[label.toLowerCase() as keyof typeof t.nav] || label
+            const isPrayIcon = name === "PLAY"
 
             return (
               <li key={name} className="relative">
@@ -30,12 +31,24 @@ export function Header() {
                   onClick={() => setView(name)}
                   onMouseEnter={() => setHoveredIcon(name)}
                   onMouseLeave={() => setHoveredIcon(null)}
-                  className={`flex flex-col items-center space-y-2 transition-colors duration-300 ${
-                    currentView === name ? "text-[#FFE552]" : "text-gray-400 hover:text-white"
+                  className={`flex flex-col items-center space-y-2 transition-all duration-300 relative ${
+                    currentView === name
+                      ? isPrayIcon
+                        ? "text-[#FFE552]"
+                        : "text-[#FFE552]"
+                      : isPrayIcon
+                        ? "text-white"
+                        : "text-gray-400 hover:text-white"
+                  } ${
+                    isPrayIcon && (hoveredIcon === name || currentView === name)
+                      ? "drop-shadow-[0_0_8px_rgba(255,229,82,0.6)]"
+                      : isPrayIcon
+                        ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+                        : ""
                   }`}
                   aria-label={translatedLabel}
                 >
-                  <Icon size={22} />
+                  <Icon size={22} className={isPrayIcon ? "fill-current" : ""} />
                 </button>
 
                 {hoveredIcon === name && (

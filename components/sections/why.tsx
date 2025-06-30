@@ -39,7 +39,7 @@ export function WhySection() {
           </p>
         </div>
 
-        {/* Full-width cards in separate rows */}
+        {/* Full-width cards in separate rows - consistent layout with text left, image right */}
         <div className="space-y-12 mb-24">
           {cardDataEn.map((card, index) => (
             <div
@@ -48,14 +48,12 @@ export function WhySection() {
               onClick={() => handleCardClick(index)}
             >
               <div className="relative overflow-hidden rounded-2xl border border-gray-700 hover:border-[#82FAFA] transition-colors duration-300">
-                <div className={`grid grid-cols-1 md:grid-cols-2 ${index % 2 === 1 ? "md:grid-flow-col-dense" : ""}`}>
-                  {/* Text Column */}
-                  <div
-                    className={`p-8 md:p-12 flex flex-col justify-center bg-black/60 backdrop-blur-sm ${index % 2 === 1 ? "md:col-start-2" : ""}`}
-                  >
-                    {/* Number Badge */}
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  {/* Text Column - Always on the left */}
+                  <div className="p-8 md:p-12 flex flex-col justify-center bg-black/60 backdrop-blur-sm">
+                    {/* Number Badge - Removed background opacity */}
                     <div className="flex justify-start mb-6">
-                      <div className="w-12 h-12 bg-[#82FAFA]/20 backdrop-blur-sm border-2 border-[#82FAFA] text-[#82FAFA] rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 group-hover:scale-110">
+                      <div className="w-12 h-12 border-2 border-[#82FAFA] text-[#82FAFA] rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 group-hover:scale-110">
                         {card.number}
                       </div>
                     </div>
@@ -77,20 +75,21 @@ export function WhySection() {
                     </div>
                   </div>
 
-                  {/* Image Column */}
-                  <div className={`aspect-[4/3] md:aspect-auto relative ${index % 2 === 1 ? "md:col-start-1" : ""}`}>
+                  {/* Image Column - Always on the right */}
+                  <div className="aspect-[4/3] md:aspect-auto relative">
                     <Image
                       src={cardImages[index] || "/placeholder.svg"}
                       alt={`Card ${index + 1} background`}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" />
+                    {/* Fixed gradient overlay for better text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-l from-transparent via-black/20 to-black/40 md:hidden" />
                   </div>
                 </div>
 
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-[#82FAFA]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+                {/* Subtle hover overlay - reduced opacity to fix layout issue */}
+                <div className="absolute inset-0 bg-[#82FAFA]/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
               </div>
             </div>
           ))}

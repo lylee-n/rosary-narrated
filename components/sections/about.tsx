@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import { ArrowRight } from "lucide-react"
 import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
 
@@ -60,9 +61,12 @@ export function AboutSection() {
           </div>
 
           {/* Step content */}
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 md:p-12">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 md:p-12 relative">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div>
+                <div className="flex items-center mb-4">
+                  <span className="text-[#82FAFA] font-sora text-lg font-bold mr-3">Step {currentStep + 1}</span>
+                </div>
                 <h3 className="text-white font-sora text-2xl md:text-3xl font-bold mb-4">{steps[currentStep].title}</h3>
                 <p className="text-gray-300 font-inter text-lg leading-relaxed">{steps[currentStep].description}</p>
               </div>
@@ -75,33 +79,13 @@ export function AboutSection() {
                 />
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Features grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-[#82FAFA] text-2xl">🎧</span>
-            </div>
-            <h3 className="text-white font-sora text-xl font-semibold mb-3">Audio Guided</h3>
-            <p className="text-gray-300 font-inter">Professional narration guides you through each mystery</p>
-          </div>
-
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-[#FFE552]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-[#FFE552] text-2xl">🎨</span>
-            </div>
-            <h3 className="text-white font-sora text-xl font-semibold mb-3">Visual Experience</h3>
-            <p className="text-gray-300 font-inter">Beautiful imagery enhances your meditation</p>
-          </div>
-
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-[#82FAFA] text-2xl">📱</span>
-            </div>
-            <h3 className="text-white font-sora text-xl font-semibold mb-3">Any Device</h3>
-            <p className="text-gray-300 font-inter">Pray anywhere, anytime on any device</p>
+            {/* Arrow for steps 1 and 2 */}
+            {currentStep < 2 && (
+              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 hidden md:block">
+                <ArrowRight size={24} className="text-[#82FAFA]" />
+              </div>
+            )}
           </div>
         </div>
 
