@@ -28,12 +28,6 @@ export function AboutSection() {
     },
   ]
 
-  const handleNextStep = () => {
-    if (currentStep < 2) {
-      setCurrentStep(currentStep + 1)
-    }
-  }
-
   return (
     <section className="min-h-screen bg-transparent py-16 px-4">
       <div className="max-w-6xl mx-auto">
@@ -51,22 +45,22 @@ export function AboutSection() {
         <div className="mb-16">
           <h2 className="text-white font-sora text-3xl md:text-4xl font-bold text-center mb-12">How It Works</h2>
 
-          {/* Step indicators with numbered bubbles and arrows */}
+          {/* Step indicators - numbered bubbles with arrows */}
           <div className="flex justify-center items-center mb-8">
             <div className="flex items-center space-x-4">
               {steps.map((_, index) => (
                 <div key={index} className="flex items-center">
                   <button
                     onClick={() => setCurrentStep(index)}
-                    className={`w-12 h-12 border-2 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
+                    className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg transition-all duration-300 ${
                       currentStep === index
-                        ? "border-[#82FAFA] text-[#82FAFA] bg-transparent"
-                        : "border-gray-600 text-gray-600 bg-transparent"
+                        ? "border-[#82FAFA] text-[#82FAFA] bg-[#82FAFA]/10"
+                        : "border-gray-600 text-gray-600 hover:border-[#82FAFA] hover:text-[#82FAFA]"
                     }`}
                   >
                     {index + 1}
                   </button>
-                  {index < 2 && <ArrowRight size={20} className="text-gray-600 mx-2" />}
+                  {index < steps.length - 1 && <ArrowRight size={20} className="text-[#82FAFA] ml-4" />}
                 </div>
               ))}
             </div>
@@ -92,10 +86,10 @@ export function AboutSection() {
               </div>
             </div>
 
-            {/* Clickable arrow for steps 1 and 2 */}
+            {/* Clickable Arrow for steps 1 and 2 */}
             {currentStep < 2 && (
               <button
-                onClick={handleNextStep}
+                onClick={() => setCurrentStep(currentStep + 1)}
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 hidden md:block hover:scale-110 transition-transform duration-300"
               >
                 <ArrowRight size={24} className="text-[#82FAFA] hover:text-[#FFE552]" />

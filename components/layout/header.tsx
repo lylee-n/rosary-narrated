@@ -1,118 +1,67 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
-import { Menu, X, Home, HelpCircle, Play, Users, Heart } from "lucide-react"
+import { LanguageToggle } from "@/components/language-toggle"
 import { useApp } from "@/components/app-provider"
+import { useTranslations } from "@/hooks/use-translations"
+import { NAV_ITEMS } from "@/constants"
 
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { view, setView } = useApp()
-
-  const navItems = [
-    { id: "ABOUT", label: "About", icon: Home },
-    { id: "WHY", label: "Why", icon: HelpCircle },
-    { id: "PLAY", label: "Pray", icon: Play },
-    { id: "COMMUNITY", label: "Community", icon: Users },
-    { id: "SUPPORT", label: "Support", icon: Heart },
-  ]
-
-  const handleNavClick = (viewId: string) => {
-    setView(viewId)
-    setIsMenuOpen(false)
-  }
+  const { setView, currentView } = useApp()
+  const t = useTranslations()
+  const [hoveredIcon, setHoveredIcon] = useState<string | null>(null)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <Image
-              src="/images/rosary-narrated-logo.png"
-              alt="Rosary Narrated"
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
-            <span className="text-white font-sora text-xl font-bold">Rosary Narrated</span>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => {
-              const Icon = item.icon
-              const isActive = view === item.id
-              const isPrayIcon = item.id === "PLAY"
-
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-300 ${
-                    isActive ? "bg-white/10 text-white" : "text-gray-300 hover:text-white hover:bg-white/5"
-                  }`}
-                >
-                  <Icon
-                    size={20}
-                    className={`transition-all duration-300 ${
-                      isPrayIcon
-                        ? isActive || view === "PLAY"
-                          ? "fill-current text-[#FFE552] drop-shadow-[0_0_8px_rgba(255,229,82,0.6)]"
-                          : "fill-current text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] hover:text-[#FFE552] hover:drop-shadow-[0_0_8px_rgba(255,229,82,0.6)]"
-                        : ""
-                    }`}
-                  />
-                  <span className="font-medium">{item.label}</span>
-                </button>
-              )
-            })}
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-white hover:text-gray-300 transition-colors"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+    <header className="w-full flex flex-col items-center">
+      <div className="w-full flex justify-end px-8 pt-4">
+        <div className="backdrop-blur-sm rounded-lg px-4 py-2">
+          <LanguageToggle />
         </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-800">
-            <nav className="flex flex-col space-y-2">
-              {navItems.map((item) => {
-                const Icon = item.icon
-                const isActive = view === item.id
-                const isPrayIcon = item.id === "PLAY"
-
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleNavClick(item.id)}
-                    className={`flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-300 ${
-                      isActive ? "bg-white/10 text-white" : "text-gray-300 hover:text-white hover:bg-white/5"
-                    }`}
-                  >
-                    <Icon
-                      size={20}
-                      className={`transition-all duration-300 ${
-                        isPrayIcon
-                          ? isActive || view === "PLAY"
-                            ? "fill-current text-[#FFE552] drop-shadow-[0_0_8px_rgba(255,229,82,0.6)]"
-                            : "fill-current text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
-                          : ""
-                      }`}
-                    />
-                    <span className="font-medium">{item.label}</span>
-                  </button>
-                )
-              })}
-            </nav>
-          </div>
-        )}
       </div>
+
+      <nav className="flex justify-center mt-4">
+        <ul className="flex items-center space-x-10 md:space-x-12">
+          {NAV_ITEMS.map(({ icon: Icon, label, name }) => {
+            const translatedLabel = t.nav[label.toLowerCase() as keyof typeof t.nav] || label
+            const isPrayIcon = name === "PLAY"
+
+            return (
+              <li key={name} className="relative">
+                <button
+                  onClick={() => setView(name)}
+                  onMouseEnter={() => setHoveredIcon(name)}
+                  onMouseLeave={() => setHoveredIcon(null)}
+                  className={`flex flex-col items-center space-y-2 transition-all duration-300 relative ${
+                    currentView === name
+                      ? isPrayIcon
+                        ? "text-[#FFE552]"
+                        : "text-[#FFE552]"
+                      : isPrayIcon
+                        ? "text-white"
+                        : "text-gray-400 hover:text-white"
+                  } ${
+                    isPrayIcon && (hoveredIcon === name || currentView === name)
+                      ? "drop-shadow-[0_0_8px_rgba(255,229,82,0.6)]"
+                      : isPrayIcon
+                        ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+                        : ""
+                  }`}
+                  aria-label={translatedLabel}
+                >
+                  <Icon size={22} className={isPrayIcon ? "fill-current" : ""} />
+                </button>
+
+                {hoveredIcon === name && (
+                  <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white text-black px-3 py-1 rounded-md text-sm font-medium whitespace-nowrap z-[60] shadow-lg">
+                    {translatedLabel}
+                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45"></div>
+                  </div>
+                )}
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
     </header>
   )
 }
