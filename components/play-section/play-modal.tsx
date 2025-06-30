@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Text } from "@nextui-org/react"
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input } from "@nextui-org/react"
 import { dataService } from "@/lib/services/data-service"
 
 interface PlayModalProps {
@@ -65,9 +65,9 @@ export function PlayModal({ isOpen, onOpenChange, gameId }: PlayModalProps) {
                 onChange={(e) => setPlayerName(e.target.value)}
               />
               {errorMessage && (
-                <Text color="danger" size="sm">
+                <p className="text-sm text-red-600 dark:text-red-400" role="alert">
                   {errorMessage}
-                </Text>
+                </p>
               )}
             </ModalBody>
             <ModalFooter>

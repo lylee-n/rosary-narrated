@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Text } from "@nextui-org/react"
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input } from "@nextui-org/react"
 import { dataService } from "@/lib/services/data-service" // Updated import path
 
 interface PlayModalProps {
@@ -61,7 +61,11 @@ const PlayModalRefactored: React.FC<PlayModalProps> = ({ isOpen, onOpenChange, g
           <>
             <ModalHeader className="flex flex-col gap-1">Join Game</ModalHeader>
             <ModalBody>
-              {errorMessage && <Text color="danger">{errorMessage}</Text>}
+              {errorMessage && (
+                <p className="text-sm text-red-600 dark:text-red-400 mb-2" role="alert">
+                  {errorMessage}
+                </p>
+              )}
               <Input
                 isRequired
                 type="text"
