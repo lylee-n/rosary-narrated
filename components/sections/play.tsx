@@ -23,8 +23,10 @@ export function PlaySection() {
     <section className="min-h-screen bg-transparent py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-sora">The Rosary Mysteries</h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto font-inter">
+          <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold mb-8 md:mb-16">
+            The Rosary Mysteries
+          </h2>
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed mb-20">
             Each Mystery tells a story. Experience them through audio and visuals designed to help you connect. Choose a
             set to get started.
           </p>
