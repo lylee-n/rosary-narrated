@@ -26,7 +26,7 @@ export function CommunitySection() {
         {/* Two cards on the same row - reduced width */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Regular Connections Card */}
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 pl-8">
             <div className="flex items-center mb-4">
               <div className="w-10 h-10 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-3">
                 <Calendar size={20} className="text-[#82FAFA]" />
@@ -40,7 +40,7 @@ export function CommunitySection() {
           </div>
 
           {/* Interactive Faith Card */}
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 pl-8">
             <div className="flex items-center mb-4">
               <div className="w-10 h-10 bg-[#FFE552]/20 rounded-full flex items-center justify-center mr-3">
                 <BookOpen size={20} className="text-[#FFE552]" />
@@ -66,7 +66,7 @@ export function CommunitySection() {
 
         {/* What We're Building Card - Centered below with reduced width and left-aligned text */}
         <div className="flex justify-center">
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 md:p-8 max-w-2xl w-full">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 md:p-8 pl-8 max-w-2xl w-full">
             <div className="flex items-center mb-6">
               <div className="w-10 h-10 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-3">
                 <Users size={20} className="text-[#82FAFA]" />

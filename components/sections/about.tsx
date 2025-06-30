@@ -28,6 +28,12 @@ export function AboutSection() {
     },
   ]
 
+  const handleNextStep = () => {
+    if (currentStep < 2) {
+      setCurrentStep(currentStep + 1)
+    }
+  }
+
   return (
     <section className="min-h-screen bg-transparent py-16 px-4">
       <div className="max-w-6xl mx-auto">
@@ -36,8 +42,8 @@ export function AboutSection() {
             Welcome to Rosary Narrated
           </h1>
           <p className="text-lg md:text-xl text-gray-300 max-w-4xl mx-auto font-inter font-light leading-relaxed">
-            A guided audiovisual experience through the mysteries of the Rosary. This is an audiovisual-guided
-            experience designed to help you meditate on the life of Christ through the eyes of Mary.
+            This is an audiovisual guided experience designed to help you meditate on the life of Christ based on the
+            Rosary.
           </p>
         </div>
 
@@ -45,17 +51,23 @@ export function AboutSection() {
         <div className="mb-16">
           <h2 className="text-white font-sora text-3xl md:text-4xl font-bold text-center mb-12">How It Works</h2>
 
-          {/* Step indicators */}
-          <div className="flex justify-center mb-8">
-            <div className="flex space-x-4">
+          {/* Step indicators with numbered bubbles and arrows */}
+          <div className="flex justify-center items-center mb-8">
+            <div className="flex items-center space-x-4">
               {steps.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentStep(index)}
-                  className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                    currentStep === index ? "bg-[#FFE552]" : "bg-gray-600"
-                  }`}
-                />
+                <div key={index} className="flex items-center">
+                  <button
+                    onClick={() => setCurrentStep(index)}
+                    className={`w-12 h-12 border-2 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
+                      currentStep === index
+                        ? "border-[#82FAFA] text-[#82FAFA] bg-transparent"
+                        : "border-gray-600 text-gray-600 bg-transparent"
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                  {index < 2 && <ArrowRight size={20} className="text-gray-600 mx-2" />}
+                </div>
               ))}
             </div>
           </div>
@@ -80,11 +92,14 @@ export function AboutSection() {
               </div>
             </div>
 
-            {/* Arrow for steps 1 and 2 */}
+            {/* Clickable arrow for steps 1 and 2 */}
             {currentStep < 2 && (
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 hidden md:block">
-                <ArrowRight size={24} className="text-[#82FAFA]" />
-              </div>
+              <button
+                onClick={handleNextStep}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 hidden md:block hover:scale-110 transition-transform duration-300"
+              >
+                <ArrowRight size={24} className="text-[#82FAFA] hover:text-[#FFE552]" />
+              </button>
             )}
           </div>
         </div>

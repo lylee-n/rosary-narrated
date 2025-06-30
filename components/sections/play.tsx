@@ -30,7 +30,6 @@ export function PlaySection() {
             The Rosary Mysteries
           </h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed mb-20">
-            Each Mystery tells a story. Experience them through audiovisual and visuals designed to help you connect.
             Choose a set to get started.
           </p>
         </div>

@@ -31,11 +31,12 @@ export function WhySection() {
 
         {/* Description text below header */}
         <div className="text-center max-w-4xl mx-auto mb-16">
-          <h3 className="text-white font-sora text-2xl md:text-4xl lg:text-5xl font-bold mb-6">
-            A Sacred Journey Through Scripture
-          </h3>
           <p className="text-gray-200 font-inter text-lg md:text-xl leading-relaxed">
-            Experience the mysteries of Christ's life through guided meditation and prayer
+            Jesus's choices often puzzle us. Why does He do what He does? Why does the Father do what He does? His
+            astronomical sacrificial love just doesn't make sense. The Father and Jesus think our souls are worth that
+            much. While the heavens know He is the only one worthy (Revelation 5:2-9)—not any angel or archangel, but
+            He—the Lamb. It will take us several lifetimes to fully understand. But here our are three reasons why we
+            should pray the Rosary...
           </p>
         </div>
 
