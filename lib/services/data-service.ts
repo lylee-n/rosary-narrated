@@ -1,99 +1,110 @@
-import { audioData } from "@/lib/audio-data"
+import type { RosaryMysterySet, AudioData, MysteryImage } from "@/lib/types"
 import { rosaryMysteriesDataEn } from "@/lib/rosary-data-en"
-import type { MysterySetKey, PerspectiveType, MysterySet, AudioUrlValidation } from "@/types"
+import { audioDataEn } from "@/lib/audio-data"
+import { MYSTERY_IMAGES } from "@/constants"
 
 class DataService {
-  private readonly mysterySetKeys: MysterySetKey[] = ["joyful", "luminous", "sorrowful", "glorious"]
+  private mysterySets: RosaryMysterySet[]
+  private audioData: AudioData[]
+  private mysteryImages: MysteryImage[]
 
-  /**
-   * Get mystery set data by index
-   */
-  getMysterySet(index: number): MysterySet | null {
-    const mysterySetData = rosaryMysteriesDataEn[(index + 1) as keyof typeof rosaryMysteriesDataEn]
-    return mysterySetData || null
+  constructor() {
+    // For now, we only load English data as per the plan.
+    this.mysterySets = Object.values(rosaryMysteriesDataEn)
+    this.audioData = audioDataEn
+    this.mysteryImages = MYSTERY_IMAGES.map((src, index) => ({
+      src,
+      alt: this.getMysterySetTitle(index),
+    }))
   }
 
   /**
-   * Get all mystery sets
+   * Retrieves all rosary mystery sets.
+   * @returns An array of RosaryMysterySet objects.
    */
-  getAllMysterySets(): MysterySet[] {
-    return Object.values(rosaryMysteriesDataEn)
+  getMysterySets(): RosaryMysterySet[] {
+    return this.mysterySets
   }
 
   /**
-   * Get mystery set keys
+   * Retrieves a specific mystery set by its index.
+   * @param index The index of the mystery set.
+   * @returns The RosaryMysterySet object, or undefined if not found.
    */
-  getMysterySetKeys(): MysterySetKey[] {
-    return [...this.mysterySetKeys]
+  getMysterySet(index: number): RosaryMysterySet | undefined {
+    return this.mysterySets[index]
   }
 
   /**
-   * Get audio URL for specific mystery and perspective
-   */
-  getAudioUrl(mysterySetKey: MysterySetKey, mysteryIndex: number, perspective: PerspectiveType): string | null {
-    return audioData[mysterySetKey]?.[mysteryIndex]?.[perspective] || null
-  }
-
-  /**
-   * Validate audio URL availability
-   */
-  validateAudioUrl(
-    mysterySetKey: MysterySetKey,
-    mysteryIndex: number,
-    perspective: PerspectiveType,
-  ): AudioUrlValidation {
-    const url = this.getAudioUrl(mysterySetKey, mysteryIndex, perspective)
-
-    if (!url) {
-      return {
-        url: "",
-        isValid: false,
-        errors: ["Audio not available for this selection"],
-      }
-    }
-
-    return {
-      url,
-      isValid: true,
-      errors: [],
-    }
-  }
-
-  /**
-   * Get available perspectives for a mystery
-   */
-  getAvailablePerspectives(mysterySetKey: MysterySetKey, mysteryIndex: number): PerspectiveType[] {
-    const mysteryData = audioData[mysterySetKey]?.[mysteryIndex]
-    if (!mysteryData) return []
-
-    const perspectives: PerspectiveType[] = []
-    if (mysteryData[3]) perspectives.push(3)
-    if (mysteryData[7]) perspectives.push(7)
-    if (mysteryData[12]) perspectives.push(12)
-
-    return perspectives
-  }
-
-  /**
-   * Check if mystery set exists
-   */
-  mysterySetExists(index: number): boolean {
-    return !!rosaryMysteriesDataEn[(index + 1) as keyof typeof rosaryMysteriesDataEn]
-  }
-
-  /**
-   * Get mystery set title by index
+   * Retrieves the title of a specific mystery set by its index.
+   * @param index The index of the mystery set.
+   * @returns The title of the mystery set, or a default string if not found.
    */
   getMysterySetTitle(index: number): string {
-    const mysterySet = this.getMysterySet(index)
-    return mysterySet?.title || "Unknown Mystery Set"
+    return this.mysterySets[index]?.title || "Unknown Mystery Set"
   }
 
   /**
-   * Get total number of mystery sets
+   * Retrieves the audio URL for a given audio ID.
+   * This method simulates fetching the audio URL from a backend or CDN.
+   * In a real application, this might involve an API call.
+   * @param audioId The ID of the audio file (e.g., "joyful-1-intro").
+   * @returns A Promise that resolves with the audio URL string, or null if not found.
    */
-  getTotalMysterySets(): number {
-    return Object.keys(rosaryMysteriesDataEn).length
+  async getAudioUrl(audioId: string): Promise<string | null> {
+    const audioItem = this.audioData.find((item) => item.id === audioId)
+    if (audioItem) {
+      // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 100))
+      return audioItem.url
+    }
+    console.warn(`Audio URL not found for ID: ${audioId}`)
+    return null
+  }
+
+  /**
+   * Preloads audio URLs for a given mystery set to improve playback experience.
+   * @param mysterySetIndex The index of the mystery set to preload audio for.
+   */
+  async preloadAudioForMysterySet(mysterySetIndex: number): Promise<void> {
+    const mysterySet = this.getMysterySet(mysterySetIndex)
+    if (!mysterySet) {
+      console.warn(`Mystery set at index ${mysterySetIndex} not found for preloading.`)
+      return
+    }
+
+    const audioPromises: Promise<void>[] = []
+    mysterySet.mysteries.forEach((mystery) => {
+      mystery.decades.forEach((decade) => {
+        if (decade.audioId) {
+          audioPromises.push(
+            this.getAudioUrl(decade.audioId).then((url) => {
+              if (url) {
+                // Optionally, create an Audio object to trigger browser caching
+                const audio = new Audio(url)
+                audio.preload = "auto"
+                audio.load()
+              }
+            }),
+          )
+        }
+      })
+    })
+
+    try {
+      await Promise.all(audioPromises)
+      console.log(`Audio preloaded for mystery set ${mysterySet.title}`)
+    } catch (error) {
+      console.error(`Failed to preload audio for mystery set ${mysterySet.title}:`, error)
+    }
+  }
+
+  /**
+   * Retrieves all mystery images.
+   * @returns An array of MysteryImage objects.
+   */
+  getMysteryImages(): MysteryImage[] {
+    return this.mysteryImages
   }
 }
 

@@ -1,114 +1,71 @@
-import type React from "react"
-
-// Core types for the Rosary application
-export type Language = "en" | "vi"
-
-export type MysterySetKey = "joyful" | "luminous" | "sorrowful" | "glorious"
-
-export type PerspectiveType = 3 | 7 | 12
-
-// Audio related types
-export interface AudioData {
-  [key: string]: {
-    [mysteryIndex: number]: {
-      [perspective in PerspectiveType]?: string
-    }
-  }
+export interface RosaryMysterySet {
+  title: string
+  backgroundImage: string
+  mysteries: RosaryMystery[]
 }
 
-export interface AudioTrack {
-  mysterySetKey: MysterySetKey
-  mysteryIndex: number
-  perspective: PerspectiveType
-  url: string
-}
-
-export interface AudioError {
-  type: "PLAY_ERROR" | "LOAD_ERROR" | "NETWORK_ERROR"
-  message: string
-  url?: string
-}
-
-export interface NowPlaying {
-  src: string
-  mysterySetKey: MysterySetKey
-  mysteryIndex: number
-  perspective: PerspectiveType
-}
-
-// Rosary data types
-export interface Mystery {
+export interface RosaryMystery {
   title: string
   significance: string
   reflection: string
+  image: string
+  decades: MysteryDecade[]
 }
 
-export interface MysterySet {
+export interface MysteryDecade {
   title: string
-  backgroundImage: string
-  mysteries: Mystery[]
+  audioId: string
+  beads: BeadType[]
 }
 
-export interface RosaryData {
-  [key: number]: MysterySet
+export type BeadType =
+  | "Our Father"
+  | "Hail Mary"
+  | "Glory Be"
+  | "Fatima Prayer"
+  | "Hail Holy Queen"
+  | "Sign of the Cross"
+  | "Apostles Creed"
+
+export interface AudioData {
+  id: string
+  url: string
 }
 
-// UI Component types
-export interface ModalProps {
-  isOpen: boolean
-  onClose: () => void
-  children: React.ReactNode
-  className?: string
-}
-
-export interface ButtonProps {
-  variant?: "primary" | "secondary" | "outline"
-  size?: "sm" | "md" | "lg"
-  disabled?: boolean
-  loading?: boolean
-  children: React.ReactNode
-  onClick?: () => void
-  className?: string
-}
-
-// Audio Player types
 export interface AudioPlayerState {
   isPlaying: boolean
   currentTime: number
   duration: number
-  playbackSpeed: number
-  currentTrack: AudioTrack | null
+  volume: number
+  playbackRate: number
+  loop: boolean
+  error: AudioError | null
   isLoading: boolean
-  error: string | null
 }
 
-// Validation types
-export interface AudioUrlValidation {
-  url: string
-  isValid: boolean
-  errors: string[]
+export interface AudioError {
+  code: number
+  message: string
 }
 
-export interface ValidationResult {
-  isValid: boolean
-  errors: string[]
-}
-
-// Component Props
-export interface PlayModalProps {
-  selectedMysterySetIndex: number
-  onClose: () => void
+export interface AudioPlayerControls {
+  play: () => void
+  pause: () => void
+  seek: (time: number) => void
+  setVolume: (volume: number) => void
+  setPlaybackRate: (rate: number) => void
+  setLoop: (loop: boolean) => void
 }
 
 export interface AudioPlayerProps {
-  audioRef: React.RefObject<HTMLAudioElement>
-  currentTime: number
-  duration: number
-  playbackSpeed: number
-  isPlaying: boolean
-  isLoading: boolean
-  onSeek: (time: number) => void
-  onSeekBy: (seconds: number) => void
-  onPlayPause: () => void
-  onSpeedChange: (speed: number) => void
+  src: string
+  volume?: number
+  playbackRate?: number
+  loop?: boolean
+  autoplay?: boolean
+}
+
+export interface MysteryImage {
+  src: string
+  alt: string
 }
