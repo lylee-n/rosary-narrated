@@ -29,11 +29,19 @@ export function PlaySection() {
           <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-8 md:mb-16">
             The Rosary Mysteries
           </h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed mb-20 whitespace-pre-line">
-            {
-              "Choose a set of Mysteries for an audiovisual theology and storytelling experience.\n\nAs a general rule:\n• Monday: Joyful Mysteries\n• Tuesday: Sorrowful Mysteries\n• Wednesday: Glorious Mysteries\n• Thursday: Luminous Mysteries\n• Friday: Sorrowful Mysteries\n• Saturday: Joyful Mysteries\n• Sunday: Glorious Mysteries"
-            }
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed mb-4">
+            Choose a set of Mysteries for an audiovisual theology and storytelling experience.
           </p>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm md:text-base text-gray-300 font-inter font-light max-w-3xl mx-auto mb-20">
+            <span className="font-bold">As a general rule:</span>
+            <span>Monday: Joyful Mysteries</span>
+            <span>Tuesday: Sorrowful Mysteries</span>
+            <span>Wednesday: Glorious Mysteries</span>
+            <span>Thursday: Luminous Mysteries</span>
+            <span>Friday: Sorrowful Mysteries</span>
+            <span>Saturday: Joyful Mysteries</span>
+            <span>Sunday: Glorious Mysteries</span>
+          </div>
         </div>
 
         {/* 2x2 Grid for Desktop, Single Column for Mobile */}
