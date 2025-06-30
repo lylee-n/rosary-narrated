@@ -33,7 +33,7 @@ export function CommunitySection() {
               </div>
               <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Regular Connections</h2>
             </div>
-            <p className="text-base text-gray-300 font-inter leading-relaxed pl-16">
+            <p className="text-base text-gray-300 font-inter leading-relaxed pl-8">
               Virtual meetups where you can show up where you are spiritually. Discuss scriptural perspectives. Discuss
               hard stuff. Talk through life stuff. Find people who also get it, or not. Pray together.
             </p>
@@ -47,7 +47,7 @@ export function CommunitySection() {
               </div>
               <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Interactive Faith</h2>
             </div>
-            <p className="text-base text-gray-300 font-inter leading-relaxed pl-16">
+            <p className="text-base text-gray-300 font-inter leading-relaxed pl-8">
               Making scripture study feels less intimidating and more like bite size soul foods that integrates into
               your daily world.
             </p>
@@ -73,11 +73,11 @@ export function CommunitySection() {
               </div>
               <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">What We're Building</h2>
             </div>
-            <p className="text-base text-gray-300 font-inter leading-relaxed mb-8 pl-16">
+            <p className="text-base text-gray-300 font-inter leading-relaxed mb-8 pl-8">
               Some exciting stuff in the works:
             </p>
             {/* Vertical bullet points list */}
-            <ul className="space-y-3 max-w-xl pl-16">
+            <ul className="space-y-3 max-w-xl pl-8">
               <li className="flex items-start space-x-3">
                 <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
                 <span className="text-white font-inter">Live and virtual spaces for prayer and real talk</span>

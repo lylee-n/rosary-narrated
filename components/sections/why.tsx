@@ -36,7 +36,7 @@ export function WhySection() {
             astronomical sacrificial love just doesn't make sense. The Father and Jesus think our souls are worth that
             much. While the heavens know He is the only one worthy (Revelation 5:2-9)—not any angel or archangel, but
             He—the Lamb. It will take us several lifetimes to fully understand. But here our are three reasons why we
-            should pray the Rosary..
+            should pray the Rosary.
           </p>
         </div>
 

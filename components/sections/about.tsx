@@ -52,15 +52,15 @@ export function AboutSection() {
                 <div key={index} className="flex items-center">
                   <button
                     onClick={() => setCurrentStep(index)}
-                    className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg transition-all duration-300 ${
+                    className={`w-12 h-12 border-2 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
                       currentStep === index
                         ? "border-[#82FAFA] text-[#82FAFA] bg-[#82FAFA]/10"
-                        : "border-gray-600 text-gray-600 hover:border-[#82FAFA] hover:text-[#82FAFA]"
+                        : "border-gray-600 text-gray-400 hover:border-[#82FAFA] hover:text-[#82FAFA]"
                     }`}
                   >
                     {index + 1}
                   </button>
-                  {index < steps.length - 1 && <ArrowRight size={20} className="text-[#82FAFA] ml-4" />}
+                  {index < steps.length - 1 && <ArrowRight size={20} className="text-[#82FAFA] mx-2" />}
                 </div>
               ))}
             </div>
@@ -86,7 +86,7 @@ export function AboutSection() {
               </div>
             </div>
 
-            {/* Clickable Arrow for steps 1 and 2 */}
+            {/* Arrow for steps 1 and 2 */}
             {currentStep < 2 && (
               <button
                 onClick={() => setCurrentStep(currentStep + 1)}
