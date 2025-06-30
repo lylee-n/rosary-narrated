@@ -41,7 +41,8 @@ export function PlaySection() {
               onClick={() => handleMysterySetClick(index)}
             >
               <div className="relative overflow-hidden rounded-2xl border border-gray-700 hover:border-[#FFE552] transition-colors duration-300">
-                <div className="aspect-[4/5] relative">
+                {/* Changed aspect ratio to 3:2 for desktop, keep 4:5 for mobile */}
+                <div className="aspect-[4/5] md:aspect-[3/2] relative">
                   <Image
                     src={mysterySet.backgroundImage || "/placeholder.svg"}
                     alt={mysterySet.title}

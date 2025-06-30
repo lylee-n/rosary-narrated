@@ -1,5 +1,4 @@
 import type React from "react"
-
 export interface AudioPlayerProps {
   audioRef: React.RefObject<HTMLAudioElement>
   currentTime: number
@@ -13,27 +12,32 @@ export interface AudioPlayerProps {
   onSpeedChange: (speed: number) => void
 }
 
-export interface NowPlaying {
-  mysterySetIndex: number
-  mysteryIndex: number
-  perspective: string
+export interface Mystery {
+  id: string
+  title: string
+  description: string
+  reflection: string
+  audioUrl?: string
+  imageUrl?: string
 }
 
 export interface MysterySet {
-  title: string
-  backgroundImage: string
-  mysteries: Mystery[]
-}
-
-export interface Mystery {
+  id: string
   title: string
   description: string
-  audioUrl: string
-  reflections: {
-    child: string
-    youth: string
-    adult: string
-  }
+  mysteries: Mystery[]
+  backgroundImage?: string
+  color: string
+}
+
+export interface RosaryData {
+  [key: string]: MysterySet
+}
+
+export interface NowPlaying {
+  mysterySetIndex: number
+  mysteryIndex: number
+  perspective: "child" | "teen" | "adult"
 }
 
 export interface PlayModalProps {
@@ -42,20 +46,19 @@ export interface PlayModalProps {
 }
 
 export interface PerspectiveButtonsProps {
-  selectedPerspective: string
-  onPerspectiveChange: (perspective: string) => void
-  disabled?: boolean
+  selectedPerspective: "child" | "teen" | "adult"
+  onPerspectiveChange: (perspective: "child" | "teen" | "adult") => void
 }
 
 export interface MysteryBeadProps {
+  mystery: Mystery
   index: number
   isActive: boolean
   isCompleted: boolean
-  title: string
   onClick: () => void
 }
 
 export interface MysteryContentDisplayProps {
   mystery: Mystery
-  perspective: string
+  perspective: "child" | "teen" | "adult"
 }

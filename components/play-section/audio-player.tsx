@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { memo, useCallback } from "react"
-import { Play, Pause, Volume2 } from "lucide-react"
+import { Play, Pause } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -162,7 +162,7 @@ export const AudioPlayer = memo(function AudioPlayer({
 
         {/* Speed Control */}
         <div className="flex items-center space-x-2">
-          <Volume2 size={14} className="text-white/70" />
+          <span className="text-xs text-white/70 font-medium">Speed</span>
           <Select value={playbackSpeed.toString()} onValueChange={handleSpeedChange} disabled={isLoading}>
             <SelectTrigger className="w-16 h-8 text-xs bg-white/10 border-white/20 text-white">
               <SelectValue />
