@@ -31,15 +31,18 @@ export const PerspectiveButtons = memo(function PerspectiveButtons({
           const isCurrentlyPlaying =
             nowPlaying?.mysteryIndex === mysteryIndex && nowPlaying?.perspective === perspective && isPlaying
 
+          const isSelected = nowPlaying?.mysteryIndex === mysteryIndex && nowPlaying?.perspective === perspective
+
           return (
             <button
               key={perspective}
               onClick={() => onPlay(mysteryIndex, perspective)}
               className={`w-full py-2 lg:py-3 px-3 lg:px-4 rounded-md transition-all duration-200 flex items-center justify-center font-inter border-2 text-xs lg:text-sm ${
-                nowPlaying?.mysteryIndex === mysteryIndex && nowPlaying?.perspective === perspective
+                isSelected
                   ? "bg-[#82FAFA] text-black border-[#82FAFA] font-semibold"
                   : "bg-transparent text-[#82FAFA] border-[#82FAFA] hover:bg-[#82FAFA] hover:text-black"
               }`}
+              aria-label={`Play ${perspective} perspectives for mystery ${mysteryIndex + 1}`}
             >
               {isCurrentlyPlaying ? (
                 <PauseCircle size={18} className="mr-2" />

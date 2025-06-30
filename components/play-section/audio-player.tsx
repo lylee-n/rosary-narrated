@@ -1,27 +1,13 @@
 "use client"
 
-import type React from "react"
-import { useCallback } from "react"
+import { memo } from "react"
 import { Play, Pause, SkipBack, SkipForward, Volume2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
+import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { PLAYBACK_SPEEDS } from "@/lib/constants/mystery-sets"
+import type { AudioPlayerProps } from "@/types"
 
-interface AudioPlayerProps {
-  audioRef: React.RefObject<HTMLAudioElement>
-  currentTime: number
-  duration: number
-  playbackSpeed: number
-  isPlaying: boolean
-  isLoading: boolean
-  onSeek: (time: number) => void
-  onSeekBy: (seconds: number) => void
-  onPlayPause: () => void
-  onSpeedChange: (speed: number) => void
-}
-
-export function AudioPlayer({
+export const AudioPlayer = memo(function AudioPlayer({
   audioRef,
   currentTime,
   duration,
@@ -33,41 +19,43 @@ export function AudioPlayer({
   onPlayPause,
   onSpeedChange,
 }: AudioPlayerProps) {
-  const formatTime = useCallback((time: number): string => {
+  const formatTime = (time: number): string => {
     if (!isFinite(time)) return "0:00"
 
     const minutes = Math.floor(time / 60)
     const seconds = Math.floor(time % 60)
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
-  }, [])
+  }
 
-  const handleProgressChange = useCallback(
-    (value: number[]) => {
-      onSeek(value[0])
-    },
-    [onSeek],
-  )
+  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0
 
-  const handleSpeedChange = useCallback(
-    (value: string) => {
-      onSpeedChange(Number.parseFloat(value))
-    },
-    [onSpeedChange],
-  )
+  const handleProgressChange = (values: number[]) => {
+    const newTime = (values[0] / 100) * duration
+    onSeek(newTime)
+  }
+
+  const speedOptions = [
+    { value: "0.5", label: "0.5x" },
+    { value: "0.75", label: "0.75x" },
+    { value: "1", label: "1x" },
+    { value: "1.25", label: "1.25x" },
+    { value: "1.5", label: "1.5x" },
+    { value: "2", label: "2x" },
+  ]
 
   return (
-    <div className="bg-black/40 backdrop-blur-sm rounded-lg p-4 mt-4 space-y-3">
+    <div className="mt-4 p-4 bg-black/30 backdrop-blur-sm rounded-lg border border-white/10">
       {/* Progress Bar */}
-      <div className="space-y-2">
+      <div className="mb-4">
         <Slider
-          value={[currentTime]}
-          max={duration || 100}
-          step={1}
+          value={[progressPercentage]}
           onValueChange={handleProgressChange}
+          max={100}
+          step={0.1}
           className="w-full"
           disabled={!duration || isLoading}
         />
-        <div className="flex justify-between text-xs text-gray-300">
+        <div className="flex justify-between text-xs text-white/70 mt-1">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
@@ -81,8 +69,9 @@ export function AudioPlayer({
             variant="ghost"
             size="sm"
             onClick={() => onSeekBy(-10)}
-            disabled={!duration || isLoading}
+            disabled={isLoading}
             className="text-white hover:text-[#82FAFA] hover:bg-white/10"
+            aria-label="Skip back 10 seconds"
           >
             <SkipBack size={16} />
           </Button>
@@ -92,11 +81,12 @@ export function AudioPlayer({
             variant="ghost"
             size="sm"
             onClick={onPlayPause}
-            disabled={!duration || isLoading}
+            disabled={isLoading}
             className="text-white hover:text-[#82FAFA] hover:bg-white/10"
+            aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isLoading ? (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : isPlaying ? (
               <Pause size={16} />
             ) : (
@@ -109,8 +99,9 @@ export function AudioPlayer({
             variant="ghost"
             size="sm"
             onClick={() => onSeekBy(10)}
-            disabled={!duration || isLoading}
+            disabled={isLoading}
             className="text-white hover:text-[#82FAFA] hover:bg-white/10"
+            aria-label="Skip forward 10 seconds"
           >
             <SkipForward size={16} />
           </Button>
@@ -118,21 +109,31 @@ export function AudioPlayer({
 
         {/* Speed Control */}
         <div className="flex items-center space-x-2">
-          <Volume2 size={14} className="text-gray-400" />
-          <Select value={playbackSpeed.toString()} onValueChange={handleSpeedChange}>
-            <SelectTrigger className="w-20 h-8 text-xs bg-white/10 border-white/20 text-white">
+          <Volume2 size={14} className="text-white/70" />
+          <Select value={playbackSpeed.toString()} onValueChange={(value) => onSpeedChange(Number.parseFloat(value))}>
+            <SelectTrigger className="w-16 h-8 text-xs bg-white/10 border-white/20 text-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {PLAYBACK_SPEEDS.map(({ value, label }) => (
-                <SelectItem key={value} value={value.toString()}>
-                  {label}
+              {speedOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
       </div>
+
+      {/* Audio Element */}
+      <audio
+        ref={audioRef}
+        preload="metadata"
+        className="hidden"
+        onLoadStart={() => console.log("Audio loading started")}
+        onCanPlay={() => console.log("Audio can play")}
+        onError={(e) => console.error("Audio error:", e)}
+      />
     </div>
   )
-}
+})
