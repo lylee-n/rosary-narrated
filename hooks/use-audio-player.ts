@@ -1,17 +1,16 @@
 "use client"
 
 import { useState, useRef, useCallback, useEffect } from "react"
-import { dataService } from "@/lib/services/data-service"
-import type { MysterySetKey, PerspectiveType } from "@/types"
+import { audioData } from "@/lib/audio-data"
 
-interface NowPlaying {
-  src: string
-  mysterySetKey: MysterySetKey
+export interface NowPlaying {
+  mysterySetKey: string
   mysteryIndex: number
-  perspective: PerspectiveType
+  perspective: 3 | 7 | 12
+  src: string
 }
 
-interface AudioPlayerState {
+export interface AudioPlayerState {
   nowPlaying: NowPlaying | null
   isPlaying: boolean
   currentTime: number
@@ -22,7 +21,6 @@ interface AudioPlayerState {
 }
 
 export function useAudioPlayer() {
-  const audioRef = useRef<HTMLAudioElement | null>(null)
   const [state, setState] = useState<AudioPlayerState>({
     nowPlaying: null,
     isPlaying: false,
@@ -32,6 +30,8 @@ export function useAudioPlayer() {
     isLoading: false,
     error: null,
   })
+
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   // Initialize audio element
   useEffect(() => {
@@ -47,12 +47,7 @@ export function useAudioPlayer() {
     }
 
     const handleLoadedMetadata = () => {
-      setState((prev) => ({
-        ...prev,
-        duration: audio.duration,
-        isLoading: false,
-        error: null,
-      }))
+      setState((prev) => ({ ...prev, duration: audio.duration, isLoading: false }))
     }
 
     const handleEnded = () => {
@@ -60,150 +55,125 @@ export function useAudioPlayer() {
         ...prev,
         isPlaying: false,
         currentTime: 0,
+        nowPlaying: null,
       }))
     }
 
     const handleError = () => {
       setState((prev) => ({
         ...prev,
+        error: "Failed to load audio. Please try again.",
         isLoading: false,
         isPlaying: false,
-        error: "Failed to load or play audio. Please try again.",
-      }))
-    }
-
-    const handleLoadStart = () => {
-      setState((prev) => ({
-        ...prev,
-        isLoading: true,
-        error: null,
       }))
     }
 
     const handleCanPlay = () => {
-      setState((prev) => ({
-        ...prev,
-        isLoading: false,
-      }))
+      setState((prev) => ({ ...prev, isLoading: false }))
     }
 
-    const handlePlay = () => {
-      setState((prev) => ({ ...prev, isPlaying: true }))
+    const handleLoadStart = () => {
+      setState((prev) => ({ ...prev, isLoading: true }))
     }
 
-    const handlePause = () => {
-      setState((prev) => ({ ...prev, isPlaying: false }))
-    }
-
-    // Add event listeners
     audio.addEventListener("timeupdate", handleTimeUpdate)
     audio.addEventListener("loadedmetadata", handleLoadedMetadata)
     audio.addEventListener("ended", handleEnded)
     audio.addEventListener("error", handleError)
-    audio.addEventListener("loadstart", handleLoadStart)
     audio.addEventListener("canplay", handleCanPlay)
-    audio.addEventListener("play", handlePlay)
-    audio.addEventListener("pause", handlePause)
+    audio.addEventListener("loadstart", handleLoadStart)
 
     return () => {
-      // Cleanup event listeners
       audio.removeEventListener("timeupdate", handleTimeUpdate)
       audio.removeEventListener("loadedmetadata", handleLoadedMetadata)
       audio.removeEventListener("ended", handleEnded)
       audio.removeEventListener("error", handleError)
-      audio.removeEventListener("loadstart", handleLoadStart)
       audio.removeEventListener("canplay", handleCanPlay)
-      audio.removeEventListener("play", handlePlay)
-      audio.removeEventListener("pause", handlePause)
+      audio.removeEventListener("loadstart", handleLoadStart)
     }
   }, [])
 
   const play = useCallback(
-    async (mysterySetKey: MysterySetKey, mysteryIndex: number, perspective: PerspectiveType) => {
-      if (!audioRef.current) return
+    (mysterySetKey: string, mysteryIndex: number, perspective: 3 | 7 | 12) => {
+      const audioSrc = audioData[mysterySetKey as keyof typeof audioData]?.[mysteryIndex]?.[perspective]
 
-      const audio = audioRef.current
-      const url = dataService.getAudioUrl(mysterySetKey, mysteryIndex, perspective)
-
-      if (!url) {
-        setState((prev) => ({
-          ...prev,
-          error: "Audio not available for this selection",
-        }))
+      if (!audioSrc || !audioRef.current) {
+        setState((prev) => ({ ...prev, error: "Audio not available for this selection." }))
         return
       }
 
-      const newTrack: NowPlaying = { src: url, mysterySetKey, mysteryIndex, perspective }
-      const isSameTrack = state.nowPlaying?.src === url
+      const audio = audioRef.current
+      const newNowPlaying: NowPlaying = { mysterySetKey, mysteryIndex, perspective, src: audioSrc }
 
-      try {
-        if (isSameTrack && audio.paused) {
-          // Resume current track
-          await audio.play()
-        } else if (isSameTrack && !audio.paused) {
-          // Pause current track
+      // If same audio is playing, just pause/resume
+      if (state.nowPlaying?.src === audioSrc) {
+        if (state.isPlaying) {
           audio.pause()
+          setState((prev) => ({ ...prev, isPlaying: false }))
         } else {
-          // Load and play new track
-          audio.src = url
-          audio.playbackRate = state.playbackSpeed
-          audio.load()
+          audio
+            .play()
+            .then(() => {
+              setState((prev) => ({ ...prev, isPlaying: true }))
+            })
+            .catch(() => {
+              setState((prev) => ({ ...prev, error: "Failed to play audio." }))
+            })
+        }
+        return
+      }
 
+      // Load new audio
+      setState((prev) => ({
+        ...prev,
+        nowPlaying: newNowPlaying,
+        isLoading: true,
+        error: null,
+        currentTime: 0,
+      }))
+
+      audio.src = audioSrc
+      audio.playbackRate = state.playbackSpeed
+      audio.load()
+
+      audio
+        .play()
+        .then(() => {
+          setState((prev) => ({ ...prev, isPlaying: true, isLoading: false }))
+        })
+        .catch(() => {
           setState((prev) => ({
             ...prev,
-            nowPlaying: newTrack,
-            error: null,
+            error: "Failed to play audio.",
+            isLoading: false,
+            isPlaying: false,
           }))
-
-          await audio.play()
-        }
-      } catch (error) {
-        setState((prev) => ({
-          ...prev,
-          isPlaying: false,
-          error: error instanceof Error ? error.message : "Failed to play audio",
-        }))
-      }
+        })
     },
-    [state.nowPlaying, state.playbackSpeed],
+    [state.nowPlaying, state.isPlaying, state.playbackSpeed],
   )
 
   const pause = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause()
+      setState((prev) => ({ ...prev, isPlaying: false }))
     }
   }, [])
 
-  const stop = useCallback(() => {
+  const seek = useCallback((time: number) => {
     if (audioRef.current) {
-      audioRef.current.pause()
-      audioRef.current.currentTime = 0
-      setState((prev) => ({
-        ...prev,
-        isPlaying: false,
-        currentTime: 0,
-        nowPlaying: null,
-      }))
+      audioRef.current.currentTime = time
+      setState((prev) => ({ ...prev, currentTime: time }))
     }
   }, [])
 
-  const seek = useCallback(
-    (time: number) => {
-      if (audioRef.current && state.duration) {
-        const clampedTime = Math.max(0, Math.min(time, state.duration))
-        audioRef.current.currentTime = clampedTime
-        setState((prev) => ({ ...prev, currentTime: clampedTime }))
-      }
-    },
-    [state.duration],
-  )
-
-  const seekBy = useCallback(
-    (seconds: number) => {
-      seek(state.currentTime + seconds)
-    },
-    [seek, state.currentTime],
-  )
+  const seekBy = useCallback((seconds: number) => {
+    if (audioRef.current) {
+      const newTime = Math.max(0, Math.min(audioRef.current.duration, audioRef.current.currentTime + seconds))
+      audioRef.current.currentTime = newTime
+      setState((prev) => ({ ...prev, currentTime: newTime }))
+    }
+  }, [])
 
   const setPlaybackSpeed = useCallback((speed: number) => {
     if (audioRef.current) {
@@ -212,46 +182,35 @@ export function useAudioPlayer() {
     }
   }, [])
 
-  const clearError = useCallback(() => {
-    setState((prev) => ({ ...prev, error: null }))
-  }, [])
-
   const cleanup = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause()
       audioRef.current.src = ""
     }
-    setState((prev) => ({
-      ...prev,
+    setState({
       nowPlaying: null,
       isPlaying: false,
       currentTime: 0,
       duration: 0,
+      playbackSpeed: 1,
+      isLoading: false,
       error: null,
-    }))
+    })
+  }, [])
+
+  const clearError = useCallback(() => {
+    setState((prev) => ({ ...prev, error: null }))
   }, [])
 
   return {
-    // State
-    nowPlaying: state.nowPlaying,
-    isPlaying: state.isPlaying,
-    currentTime: state.currentTime,
-    duration: state.duration,
-    playbackSpeed: state.playbackSpeed,
-    isLoading: state.isLoading,
-    error: state.error,
-
-    // Audio element ref
+    ...state,
     audioRef,
-
-    // Actions
     play,
     pause,
-    stop,
     seek,
     seekBy,
     setPlaybackSpeed,
-    clearError,
     cleanup,
+    clearError,
   }
 }

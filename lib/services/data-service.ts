@@ -1,59 +1,52 @@
-import type { AudioData, RosaryData, MysterySetKey, PerspectiveType } from "@/types"
+import type { RosaryData, PerspectiveType } from "@/types"
 import { audioData } from "@/lib/audio-data"
 import { rosaryMysteriesDataEn } from "@/lib/rosary-data-en"
 
 class DataService {
-  private audioData: AudioData = audioData
-  private rosaryData: RosaryData = rosaryMysteriesDataEn
+  private mysterySetKeys = ["joyful", "luminous", "sorrowful", "glorious"]
 
   /**
    * Get audio URL for a specific mystery and perspective
    */
-  getAudioUrl(mysterySetKey: MysterySetKey, mysteryIndex: number, perspective: PerspectiveType): string | null {
-    try {
-      const url = this.audioData[mysterySetKey]?.[mysteryIndex]?.[perspective]
-      return url || null
-    } catch (error) {
-      console.error("Error getting audio URL:", error)
-      return null
-    }
+  getAudioUrl(mysterySetKey: string, mysteryIndex: number, perspective: 3 | 7 | 12): string | null {
+    return audioData[mysterySetKey as keyof typeof audioData]?.[mysteryIndex]?.[perspective] || null
   }
 
   /**
    * Get rosary data for English
    */
   getRosaryData(): RosaryData {
-    return this.rosaryData
+    return rosaryMysteriesDataEn
   }
 
   /**
    * Get specific mystery set by index (0-based)
    */
-  getMysterySet(mysterySetIndex: number) {
-    const data = this.getRosaryData()
-    return data[mysterySetIndex + 1] || null
+  getMysterySet(index: number) {
+    const key = (index + 1) as keyof typeof rosaryMysteriesDataEn
+    return rosaryMysteriesDataEn[key] || null
   }
 
   /**
    * Get all mystery set keys in order
    */
-  getMysterySetKeys(): MysterySetKey[] {
-    return ["joyful", "luminous", "sorrowful", "glorious"]
+  getMysterySetKeys(): string[] {
+    return this.mysterySetKeys
   }
 
   /**
    * Get mystery set title by index
    */
-  getMysterySetTitle(mysterySetIndex: number): string {
-    const mysterySet = this.getMysterySet(mysterySetIndex)
-    return mysterySet?.title || ""
+  getMysterySetTitle(index: number): string {
+    const mysterySet = this.getMysterySet(index)
+    return mysterySet?.title || "Unknown Mystery Set"
   }
 
   /**
    * Get mystery set background image by index
    */
-  getMysterySetBackgroundImage(mysterySetIndex: number): string {
-    const mysterySet = this.getMysterySet(mysterySetIndex)
+  getMysterySetBackgroundImage(index: number): string {
+    const mysterySet = this.getMysterySet(index)
     return mysterySet?.backgroundImage || ""
   }
 
@@ -61,12 +54,7 @@ class DataService {
    * Validate audio URL format
    */
   validateAudioUrl(url: string): boolean {
-    try {
-      new URL(url)
-      return url.startsWith("https://") && (url.includes(".mp3") || url.includes(".wav"))
-    } catch {
-      return false
-    }
+    return url && url.length > 0
   }
 
   /**
@@ -107,9 +95,16 @@ class DataService {
   /**
    * Check if audio exists for a specific combination
    */
-  hasAudio(mysterySetKey: MysterySetKey, mysteryIndex: number, perspective: PerspectiveType): boolean {
+  hasAudio(mysterySetKey: string, mysteryIndex: number, perspective: 3 | 7 | 12): boolean {
     const url = this.getAudioUrl(mysterySetKey, mysteryIndex, perspective)
     return url !== null && this.validateAudioUrl(url)
+  }
+
+  /**
+   * Placeholder methods for future functionality
+   */
+  joinGame(gameId: string, playerName: string): Promise<{ success: boolean; message?: string }> {
+    return Promise.resolve({ success: false, message: "Game functionality not implemented yet." })
   }
 }
 
