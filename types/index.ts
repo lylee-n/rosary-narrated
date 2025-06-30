@@ -1,8 +1,6 @@
 import type React from "react"
 
 // Core types for the Rosary application
-export type Language = "en" | "vi"
-
 export type MysterySetKey = "joyful" | "luminous" | "sorrowful" | "glorious"
 
 export type PerspectiveType = 3 | 7 | 12

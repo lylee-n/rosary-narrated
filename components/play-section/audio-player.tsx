@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useCallback } from "react"
 import { Play, Pause, SkipBack, SkipForward, Volume2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -55,10 +54,11 @@ export function AudioPlayer({
     [onSpeedChange],
   )
 
-  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0
-
   return (
     <div className="bg-black/40 backdrop-blur-sm rounded-lg p-4 mt-4 space-y-3">
+      {/* Hidden audio element */}
+      <audio ref={audioRef} preload="metadata" />
+
       {/* Progress Bar */}
       <div className="space-y-2">
         <Slider

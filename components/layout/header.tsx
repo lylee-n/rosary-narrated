@@ -1,54 +1,61 @@
 "use client"
 
-import { useState } from "react"
-import { LanguageToggle } from "@/components/language-toggle"
+import Image from "next/image"
 import { useApp } from "@/components/app-provider"
-import { useTranslations } from "@/hooks/use-translations"
-import { NAV_ITEMS } from "@/constants"
+import { cn } from "@/lib/utils"
+
+const navItems = [
+  { key: "ABOUT", label: "ABOUT" },
+  { key: "WHY", label: "WHY" },
+  { key: "PRAY", label: "PRAY" },
+  { key: "COMMUNITY", label: "COMMUNITY" },
+  { key: "SUPPORT", label: "SUPPORT" },
+] as const
 
 export function Header() {
-  const { setView, currentView } = useApp()
-  const t = useTranslations()
-  const [hoveredIcon, setHoveredIcon] = useState<string | null>(null)
+  const { view, setView } = useApp()
 
   return (
-    <header className="w-full flex flex-col items-center">
-      <div className="w-full flex justify-end px-8 pt-4">
-        <div className="backdrop-blur-sm rounded-lg px-4 py-2">
-          <LanguageToggle />
+    <header className="fixed top-0 left-0 right-0 z-40 bg-black/20 backdrop-blur-sm border-b border-gray-800/50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <Image
+              src="/images/rosary-narrated-logo.png"
+              alt="Rosary Narrated"
+              width={120}
+              height={40}
+              className="h-8 w-auto"
+            />
+          </div>
+
+          {/* Navigation */}
+          <nav className="hidden md:flex space-x-8">
+            {navItems.map((item) => (
+              <button
+                key={item.key}
+                onClick={() => setView(item.key as any)}
+                className={cn(
+                  "text-sm font-medium transition-colors duration-200 hover:text-[#FFE552]",
+                  view === item.key ? "text-[#FFE552]" : "text-white",
+                )}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button className="text-white hover:text-[#FFE552] transition-colors">
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-
-      <nav className="flex justify-center mt-4">
-        <ul className="flex items-center space-x-10 md:space-x-12">
-          {NAV_ITEMS.map(({ icon: Icon, label, name }) => {
-            const translatedLabel = t.nav[label.toLowerCase() as keyof typeof t.nav] || label
-
-            return (
-              <li key={name} className="relative">
-                <button
-                  onClick={() => setView(name)}
-                  onMouseEnter={() => setHoveredIcon(name)}
-                  onMouseLeave={() => setHoveredIcon(null)}
-                  className={`flex flex-col items-center space-y-2 transition-colors duration-300 ${
-                    currentView === name ? "text-[#FFE552]" : "text-gray-400 hover:text-white"
-                  }`}
-                  aria-label={translatedLabel}
-                >
-                  <Icon size={22} />
-                </button>
-
-                {hoveredIcon === name && (
-                  <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white text-black px-3 py-1 rounded-md text-sm font-medium whitespace-nowrap z-[60] shadow-lg">
-                    {translatedLabel}
-                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45"></div>
-                  </div>
-                )}
-              </li>
-            )
-          })}
-        </ul>
-      </nav>
     </header>
   )
 }
