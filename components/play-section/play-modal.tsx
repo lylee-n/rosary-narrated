@@ -1,17 +1,12 @@
 "use client"
-
-import { useState, useEffect, useCallback } from "react"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { X, ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
-import { dataService } from "@/lib/services/data-service"
-import type { RosaryMysterySet } from "@/lib/types"
-import { AudioPlayer } from "@/components/play-section/audio-player"
+import { useState, useCallback } from "react"
+import Image from "next/image"
+import { PlayCircle, PauseCircle, X } from "lucide-react"
+import { rosaryMysteriesDataEn } from "@/lib/rosary-data-en"
+import { AudioPlayer } from "./audio-player"
 import { useAudioPlayer } from "@/hooks/use-audio-player"
-import { PerspectiveSelector } from "@/components/play-section/perspective-selector"
-import { DesktopMysteryView } from "@/components/play-section/desktop-mystery-view"
-import { MobileMysteryView } from "@/components/play-section/mobile-mystery-view"
-import { useMobile } from "@/lib/hooks/use-mobile"
+
+const mysterySetKeys = ["joyful", "luminous", "sorrowful", "glorious"]
 
 interface PlayModalProps {
   selectedMysterySetIndex: number
@@ -19,171 +14,362 @@ interface PlayModalProps {
 }
 
 export function PlayModal({ selectedMysterySetIndex, onClose }: PlayModalProps) {
-  const [mysterySet, setMysterySet] = useState<RosaryMysterySet | null>(null)
-  const [currentMysteryIndex, setCurrentMysteryIndex] = useState(0)
-  const [currentDecadeIndex, setCurrentDecadeIndex] = useState(0)
-  const [currentAudioSrc, setCurrentAudioSrc] = useState<string | null>(null)
-  const [perspective, setPerspective] = useState<"3" | "7" | "12">("3")
-  const [audioPlayerState, audioPlayerControls] = useAudioPlayer({ src: currentAudioSrc || "" })
-  const isMobile = useMobile()
+  const [expandedMysteryItem, setExpandedMysteryItem] = useState<number | null>(null)
 
-  useEffect(() => {
-    const loadedMysterySet = dataService.getMysterySet(selectedMysterySetIndex)
-    if (loadedMysterySet) {
-      setMysterySet(loadedMysterySet)
-      setCurrentMysteryIndex(0)
-      setCurrentDecadeIndex(0)
-      // Preload audio for the selected mystery set
-      dataService.preloadAudioForMysterySet(selectedMysterySetIndex)
+  const currentMysterySetDetails =
+    rosaryMysteriesDataEn[(selectedMysterySetIndex + 1) as keyof typeof rosaryMysteriesDataEn]
+
+  const {
+    nowPlaying,
+    isPlaying,
+    currentTime,
+    duration,
+    playbackSpeed,
+    isLoading,
+    error,
+    audioRef,
+    play,
+    pause,
+    seek,
+    seekBy,
+    setPlaybackSpeed,
+    cleanup,
+    clearError,
+  } = useAudioPlayer()
+
+  const handleClose = useCallback(() => {
+    cleanup()
+    onClose()
+  }, [cleanup, onClose])
+
+  const toggleMysteryItem = (index: number) => {
+    const isOpeningNewItem = expandedMysteryItem !== index
+    setExpandedMysteryItem((prev) => (prev === index ? null : index))
+
+    if (nowPlaying && nowPlaying.mysteryIndex !== index && isOpeningNewItem) {
+      cleanup()
+    } else if (expandedMysteryItem === index && nowPlaying && nowPlaying.mysteryIndex === index) {
+      cleanup()
     }
-  }, [selectedMysterySetIndex])
-
-  useEffect(() => {
-    if (mysterySet) {
-      const currentDecade = mysterySet.mysteries[currentMysteryIndex]?.decades[currentDecadeIndex]
-      if (currentDecade?.audioId) {
-        setCurrentAudioSrc(currentDecade.audioId)
-      } else {
-        setCurrentAudioSrc(null)
-      }
-    }
-  }, [mysterySet, currentMysteryIndex, currentDecadeIndex])
-
-  useEffect(() => {
-    // When audio source changes, ensure it's loaded and ready to play
-    if (currentAudioSrc && !audioPlayerState.isLoading && !audioPlayerState.isPlaying) {
-      audioPlayerControls.play()
-    }
-  }, [currentAudioSrc, audioPlayerState.isLoading, audioPlayerState.isPlaying, audioPlayerControls])
-
-  const handleNextDecade = useCallback(() => {
-    if (!mysterySet) return
-
-    const currentMystery = mysterySet.mysteries[currentMysteryIndex]
-    if (currentDecadeIndex < currentMystery.decades.length - 1) {
-      setCurrentDecadeIndex((prev) => prev + 1)
-    } else if (currentMysteryIndex < mysterySet.mysteries.length - 1) {
-      setCurrentMysteryIndex((prev) => prev + 1)
-      setCurrentDecadeIndex(0)
-    } else {
-      // End of all mysteries
-      audioPlayerControls.pause()
-      onClose() // Close modal or show completion message
-    }
-  }, [mysterySet, currentMysteryIndex, currentDecadeIndex, audioPlayerControls, onClose])
-
-  const handlePreviousDecade = useCallback(() => {
-    if (!mysterySet) return
-
-    if (currentDecadeIndex > 0) {
-      setCurrentDecadeIndex((prev) => prev - 1)
-    } else if (currentMysteryIndex > 0) {
-      setCurrentMysteryIndex((prev) => prev - 1)
-      setCurrentDecadeIndex(mysterySet.mysteries[currentMysteryIndex - 1].decades.length - 1)
-    }
-  }, [mysterySet, currentMysteryIndex, currentDecadeIndex])
-
-  const handleAudioEnded = useCallback(() => {
-    handleNextDecade()
-  }, [handleNextDecade])
-
-  const handleMysteryClick = useCallback((mysteryIdx: number) => {
-    setCurrentMysteryIndex(mysteryIdx)
-    setCurrentDecadeIndex(0)
-  }, [])
-
-  const handleDecadeClick = useCallback((mysteryIdx: number, decadeIdx: number) => {
-    setCurrentMysteryIndex(mysteryIdx)
-    setCurrentDecadeIndex(decadeIdx)
-  }, [])
-
-  if (!mysterySet) {
-    return (
-      <Dialog open={true} onOpenChange={onClose}>
-        <DialogContent className="max-w-md p-6 bg-gray-900 text-white rounded-lg shadow-xl">
-          <div className="flex justify-center items-center h-32">
-            <Loader2 className="h-10 w-10 animate-spin text-[#FFE552]" />
-            <span className="ml-3 text-lg">Loading Mysteries...</span>
-          </div>
-        </DialogContent>
-      </Dialog>
-    )
   }
 
-  const currentMystery = mysterySet.mysteries[currentMysteryIndex]
-  const currentDecade = currentMystery?.decades[currentDecadeIndex]
+  const playAudio = useCallback(
+    (mysteryItemIndex: number, perspective: 3 | 7 | 12) => {
+      const mysterySetKey = mysterySetKeys[selectedMysterySetIndex]
+      play(mysterySetKey, mysteryItemIndex, perspective)
+    },
+    [selectedMysterySetIndex, play],
+  )
+
+  const handlePlayPause = useCallback(() => {
+    if (isPlaying) {
+      pause()
+    } else if (nowPlaying) {
+      play(nowPlaying.mysterySetKey, nowPlaying.mysteryIndex, nowPlaying.perspective)
+    }
+  }, [isPlaying, pause, nowPlaying, play])
+
+  if (!currentMysterySetDetails) {
+    return null
+  }
 
   return (
-    <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="fixed inset-0 flex flex-col max-w-full h-full p-0 bg-gray-950 text-white overflow-hidden">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 z-0 bg-black/50"
+        onClick={(e) => {
+          e.stopPropagation()
+          handleClose()
+        }}
+      >
+        <Image src="/images/modal-background.gif" alt="Modal Background" fill className="object-cover" priority />
+      </div>
+
+      {/* Modal Container */}
+      <div
+        className="relative z-10 w-full h-full max-w-[100vw] max-h-[100vh] md:max-w-[90vw] md:max-h-[90vh] md:rounded-2xl overflow-hidden border-0 md:border md:border-gray-300/20 bg-black/20 backdrop-blur-sm flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="relative flex items-center justify-between p-4 md:p-6 bg-gray-900 shadow-md z-10">
-          <Button variant="ghost" size="icon" onClick={onClose} className="text-gray-400 hover:text-white">
-            <X className="h-6 w-6" />
-            <span className="sr-only">Close</span>
-          </Button>
-          <h2 className="text-xl md:text-2xl font-bold text-white font-sora">{mysterySet.title}</h2>
-          <div className="w-10" /> {/* Placeholder for alignment */}
+        <div className="bg-black/90 backdrop-blur-sm p-4 sm:p-6 py-6 sm:py-8 text-center relative z-20 flex-shrink-0">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white font-sora tracking-wider">
+            {currentMysterySetDetails.title}
+          </h2>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              handleClose()
+            }}
+            className="absolute top-3 right-4 sm:top-4 sm:right-6 text-white text-3xl sm:text-4xl transition-colors duration-300 z-30 cursor-pointer bg-black/20 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center hover:text-[#FFE552]"
+            type="button"
+            aria-label="Close modal"
+          >
+            <X size={24} />
+          </button>
         </div>
 
-        {/* Main Content Area */}
-        <div className="flex-grow overflow-hidden relative">
-          {isMobile ? (
-            <MobileMysteryView
-              mysterySet={mysterySet}
-              currentMysteryIndex={currentMysteryIndex}
-              currentDecadeIndex={currentDecadeIndex}
-              onMysteryClick={handleMysteryClick}
-              onDecadeClick={handleDecadeClick}
-              perspective={perspective}
-            />
-          ) : (
-            <DesktopMysteryView
-              mysterySet={mysterySet}
-              currentMysteryIndex={currentMysteryIndex}
-              currentDecadeIndex={currentDecadeIndex}
-              onMysteryClick={handleMysteryClick}
-              onDecadeClick={handleDecadeClick}
-              perspective={perspective}
-            />
-          )}
-        </div>
+        {/* Error Display */}
+        {error && (
+          <div className="mx-4 mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm">
+            {error}
+            <button onClick={clearError} className="ml-2 text-red-300 hover:text-red-100 underline">
+              Dismiss
+            </button>
+          </div>
+        )}
 
-        {/* Audio Player and Controls */}
-        <div className="bg-gray-900 p-4 md:p-6 border-t border-gray-800 z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
-            <div className="text-center md:text-left">
-              <h3 className="text-lg font-semibold text-white font-sora">{currentMystery?.title}</h3>
-              <p className="text-sm text-gray-400 font-inter">{currentDecade?.title}</p>
+        {/* Content Area */}
+        <div className="relative flex-1 overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src={currentMysterySetDetails.backgroundImage || "/placeholder.svg"}
+              alt="Mystery Background"
+              fill
+              className="object-cover opacity-70"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 z-10"></div>
+
+          {/* Scrollable Content */}
+          <div
+            className="relative z-20 h-full overflow-y-auto p-4 sm:p-6 lg:p-8"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
+            {/* Desktop View */}
+            <div className="hidden md:block">
+              <div className="relative mb-8">
+                <div
+                  className={`absolute left-1/2 transform -translate-x-1/2 w-full max-w-5xl h-1 bg-[#FFE552] rounded-full shadow-lg shadow-yellow-400/30 ${
+                    expandedMysteryItem === null ? "animate-[lineRevealLeftToRight_1.5s_ease-out] opacity-0" : ""
+                  }`}
+                  style={{
+                    top: "40px",
+                    zIndex: 1,
+                    opacity: expandedMysteryItem !== null ? 0.3 : undefined,
+                    animationDelay: expandedMysteryItem === null ? "2.5s" : undefined,
+                    animationFillMode: expandedMysteryItem === null ? "forwards" : undefined,
+                  }}
+                ></div>
+                <div className="flex justify-between items-start gap-2 lg:gap-4 max-w-6xl mx-auto mt-4 relative z-10">
+                  {currentMysterySetDetails.mysteries.map((mystery, index) => (
+                    <div
+                      key={index}
+                      className="flex-1 relative animate-[beadReveal_0.8s_ease-out] opacity-0"
+                      style={{
+                        animationDelay: `${index * 0.4}s`,
+                        animationFillMode: "forwards",
+                      }}
+                    >
+                      <div
+                        className={`w-8 h-8 lg:w-10 lg:h-10 bg-[#FFE552] rounded-full flex items-center justify-center font-bold text-gray-900 text-sm lg:text-base cursor-pointer transition-all duration-300 mx-auto mb-3 lg:mb-4 ${
+                          expandedMysteryItem === index
+                            ? "scale-125 shadow-[0_0_20px_rgba(255,229,82,0.8)]"
+                            : expandedMysteryItem !== null
+                              ? "hover:scale-110 opacity-30"
+                              : "hover:scale-110"
+                        }`}
+                        onClick={() => toggleMysteryItem(index)}
+                        style={{ marginTop: "25px" }}
+                      >
+                        {index + 1}
+                      </div>
+                      <div className="text-center">
+                        <h3
+                          className={`text-[#FFE552] text-xs lg:text-sm xl:text-base font-semibold mb-2 lg:mb-3 cursor-pointer hover:text-yellow-300 transition-colors duration-300 font-inter px-1 ${
+                            expandedMysteryItem !== null && expandedMysteryItem !== index ? "opacity-30" : ""
+                          }`}
+                          onClick={() => toggleMysteryItem(index)}
+                        >
+                          {mystery.title}
+                        </h3>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {expandedMysteryItem !== null && (
+                <div className="max-w-6xl mx-auto animate-in fade-in duration-300 mb-8">
+                  <div className="backdrop-blur-md bg-white/15 rounded-2xl p-3 lg:p-4 xl:p-6">
+                    <div className="grid grid-cols-3 gap-4 lg:gap-6 xl:gap-8">
+                      <div className="col-span-2 space-y-4 lg:space-y-6">
+                        <div>
+                          <strong className="text-[#82FAFA] block mb-1 lg:mb-2 font-inter text-sm lg:text-base">
+                            Significance:
+                          </strong>
+                          <p className="font-inter text-white leading-relaxed text-xs lg:text-sm">
+                            {currentMysterySetDetails.mysteries[expandedMysteryItem].significance}
+                          </p>
+                        </div>
+                        <div>
+                          <strong className="text-[#82FAFA] block mb-1 lg:mb-2 font-inter text-sm lg:text-base">
+                            Reflection:
+                          </strong>
+                          <p className="font-inter text-white leading-relaxed text-xs lg:text-sm">
+                            {currentMysterySetDetails.mysteries[expandedMysteryItem].reflection}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 space-y-2 lg:space-y-2">
+                        <h4 className="text-[#82FAFA] font-inter text-sm lg:text-base font-semibold mb-3 lg:mb-4">
+                          Choose Perspectives:
+                        </h4>
+                        {[3, 7, 12].map((p) => (
+                          <button
+                            key={p}
+                            onClick={() => playAudio(expandedMysteryItem, p as 3 | 7 | 12)}
+                            className={`w-full py-2 lg:py-3 px-3 lg:px-4 rounded-md transition-all duration-200 flex items-center justify-center font-inter border-2 text-xs lg:text-sm ${
+                              nowPlaying?.mysteryIndex === expandedMysteryItem && nowPlaying?.perspective === p
+                                ? "bg-[#82FAFA] text-black border-[#82FAFA] font-semibold"
+                                : "bg-transparent text-[#82FAFA] border-[#82FAFA] hover:bg-[#82FAFA] hover:text-black"
+                            }`}
+                          >
+                            {nowPlaying?.mysteryIndex === expandedMysteryItem &&
+                            nowPlaying?.perspective === p &&
+                            isPlaying ? (
+                              <PauseCircle size={18} className="mr-2" />
+                            ) : (
+                              <PlayCircle size={18} className="mr-2" />
+                            )}
+                            {p} Perspectives
+                          </button>
+                        ))}
+                        {nowPlaying && nowPlaying.mysteryIndex === expandedMysteryItem && (
+                          <AudioPlayer
+                            audioRef={audioRef}
+                            currentTime={currentTime}
+                            duration={duration}
+                            playbackSpeed={playbackSpeed}
+                            isPlaying={isPlaying}
+                            isLoading={isLoading}
+                            onSeek={seek}
+                            onSeekBy={seekBy}
+                            onPlayPause={handlePlayPause}
+                            onSpeedChange={setPlaybackSpeed}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-            <PerspectiveSelector selectedPerspective={perspective} onSelectPerspective={setPerspective} />
-          </div>
-          <AudioPlayer
-            src={currentAudioSrc || ""}
-            autoplay={true}
-            onEnded={handleAudioEnded}
-            initialVolume={audioPlayerState.volume}
-            initialPlaybackRate={audioPlayerState.playbackRate}
-          />
-          <div className="flex justify-between mt-4">
-            <Button
-              variant="outline"
-              className="text-gray-300 border-gray-700 hover:bg-gray-800 hover:text-white bg-transparent"
-              onClick={handlePreviousDecade}
-              disabled={currentMysteryIndex === 0 && currentDecadeIndex === 0}
-            >
-              <ChevronLeft className="h-4 w-4 mr-2" /> Previous
-            </Button>
-            <Button
-              variant="outline"
-              className="text-gray-300 border-gray-700 hover:bg-gray-800 hover:text-white bg-transparent"
-              onClick={handleNextDecade}
-            >
-              Next <ChevronRight className="h-4 w-4 ml-2" />
-            </Button>
+
+            {/* Mobile View */}
+            <div className="md:hidden space-y-4 pb-8">
+              {currentMysterySetDetails.mysteries.map((mystery, index) => (
+                <div
+                  key={index}
+                  className="relative animate-[beadReveal_0.8s_ease-out] opacity-0"
+                  style={{
+                    animationDelay: `${index * 0.4}s`,
+                    animationFillMode: "forwards",
+                  }}
+                >
+                  <div
+                    className={`w-10 h-10 bg-[#FFE552] rounded-full flex items-center justify-center font-bold text-gray-900 text-base cursor-pointer transition-all duration-300 mx-auto mb-4 ${
+                      expandedMysteryItem === index
+                        ? "scale-110 shadow-[0_0_20px_rgba(255,229,82,0.8)]"
+                        : "hover:scale-105"
+                    }`}
+                    onClick={() => toggleMysteryItem(index)}
+                  >
+                    {index + 1}
+                  </div>
+                  <div
+                    className={`rounded-2xl p-4 text-center transition-all duration-300 ${
+                      expandedMysteryItem === index ? "backdrop-blur-md bg-white/15" : "bg-transparent"
+                    }`}
+                  >
+                    <h3
+                      className={`text-lg font-semibold mb-4 cursor-pointer transition-colors duration-300 font-inter ${
+                        expandedMysteryItem === index
+                          ? "text-white hover:text-gray-300"
+                          : "text-[#FFE552] hover:text-yellow-300"
+                      }`}
+                      onClick={() => toggleMysteryItem(index)}
+                    >
+                      {mystery.title}
+                    </h3>
+                    {expandedMysteryItem === index && (
+                      <div className="text-white text-sm leading-relaxed space-y-4 animate-in fade-in duration-300 text-left">
+                        <div>
+                          <strong className="text-[#82FAFA] block mb-2 font-inter">Significance:</strong>
+                          <p className="font-inter">{mystery.significance}</p>
+                        </div>
+                        <div>
+                          <strong className="text-[#82FAFA] block mb-2 font-inter">Reflection:</strong>
+                          <p className="font-inter">{mystery.reflection}</p>
+                        </div>
+                        <div className="mt-6">
+                          <h4 className="text-[#82FAFA] font-inter text-sm font-semibold mb-3">Choose Perspectives:</h4>
+                          <div className="space-y-2 flex flex-col items-center">
+                            {[3, 7, 12].map((p) => (
+                              <button
+                                key={p}
+                                onClick={() => playAudio(index, p as 3 | 7 | 12)}
+                                className={`w-full text-sm py-2 px-3 rounded-md transition-all duration-200 flex items-center justify-center border-2 ${
+                                  nowPlaying?.mysteryIndex === index && nowPlaying?.perspective === p
+                                    ? "bg-[#82FAFA] text-black border-[#82FAFA] font-semibold"
+                                    : "bg-transparent text-[#82FAFA] border-[#82FAFA] hover:bg-[#82FAFA] hover:text-black"
+                                }`}
+                              >
+                                {nowPlaying?.mysteryIndex === index && nowPlaying?.perspective === p && isPlaying ? (
+                                  <PauseCircle size={16} className="mr-2" />
+                                ) : (
+                                  <PlayCircle size={16} className="mr-2" />
+                                )}
+                                {p} Perspectives
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        {nowPlaying && nowPlaying.mysteryIndex === index && (
+                          <AudioPlayer
+                            audioRef={audioRef}
+                            currentTime={currentTime}
+                            duration={duration}
+                            playbackSpeed={playbackSpeed}
+                            isPlaying={isPlaying}
+                            isLoading={isLoading}
+                            onSeek={seek}
+                            onSeekBy={seekBy}
+                            onPlayPause={handlePlayPause}
+                            onSpeedChange={setPlaybackSpeed}
+                          />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+
+      <style jsx>{`
+        @keyframes beadReveal {
+          0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+        @keyframes lineRevealLeftToRight {
+          0% {
+            opacity: 0;
+            clip-path: inset(0 100% 0 0);
+          }
+          100% {
+            opacity: 1;
+            clip-path: inset(0 0 0 0);
+          }
+        }
+      `}</style>
+    </div>
   )
 }

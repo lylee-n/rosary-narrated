@@ -1,243 +1,184 @@
 "use client"
 
-import { useState, useRef, useEffect, useCallback } from "react"
-import type { AudioPlayerState, AudioError, AudioPlayerControls, AudioPlayerProps } from "@/lib/types"
-import { dataService } from "@/lib/services/data-service"
+import { useState, useRef, useCallback, useEffect } from "react"
+import { audioData } from "@/lib/audio-data"
+import type { MysterySetKey, PerspectiveType, NowPlaying } from "@/types"
 
-export function useAudioPlayer(
-  initialProps: AudioPlayerProps = {
-    src: "",
-    volume: 1,
-    playbackRate: 1,
-    loop: false,
-    autoplay: false,
-  },
-): [AudioPlayerState, AudioPlayerControls] {
+export function useAudioPlayer() {
+  const [nowPlaying, setNowPlaying] = useState<NowPlaying | null>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [playbackSpeed, setPlaybackSpeedState] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const animationFrameRef = useRef<number | null>(null)
-  const [state, setState] = useState<AudioPlayerState>({
-    isPlaying: false,
-    currentTime: 0,
-    duration: 0,
-    volume: initialProps.volume || 1,
-    playbackRate: initialProps.playbackRate || 1,
-    loop: initialProps.loop || false,
-    error: null,
-    isLoading: true,
-  })
 
-  const updateTime = useCallback(() => {
-    if (audioRef.current) {
-      setState((prevState) => ({
-        ...prevState,
-        currentTime: audioRef.current?.currentTime || 0,
-      }))
-      animationFrameRef.current = requestAnimationFrame(updateTime)
-    }
-  }, [])
-
-  const handleError = useCallback((event: Event) => {
-    const audio = event.target as HTMLAudioElement
-    const error: AudioError = {
-      code: audio.error?.code || 0,
-      message: "An unknown audio error occurred.",
-    }
-
-    switch (audio.error?.code) {
-      case MediaError.MEDIA_ERR_ABORTED:
-        error.message = "Audio playback aborted."
-        break
-      case MediaError.MEDIA_ERR_NETWORK:
-        error.message = "A network error caused the audio download to fail."
-        break
-      case MediaError.MEDIA_ERR_DECODE:
-        error.message = "The audio playback was aborted due to a decoding error."
-        break
-      case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-        error.message = "The audio format is not supported."
-        break
-      default:
-        error.message = "An unknown audio error occurred."
-        break
-    }
-    console.error("Audio Error:", error.message, audio.error)
-    setState((prevState) => ({ ...prevState, error, isPlaying: false, isLoading: false }))
-  }, [])
-
-  const handleLoadedMetadata = useCallback(() => {
-    if (audioRef.current) {
-      setState((prevState) => ({
-        ...prevState,
-        duration: audioRef.current?.duration || 0,
-        isLoading: false,
-      }))
-    }
-  }, [])
-
-  const handleCanPlay = useCallback(() => {
-    setState((prevState) => ({ ...prevState, isLoading: false }))
-    if (initialProps.autoplay && audioRef.current && !state.isPlaying) {
-      audioRef.current.play().catch((e) => {
-        console.error("Autoplay failed:", e)
-        setState((prevState) => ({
-          ...prevState,
-          error: { code: 0, message: "Autoplay prevented. Please click play." },
-          isPlaying: false,
-        }))
-      })
-    }
-  }, [initialProps.autoplay, state.isPlaying])
-
-  const handlePlaying = useCallback(() => {
-    setState((prevState) => ({ ...prevState, isPlaying: true, isLoading: false, error: null }))
-    animationFrameRef.current = requestAnimationFrame(updateTime)
-  }, [updateTime])
-
-  const handlePause = useCallback(() => {
-    setState((prevState) => ({ ...prevState, isPlaying: false }))
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current)
-    }
-  }, [])
-
-  const handleEnded = useCallback(() => {
-    setState((prevState) => ({ ...prevState, isPlaying: false, currentTime: 0 }))
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current)
-    }
-  }, [])
-
+  // Initialize audio element
   useEffect(() => {
-    if (!audioRef.current) {
+    if (typeof window !== "undefined") {
       audioRef.current = new Audio()
-      audioRef.current.preload = "auto"
-      audioRef.current.crossOrigin = "anonymous" // Important for CORS if audio is from different origin
-      audioRef.current.volume = initialProps.volume || 1
-      audioRef.current.playbackRate = initialProps.playbackRate || 1
-      audioRef.current.loop = initialProps.loop || false
-
-      audioRef.current.addEventListener("error", handleError)
-      audioRef.current.addEventListener("loadedmetadata", handleLoadedMetadata)
-      audioRef.current.addEventListener("canplay", handleCanPlay)
-      audioRef.current.addEventListener("playing", handlePlaying)
-      audioRef.current.addEventListener("pause", handlePause)
-      audioRef.current.addEventListener("ended", handleEnded)
+      audioRef.current.preload = "none"
     }
 
     return () => {
       if (audioRef.current) {
-        audioRef.current.removeEventListener("error", handleError)
-        audioRef.current.removeEventListener("loadedmetadata", handleLoadedMetadata)
-        audioRef.current.removeEventListener("canplay", handleCanPlay)
-        audioRef.current.removeEventListener("playing", handlePlaying)
-        audioRef.current.removeEventListener("pause", handlePause)
-        audioRef.current.removeEventListener("ended", handleEnded)
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current)
-        }
         audioRef.current.pause()
-        audioRef.current.src = "" // Clear src to release resources
-        audioRef.current.load()
-      }
-    }
-  }, [
-    handleError,
-    handleLoadedMetadata,
-    handleCanPlay,
-    handlePlaying,
-    handlePause,
-    handleEnded,
-    initialProps.volume,
-    initialProps.playbackRate,
-    initialProps.loop,
-    initialProps.autoplay,
-  ])
-
-  useEffect(() => {
-    const setAudioSrc = async () => {
-      if (audioRef.current && initialProps.src) {
-        setState((prevState) => ({ ...prevState, isLoading: true, error: null }))
-        try {
-          const audioUrl = await dataService.getAudioUrl(initialProps.src)
-          if (audioUrl) {
-            audioRef.current.src = audioUrl
-            audioRef.current.load()
-          } else {
-            throw new Error("Audio URL not found or invalid.")
-          }
-        } catch (e: any) {
-          console.error("Failed to load audio source:", e)
-          setState((prevState) => ({
-            ...prevState,
-            error: { code: 0, message: e.message || "Failed to load audio source." },
-            isLoading: false,
-          }))
-        }
-      } else if (audioRef.current) {
         audioRef.current.src = ""
-        audioRef.current.load()
-        setState((prevState) => ({ ...prevState, isLoading: false, isPlaying: false, currentTime: 0, duration: 0 }))
       }
-    }
-    setAudioSrc()
-  }, [initialProps.src])
-
-  const play = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.play().catch((e) => {
-        console.error("Play failed:", e)
-        setState((prevState) => ({
-          ...prevState,
-          error: { code: 0, message: "Playback failed. Please try again." },
-          isPlaying: false,
-        }))
-      })
     }
   }, [])
 
+  // Audio event listeners
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    const updateTime = () => setCurrentTime(audio.currentTime)
+    const updateDuration = () => setDuration(audio.duration || 0)
+    const handlePlay = () => setIsPlaying(true)
+    const handlePause = () => setIsPlaying(false)
+    const handleEnded = () => {
+      setIsPlaying(false)
+      setNowPlaying(null)
+      setCurrentTime(0)
+    }
+    const handleLoadStart = () => setIsLoading(true)
+    const handleCanPlay = () => setIsLoading(false)
+    const handleError = (e: Event) => {
+      setIsLoading(false)
+      setIsPlaying(false)
+      setError("Failed to load audio. Please try again.")
+      console.error("Audio error:", e)
+    }
+
+    audio.addEventListener("timeupdate", updateTime)
+    audio.addEventListener("loadedmetadata", updateDuration)
+    audio.addEventListener("play", handlePlay)
+    audio.addEventListener("pause", handlePause)
+    audio.addEventListener("ended", handleEnded)
+    audio.addEventListener("loadstart", handleLoadStart)
+    audio.addEventListener("canplay", handleCanPlay)
+    audio.addEventListener("error", handleError)
+
+    return () => {
+      audio.removeEventListener("timeupdate", updateTime)
+      audio.removeEventListener("loadedmetadata", updateDuration)
+      audio.removeEventListener("play", handlePlay)
+      audio.removeEventListener("pause", handlePause)
+      audio.removeEventListener("ended", handleEnded)
+      audio.removeEventListener("loadstart", handleLoadStart)
+      audio.removeEventListener("canplay", handleCanPlay)
+      audio.removeEventListener("error", handleError)
+    }
+  }, [])
+
+  const play = useCallback(
+    (mysterySetKey: MysterySetKey, mysteryIndex: number, perspective: PerspectiveType) => {
+      const audio = audioRef.current
+      if (!audio) return
+
+      const audioSrc = audioData[mysterySetKey]?.[mysteryIndex]?.[perspective]
+      if (!audioSrc) {
+        setError("Audio not available for this selection.")
+        return
+      }
+
+      setError(null)
+
+      // If same track is already playing, just resume
+      if (nowPlaying?.src === audioSrc && audio.paused) {
+        audio.play().catch((err) => {
+          setError("Failed to play audio. Please try again.")
+          console.error("Play error:", err)
+        })
+        return
+      }
+
+      // If different track, load new audio
+      if (nowPlaying?.src !== audioSrc) {
+        audio.src = audioSrc
+        audio.playbackRate = playbackSpeed
+        setNowPlaying({
+          src: audioSrc,
+          mysterySetKey,
+          mysteryIndex,
+          perspective,
+        })
+      }
+
+      audio.play().catch((err) => {
+        setError("Failed to play audio. Please try again.")
+        console.error("Play error:", err)
+      })
+    },
+    [nowPlaying, playbackSpeed],
+  )
+
   const pause = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause()
+    const audio = audioRef.current
+    if (audio && !audio.paused) {
+      audio.pause()
     }
   }, [])
 
   const seek = useCallback((time: number) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = time
-      setState((prevState) => ({ ...prevState, currentTime: time }))
+    const audio = audioRef.current
+    if (audio) {
+      audio.currentTime = Math.max(0, Math.min(time, audio.duration || 0))
     }
   }, [])
 
-  const setVolume = useCallback((volume: number) => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume
-      setState((prevState) => ({ ...prevState, volume }))
+  const seekBy = useCallback((seconds: number) => {
+    const audio = audioRef.current
+    if (audio) {
+      const newTime = audio.currentTime + seconds
+      audio.currentTime = Math.max(0, Math.min(newTime, audio.duration || 0))
     }
   }, [])
 
-  const setPlaybackRate = useCallback((rate: number) => {
-    if (audioRef.current) {
-      audioRef.current.playbackRate = rate
-      setState((prevState) => ({ ...prevState, playbackRate: rate }))
+  const setPlaybackSpeed = useCallback((speed: number) => {
+    const audio = audioRef.current
+    if (audio) {
+      audio.playbackRate = speed
+      setPlaybackSpeedState(speed)
     }
   }, [])
 
-  const setLoop = useCallback((loop: boolean) => {
-    if (audioRef.current) {
-      audioRef.current.loop = loop
-      setState((prevState) => ({ ...prevState, loop }))
+  const cleanup = useCallback(() => {
+    const audio = audioRef.current
+    if (audio) {
+      audio.pause()
+      audio.src = ""
     }
+    setNowPlaying(null)
+    setIsPlaying(false)
+    setCurrentTime(0)
+    setDuration(0)
+    setIsLoading(false)
+    setError(null)
   }, [])
 
-  return [
-    state,
-    {
-      play,
-      pause,
-      seek,
-      setVolume,
-      setPlaybackRate,
-      setLoop,
-    },
-  ]
+  const clearError = useCallback(() => {
+    setError(null)
+  }, [])
+
+  return {
+    nowPlaying,
+    isPlaying,
+    currentTime,
+    duration,
+    playbackSpeed,
+    isLoading,
+    error,
+    audioRef,
+    play,
+    pause,
+    seek,
+    seekBy,
+    setPlaybackSpeed,
+    cleanup,
+    clearError,
+  }
 }
