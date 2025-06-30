@@ -24,7 +24,9 @@ export function MysteryTitle({ title, subtitle, className, size = "md", align = 
 
   return (
     <div className={cn(alignClasses[align], className)}>
-      <h2 className={cn("text-white font-sora font-bold leading-tight mb-2", sizeClasses[size])}>{title}</h2>
+      <h2 className={cn("text-white font-sora font-bold md:font-semibold leading-tight mb-2", sizeClasses[size])}>
+        {title}
+      </h2>
       {subtitle && <p className="text-gray-300 font-inter text-sm md:text-base leading-relaxed">{subtitle}</p>}
     </div>
   )

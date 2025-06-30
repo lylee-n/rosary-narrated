@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { memo, useCallback } from "react"
-import { Play, Pause, SkipBack, SkipForward, Volume2 } from "lucide-react"
+import { Play, Pause, Volume2 } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -19,6 +19,27 @@ interface AudioPlayerProps {
   onPlayPause: () => void
   onSpeedChange: (speed: number) => void
 }
+
+// Custom circular 10-second icons
+const SkipBack10Icon = () => (
+  <div className="relative w-6 h-6 flex items-center justify-center">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      <path d="M8 8l-2 2 2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+    <span className="absolute text-[10px] font-bold">10</span>
+  </div>
+)
+
+const SkipForward10Icon = () => (
+  <div className="relative w-6 h-6 flex items-center justify-center">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      <path d="M16 8l2 2-2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+    <span className="absolute text-[10px] font-bold">10</span>
+  </div>
+)
 
 export const AudioPlayer = memo(function AudioPlayer({
   audioRef,
@@ -75,16 +96,26 @@ export const AudioPlayer = memo(function AudioPlayer({
 
   return (
     <div className="mt-4 p-4 bg-black/30 backdrop-blur-sm rounded-lg border border-white/10">
-      {/* Progress Bar */}
+      {/* Progress Bar with Custom Styling */}
       <div className="mb-4">
-        <Slider
-          value={[currentTime]}
-          onValueChange={handleProgressChange}
-          max={duration || 100}
-          step={1}
-          className="w-full"
-          disabled={!duration || isLoading}
-        />
+        <div className="relative">
+          <Slider
+            value={[currentTime]}
+            onValueChange={handleProgressChange}
+            max={duration || 100}
+            step={1}
+            className="w-full [&_[role=slider]]:bg-[#82FAFA] [&_[role=slider]]:border-[#82FAFA] [&_.slider-track]:bg-[#82FAFA] [&_.slider-range]:bg-[#82FAFA]"
+            disabled={!duration || isLoading}
+          />
+          <style jsx>{`
+            .slider-track {
+              background-color: #82FAFA !important;
+            }
+            .slider-range {
+              background-color: #82FAFA !important;
+            }
+          `}</style>
+        </div>
         <div className="flex justify-between text-xs text-white/70 mt-1">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
@@ -94,7 +125,7 @@ export const AudioPlayer = memo(function AudioPlayer({
       {/* Controls */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          {/* Skip Back */}
+          {/* Skip Back 10 */}
           <Button
             variant="ghost"
             size="sm"
@@ -103,7 +134,7 @@ export const AudioPlayer = memo(function AudioPlayer({
             className="text-white hover:text-[#82FAFA] hover:bg-white/10"
             aria-label="Skip back 10 seconds"
           >
-            <SkipBack size={16} />
+            <SkipBack10Icon />
           </Button>
 
           {/* Play/Pause */}
@@ -124,7 +155,7 @@ export const AudioPlayer = memo(function AudioPlayer({
             )}
           </Button>
 
-          {/* Skip Forward */}
+          {/* Skip Forward 10 */}
           <Button
             variant="ghost"
             size="sm"
@@ -133,7 +164,7 @@ export const AudioPlayer = memo(function AudioPlayer({
             className="text-white hover:text-[#82FAFA] hover:bg-white/10"
             aria-label="Skip forward 10 seconds"
           >
-            <SkipForward size={16} />
+            <SkipForward10Icon />
           </Button>
         </div>
 
