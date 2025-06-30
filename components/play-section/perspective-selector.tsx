@@ -1,39 +1,33 @@
 "use client"
+
 import { PerspectiveButton } from "@/components/ui/perspective-button"
 import type { Perspective } from "@/types"
 
 interface PerspectiveSelectorProps {
-  perspectives: Perspective[]
-  selectedPerspective: Perspective
-  onPerspectiveChange: (perspective: Perspective) => void
+  selectedPerspectives: Perspective[]
+  onPerspectiveToggle: (perspective: Perspective) => void
   className?: string
-  variant?: "default" | "compact"
 }
 
 export function PerspectiveSelector({
-  perspectives,
-  selectedPerspective,
-  onPerspectiveChange,
-  className,
-  variant = "default",
+  selectedPerspectives,
+  onPerspectiveToggle,
+  className = "",
 }: PerspectiveSelectorProps) {
-  const perspectiveLabels: Record<Perspective, string> = {
-    theological: "Theological",
-    scriptural: "Scriptural",
-    personal: "Personal",
-    historical: "Historical",
-  }
+  const perspectives: Perspective[] = ["3", "7", "12"]
 
   return (
-    <div className={className}>
-      <div className="flex flex-wrap gap-2 justify-center">
+    <div className={`space-y-4 ${className}`}>
+      <h3 className="text-white font-sora text-lg font-semibold mb-4">
+        Select your preferred perspectives set (3 unique perspectives, 7 unique perspectives, 12 unique perspectives)
+      </h3>
+      <div className="flex flex-wrap gap-3">
         {perspectives.map((perspective) => (
           <PerspectiveButton
             key={perspective}
-            label={perspectiveLabels[perspective]}
-            isActive={selectedPerspective === perspective}
-            onClick={() => onPerspectiveChange(perspective)}
-            variant={variant}
+            perspective={perspective}
+            isSelected={selectedPerspectives.includes(perspective)}
+            onClick={() => onPerspectiveToggle(perspective)}
           />
         ))}
       </div>

@@ -19,6 +19,9 @@ export function PlaySection() {
     setSelectedMysterySetIndex(null)
   }
 
+  // Extract just the mystery type names
+  const mysteryTitles = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
+
   return (
     <section className="min-h-screen bg-transparent py-16 px-4">
       <div className="max-w-6xl mx-auto">
@@ -27,8 +30,8 @@ export function PlaySection() {
             The Rosary Mysteries
           </h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed mb-20">
-            Each Mystery tells a story. Experience them through audio and visuals designed to help you connect. Choose a
-            set to get started.
+            Each Mystery tells a story. Experience them through audiovisual and visuals designed to help you connect.
+            Choose a set to get started.
           </p>
         </div>
 
@@ -45,16 +48,16 @@ export function PlaySection() {
                 <div className="aspect-[4/5] md:aspect-[3/2] relative">
                   <Image
                     src={mysterySet.backgroundImage || "/placeholder.svg"}
-                    alt={mysterySet.title}
+                    alt={mysteryTitles[index]}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-                  {/* Centered text on desktop */}
+                  {/* Centered text on desktop - properly centered */}
                   <div className="hidden md:flex absolute inset-0 items-center justify-center">
-                    <h3 className="text-white font-bold text-3xl lg:text-4xl font-sora tracking-wider group-hover:text-[#FFE552] transition-colors duration-300">
-                      {mysterySet.title.toUpperCase()}
+                    <h3 className="text-white font-bold text-3xl lg:text-4xl font-sora tracking-wider group-hover:text-[#FFE552] transition-colors duration-300 text-center">
+                      {mysteryTitles[index].toUpperCase()}
                     </h3>
                   </div>
                 </div>
@@ -62,7 +65,7 @@ export function PlaySection() {
                 {/* Bottom text for mobile only */}
                 <div className="md:hidden absolute bottom-0 left-0 right-0 p-6">
                   <h3 className="text-2xl font-bold text-white mb-2 font-sora group-hover:text-[#FFE552] transition-colors duration-300">
-                    {mysterySet.title}
+                    {mysteryTitles[index]}
                   </h3>
                   <p className="text-gray-300 text-sm font-inter">{mysterySet.mysteries.length} Mysteries</p>
                 </div>

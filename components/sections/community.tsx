@@ -22,32 +22,32 @@ export function CommunitySection() {
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto space-y-12 mb-16">
-        {/* Two cards on the same row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="max-w-5xl mx-auto space-y-12 mb-16">
+        {/* Two cards on the same row - reduced width */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Regular Connections Card */}
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8">
-            <div className="flex items-center mb-6">
-              <div className="w-12 h-12 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-4">
-                <Calendar size={24} className="text-[#82FAFA]" />
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="w-10 h-10 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-3">
+                <Calendar size={20} className="text-[#82FAFA]" />
               </div>
-              <h2 className="text-white font-sora text-2xl md:text-3xl font-semibold">Regular Connections</h2>
+              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Regular Connections</h2>
             </div>
-            <p className="text-lg text-gray-300 font-inter leading-relaxed">
+            <p className="text-base text-gray-300 font-inter leading-relaxed">
               Virtual meetups where you can show up where you are spiritually. Discuss scriptural perspectives. Discuss
               hard stuff. Talk through life stuff. Find people who also get it, or not. Pray together.
             </p>
           </div>
 
           {/* Interactive Faith Card */}
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8">
-            <div className="flex items-center mb-6">
-              <div className="w-12 h-12 bg-[#FFE552]/20 rounded-full flex items-center justify-center mr-4">
-                <BookOpen size={24} className="text-[#FFE552]" />
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="w-10 h-10 bg-[#FFE552]/20 rounded-full flex items-center justify-center mr-3">
+                <BookOpen size={20} className="text-[#FFE552]" />
               </div>
-              <h2 className="text-white font-sora text-2xl md:text-3xl font-semibold">Interactive Faith</h2>
+              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Interactive Faith</h2>
             </div>
-            <p className="text-lg text-gray-300 font-inter leading-relaxed">
+            <p className="text-base text-gray-300 font-inter leading-relaxed">
               Making scripture study feels less intimidating and more like bite size soul foods that integrates into
               your daily world.
             </p>
@@ -64,38 +64,39 @@ export function CommunitySection() {
           </div>
         </div>
 
-        {/* What We're Building Card - Centered below */}
+        {/* What We're Building Card - Centered below with reduced width */}
         <div className="flex justify-center">
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 md:p-12 max-w-4xl w-full">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 md:p-8 max-w-2xl w-full">
             <div className="flex items-center justify-center mb-6">
-              <div className="w-12 h-12 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-4">
-                <Users size={24} className="text-[#82FAFA]" />
+              <div className="w-10 h-10 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-3">
+                <Users size={20} className="text-[#82FAFA]" />
               </div>
-              <h2 className="text-white font-sora text-2xl md:text-3xl font-semibold text-center">
+              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold text-center">
                 What We're Building
               </h2>
             </div>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto font-inter leading-relaxed text-center mb-10">
+            <p className="text-base text-gray-300 mx-auto font-inter leading-relaxed text-center mb-8">
               Some exciting stuff in the works:
             </p>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 max-w-3xl mx-auto">
+            {/* Vertical bullet points list */}
+            <ul className="space-y-3 max-w-xl mx-auto">
               <li className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-[#82FAFA] rounded-full mt-2 flex-shrink-0"></div>
-                <span className="text-gray-300 font-inter">Live and virtual spaces for prayer and real talk</span>
+                <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-white font-inter">Live and virtual spaces for prayer and real talk</span>
               </li>
               <li className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-[#FFE552] rounded-full mt-2 flex-shrink-0"></div>
-                <span className="text-gray-300 font-inter">
+                <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-white font-inter">
                   Scripture reflections that wake you up so hard that you cancel your Starbucks membership card
                 </span>
               </li>
               <li className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-[#82FAFA] rounded-full mt-2 flex-shrink-0"></div>
-                <span className="text-gray-300 font-inter">Growth challenges that feel doable</span>
+                <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-white font-inter">Growth challenges that feel doable</span>
               </li>
               <li className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-[#FFE552] rounded-full mt-2 flex-shrink-0"></div>
-                <span className="text-gray-300 font-inter">Peer-support that's helpful</span>
+                <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-white font-inter">Peer-support that's helpful</span>
               </li>
             </ul>
           </div>
