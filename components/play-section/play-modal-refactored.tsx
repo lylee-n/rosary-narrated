@@ -1,129 +1,89 @@
 "use client"
 
-import { useState, useCallback } from "react"
-import { dataService } from "@/lib/services/data-service"
-import { ModalContainer } from "@/components/ui/modal-container"
-import { ModalHeader } from "@/components/ui/modal-header"
-import { MysteryGrid } from "./mystery-grid"
-import { MysteryList } from "./mystery-list"
-import { useAudioPlayer } from "@/hooks/use-audio-player"
+import type React from "react"
+import { useState, useEffect } from "react"
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Text } from "@nextui-org/react"
+import { dataService } from "@/lib/services/data-service" // Updated import path
 
 interface PlayModalProps {
-  selectedMysterySetIndex: number
-  onClose: () => void
+  isOpen: boolean
+  onOpenChange: () => void
+  gameId: string | null
 }
 
-export function PlayModalRefactored({ selectedMysterySetIndex, onClose }: PlayModalProps) {
-  const [expandedMysteryItem, setExpandedMysteryItem] = useState<number | null>(null)
-  const currentMysterySetDetails = dataService.getMysterySet(selectedMysterySetIndex)
+const PlayModalRefactored: React.FC<PlayModalProps> = ({ isOpen, onOpenChange, gameId }) => {
+  const [playerName, setPlayerName] = useState<string>("")
+  const [errorMessage, setErrorMessage] = useState<string>("")
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const {
-    nowPlaying,
-    isPlaying,
-    currentTime,
-    duration,
-    playbackSpeed,
-    isLoading,
-    error,
-    audioRef,
-    play,
-    pause,
-    seek,
-    seekBy,
-    setPlaybackSpeed,
-    cleanup,
-    clearError,
-  } = useAudioPlayer()
-
-  const handleClose = useCallback(() => {
-    cleanup()
-    onClose()
-  }, [cleanup, onClose])
-
-  const handleMysterySelect = useCallback(
-    (index: number) => {
-      const isOpeningNewItem = expandedMysteryItem !== index
-      setExpandedMysteryItem((prev) => (prev === index ? null : index))
-
-      if (nowPlaying && nowPlaying.mysteryIndex !== index && isOpeningNewItem) {
-        cleanup()
-      } else if (expandedMysteryItem === index && nowPlaying && nowPlaying.mysteryIndex === index) {
-        cleanup()
-      }
-    },
-    [expandedMysteryItem, nowPlaying, cleanup],
-  )
-
-  const handleAudioPlay = useCallback(
-    (mysteryIndex: number, perspective: number) => {
-      const mysterySetKeys = dataService.getMysterySetKeys()
-      const mysterySetKey = mysterySetKeys[selectedMysterySetIndex]
-      play(mysterySetKey, mysteryIndex, perspective as 3 | 7 | 12)
-    },
-    [selectedMysterySetIndex, play],
-  )
-
-  const handlePlayPause = useCallback(() => {
-    if (isPlaying) {
-      pause()
-    } else if (nowPlaying) {
-      play(nowPlaying.mysterySetKey, nowPlaying.mysteryIndex, nowPlaying.perspective)
+  const handlePlayGame = async () => {
+    if (!playerName) {
+      setErrorMessage("Please enter your name.")
+      return
     }
-  }, [isPlaying, pause, nowPlaying, play])
 
-  if (!currentMysterySetDetails) {
-    return null
+    if (!gameId) {
+      setErrorMessage("Game ID is missing.")
+      return
+    }
+
+    setIsLoading(true)
+    setErrorMessage("") // Clear any previous errors
+
+    try {
+      const result = await dataService.joinGame(gameId, playerName)
+
+      if (result && result.success) {
+        // Redirect to the game page or perform other actions upon successful join
+        window.location.href = `/game/${gameId}` // Example: Redirect to game page
+      } else {
+        setErrorMessage(result?.message || "Failed to join the game. Please try again.")
+      }
+    } catch (error: any) {
+      console.error("Error joining game:", error)
+      setErrorMessage("An unexpected error occurred. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
+  useEffect(() => {
+    if (!isOpen) {
+      setPlayerName("")
+      setErrorMessage("")
+    }
+  }, [isOpen])
+
   return (
-    <ModalContainer isOpen={true} onClose={handleClose} backgroundImage="/images/modal-background.gif">
-      <ModalHeader title={currentMysterySetDetails.title} onClose={handleClose} />
-
-      {error && (
-        <div className="mx-4 mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm">
-          {error}
-          <button onClick={clearError} className="ml-2 text-red-300 hover:text-red-100 underline">
-            Dismiss
-          </button>
-        </div>
-      )}
-
-      <MysteryGrid
-        mysteries={currentMysterySetDetails.mysteries}
-        backgroundImage={currentMysterySetDetails.backgroundImage}
-        onMysterySelect={handleMysterySelect}
-        onAudioPlay={handleAudioPlay}
-        expandedMystery={expandedMysteryItem}
-        nowPlaying={nowPlaying}
-        isPlaying={isPlaying}
-        isLoading={isLoading}
-        audioRef={audioRef}
-        currentTime={currentTime}
-        duration={duration}
-        playbackSpeed={playbackSpeed}
-        onSeek={seek}
-        onSeekBy={seekBy}
-        onPlayPause={handlePlayPause}
-        onSpeedChange={setPlaybackSpeed}
-      />
-
-      <MysteryList
-        mysteries={currentMysterySetDetails.mysteries}
-        onMysterySelect={handleMysterySelect}
-        onAudioPlay={handleAudioPlay}
-        expandedMystery={expandedMysteryItem}
-        nowPlaying={nowPlaying}
-        isPlaying={isPlaying}
-        isLoading={isLoading}
-        audioRef={audioRef}
-        currentTime={currentTime}
-        duration={duration}
-        playbackSpeed={playbackSpeed}
-        onSeek={seek}
-        onSeekBy={seekBy}
-        onPlayPause={handlePlayPause}
-        onSpeedChange={setPlaybackSpeed}
-      />
-    </ModalContainer>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop="blur">
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader className="flex flex-col gap-1">Join Game</ModalHeader>
+            <ModalBody>
+              {errorMessage && <Text color="danger">{errorMessage}</Text>}
+              <Input
+                isRequired
+                type="text"
+                label="Your Name"
+                placeholder="Enter your name"
+                value={playerName}
+                onChange={(e) => setPlayerName(e.target.value)}
+              />
+            </ModalBody>
+            <ModalFooter>
+              <Button color="danger" variant="flat" onPress={onClose}>
+                Close
+              </Button>
+              <Button color="primary" onPress={handlePlayGame} isLoading={isLoading}>
+                Play
+              </Button>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   )
 }
+
+export default PlayModalRefactored

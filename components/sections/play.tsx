@@ -4,7 +4,7 @@ import Image from "next/image"
 import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
 import { PlayModal } from "@/components/play-section/play-modal"
-import { dataService } from "@/services/data-service"
+import { dataService } from "@/lib/services/data-service"
 import { MYSTERY_IMAGES } from "@/constants"
 
 export function PlaySection() {

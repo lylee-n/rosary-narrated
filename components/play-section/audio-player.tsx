@@ -1,126 +1,148 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
-import { PlayCircle, PauseCircle, Rewind, FastForward } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
+import { dataService } from "@/lib/services/data-service" // Updated import
+import type { PlaylistItem } from "@/lib/types"
+import { useSession } from "next-auth/react"
 
 interface AudioPlayerProps {
-  audioRef: React.RefObject<HTMLAudioElement>
-  currentTime: number
-  duration: number
-  isPlaying: boolean
-  playbackSpeed: number
-  onSeek: (time: number) => void
-  onSeekBy: (seconds: number) => void
-  onPlayPause: () => void
-  onSpeedChange: (speed: number) => void
+  playlist: PlaylistItem[]
+  onEnded?: () => void
 }
 
-const formatTime = (seconds: number): string => {
-  if (!seconds || !isFinite(seconds)) return "0:00"
-  const mins = Math.floor(seconds / 60)
-  const secs = Math.floor(seconds % 60)
-  return `${mins}:${secs.toString().padStart(2, "0")}`
-}
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ playlist, onEnded }) => {
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const progressBarRef = useRef<HTMLInputElement>(null)
+  const { data: session } = useSession()
 
-export function AudioPlayer({
-  audioRef,
-  currentTime,
-  duration,
-  isPlaying,
-  playbackSpeed,
-  onSeek,
-  onSeekBy,
-  onPlayPause,
-  onSpeedChange,
-}: AudioPlayerProps) {
-  const [showSpeedControl, setShowSpeedControl] = useState(false)
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.addEventListener("loadedmetadata", () => {
+        setDuration(audioRef.current?.duration || 0)
+      })
 
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!duration) return
+      audioRef.current.addEventListener("timeupdate", () => {
+        setCurrentTime(audioRef.current?.currentTime || 0)
+      })
 
-    const rect = e.currentTarget.getBoundingClientRect()
-    const clickX = e.clientX - rect.left
-    const percentage = clickX / rect.width
-    const newTime = percentage * duration
+      audioRef.current.addEventListener("ended", () => {
+        handleNextTrack()
+        if (onEnded) {
+          onEnded()
+        }
+      })
+    }
 
-    onSeek(newTime)
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener("loadedmetadata", () => {})
+        audioRef.current.removeEventListener("timeupdate", () => {})
+        audioRef.current.removeEventListener("ended", () => {})
+      }
+    }
+  }, [onEnded])
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.src = playlist[currentTrackIndex].url
+      audioRef.current.load()
+      if (isPlaying) {
+        audioRef.current.play()
+      }
+    }
+  }, [currentTrackIndex, playlist, isPlaying])
+
+  const handlePlayPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause()
+      } else {
+        audioRef.current.play()
+      }
+      setIsPlaying(!isPlaying)
+    }
   }
 
-  const speedOptions = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
+  const handleNextTrack = () => {
+    setCurrentTime(0)
+    if (currentTrackIndex < playlist.length - 1) {
+      setCurrentTrackIndex(currentTrackIndex + 1)
+    } else {
+      setCurrentTrackIndex(0) // Loop back to the beginning
+    }
+  }
+
+  const handlePreviousTrack = () => {
+    setCurrentTime(0)
+    if (currentTrackIndex > 0) {
+      setCurrentTrackIndex(currentTrackIndex - 1)
+    } else {
+      setCurrentTrackIndex(playlist.length - 1) // Loop back to the end
+    }
+  }
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (audioRef.current) {
+      const seekTime = Number.parseFloat(e.target.value)
+      audioRef.current.currentTime = seekTime
+      setCurrentTime(seekTime)
+    }
+  }
+
+  const formatTime = (time: number): string => {
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
+  }
+
+  const currentTrack = playlist[currentTrackIndex]
+
+  const handleLike = async () => {
+    if (!session?.user?.email) {
+      alert("Please sign in to like this track.")
+      return
+    }
+
+    try {
+      const response = await dataService.likeTrack(currentTrack.id, session.user.email)
+      if (response.success) {
+        // Optimistically update the UI
+        alert("Track liked!")
+      } else {
+        alert("Failed to like track.")
+      }
+    } catch (error) {
+      console.error("Error liking track:", error)
+      alert("Error liking track.")
+    }
+  }
 
   return (
-    <div className="mt-4 lg:mt-6 space-y-6 lg:space-y-8 p-3 lg:p-4 pb-6 lg:pb-8 bg-white/20 rounded-lg backdrop-blur-sm">
-      <div className="space-y-2">
-        <div className="flex justify-between text-xs lg:text-sm text-[#82FAFA]">
-          <span>{formatTime(currentTime)}</span>
-          <span>{formatTime(duration)}</span>
-        </div>
-        <div className="w-full h-2 bg-gray-600 rounded-full cursor-pointer" onClick={handleProgressClick}>
-          <div
-            className="h-full bg-[#82FAFA] rounded-full transition-all duration-100"
-            style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-          />
-        </div>
+    <div className="audio-player">
+      <audio ref={audioRef} src={currentTrack.url} preload="metadata" />
+      <div className="track-info">
+        <h3>{currentTrack.title}</h3>
+        <p>{currentTrack.artist}</p>
       </div>
-
-      <div className="flex justify-between items-center pb-2">
-        {/* Center-aligned audio controls */}
-        <div className="flex-1 flex justify-center items-center gap-3 lg:gap-4">
-          <button
-            onClick={() => onSeekBy(-10)}
-            className="text-[#82FAFA] hover:text-white transition-colors duration-200"
-            aria-label="Rewind 10 seconds"
-          >
-            <Rewind size={20} />
-          </button>
-          <button
-            onClick={onPlayPause}
-            className="text-[#82FAFA] hover:text-white transition-colors duration-200"
-            aria-label={isPlaying ? "Pause" : "Play"}
-          >
-            {isPlaying ? <PauseCircle size={24} /> : <PlayCircle size={24} />}
-          </button>
-          <button
-            onClick={() => onSeekBy(10)}
-            className="text-[#82FAFA] hover:text-white transition-colors duration-200"
-            aria-label="Fast forward 10 seconds"
-          >
-            <FastForward size={20} />
-          </button>
-        </div>
-
-        {/* Right-aligned speed control */}
-        <div className="relative">
-          <button
-            onClick={() => setShowSpeedControl(!showSpeedControl)}
-            className="text-[#82FAFA] hover:text-white transition-colors duration-200 text-xs lg:text-sm font-inter"
-          >
-            Speed: {playbackSpeed}x
-          </button>
-
-          {showSpeedControl && (
-            <div className="absolute bottom-full right-0 mb-2 bg-white/90 backdrop-blur-sm rounded-lg p-2 border border-gray-300 shadow-lg">
-              <div className="flex flex-col gap-1">
-                {speedOptions.map((speed) => (
-                  <button
-                    key={speed}
-                    onClick={() => {
-                      onSpeedChange(speed)
-                      setShowSpeedControl(false)
-                    }}
-                    className={`px-3 py-1 text-xs rounded transition-colors duration-200 ${
-                      playbackSpeed === speed ? "bg-[#82FAFA] text-white font-semibold" : "text-black hover:bg-gray-200"
-                    }`}
-                  >
-                    {speed}x
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+      <div className="controls">
+        <button onClick={handlePreviousTrack}>Previous</button>
+        <button onClick={handlePlayPause}>{isPlaying ? "Pause" : "Play"}</button>
+        <button onClick={handleNextTrack}>Next</button>
+        <button onClick={handleLike}>Like</button>
+      </div>
+      <div className="progress">
+        <input type="range" ref={progressBarRef} value={currentTime} max={duration} onChange={handleSeek} />
+        <div className="time">
+          {formatTime(currentTime)} / {formatTime(duration)}
         </div>
       </div>
     </div>
   )
 }
+
+export default AudioPlayer
