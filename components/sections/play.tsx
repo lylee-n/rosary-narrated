@@ -22,15 +22,23 @@ export function PlaySection() {
   // Extract just the mystery type names
   const mysteryTitles = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
 
+  const getCurrentDay = () => {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    const today = new Date()
+    return days[today.getDay()]
+  }
+
   const dailyMysteries = [
-    { day: "Monday", mystery: "Joyful Mysteries" },
-    { day: "Tuesday", mystery: "Sorrowful Mysteries" },
-    { day: "Wednesday", mystery: "Glorious Mysteries" },
-    { day: "Thursday", mystery: "Luminous Mysteries" },
-    { day: "Friday", mystery: "Sorrowful Mysteries" },
-    { day: "Saturday", mystery: "Joyful Mysteries" },
-    { day: "Sunday", mystery: "Glorious Mysteries" },
+    { day: "Monday", mystery: "Joyful Mysteries", index: 0 },
+    { day: "Tuesday", mystery: "Sorrowful Mysteries", index: 2 },
+    { day: "Wednesday", mystery: "Glorious Mysteries", index: 3 },
+    { day: "Thursday", mystery: "Luminous Mysteries", index: 1 },
+    { day: "Friday", mystery: "Sorrowful Mysteries", index: 2 },
+    { day: "Saturday", mystery: "Joyful Mysteries", index: 0 },
+    { day: "Sunday", mystery: "Glorious Mysteries", index: 3 },
   ]
+
+  const currentDay = getCurrentDay()
 
   return (
     <section className="min-h-screen bg-transparent py-16 px-4">
@@ -42,58 +50,78 @@ export function PlaySection() {
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed mb-8">
             Choose a set of Mysteries for an audiovisual theology and storytelling experience.
           </p>
-          <div className="max-w-3xl mx-auto text-center mb-20">
-            <p className="text-lg md:text-xl text-gray-300 font-inter font-light leading-relaxed mb-4">
+          <div className="max-w-5xl mx-auto text-center mb-20">
+            <p className="text-lg md:text-xl text-gray-300 font-inter font-light leading-relaxed mb-6">
               As a general rule:
             </p>
-            <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-gray-300 text-base md:text-lg">
-              {dailyMysteries.map((item, index) => (
-                <div key={index} className="flex flex-col items-center">
-                  <p className="font-bold text-white">{item.day}</p>
-                  <p>{item.mystery}</p>
-                </div>
-              ))}
+            <div className="grid grid-cols-7 gap-2 md:gap-4 text-gray-300 text-sm md:text-base">
+              {dailyMysteries.map((item, index) => {
+                const isToday = item.day === currentDay
+                return (
+                  <div key={index} className="flex flex-col items-center">
+                    <p className={`font-bold mb-2 ${isToday ? "text-[#FFE552]" : "text-white"}`}>{item.day}</p>
+                    <p className={`text-center leading-tight ${isToday ? "text-[#FFE552]" : "text-gray-300"}`}>
+                      {item.mystery}
+                    </p>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>
 
         {/* 2x2 Grid for Desktop, Single Column for Mobile */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 max-w-4xl mx-auto">
-          {Object.entries(rosaryMysteriesDataEn).map(([key, mysterySet], index) => (
-            <div
-              key={key}
-              className="group cursor-pointer transform transition-all duration-300 hover:scale-105"
-              onClick={() => handleMysterySetClick(index)}
-            >
-              <div className="relative overflow-hidden rounded-2xl border border-gray-700 transition-colors duration-300">
-                {/* Changed aspect ratio to 3:2 for desktop, keep 4:5 for mobile */}
-                <div className="aspect-[4/5] md:aspect-[3/2] relative">
-                  <Image
-                    src={mysterySet.backgroundImage || "/placeholder.svg"}
-                    alt={mysteryTitles[index]}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          {Object.entries(rosaryMysteriesDataEn).map(([key, mysterySet], index) => {
+            const todaysMystery = dailyMysteries.find((dm) => dm.day === currentDay)
+            const isHighlighted = todaysMystery && todaysMystery.index === index
 
-                  {/* Centered text on desktop - properly centered with fatter font and more letter spacing */}
-                  <div className="hidden md:flex absolute inset-0 items-center justify-center">
-                    <h3 className="text-white font-black text-4xl lg:text-5xl font-sora tracking-[0.2em] group-hover:text-[#FFE552] transition-colors duration-300 text-center">
-                      {mysteryTitles[index].toUpperCase()}
+            return (
+              <div
+                key={key}
+                className={`group cursor-pointer transform transition-all duration-300 hover:scale-105 ${
+                  isHighlighted ? "ring-2 ring-[#FFE552] ring-opacity-60" : ""
+                }`}
+                onClick={() => handleMysterySetClick(index)}
+              >
+                <div className="relative overflow-hidden rounded-2xl border border-gray-700 transition-colors duration-300">
+                  {/* Changed aspect ratio to 3:2 for desktop, keep 4:5 for mobile */}
+                  <div className="aspect-[4/5] md:aspect-[3/2] relative">
+                    <Image
+                      src={mysterySet.backgroundImage || "/placeholder.svg"}
+                      alt={mysteryTitles[index]}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                    {/* Centered text on desktop - properly centered with fatter font and more letter spacing */}
+                    <div className="hidden md:flex absolute inset-0 items-center justify-center">
+                      <h3
+                        className={`font-black text-4xl lg:text-5xl font-sora tracking-[0.2em] transition-colors duration-300 text-center ${
+                          isHighlighted ? "text-[#FFE552]" : "text-white group-hover:text-[#FFE552]"
+                        }`}
+                      >
+                        {mysteryTitles[index].toUpperCase()}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Bottom text for mobile only */}
+                  <div className="md:hidden absolute bottom-0 left-0 right-0 p-6">
+                    <h3
+                      className={`text-2xl font-bold mb-2 font-sora transition-colors duration-300 ${
+                        isHighlighted ? "text-[#FFE552]" : "text-white group-hover:text-[#FFE552]"
+                      }`}
+                    >
+                      {mysteryTitles[index]}
                     </h3>
+                    <p className="text-gray-300 text-sm font-inter">{mysterySet.mysteries.length} Mysteries</p>
                   </div>
                 </div>
-
-                {/* Bottom text for mobile only */}
-                <div className="md:hidden absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-2xl font-bold text-white mb-2 font-sora group-hover:text-[#FFE552] transition-colors duration-300">
-                    {mysteryTitles[index]}
-                  </h3>
-                  <p className="text-gray-300 text-sm font-inter">{mysterySet.mysteries.length} Mysteries</p>
-                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         <div className="text-center mt-24">
