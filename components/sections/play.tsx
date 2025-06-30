@@ -22,6 +22,16 @@ export function PlaySection() {
   // Extract just the mystery type names
   const mysteryTitles = ["Joyful", "Luminous", "Sorrowful", "Glorious"]
 
+  const dailyMysteries = [
+    { day: "Monday", mystery: "Joyful Mysteries" },
+    { day: "Tuesday", mystery: "Sorrowful Mysteries" },
+    { day: "Wednesday", mystery: "Glorious Mysteries" },
+    { day: "Thursday", mystery: "Luminous Mysteries" },
+    { day: "Friday", mystery: "Sorrowful Mysteries" },
+    { day: "Saturday", mystery: "Joyful Mysteries" },
+    { day: "Sunday", mystery: "Glorious Mysteries" },
+  ]
+
   return (
     <section className="min-h-screen bg-transparent py-16 px-4">
       <div className="max-w-6xl mx-auto">
@@ -29,18 +39,21 @@ export function PlaySection() {
           <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-8 md:mb-16">
             The Rosary Mysteries
           </h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed mb-4">
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed mb-8">
             Choose a set of Mysteries for an audiovisual theology and storytelling experience.
           </p>
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm md:text-base text-gray-300 font-inter font-light max-w-3xl mx-auto mb-20">
-            <span className="font-bold">As a general rule:</span>
-            <span>Monday: Joyful Mysteries</span>
-            <span>Tuesday: Sorrowful Mysteries</span>
-            <span>Wednesday: Glorious Mysteries</span>
-            <span>Thursday: Luminous Mysteries</span>
-            <span>Friday: Sorrowful Mysteries</span>
-            <span>Saturday: Joyful Mysteries</span>
-            <span>Sunday: Glorious Mysteries</span>
+          <div className="max-w-3xl mx-auto text-center mb-20">
+            <p className="text-lg md:text-xl text-gray-300 font-inter font-light leading-relaxed mb-4">
+              As a general rule:
+            </p>
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-gray-300 text-base md:text-lg">
+              {dailyMysteries.map((item, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <p className="font-bold text-white">{item.day}</p>
+                  <p>{item.mystery}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
