@@ -40,7 +40,7 @@ export function PlaySection() {
               className="group cursor-pointer transform transition-all duration-300 hover:scale-105"
               onClick={() => handleMysterySetClick(index)}
             >
-              <div className="relative overflow-hidden rounded-2xl border border-gray-700 hover:border-[#FFE552] transition-colors duration-300">
+              <div className="relative overflow-hidden rounded-2xl border border-gray-700 transition-colors duration-300">
                 {/* Changed aspect ratio to 3:2 for desktop, keep 4:5 for mobile */}
                 <div className="aspect-[4/5] md:aspect-[3/2] relative">
                   <Image
@@ -50,17 +50,22 @@ export function PlaySection() {
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                  {/* Centered text on desktop */}
+                  <div className="hidden md:flex absolute inset-0 items-center justify-center">
+                    <h3 className="text-white font-bold text-3xl lg:text-4xl font-sora tracking-wider group-hover:text-[#FFE552] transition-colors duration-300">
+                      {mysterySet.title.toUpperCase()}
+                    </h3>
+                  </div>
                 </div>
 
-                <div className="absolute bottom-0 left-0 right-0 p-6">
+                {/* Bottom text for mobile only */}
+                <div className="md:hidden absolute bottom-0 left-0 right-0 p-6">
                   <h3 className="text-2xl font-bold text-white mb-2 font-sora group-hover:text-[#FFE552] transition-colors duration-300">
                     {mysterySet.title}
                   </h3>
                   <p className="text-gray-300 text-sm font-inter">{mysterySet.mysteries.length} Mysteries</p>
                 </div>
-
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-[#FFE552]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
               </div>
             </div>
           ))}

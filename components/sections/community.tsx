@@ -9,14 +9,11 @@ export function CommunitySection() {
 
   return (
     <div className="container mx-auto px-4 py-16">
-      {/* Coming Soon - Giant Header in #82FAFA */}
+      {/* Community Header */}
       <div className="text-center mb-16">
-        <h1 className="text-[#82FAFA] font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-8">
-          Coming Soon
+        <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-12">
+          Community
         </h1>
-        <div className="flex justify-center mb-12">
-          <ChevronDown size={32} className="text-[#82FAFA] animate-bounce" />
-        </div>
 
         {/* Moved text outside of card and centered */}
         <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed mb-16">
@@ -27,9 +24,9 @@ export function CommunitySection() {
 
       <div className="max-w-6xl mx-auto space-y-12 mb-16">
         {/* Two cards on the same row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Regular Connections Card */}
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 relative">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8">
             <div className="flex items-center mb-6">
               <div className="w-12 h-12 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-4">
                 <Calendar size={24} className="text-[#82FAFA]" />
@@ -40,15 +37,10 @@ export function CommunitySection() {
               Virtual meetups where you can show up where you are spiritually. Discuss scriptural perspectives. Discuss
               hard stuff. Talk through life stuff. Find people who also get it, or not. Pray together.
             </p>
-
-            {/* Arrow pointing down - hidden on mobile */}
-            <div className="hidden md:block absolute -bottom-8 left-1/2 transform -translate-x-1/2">
-              <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-t-[16px] border-transparent border-t-[#82FAFA]" />
-            </div>
           </div>
 
           {/* Interactive Faith Card */}
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 relative">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8">
             <div className="flex items-center mb-6">
               <div className="w-12 h-12 bg-[#FFE552]/20 rounded-full flex items-center justify-center mr-4">
                 <BookOpen size={24} className="text-[#FFE552]" />
@@ -59,16 +51,21 @@ export function CommunitySection() {
               Making scripture study feels less intimidating and more like bite size soul foods that integrates into
               your daily world.
             </p>
+          </div>
+        </div>
 
-            {/* Arrow pointing down - hidden on mobile */}
-            <div className="hidden md:block absolute -bottom-8 right-1/2 transform translate-x-1/2">
-              <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-t-[16px] border-transparent border-t-[#FFE552]" />
-            </div>
+        {/* Coming Soon text with chevron arrow */}
+        <div className="text-center my-12">
+          <h2 className="text-[#82FAFA] font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-8">
+            Coming Soon
+          </h2>
+          <div className="flex justify-center mb-8">
+            <ChevronDown size={32} className="text-[#82FAFA] animate-bounce" />
           </div>
         </div>
 
         {/* What We're Building Card - Centered below */}
-        <div className="flex justify-center mt-16">
+        <div className="flex justify-center">
           <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 md:p-12 max-w-4xl w-full">
             <div className="flex items-center justify-center mb-6">
               <div className="w-12 h-12 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-4">

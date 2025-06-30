@@ -17,7 +17,7 @@ export function WhySection() {
   return (
     <div className="container mx-auto px-4">
       <section className="my-12">
-        <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold text-center mb-12 md:mb-20">
+        <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold text-center mb-12 md:mb-20">
           Why Pray the Rosary?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-24">

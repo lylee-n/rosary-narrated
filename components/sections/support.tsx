@@ -6,11 +6,11 @@ export function SupportSection() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="text-center mb-16">
-        <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold mb-8">
+        <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-8">
           Keep This Going
         </h1>
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed">
-          We’re building something meaningful here – bridging theological insights and accessibility for global
+          We're building something meaningful here – bridging theological insights and accessibility for global
           audiences. Your support helps us keep the lights on and reach more people who need this.
         </p>
       </div>
