@@ -20,24 +20,24 @@ interface AudioPlayerProps {
   onSpeedChange: (speed: number) => void
 }
 
-// Custom circular 10-second icons
-const SkipBack10Icon = () => (
-  <div className="relative w-6 h-6 flex items-center justify-center">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" fill="none" />
-      <path d="M8 8l-2 2 2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-    <span className="absolute text-[10px] font-bold">10</span>
+// Custom circular skip icons
+const SkipBackIcon = () => (
+  <div className="relative flex items-center justify-center w-6 h-6">
+    <div className="absolute w-5 h-5 border-2 border-current rounded-full" />
+    <span className="text-[10px] font-bold">10</span>
+    <div className="absolute -left-1 top-1/2 transform -translate-y-1/2">
+      <div className="w-0 h-0 border-t-[3px] border-b-[3px] border-r-[4px] border-transparent border-r-current" />
+    </div>
   </div>
 )
 
-const SkipForward10Icon = () => (
-  <div className="relative w-6 h-6 flex items-center justify-center">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" fill="none" />
-      <path d="M16 8l2 2-2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-    <span className="absolute text-[10px] font-bold">10</span>
+const SkipForwardIcon = () => (
+  <div className="relative flex items-center justify-center w-6 h-6">
+    <div className="absolute w-5 h-5 border-2 border-current rounded-full" />
+    <span className="text-[10px] font-bold">10</span>
+    <div className="absolute -right-1 top-1/2 transform -translate-y-1/2">
+      <div className="w-0 h-0 border-t-[3px] border-b-[3px] border-l-[4px] border-transparent border-l-current" />
+    </div>
   </div>
 )
 
@@ -96,7 +96,7 @@ export const AudioPlayer = memo(function AudioPlayer({
 
   return (
     <div className="mt-4 p-4 bg-black/30 backdrop-blur-sm rounded-lg border border-white/10">
-      {/* Progress Bar with Custom Styling */}
+      {/* Progress Bar with custom styling */}
       <div className="mb-4">
         <div className="relative">
           <Slider
@@ -104,17 +104,9 @@ export const AudioPlayer = memo(function AudioPlayer({
             onValueChange={handleProgressChange}
             max={duration || 100}
             step={1}
-            className="w-full [&_[role=slider]]:bg-[#82FAFA] [&_[role=slider]]:border-[#82FAFA] [&_.slider-track]:bg-[#82FAFA] [&_.slider-range]:bg-[#82FAFA]"
+            className="w-full [&>span:first-child]:h-2 [&>span:first-child]:bg-white/20 [&_[role=slider]]:bg-[#82FAFA] [&_[role=slider]]:border-[#82FAFA] [&>span:first-child>span]:bg-[#82FAFA]"
             disabled={!duration || isLoading}
           />
-          <style jsx>{`
-            .slider-track {
-              background-color: #82FAFA !important;
-            }
-            .slider-range {
-              background-color: #82FAFA !important;
-            }
-          `}</style>
         </div>
         <div className="flex justify-between text-xs text-white/70 mt-1">
           <span>{formatTime(currentTime)}</span>
@@ -125,16 +117,16 @@ export const AudioPlayer = memo(function AudioPlayer({
       {/* Controls */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          {/* Skip Back 10 */}
+          {/* Skip Back */}
           <Button
             variant="ghost"
             size="sm"
             onClick={handleSkipBack}
             disabled={isLoading || !duration}
-            className="text-white hover:text-[#82FAFA] hover:bg-white/10"
+            className="text-white hover:text-[#82FAFA] hover:bg-white/10 p-2"
             aria-label="Skip back 10 seconds"
           >
-            <SkipBack10Icon />
+            <SkipBackIcon />
           </Button>
 
           {/* Play/Pause */}
@@ -155,16 +147,16 @@ export const AudioPlayer = memo(function AudioPlayer({
             )}
           </Button>
 
-          {/* Skip Forward 10 */}
+          {/* Skip Forward */}
           <Button
             variant="ghost"
             size="sm"
             onClick={handleSkipForward}
             disabled={isLoading || !duration}
-            className="text-white hover:text-[#82FAFA] hover:bg-white/10"
+            className="text-white hover:text-[#82FAFA] hover:bg-white/10 p-2"
             aria-label="Skip forward 10 seconds"
           >
-            <SkipForward10Icon />
+            <SkipForwardIcon />
           </Button>
         </div>
 
