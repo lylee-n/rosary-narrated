@@ -1,4 +1,4 @@
-import { Home, Play, Heart, Users, Compass } from "lucide-react"
+import { Home, Play, Heart, Users, Compass, BookOpen, FileText } from "lucide-react"
 import type { NavItem, MysterySetKey, PerspectiveType } from "@/types"
 
 // Theme colors
@@ -48,10 +48,12 @@ export const ANIMATIONS = {
 
 // Navigation items
 export const NAV_ITEMS: NavItem[] = [
-  { name: "ABOUT", label: "ABOUT", icon: Home },
+  { name: "WHAT", label: "WHAT", icon: FileText },
   { name: "WHY", label: "WHY", icon: Compass },
   { name: "PLAY", label: "PRAY", icon: Play },
+  { name: "ABOUT", label: "ABOUT", icon: Home },
   { name: "COMMUNITY", label: "COMMUNITY", icon: Users },
+  { name: "BLOGS", label: "BLOGS", icon: BookOpen },
   { name: "SUPPORT", label: "SUPPORT", icon: Heart },
 ]
 
