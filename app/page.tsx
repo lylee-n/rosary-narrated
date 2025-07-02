@@ -2,13 +2,13 @@
 
 import { AppProvider } from "@/components/app-provider"
 import { AppLayout } from "@/components/layout/app-layout"
-import { AboutSection } from "@/components/sections/about"
+import { WhatSection } from "@/components/sections/what"
 import { WhySection } from "@/components/sections/why"
 import { PlaySection } from "@/components/sections/play"
+import { AboutSection } from "@/components/sections/about"
 import { CommunitySection } from "@/components/sections/community"
-import { SupportSection } from "@/components/sections/support"
-import { WhatSection } from "@/components/sections/what"
 import { BlogsSection } from "@/components/sections/blogs"
+import { SupportSection } from "@/components/sections/support"
 import { useApp } from "@/components/app-provider"
 
 function MainContent() {
@@ -35,13 +35,15 @@ function MainContent() {
     }
   }
 
-  return <AppLayout>{renderCurrentView()}</AppLayout>
+  return <>{renderCurrentView()}</>
 }
 
 export default function Home() {
   return (
     <AppProvider>
-      <MainContent />
+      <AppLayout>
+        <MainContent />
+      </AppLayout>
     </AppProvider>
   )
 }
