@@ -25,7 +25,7 @@ export function WhatSection() {
               <div className="w-10 h-10 border-2 border-[#82FAFA] rounded-full flex items-center justify-center mr-3">
                 <Headphones className="h-5 w-5 text-[#82FAFA]" />
               </div>
-              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">🎧 Story-driven Audio</h2>
+              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Story-driven Audio</h2>
             </div>
             <p className="text-base text-gray-300 font-inter leading-relaxed pl-8">
               Explore each decade through 3, 7, or 12 unique perspectives, rooted in Scripture, theology and narrative
@@ -38,7 +38,7 @@ export function WhatSection() {
               <div className="w-10 h-10 border-2 border-[#82FAFA] rounded-full flex items-center justify-center mr-3">
                 <Eye className="h-5 w-5 text-[#82FAFA]" />
               </div>
-              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">🌌 Visual Rosary Experience</h2>
+              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Visual Rosary Experience</h2>
             </div>
             <p className="text-base text-gray-300 font-inter leading-relaxed pl-8">
               Cinematic visuals help you see the Old and New Testament in their historical and geopolitical times.
@@ -50,7 +50,7 @@ export function WhatSection() {
               <div className="w-10 h-10 border-2 border-[#82FAFA] rounded-full flex items-center justify-center mr-3">
                 <MousePointer className="h-5 w-5 text-[#82FAFA]" />
               </div>
-              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">💫 Interactive Prayer Beads</h2>
+              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Interactive Prayer Beads</h2>
             </div>
             <p className="text-base text-gray-300 font-inter leading-relaxed pl-8">
               Tap each bead, follow the prayers, stay present — beginner friendly.
