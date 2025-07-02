@@ -97,7 +97,7 @@ export function AboutSection() {
           />
           <div className="lg:w-[65%] flex items-start justify-center">
             <div
-              className="bg-white/5 border border-[#FFE552]/50 rounded-2xl p-5 backdrop-blur-sm w-full h-[650px] lg:h-[600px] flex flex-col relative overflow-hidden"
+              className="bg-white/5 rounded-2xl p-5 backdrop-blur-sm w-full h-[650px] lg:h-[600px] flex flex-col relative overflow-hidden shadow-lg shadow-white/10"
               style={{
                 backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`,
                 backgroundSize: "cover",
