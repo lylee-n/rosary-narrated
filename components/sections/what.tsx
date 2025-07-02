@@ -25,7 +25,7 @@ export function WhatSection() {
           {/* Card 1 */}
           <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+              <div className="w-10 h-10 border border-[#82FAFA] rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                 <Headphones size={20} className="text-[#82FAFA]" />
               </div>
               <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Story-driven Audio</h2>
@@ -39,7 +39,7 @@ export function WhatSection() {
           {/* Card 2 */}
           <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+              <div className="w-10 h-10 border border-[#82FAFA] rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                 <Eye size={20} className="text-[#82FAFA]" />
               </div>
               <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Visual Experience</h2>
@@ -52,7 +52,7 @@ export function WhatSection() {
           {/* Card 3 */}
           <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+              <div className="w-10 h-10 border border-[#82FAFA] rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                 <Sparkles size={20} className="text-[#82FAFA]" />
               </div>
               <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Interactive Prayer</h2>
