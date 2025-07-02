@@ -14,16 +14,16 @@ export function Header() {
 
   // Primary navigation items (core functionality)
   const primaryNavItems = [
-    { name: "FOUNDATION", label: "Learn", icon: BookOpen, description: "Master the Rosary" },
-    { name: "HOW", label: "Practice", icon: Compass, description: "Guided Prayer" },
+    { name: "FOUNDATION", label: "Learn", icon: BookOpen },
+    { name: "HOW", label: "Practice", icon: Compass },
   ]
 
   // Secondary navigation items (supporting features)
   const secondaryNavItems = [
-    { name: "WHAT", label: "About", icon: null },
-    { name: "WHY", label: "Why", icon: null },
+    { name: "WHAT", label: "About" },
+    { name: "WHY", label: "Why" },
     { name: "COMMUNITY", label: "Community", icon: Users },
-    { name: "BLOGS", label: "Insights", icon: null },
+    { name: "BLOGS", label: "Insights" },
     { name: "SUPPORT", label: "Support", icon: Heart },
   ]
 
@@ -40,28 +40,20 @@ export function Header() {
           relative group transition-all duration-300 
           ${
             isPrimary
-              ? `px-6 py-3 rounded-xl font-semibold text-sm
+              ? `px-6 py-3 rounded-xl font-semibold text-sm flex items-center gap-2
                ${
                  isActive
                    ? "bg-gradient-to-r from-[#FFE552] to-[#FFE552]/80 text-black shadow-lg shadow-[#FFE552]/25"
                    : "bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border border-white/20"
                }`
-              : `px-3 py-2 text-sm font-medium
+              : `px-3 py-2 text-sm font-medium flex items-center gap-2
                ${isActive ? "text-[#FFE552]" : "text-gray-300 hover:text-white"}`
           }
         `}
         aria-label={item.label}
       >
-        <div className="flex items-center gap-2">
-          {item.icon && <item.icon size={isPrimary ? 18 : 16} />}
-          <span>{item.label}</span>
-        </div>
-
-        {isPrimary && item.description && (
-          <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-xs opacity-60">
-            {item.description}
-          </div>
-        )}
+        {item.icon && <item.icon size={isPrimary ? 18 : 16} />}
+        <span>{item.label}</span>
 
         {/* Hover tooltip for secondary items */}
         {!isPrimary && isHovered && (
@@ -142,7 +134,6 @@ export function Header() {
                     <item.icon size={20} />
                     <div>
                       <div className="font-medium">{item.label}</div>
-                      <div className="text-sm opacity-70">{item.description}</div>
                     </div>
                   </button>
                 ))}
