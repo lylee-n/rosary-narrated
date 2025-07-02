@@ -1,7 +1,7 @@
 "use client"
 
 import { Headphones, Eye, Sparkles } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { CustomButton } from "@/components/ui/custom-button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useApp } from "@/components/app-provider"
 
@@ -28,7 +28,7 @@ export function WhatSection() {
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
                 <Headphones className="h-8 w-8" />
               </div>
-              <CardTitle className="font-sora text-xl text-white">Story-driven Audio</CardTitle>
+              <CardTitle className="font-sora text-xl text-white">🎧 Story-driven Audio</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-300">
@@ -43,7 +43,7 @@ export function WhatSection() {
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
                 <Eye className="h-8 w-8" />
               </div>
-              <CardTitle className="font-sora text-xl text-white">Visual Rosary Experience</CardTitle>
+              <CardTitle className="font-sora text-xl text-white">🌌 Visual Rosary Experience</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-300">
@@ -57,7 +57,7 @@ export function WhatSection() {
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
                 <Sparkles className="h-8 w-8" />
               </div>
-              <CardTitle className="font-sora text-xl text-white">Interactive Prayer Beads</CardTitle>
+              <CardTitle className="font-sora text-xl text-white">💫 Interactive Prayer Beads</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-300">Tap each bead, follow the prayers, stay present — beginner friendly.</p>
@@ -66,9 +66,9 @@ export function WhatSection() {
         </div>
 
         <div className="mt-16 flex flex-col items-center gap-2">
-          <Button size="lg" onClick={() => setCurrentView("WHY")}>
+          <CustomButton variant="default" onClick={() => setCurrentView("WHY")} showArrow={false}>
             Discover Why It Matters
-          </Button>
+          </CustomButton>
         </div>
       </div>
     </section>

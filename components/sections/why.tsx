@@ -3,13 +3,13 @@
 import { useState } from "react"
 import { Plus } from "lucide-react"
 import Image from "next/image"
-import { CustomButton } from "@/components/ui/custom-button"
+import { Button } from "@/components/ui/button"
 import { useApp } from "@/components/app-provider"
 import { cardDataEn } from "@/lib/rosary-data-en"
 
 export function WhySection() {
   const [expandedCard, setExpandedCard] = useState<number | null>(null)
-  const { setView } = useApp()
+  const { setCurrentView } = useApp()
 
   const handleCardClick = (index: number) => {
     setExpandedCard(expandedCard === index ? null : index)
@@ -23,24 +23,22 @@ export function WhySection() {
   ]
 
   return (
-    <div className="container mx-auto px-4">
-      <section className="my-12">
-        <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold text-center mb-12 md:mb-20">
-          Why Pray the Rosary?
-        </h2>
-
-        {/* Description text below header */}
-        <div className="text-center max-w-4xl mx-auto mb-16">
-          <p className="text-gray-200 font-inter text-lg md:text-xl leading-relaxed">
-            Jesus's choices often puzzle us. Why does He do what He does? Why does the Father do what He does? His
-            astronomical sacrificial love just doesn't make sense. The Father and Jesus think our souls are worth that
-            much. While the heavens know He is the only one worthy (Revelation 5:2-9)—not any angel or archangel, but
-            He—the Lamb. It will take us several lifetimes to fully understand. But here our are three reasons why we
-            should pray the Rosary.
-          </p>
+    <section className="w-full py-12 md:py-24 lg:py-32">
+      <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
+        <div className="space-y-3">
+          <h1 className="font-sora text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
+            Why Pray the Rosary?
+          </h1>
+          <div className="max-w-4xl mx-auto mb-16">
+            <p className="text-gray-200 font-inter text-lg md:text-xl leading-relaxed">
+              Jesus's choices often puzzle us. Why does He do what He does? Why does the Father do what He does? His
+              astronomical sacrificial love just doesn't make sense. The Father and Jesus think our souls are worth that
+              much. While the heavens know He is the only one worthy (Revelation 5:2-9)—not any angel or archangel, but
+              He—the Lamb. It will take us several lifetimes to fully understand. But here our are three reasons why we
+              should pray the Rosary.
+            </p>
+          </div>
         </div>
-
-        {/* Full-width cards in separate rows - consistent layout with text left, image right */}
         <div className="space-y-12 mb-24">
           {cardDataEn.map((card, index) => (
             <div
@@ -95,14 +93,8 @@ export function WhySection() {
             </div>
           ))}
         </div>
-
-        <div className="text-center">
-          <CustomButton onClick={() => setView("PLAY")} size="lg">
-            <span className="hidden md:inline">Pray the Rosary</span>
-            <span className="md:hidden">Pray</span>
-          </CustomButton>
-        </div>
-      </section>
-    </div>
+        <Button onClick={() => setCurrentView("PLAY")}>Start Praying</Button>
+      </div>
+    </section>
   )
 }
