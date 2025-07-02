@@ -137,12 +137,12 @@ export function AboutSection() {
                       {displayStepData.content.map((item, index) => (
                         <div key={index}>
                           <h5
-                            className={`font-sora text-base font-semibold mb-2 ${isGloriousMysteries ? "text-black" : "text-[#FFE552]"}`}
+                            className={`font-sora text-base font-semibold mb-2 ${isGloriousMysteries ? "text-blue-800" : "text-[#FFE552]"}`}
                           >
                             {item.subtitle}
                           </h5>
                           <p
-                            className={`font-inter text-sm leading-relaxed whitespace-pre-line ${isGloriousMysteries ? "text-gray-800" : "text-gray-300"}`}
+                            className={`font-inter text-sm leading-relaxed whitespace-pre-line ${isGloriousMysteries ? "text-black" : "text-gray-300"}`}
                           >
                             {item.text}
                           </p>
