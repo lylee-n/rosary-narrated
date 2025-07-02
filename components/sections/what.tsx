@@ -9,7 +9,7 @@ export function WhatSection() {
   const { setCurrentView } = useApp()
 
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-background text-foreground animate-fade-in">
+    <section className="w-full py-12 md:py-24 lg:py-32 bg-background text-foreground">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center space-y-4 text-center mb-12">
           <div className="space-y-2">
@@ -21,7 +21,7 @@ export function WhatSection() {
         </div>
 
         <div className="mx-auto grid max-w-5xl items-stretch gap-6 sm:grid-cols-2 md:grid-cols-3 lg:gap-8">
-          <Card className="flex flex-col text-center border-2 border-transparent hover:border-primary transition-all duration-300">
+          <Card className="flex flex-col text-center border-2 border-transparent hover:border-primary transition-all duration-300 bg-card">
             <CardHeader className="items-center">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
                 <Headphones className="h-8 w-8" />
@@ -36,7 +36,7 @@ export function WhatSection() {
             </CardContent>
           </Card>
 
-          <Card className="flex flex-col text-center border-2 border-transparent hover:border-primary transition-all duration-300">
+          <Card className="flex flex-col text-center border-2 border-transparent hover:border-primary transition-all duration-300 bg-card">
             <CardHeader className="items-center">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
                 <Eye className="h-8 w-8" />
@@ -50,7 +50,7 @@ export function WhatSection() {
             </CardContent>
           </Card>
 
-          <Card className="flex flex-col text-center border-2 border-transparent hover:border-primary transition-all duration-300">
+          <Card className="flex flex-col text-center border-2 border-transparent hover:border-primary transition-all duration-300 bg-card">
             <CardHeader className="items-center">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
                 <Sparkles className="h-8 w-8" />
