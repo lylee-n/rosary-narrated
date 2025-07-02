@@ -2,13 +2,10 @@
 
 export function BlogsSection() {
   return (
-    <section className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] bg-background text-foreground">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold tracking-tighter">Blogs</h1>
-        <p className="text-xl text-muted-foreground">Coming Soon</p>
-        <p className="text-sm text-muted-foreground max-w-md">
-          We're working on bringing you inspiring articles and insights about prayer, faith, and the Rosary.
-        </p>
+    <section className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex flex-col items-center justify-center">
+      <div className="text-center">
+        <h1 className="font-sora text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">Blogs</h1>
+        <p className="font-sans text-xl text-slate-600 dark:text-slate-300">Coming Soon</p>
       </div>
     </section>
   )
