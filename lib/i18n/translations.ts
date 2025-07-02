@@ -88,6 +88,11 @@ export interface Translations {
           description: string
           cta: string
         }
+        partner: {
+          title: string
+          description: string
+          cta: string
+        }
       }
       contact: string
     }
@@ -198,21 +203,26 @@ export const translations: Record<Language, Translations> = {
           "We're building something meaningful here – bridging theological insights and accessibility for global audiences. Your support helps us keep the lights on and reach more people who need this.",
         cards: {
           monthly: {
-            title: "Monthly Support",
+            title: "Support Monthly",
             description:
               "Become a monthly supporter and help us develop and maintain this program for the global community.",
             cta: "SUPPORT MONTHLY",
           },
           oneTime: {
-            title: "One-Time Donation",
+            title: "Donate One-Time",
             description:
               "Make a one-time contribution to support the development and hosting of these audiovisual experiences.",
             cta: "DONATE ONCE",
           },
           volunteer: {
-            title: "Volunteering",
-            description: "Want to join us in building something bigger with your skills and time? Get Involved!",
+            title: "Volunteer",
+            description: "Join us in building something bigger with your skills and time. Get Involved!",
             cta: "VOLUNTEER",
+          },
+          partner: {
+            title: "Partner",
+            description: "Are you a church or a ministry that wants to partner with us? Inquire within!",
+            cta: "PARTNER",
           },
         },
         contact: "Have an awesome idea or feedback? Drop us an email at",
@@ -337,6 +347,12 @@ export const translations: Record<Language, Translations> = {
             description:
               "Muốn tham gia với chúng tôi để xây dựng điều gì đó lớn hơn với kỹ năng và thời gian của bạn? Tham gia!",
             cta: "TÌNH NGUYỆN",
+          },
+          partner: {
+            title: "Đối tác",
+            description:
+              "Bạn có phải là một nhà thờ hoặc một chức vụ muốn hợp tác với chúng tôi không? Hỏi thăm bên trong!",
+            cta: "ĐỐI TÁC",
           },
         },
         contact: "Có ý tưởng tuyệt vời hoặc phản hồi? Gửi email cho chúng tôi tại",
