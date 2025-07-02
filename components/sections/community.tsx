@@ -79,21 +79,25 @@ export function CommunitySection() {
             <ul className="space-y-3 max-w-xl pl-8">
               <li className="flex items-start space-x-3">
                 <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
-                <span className="text-white font-inter">Live and virtual spaces for prayer and real talk</span>
+                <span className="text-base text-gray-300 font-inter leading-relaxed">
+                  Live and virtual spaces for prayer and real talk
+                </span>
               </li>
               <li className="flex items-start space-x-3">
                 <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
-                <span className="text-white font-inter">
+                <span className="text-base text-gray-300 font-inter leading-relaxed">
                   Scripture reflections that wake you up so hard that you cancel your Starbucks membership card
                 </span>
               </li>
               <li className="flex items-start space-x-3">
                 <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
-                <span className="text-white font-inter">Growth challenges that feel doable</span>
+                <span className="text-base text-gray-300 font-inter leading-relaxed">
+                  Growth challenges that feel doable
+                </span>
               </li>
               <li className="flex items-start space-x-3">
                 <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
-                <span className="text-white font-inter">Peer-support that's helpful</span>
+                <span className="text-base text-gray-300 font-inter leading-relaxed">Peer-support that's helpful</span>
               </li>
             </ul>
           </div>
