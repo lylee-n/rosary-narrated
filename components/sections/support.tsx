@@ -2,6 +2,7 @@
 
 import { CustomButton } from "@/components/ui/custom-button"
 import { useTranslations } from "@/hooks/use-translations"
+import { ChevronDown } from "lucide-react"
 
 export function SupportSection() {
   const t = useTranslations()
@@ -15,6 +16,14 @@ export function SupportSection() {
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter font-light leading-relaxed">
           {t.sections.support.subtitle}
         </p>
+      </div>
+
+      <div className="text-center mb-8">
+        <h2 className="text-white font-sora text-3xl md:text-4xl lg:text-5xl font-bold">Support Us</h2>
+      </div>
+
+      <div className="flex justify-center mb-16">
+        <ChevronDown className="text-white w-8 h-8" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
@@ -51,8 +60,12 @@ export function SupportSection() {
         </div>
       </div>
 
-      <div className="text-center mb-16">
+      <div className="text-center mb-8">
         <h2 className="text-white font-sora text-3xl md:text-4xl lg:text-5xl font-bold">Get Involved</h2>
+      </div>
+
+      <div className="flex justify-center mb-16">
+        <ChevronDown className="text-white w-8 h-8" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
