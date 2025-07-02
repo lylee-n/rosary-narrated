@@ -8,9 +8,9 @@ export function WhatSection() {
   const { setCurrentView } = useApp()
 
   return (
-    <section className="w-full py-16 animate-fade-in">
-      <div className="container mx-auto px-4">
-        {/* Header section */}
+    <section className="w-full animate-fade-in">
+      <div className="container mx-auto px-4 py-16">
+        {/* Header section - spacing now matches Community page */}
         <div className="text-center mb-16">
           <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-12">
             Rosary Narrated
