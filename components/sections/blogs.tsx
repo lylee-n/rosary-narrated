@@ -11,7 +11,7 @@ export function BlogsSection() {
             Blogs
           </h1>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">
-            We're working on bringing you inspiring articles and insights about prayer, faith, and the Rosary.
+            Coming soon
           </p>
         </div>
 
