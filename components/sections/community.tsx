@@ -17,8 +17,7 @@ export function CommunitySection() {
 
         {/* Moved text outside of card and centered */}
         <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed mb-16">
-          Finding your place in faith can be complicated. We get it. We've been through it. Here, we're building
-          something different.
+          Finding your place in faith can be complicated. We get it. Here, we're building something different.
         </p>
       </div>
 
