@@ -154,15 +154,18 @@ export function AboutSection() {
                     </div>
                   </div>
                   <div className="flex justify-center flex-shrink-0 relative z-20">
-                    <div className={`relative rounded-lg p-2 ${isGloriousMysteries ? "bg-white/20" : "bg-black/30"}`}>
-                      <div
-                        className={`absolute inset-0 rounded-lg blur-md opacity-50 animate-pulse ${isGloriousMysteries ? "bg-blue-500" : "bg-[#FFE552]"}`}
-                      ></div>
+                    {/* Removed the conditional background/padding from this div */}
+                    <div className="relative">
+                      {/* Halo effect - always yellow */}
+                      <div className="absolute inset-0 bg-[#FFE552] rounded-lg blur-md opacity-50 animate-pulse"></div>
                       <CustomButton
                         onClick={handleNext}
                         size="md"
-                        variant={isGloriousMysteries ? "secondary" : "yellow"} // Use secondary for light background
-                        className={cn("relative", isGloriousMysteries && "text-black border border-black")} // Apply black text and border
+                        variant="yellow" // Always yellow variant for solid background
+                        className={cn(
+                          "relative",
+                          isGloriousMysteries && "text-black border border-[#FFE552]", // Explicitly set black text and yellow border for Glorious
+                        )}
                       >
                         Next
                       </CustomButton>
