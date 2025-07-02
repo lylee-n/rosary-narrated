@@ -17,7 +17,7 @@ export function SupportSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         {/* Support Monthly Card */}
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">{t.sections.support.cards.monthly.title}</h3>
