@@ -1,4 +1,4 @@
-import { Home, Play, Heart, Users, Compass, HelpCircle, BookText } from "lucide-react"
+import { Home, Heart, Users, Compass, HelpCircle, BookText, BookOpen } from "lucide-react"
 import type { NavItem, MysterySetKey, PerspectiveType } from "@/types"
 
 // Theme colors
@@ -50,8 +50,8 @@ export const ANIMATIONS = {
 export const NAV_ITEMS: NavItem[] = [
   { name: "WHAT", label: "WHAT", icon: HelpCircle }, // "What is Rosary Narrated"
   { name: "WHY", label: "WHY", icon: Compass },
-  { name: "PLAY", label: "FOUNDATION", icon: Play },
-  { name: "ABOUT", label: "HOW", icon: Home },
+  { name: "PLAY", label: "FOUNDATION", icon: BookOpen }, // Changed from Play to BookOpen for Foundation
+  { name: "ABOUT", label: "HOW", icon: Home }, // Changed from Home to Home for How
   { name: "COMMUNITY", label: "COMMUNITY", icon: Users },
   { name: "BLOGS", label: "BLOGS", icon: BookText },
   { name: "SUPPORT", label: "SUPPORT", icon: Heart },
