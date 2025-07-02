@@ -5,6 +5,7 @@ import { useRosaryState } from "@/hooks/use-rosary-state"
 import { DailyMysterySelector } from "@/components/rosary-guide/daily-mystery-selector"
 import { RosaryVisualizer } from "@/components/rosary-guide/rosary-visualizer"
 import { MYSTERY_IMAGES } from "@/constants"
+import { cn } from "@/lib/utils" // Import cn for conditional class names
 
 // Define the types for our rosary elements
 type RosaryElement = {
@@ -155,13 +156,13 @@ export function AboutSection() {
                   <div className="flex justify-center flex-shrink-0 relative z-20">
                     <div className={`relative rounded-lg p-2 ${isGloriousMysteries ? "bg-white/20" : "bg-black/30"}`}>
                       <div
-                        className={`absolute inset-0 rounded-lg blur-md opacity-50 animate-pulse ${isGloriousMysteries ? "bg-black" : "bg-[#FFE552]"}`}
+                        className={`absolute inset-0 rounded-lg blur-md opacity-50 animate-pulse ${isGloriousMysteries ? "bg-blue-500" : "bg-[#FFE552]"}`}
                       ></div>
                       <CustomButton
                         onClick={handleNext}
                         size="md"
-                        variant={isGloriousMysteries ? "default" : "yellow"}
-                        className={`relative ${isGloriousMysteries ? "text-white bg-black" : ""}`}
+                        variant={isGloriousMysteries ? "secondary" : "yellow"} // Use secondary for light background
+                        className={cn("relative", isGloriousMysteries && "text-black border border-black")} // Apply black text and border
                       >
                         Next
                       </CustomButton>
