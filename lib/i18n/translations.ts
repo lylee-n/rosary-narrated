@@ -115,7 +115,7 @@ export interface Translations {
 export const translations: Record<Language, Translations> = {
   en: {
     nav: {
-      about: "ABOUT",
+      about: "HOW",
       why: "WHY",
       pray: "FOUNDATION",
       community: "COMMUNITY",
@@ -239,7 +239,7 @@ export const translations: Record<Language, Translations> = {
   },
   vi: {
     nav: {
-      about: "GIỚI THIỆU",
+      about: "CÁCH THỨC",
       why: "TẠI SAO",
       pray: "NỀN TẢNG",
       community: "CỘNG ĐỒNG",

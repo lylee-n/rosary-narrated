@@ -51,7 +51,7 @@ export const NAV_ITEMS: NavItem[] = [
   { name: "WHAT", label: "WHAT", icon: HelpCircle }, // "What is Rosary Narrated"
   { name: "WHY", label: "WHY", icon: Compass },
   { name: "PLAY", label: "FOUNDATION", icon: Play },
-  { name: "ABOUT", label: "ABOUT", icon: Home },
+  { name: "ABOUT", label: "HOW", icon: Home },
   { name: "COMMUNITY", label: "COMMUNITY", icon: Users },
   { name: "BLOGS", label: "BLOGS", icon: BookText },
   { name: "SUPPORT", label: "SUPPORT", icon: Heart },
