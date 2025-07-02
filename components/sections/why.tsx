@@ -1,25 +1,10 @@
 "use client"
 
-import { useState } from "react"
-import { Plus } from "lucide-react"
-import Image from "next/image"
 import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
-import { cardDataEn } from "@/lib/rosary-data-en"
 
 export function WhySection() {
-  const [expandedCard, setExpandedCard] = useState<number | null>(null)
   const { setView } = useApp()
-
-  const handleCardClick = (index: number) => {
-    setExpandedCard(expandedCard === index ? null : index)
-  }
-
-  const cardImages = [
-    "/images/Jesus-baptized-new.jpeg",
-    "/images/luminous-mysteries.jpeg",
-    "/images/rosary-decades-header.png",
-  ]
 
   return (
     <section className="w-full py-16">
@@ -31,56 +16,61 @@ export function WhySection() {
           </h1>
           <div className="max-w-4xl mx-auto mb-16">
             <p className="text-lg text-gray-300 font-inter leading-relaxed">
-              Jesus's choices often puzzle us. Why does He do what He does? Why does the Father do what He does? His
-              astronomical sacrificial love just doesn't make sense. The Father and Jesus think our souls are worth that
-              much. While the heavens know He is the only one worthy (Revelation 5:2-9)—not any angel or archangel, but
-              He—the Lamb. It will take us several lifetimes to fully understand. But here are our three reasons why we
-              should pray the Rosary.
+              The Rosary isn't a mindless incantation. It's a photobook of Christ's life, with His Mother - Mary, the
+              Ark of the New Covenant - at your side. "For where two or three gather in my name, there I am with them."
+              (Matthew 18: 20). Who is better to pray with us than His own Mother, who knows our Lord from her womb, and
+              was with Him through every event and every pain? With the precious Mother by your side, your connection to
+              Jesus will deepen in ways you never thought possible.
             </p>
           </div>
         </div>
 
-        {/* Cards Section */}
-        <div className="space-y-12 mb-24">
-          {cardDataEn.map((card, index) => (
-            <div
-              key={index}
-              className="group cursor-pointer overflow-hidden rounded-lg border border-gray-700/50"
-              onClick={() => handleCardClick(index)}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                {/* Text Column */}
-                <div className="p-8 md:p-12 flex flex-col justify-center bg-black/30 backdrop-blur-sm">
-                  <div className="flex justify-start mb-6">
-                    <div className="w-12 h-12 border-2 border-[#82FAFA] text-[#82FAFA] rounded-full flex items-center justify-center font-bold text-lg transition-transform duration-300 group-hover:scale-110">
-                      {card.number}
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-gray-300 font-inter leading-relaxed text-base md:text-lg mb-4">
-                      {expandedCard === index ? card.fullText : card.shortText}
-                    </p>
-                    <div className="flex justify-start">
-                      <Plus
-                        className={`w-6 h-6 text-[#82FAFA] transition-transform duration-300 group-hover:scale-110 ${expandedCard === index ? "rotate-45" : ""}`}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Image Column */}
-                <div className="aspect-[4/3] md:aspect-auto relative">
-                  <Image
-                    src={cardImages[index] || "/placeholder.svg"}
-                    alt={`Card ${index + 1} background`}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-l from-transparent via-black/20 to-black/40 md:hidden" />
-                </div>
-              </div>
-            </div>
-          ))}
+        {/* New Card with 15 Promises */}
+        <div className="max-w-5xl mx-auto bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 mb-16">
+          <h2 className="text-white font-sora text-xl md:text-2xl font-semibold mb-6">
+            The 15 Promises of Our Lady to Those Who Pray the Rosary
+          </h2>
+          <ul className="list-decimal list-inside space-y-2 text-gray-300 font-inter leading-relaxed">
+            <li>
+              To all those who shall recite my rosary devoutly, I promise my special protection and very great graces.
+            </li>
+            <li>Those who shall persevere in the recitation of my rosary shall receive signal graces.</li>
+            <li>
+              The rosary shall be a very powerful armor against hell; it will destroy vice, deliver from sin, and dispel
+              heresy.
+            </li>
+            <li>
+              The rosary will make virtue and good works flourish, and will obtain for souls the most abundant divine
+              mercies; it will draw the hearts of men from the love of the world to the love of God, and will lift them
+              to the desire of eternal things. How many souls shall sanctify themselves by this means!
+            </li>
+            <li>Those who trust themselves to me through the rosary shall not perish.</li>
+            <li>
+              Those who shall recite my rosary devoutly, meditating on its mysteries, shall not be overwhelmed by
+              misfortune. The sinner shall be converted; the just shall grow in grace and become worthy of eternal life.
+            </li>
+            <li>Those truly devoted to my rosary shall not die without the Sacraments of the Church.</li>
+            <li>
+              Those who faithfully recite my rosary shall find during their life and at the hour of their death the
+              light of God, the fullness of his graces, and shall share in the merits of the blessed.
+            </li>
+            <li>I shall deliver very promptly from purgatory the souls devoted to my rosary.</li>
+            <li>The true children of my rosary shall enjoy great glory in heaven.</li>
+            <li>What you ask through my rosary, you shall obtain.</li>
+            <li>Those who propagate my rosary will be aided by me in all their necessities.</li>
+            <li>
+              I have obtained from my Son that all the members of the Rosary Confraternity shall have as their
+              intercessors, in life and in death, the entire celestial court.
+            </li>
+            <li>
+              Those who recite my rosary faithfully are all my beloved children, the brothers and sisters of Jesus
+              Christ.
+            </li>
+            <li>Devotion to my rosary is a great sign of predestination.</li>
+          </ul>
+          <p className="text-sm italic text-gray-400 mt-6 text-right">
+            (Given to St. Dominic and Blessed Alan de la Roche).
+          </p>
         </div>
 
         {/* CTA Section */}

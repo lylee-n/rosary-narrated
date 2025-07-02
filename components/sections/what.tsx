@@ -8,15 +8,15 @@ export function WhatSection() {
   const { setCurrentView } = useApp()
 
   return (
-    <section className="w-full animate-fade-in">
-      <div className="container mx-auto px-4 py-16">
-        {/* Header section - spacing now matches Community page */}
+    <section className="w-full py-16 animate-fade-in">
+      <div className="container mx-auto px-4">
+        {/* Header section */}
         <div className="text-center mb-16">
           <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-12">
             Rosary Narrated
           </h1>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">
-            The Rosary — reimagined for how we pray in the digital age today.
+            The Rosary — reimagined for how we pray today.
           </p>
         </div>
 
