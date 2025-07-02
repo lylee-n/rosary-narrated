@@ -53,7 +53,7 @@ export function WhySection() {
               {promises.map((promise, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-[auto_1fr] gap-3 transition-transform duration-200 hover:-translate-y-1 cursor-pointer"
+                  className="grid grid-cols-[2.5rem_1fr] gap-3 transition-transform duration-200 hover:-translate-y-1 cursor-pointer"
                 >
                   <span className="text-[#82FAFA] font-bold mt-1">{index + 1}.</span>
                   <p className="text-gray-300 font-inter leading-relaxed text-base">{promise}</p>
