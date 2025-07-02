@@ -268,7 +268,7 @@ export const translations: Record<Language, Translations> = {
             full: 'Trên Thánh Giá, Chúa Giêsu đã ban cho chúng ta tất cả: Mình, Máu, Trái Tim—và Mẹ của Ngài. "Hỡi Bà, đây là con trai Bà... Này con, đây là Mẹ con" (Ga 19:26–27). Mẹ Maria đã đứng dưới chân Thánh Giá, im lặng trong đau buồn, chịu đựng nỗi đau khi chứng kiến Con mình—chính Thiên Chúa—bị đánh đòn, chế nhạo và đóng đinh. Và Mẹ không quay mặt đi. Mẹ đã trở thành mẹ của chúng ta. Mẹ Maria tiếp tục cầu bầu cho chúng ta—vì Mẹ yêu thương như chỉ có một người mẹ mới có thể.',
           },
         },
-        cta: "Hiểu các Mầu Nhiệm",
+        cta: "Cầu nguyện",
       },
       play: {
         title: "Các Mầu Nhiệm của Kinh Mân Côi",

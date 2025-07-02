@@ -69,7 +69,7 @@ export function WhySection() {
 
         {/* CTA Section */}
         <div className="text-center">
-          <CustomButton onClick={() => setView("PLAY")} size="lg">
+          <CustomButton onClick={() => setView("FOUNDATION")} size="lg">
             <span className="hidden md:inline">{t.sections.why.cta}</span>
             <span className="md:hidden">{t.sections.why.cta}</span>
           </CustomButton>
