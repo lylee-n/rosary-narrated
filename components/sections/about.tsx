@@ -4,7 +4,7 @@ import { useApp } from "@/components/app-provider"
 import { useRosaryState } from "@/hooks/use-rosary-state"
 import { DailyMysterySelector } from "@/components/rosary-guide/daily-mystery-selector"
 import { RosaryVisualizer } from "@/components/rosary-guide/rosary-visualizer"
-import { PrayerDetailsPanel } from "@/components/rosary-guide/prayer-details-panel"
+import { MYSTERY_IMAGES } from "@/constants"
 
 // Define the types for our rosary elements
 type RosaryElement = {
@@ -53,6 +53,13 @@ const getMysterySetForDayName = (dayName: string): number => {
   }
 }
 
+// Get background image based on mystery set
+const getMysteryBackgroundImage = (mysterySet: number): string => {
+  // Mystery sets: 1 = Joyful, 2 = Luminous, 3 = Sorrowful, 4 = Glorious
+  // MYSTERY_IMAGES array: [0] = Joyful, [1] = Luminous, [2] = Sorrowful, [3] = Glorious
+  return MYSTERY_IMAGES[mysterySet - 1] || MYSTERY_IMAGES[0]
+}
+
 export function AboutSection() {
   const { setView } = useApp()
   const {
@@ -65,6 +72,12 @@ export function AboutSection() {
     handleBeadClick,
     handleNext,
   } = useRosaryState()
+
+  // Get the current mystery set number
+  const currentMysterySet = getMysterySetForDayName(selectedDay || currentDay)
+
+  // Get the background image for the current mystery set
+  const backgroundImage = getMysteryBackgroundImage(currentMysterySet)
 
   return (
     <section className="w-full py-16">
@@ -82,7 +95,51 @@ export function AboutSection() {
             currentStepId={currentStepId}
             onBeadClick={handleBeadClick}
           />
-          <PrayerDetailsPanel stepData={displayStepData} onNextClick={handleNext} />
+          <div className="lg:w-[65%] flex items-start justify-center">
+            <div
+              className="bg-white/5 border border-[#FFE552]/50 rounded-2xl p-5 backdrop-blur-sm w-full h-[650px] lg:h-[600px] flex flex-col relative overflow-hidden"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }}
+            >
+              {displayStepData && (
+                <>
+                  <div className="flex items-center space-x-3 mb-4 flex-shrink-0 relative z-10">
+                    <div className="w-7 h-7 bg-[#FFE552] text-black rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+                      {displayStepData.type === "cross" ? (
+                        <span className="text-[10px]">✝</span>
+                      ) : displayStepData.type === "hail-mary" ? (
+                        ""
+                      ) : (
+                        <span className="text-[10px]">{displayStepData.id.length > 3 ? "M1" : displayStepData.id}</span>
+                      )}
+                    </div>
+                    <h4 className="text-white font-sora text-lg font-bold">{displayStepData.title}</h4>
+                  </div>
+                  <div className="flex-1 overflow-y-auto mb-4 relative z-10">
+                    <div className="space-y-4">
+                      {displayStepData.content.map((item, index) => (
+                        <div key={index}>
+                          <h5 className="text-[#FFE552] font-sora text-base font-semibold mb-2">{item.subtitle}</h5>
+                          <p className="text-gray-300 font-inter text-sm leading-relaxed whitespace-pre-line">
+                            {item.text}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex justify-center flex-shrink-0 relative z-10">
+                    <CustomButton onClick={handleNext} size="md" variant="yellow">
+                      Next
+                    </CustomButton>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="text-center mb-32">
