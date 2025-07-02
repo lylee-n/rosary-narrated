@@ -20,7 +20,7 @@ export function WhatSection() {
         </div>
 
         <div className="mx-auto grid max-w-5xl items-stretch gap-6 py-12 sm:grid-cols-2 md:grid-cols-3 lg:gap-8">
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-center">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-left">
             <div className="flex items-center mb-4">
               <div className="w-10 h-10 border-2 border-[#82FAFA] rounded-full flex items-center justify-center mr-3">
                 <Headphones className="h-5 w-5 text-[#82FAFA]" />
@@ -33,7 +33,7 @@ export function WhatSection() {
             </p>
           </div>
 
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-center">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-left">
             <div className="flex items-center mb-4">
               <div className="w-10 h-10 border-2 border-[#82FAFA] rounded-full flex items-center justify-center mr-3">
                 <Eye className="h-5 w-5 text-[#82FAFA]" />
@@ -45,7 +45,7 @@ export function WhatSection() {
             </p>
           </div>
 
-          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-center">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 text-left">
             <div className="flex items-center mb-4">
               <div className="w-10 h-10 border-2 border-[#82FAFA] rounded-full flex items-center justify-center mr-3">
                 <MousePointer className="h-5 w-5 text-[#82FAFA]" />
