@@ -65,8 +65,8 @@ export function WhatSection() {
 
         {/* CTA Button */}
         <div className="text-center">
-          <CustomButton variant="yellow" onClick={() => setCurrentView("WHY")} size="lg">
-            Discover Why It Matters
+          <CustomButton variant="default" onClick={() => setCurrentView("WHY")} size="lg">
+            Why pray the Rosary
           </CustomButton>
         </div>
       </div>
