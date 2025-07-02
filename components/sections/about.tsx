@@ -99,7 +99,7 @@ export function AboutSection() {
             onBeadClick={handleBeadClick}
           />
           <div className="lg:w-[65%] flex items-start justify-center">
-            <div className="bg-white/5 rounded-2xl p-5 backdrop-blur-sm w-full h-[650px] lg:h-[600px] flex flex-col relative overflow-hidden shadow-lg shadow-white/10">
+            <div className="bg-white/10 rounded-2xl p-5 backdrop-blur-md w-full h-[650px] lg:h-[600px] flex flex-col relative overflow-hidden shadow-lg shadow-white/20">
               {/* Background Image */}
               <div className="absolute inset-0 z-0">
                 <div
@@ -133,7 +133,7 @@ export function AboutSection() {
                     </h4>
                   </div>
                   <div
-                    className={`flex-1 overflow-y-auto mb-4 relative z-20 backdrop-blur-[1px] rounded-lg p-4 ${isGloriousMysteries ? "bg-white/20" : "bg-black/30"}`}
+                    className={`flex-1 overflow-y-auto mb-4 relative z-20 backdrop-blur-sm rounded-lg p-4 ${isGloriousMysteries ? "bg-white/30" : "bg-black/40"}`}
                   >
                     <div className="space-y-4">
                       {displayStepData.content.map((item, index) => (
@@ -144,7 +144,7 @@ export function AboutSection() {
                             {item.subtitle}
                           </h5>
                           <p
-                            className={`font-inter text-sm leading-relaxed whitespace-pre-line ${isGloriousMysteries ? "text-black" : "text-gray-300"}`}
+                            className={`font-inter text-sm leading-relaxed whitespace-pre-line transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-sm hover:rounded-lg hover:p-3 hover:shadow-lg cursor-pointer ${isGloriousMysteries ? "text-black hover:bg-black/10" : "text-gray-300 hover:bg-white/10"}`}
                           >
                             {item.text}
                           </p>
@@ -161,7 +161,7 @@ export function AboutSection() {
                         variant="yellow"
                         className="relative bg-[#FFE552] border border-[#FFE552] text-black hover:bg-[#FFE552] hover:border-[#FFE552] font-bold uppercase"
                       >
-                        <span className="font-bold">Next</span> <span className="font-bold">→</span>
+                        Next
                       </CustomButton>
                     </div>
                   </div>
