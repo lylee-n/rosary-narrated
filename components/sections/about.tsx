@@ -133,7 +133,7 @@ export function AboutSection() {
                     </h4>
                   </div>
                   <div
-                    className={`flex-1 overflow-y-auto mb-4 relative z-20 backdrop-blur-[1px] rounded-lg p-4 ${isGloriousMysteries ? "bg-white/30" : "bg-black/30"}`}
+                    className={`flex-1 overflow-y-auto mb-4 relative z-20 backdrop-blur-[1px] rounded-lg p-4 ${isGloriousMysteries ? "bg-white/20" : "bg-black/30"}`}
                   >
                     <div className="space-y-4">
                       {displayStepData.content.map((item, index) => (
@@ -153,15 +153,15 @@ export function AboutSection() {
                     </div>
                   </div>
                   <div className="flex justify-center flex-shrink-0 relative z-20">
-                    <div className={`relative rounded-lg p-2 ${isGloriousMysteries ? "bg-white/30" : "bg-black/30"}`}>
+                    <div className={`relative rounded-lg p-2 ${isGloriousMysteries ? "bg-white/20" : "bg-black/30"}`}>
                       <div
-                        className={`absolute inset-0 rounded-lg blur-md opacity-50 animate-pulse ${isGloriousMysteries ? "bg-blue-500" : "bg-[#FFE552]"}`}
+                        className={`absolute inset-0 rounded-lg blur-md opacity-50 animate-pulse ${isGloriousMysteries ? "bg-black" : "bg-[#FFE552]"}`}
                       ></div>
                       <CustomButton
                         onClick={handleNext}
                         size="md"
                         variant={isGloriousMysteries ? "default" : "yellow"}
-                        className="relative"
+                        className={`relative ${isGloriousMysteries ? "text-white bg-black" : ""}`}
                       >
                         Next
                       </CustomButton>
