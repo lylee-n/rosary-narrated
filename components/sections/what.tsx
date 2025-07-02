@@ -5,7 +5,7 @@ import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
 
 export function WhatSection() {
-  const { setView } = useApp()
+  const { setCurrentView } = useApp()
 
   return (
     <section className="w-full animate-fade-in">
@@ -65,7 +65,7 @@ export function WhatSection() {
 
         {/* CTA Button */}
         <div className="text-center">
-          <CustomButton variant="default" onClick={() => setView("WHY")} size="lg">
+          <CustomButton variant="default" onClick={() => setCurrentView("WHY")} size="lg">
             Why pray the Rosary
           </CustomButton>
         </div>
