@@ -5,7 +5,6 @@ import { memo, useCallback } from "react"
 import { Play, Pause } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface AudioPlayerProps {
   audioRef: React.RefObject<HTMLAudioElement>
@@ -85,15 +84,6 @@ export const AudioPlayer = memo(function AudioPlayer({
     onSeekBy(10)
   }, [onSeekBy])
 
-  const speedOptions = [
-    { value: "0.5", label: "0.5x" },
-    { value: "0.75", label: "0.75x" },
-    { value: "1", label: "1x" },
-    { value: "1.25", label: "1.25x" },
-    { value: "1.5", label: "1.5x" },
-    { value: "2", label: "2x" },
-  ]
-
   return (
     <div className="mt-4 p-4 bg-black/30 backdrop-blur-sm rounded-lg border border-white/10">
       {/* Progress Bar with custom styling */}
@@ -161,20 +151,20 @@ export const AudioPlayer = memo(function AudioPlayer({
         </div>
 
         {/* Speed Control */}
-        <div className="flex items-center space-x-2">
-          <span className="text-xs text-white/70 font-medium">Speed</span>
-          <Select value={playbackSpeed.toString()} onValueChange={handleSpeedChange} disabled={isLoading}>
-            <SelectTrigger className="w-16 h-8 text-xs bg-white/10 border-white/20 text-white">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {speedOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="flex items-center space-x-3 min-w-[120px]">
+          <span className="text-xs text-white/70 font-medium whitespace-nowrap">Speed</span>
+          <div className="flex-1">
+            <Slider
+              value={[playbackSpeed]}
+              onValueChange={(values) => handleSpeedChange(values[0].toString())}
+              min={0.5}
+              max={2}
+              step={0.25}
+              className="w-full [&>span:first-child]:h-1.5 [&>span:first-child]:bg-white/20 [&_[role=slider]]:bg-[#82FAFA] [&_[role=slider]]:border-[#82FAFA] [&>span:first-child>span]:bg-[#82FAFA] [&_[role=slider]]:w-3 [&_[role=slider]]:h-3"
+              disabled={isLoading}
+            />
+          </div>
+          <span className="text-xs text-white/70 font-medium min-w-[24px]">{playbackSpeed}x</span>
         </div>
       </div>
     </div>
