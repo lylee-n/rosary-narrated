@@ -17,7 +17,7 @@ export function SupportSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
         {/* Support Monthly Card */}
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">{t.sections.support.cards.monthly.title}</h3>
@@ -49,7 +49,13 @@ export function SupportSection() {
             {t.sections.support.cards.oneTime.cta}
           </CustomButton>
         </div>
+      </div>
 
+      <div className="text-center mb-16">
+        <h2 className="text-white font-sora text-3xl md:text-4xl lg:text-5xl font-bold">Get Involved</h2>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         {/* Volunteer Card */}
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">
