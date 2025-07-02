@@ -2,9 +2,11 @@
 
 import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
+import { useTranslations } from "@/hooks/use-translations"
 
 export function WhySection() {
   const { setView } = useApp()
+  const t = useTranslations()
 
   const promises = [
     "To all those who shall recite my rosary devoutly, I promise my special protection and very great graces.",
@@ -30,7 +32,7 @@ export function WhySection() {
         {/* Header Section */}
         <div className="text-center">
           <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-12">
-            Why Pray the Rosary?
+            {t.sections.why.title}
           </h1>
           <div className="max-w-4xl mx-auto mb-16">
             <p className="text-lg text-gray-300 font-inter leading-relaxed">
@@ -68,8 +70,8 @@ export function WhySection() {
         {/* CTA Section */}
         <div className="text-center">
           <CustomButton onClick={() => setView("PLAY")} size="lg">
-            <span className="hidden md:inline">Pray the Rosary</span>
-            <span className="md:hidden">Pray</span>
+            <span className="hidden md:inline">{t.sections.why.cta}</span>
+            <span className="md:hidden">{t.sections.why.cta}</span>
           </CustomButton>
         </div>
       </div>

@@ -144,7 +144,7 @@ export const translations: Record<Language, Translations> = {
             full: 'On the Cross, Jesus gave us everything: His body, His blood, His heart—and His mother. "Woman, behold your son... Son, behold your mother" (John 19:26–27). Mary stood at the foot of the Cross, silent in sorrow, enduring the pain of watching her Son—God Himself—scourged, mocked, and crucified. And yet, she didn\'t turn away. "Her soul pierced by sorrow" (Luke 2:35), she became our mother too. "His face was like the sun shining in full strength" (Revelation 1:16). "God did not spare His own Son, but gave Him up for us all" (Romans 8:32). Mary continues to intercede for us—because she loves as only a mother can.',
           },
         },
-        cta: "Pray",
+        cta: "Understand the Mysteries",
       },
       play: {
         title: "The Mysteries of the Rosary",
@@ -268,7 +268,7 @@ export const translations: Record<Language, Translations> = {
             full: 'Trên Thánh Giá, Chúa Giêsu đã ban cho chúng ta tất cả: Mình, Máu, Trái Tim—và Mẹ của Ngài. "Hỡi Bà, đây là con trai Bà... Này con, đây là Mẹ con" (Ga 19:26–27). Mẹ Maria đã đứng dưới chân Thánh Giá, im lặng trong đau buồn, chịu đựng nỗi đau khi chứng kiến Con mình—chính Thiên Chúa—bị đánh đòn, chế nhạo và đóng đinh. Và Mẹ không quay mặt đi. Mẹ đã trở thành mẹ của chúng ta. Mẹ Maria tiếp tục cầu bầu cho chúng ta—vì Mẹ yêu thương như chỉ có một người mẹ mới có thể.',
           },
         },
-        cta: "Cầu nguyện",
+        cta: "Hiểu các Mầu Nhiệm",
       },
       play: {
         title: "Các Mầu Nhiệm của Kinh Mân Côi",
