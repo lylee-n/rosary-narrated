@@ -16,9 +16,7 @@ export function BlogsSection() {
         </div>
 
         <div className="text-center my-12">
-          <h2 className="text-[#82FAFA] font-sora text-2xl md:text-4xl lg:text-5xl leading-none font-extrabold md:font-bold mb-8">
-            Coming Soon
-          </h2>
+          
           <div className="flex justify-center mb-8">
             <ChevronDown size={32} className="text-[#82FAFA] animate-bounce" />
           </div>
