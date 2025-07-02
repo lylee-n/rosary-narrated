@@ -127,7 +127,7 @@ export function AboutSection() {
                     </div>
                     <h4 className="text-white font-sora text-lg font-bold">{displayStepData.title}</h4>
                   </div>
-                  <div className="flex-1 overflow-y-auto mb-4 relative z-20">
+                  <div className="flex-1 overflow-y-auto mb-4 relative z-20 bg-black/30 backdrop-blur-sm rounded-lg p-4">
                     <div className="space-y-4">
                       {displayStepData.content.map((item, index) => (
                         <div key={index}>
@@ -140,9 +140,12 @@ export function AboutSection() {
                     </div>
                   </div>
                   <div className="flex justify-center flex-shrink-0 relative z-20">
-                    <CustomButton onClick={handleNext} size="md" variant="yellow">
-                      Next
-                    </CustomButton>
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-[#FFE552] rounded-lg blur-md opacity-50 animate-pulse"></div>
+                      <CustomButton onClick={handleNext} size="md" variant="yellow" className="relative">
+                        Next
+                      </CustomButton>
+                    </div>
                   </div>
                 </>
               )}
