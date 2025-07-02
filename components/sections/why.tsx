@@ -51,7 +51,10 @@ export function WhySection() {
             </h2>
             <div className="space-y-4">
               {promises.map((promise, index) => (
-                <div key={index} className="flex items-start">
+                <div
+                  key={index}
+                  className="flex items-start transition-transform duration-200 hover:-translate-y-1 cursor-pointer"
+                >
                   <span className="text-[#82FAFA] font-bold mr-3 mt-1 flex-shrink-0">{index + 1}.</span>
                   <p className="text-gray-300 font-inter leading-relaxed text-base">{promise}</p>
                 </div>
