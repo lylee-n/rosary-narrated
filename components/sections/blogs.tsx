@@ -1,95 +1,45 @@
 "use client"
 
-import { Calendar, Clock, User, ArrowRight, BookOpen, Heart } from "lucide-react"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-
-interface BlogPost {
-  id: string
-  title: string
-  excerpt: string
-  author: string
-  date: string
-  readTime: string
-  category: string
-  image: string
-  featured?: boolean
-}
-
-const blogPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "The Power of Daily Rosary Prayer: A Journey of Faith",
-    excerpt:
-      "Discover how incorporating the Rosary into your daily routine can transform your spiritual life and bring you closer to God through Mary's intercession.",
-    author: "Sister Maria",
-    date: "December 15, 2024",
-    readTime: "5 min read",
-    category: "Spirituality",
-    image: "/placeholder.svg?height=200&width=400",
-    featured: true,
-  },
-  {
-    id: "2",
-    title: "Understanding the Mysteries: A Deep Dive into Joyful Mysteries",
-    excerpt:
-      "Explore the profound meaning behind each Joyful Mystery and how they can guide us through life's celebrations and challenges.",
-    author: "Father John",
-    date: "December 10, 2024",
-    readTime: "7 min read",
-    category: "Mysteries",
-    image: "/placeholder.svg?height=200&width=400",
-  },
-  {
-    id: "3",
-    title: "Mary's Role in Our Salvation: Lessons from the Luminous Mysteries",
-    excerpt:
-      "Learn how the Luminous Mysteries reveal Mary's unique role in Christ's public ministry and what it means for our faith journey.",
-    author: "Dr. Catherine",
-    date: "December 5, 2024",
-    readTime: "6 min read",
-    category: "Theology",
-    image: "/placeholder.svg?height=200&width=400",
-  },
-  {
-    id: "4",
-    title: "Finding Hope in Sorrow: The Sorrowful Mysteries Explained",
-    excerpt:
-      "Discover how meditating on Christ's passion through the Sorrowful Mysteries can bring comfort and strength during difficult times.",
-    author: "Brother Michael",
-    date: "November 28, 2024",
-    readTime: "8 min read",
-    category: "Reflection",
-    image: "/placeholder.svg?height=200&width=400",
-  },
-  {
-    id: "5",
-    title: "Celebrating Victory: The Glory of the Glorious Mysteries",
-    excerpt:
-      "Explore the triumph of Christ's resurrection and Mary's assumption, and how these mysteries inspire hope for our eternal destiny.",
-    author: "Sister Teresa",
-    date: "November 20, 2024",
-    readTime: "5 min read",
-    category: "Hope",
-    image: "/placeholder.svg?height=200&width=400",
-  },
-  {
-    id: "6",
-    title: "The History of the Rosary: From St. Dominic to Today",
-    excerpt:
-      "Trace the rich history of the Rosary prayer from its origins with St. Dominic through its evolution to the modern day.",
-    author: "Prof. Margaret",
-    date: "November 15, 2024",
-    readTime: "10 min read",
-    category: "History",
-    image: "/placeholder.svg?height=200&width=400",
-  },
-]
-
-const categories = ["All", "Spirituality", "Mysteries", "Theology", "Reflection", "Hope", "History"]
+import { Button } from "@/components/ui/button"
+import { Calendar, Clock, User, ArrowRight } from "lucide-react"
 
 export function BlogsSection() {
+  const blogPost = {
+    title: "Unable to be satisfied",
+    excerpt:
+      "The P. Diddy/Sean Comb club and the Epstein list. Imagine: you're a multi-millionaire, billionaire even, with empires under your name...",
+    content: `Unable to be satisfied.
+
+The P. Diddy/Sean Comb club and the Epstein list.
+
+Imagine: you're a multi-millionaire, billionaire even, with empires under your name, and beautiful supermodels flocking to you - because, obviously, money, status and fame. You get VIP treatment everywhere you go. You get to shout at people and get away with it. You get interviewed on TV. The masses want to hear about your opinions on everything, big or trivial. A massive number of people idolize you. Your opinions not only matter but are idolized by the masses. Camera flashes everywhere you go. People line up overnight in queues to have your autograph.
+
+Yet somehow, it doesn't feel enough. 
+
+You have to, additionally, sniff hard drugs to feel high. Because those abundant royal privileges aren't 'doing it'.
+
+Beautiful women are more concentrated in your circles than any other, and a lot of beautiful women want to date you, even if your personality is worse than any other. Yet, you tamper with prepubescent girls and trafficked girls, doing so together with other rich men in an exclusive luxury club.
+
+Where is the line to reach 'satisfaction'?
+
+I will tell you what is missing: Jesus. Jesus in our heart.
+
+Jesus was content drinking the cup of wrath from the Father. He underwent hematohidrosis, sweating blood - a rare medical condition caused by extreme stress and anguish. He anticipated not just severe agonizing physical pain but also spiritual terror, being separated from God, for every nanosecond of those 6 agonizing hours. He did the impossible, did not scream or cry out for it to stop, but said "It is finished," completing His salvific task as the sacrificial lamb to atone for our sins.
+
+Most humans don't have it in us to say "I am content" with whatever privilege and abundance we have. Only when we surrender our dusty heart, our filthy desires, and our perverse flesh to God, asking for Jesus to replace ours with His heart, His blood, and His light, can we be delivered.
+
+Pray the Rosary. Fix our eyes on Jesus - our sorrowful, gentle, unconditionally loving Savior. 
+
+Let's pray: "Jesus, let me see my sins the way you see my sins, and let me see my worth the way You see my worth. I surrender my dusty shriveled heart, my flesh, my desires, my weaknesses to you. I surrender everything I am to You. 
+Replace mine with Your Heart, Your Blood, Your Light. Your ways are higher than my ways. Increase in me faith and grace. Thank you for everything You have done for me, Jesus. Lead me not into temptation, but deliver me from evil. In the mighty name of Jesus, I pray. Amen."`,
+    author: "Rosary Narrated",
+    date: "January 2, 2025",
+    readTime: "5 min read",
+    tags: ["Faith", "Prayer", "Reflection", "Jesus"],
+  }
+
   return (
     <section className="w-full py-16">
       <div className="container mx-auto px-4">
@@ -98,166 +48,118 @@ export function BlogsSection() {
           <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-6">
             Blogs
           </h1>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto font-inter leading-relaxed mb-8">
-            Deepen your understanding of the Rosary through thoughtful reflections, theological insights, and spiritual
-            guidance from our community of faith.
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">
+            Reflections on faith, prayer, and finding Jesus in our daily lives
           </p>
-
-          {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2 mb-12">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant="outline"
-                size="sm"
-                className={`
-                  border-[#82FAFA] text-[#82FAFA] hover:bg-[#82FAFA] hover:text-black
-                  transition-all duration-300 font-inter
-                  ${category === "All" ? "bg-[#82FAFA] text-black" : ""}
-                `}
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
         </div>
 
-        {/* Featured Post */}
-        {blogPosts.find((post) => post.featured) && (
-          <div className="mb-16">
-            <h2 className="text-[#FFE552] font-sora text-2xl md:text-3xl font-bold mb-8 text-center">
-              Featured Article
-            </h2>
-            <Card className="bg-black/30 border-[#82FAFA] overflow-hidden hover:bg-black/40 transition-all duration-300 group">
-              <div className="md:flex">
-                <div className="md:w-1/2">
-                  <img
-                    src={blogPosts[0].image || "/placeholder.svg"}
-                    alt={blogPosts[0].title}
-                    className="w-full h-64 md:h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="md:w-1/2 p-8">
-                  <div className="flex items-center gap-4 mb-4">
-                    <Badge className="bg-[#FFE552] text-black font-inter">{blogPosts[0].category}</Badge>
-                    <Badge variant="outline" className="border-[#82FAFA] text-[#82FAFA]">
-                      Featured
-                    </Badge>
-                  </div>
-
-                  <h3 className="text-white font-sora text-2xl md:text-3xl font-bold mb-4 group-hover:text-[#82FAFA] transition-colors">
-                    {blogPosts[0].title}
-                  </h3>
-
-                  <p className="text-gray-300 font-inter leading-relaxed mb-6">{blogPosts[0].excerpt}</p>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 text-sm text-gray-400">
-                      <div className="flex items-center gap-1">
-                        <User className="w-4 h-4" />
-                        <span>{blogPosts[0].author}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        <span>{blogPosts[0].date}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" />
-                        <span>{blogPosts[0].readTime}</span>
-                      </div>
-                    </div>
-
-                    <Button className="bg-[#82FAFA] text-black hover:bg-[#FFE552] transition-colors group">
-                      Read More
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </div>
-                </div>
+        {/* Featured Blog Post */}
+        <div className="mb-16">
+          <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white overflow-hidden">
+            <div className="relative">
+              <div className="absolute top-4 left-4 z-10">
+                <Badge className="bg-amber-500/20 text-amber-300 border-amber-400/30">Featured</Badge>
               </div>
-            </Card>
-          </div>
-        )}
+              <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 p-8">
+                <CardHeader className="p-0 mb-6">
+                  <div className="flex items-center gap-4 text-sm text-gray-300 mb-4">
+                    <div className="flex items-center gap-1">
+                      <User className="w-4 h-4" />
+                      <span>{blogPost.author}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4" />
+                      <span>{blogPost.date}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-4 h-4" />
+                      <span>{blogPost.readTime}</span>
+                    </div>
+                  </div>
+                  <CardTitle className="text-3xl md:text-4xl font-bold mb-4 text-left">{blogPost.title}</CardTitle>
+                  <CardDescription className="text-gray-300 text-lg leading-relaxed text-left">
+                    {blogPost.excerpt}
+                  </CardDescription>
+                </CardHeader>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {blogPost.tags.map((tag, index) => (
+                    <Badge key={index} variant="outline" className="border-white/30 text-white">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+                <Button className="bg-white text-black hover:bg-gray-100 font-semibold">
+                  Read Full Article
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </div>
 
         {/* Blog Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {blogPosts.slice(1).map((post) => (
+          {[1, 2, 3, 4, 5, 6].map((index) => (
             <Card
-              key={post.id}
-              className="bg-black/30 border-[#82FAFA]/30 overflow-hidden hover:bg-black/40 hover:border-[#82FAFA] transition-all duration-300 group"
+              key={index}
+              className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/15 transition-all duration-300 group cursor-pointer"
             >
-              <div className="relative overflow-hidden">
-                <img
-                  src={post.image || "/placeholder.svg"}
-                  alt={post.title}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute top-4 left-4">
-                  <Badge className="bg-[#FFE552] text-black font-inter">{post.category}</Badge>
+              <CardHeader>
+                <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
+                  <Calendar className="w-4 h-4" />
+                  <span>{blogPost.date}</span>
+                  <span>•</span>
+                  <Clock className="w-4 h-4" />
+                  <span>{blogPost.readTime}</span>
                 </div>
-              </div>
-
-              <CardHeader className="pb-3">
-                <h3 className="text-white font-sora text-xl font-bold leading-tight group-hover:text-[#82FAFA] transition-colors">
-                  {post.title}
-                </h3>
+                <CardTitle className="text-xl font-bold mb-3 group-hover:text-amber-300 transition-colors text-left">
+                  {blogPost.title}
+                </CardTitle>
+                <CardDescription className="text-gray-300 leading-relaxed text-left line-clamp-3">
+                  {blogPost.excerpt}
+                </CardDescription>
               </CardHeader>
-
               <CardContent className="pt-0">
-                <p className="text-gray-300 font-inter text-sm leading-relaxed mb-4 line-clamp-3">{post.excerpt}</p>
-
-                <div className="flex items-center justify-between text-xs text-gray-400 mb-4">
-                  <div className="flex items-center gap-1">
-                    <User className="w-3 h-3" />
-                    <span>{post.author}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    <span>{post.readTime}</span>
-                  </div>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {blogPost.tags.slice(0, 2).map((tag, tagIndex) => (
+                    <Badge key={tagIndex} variant="outline" className="border-white/30 text-white text-xs">
+                      {tag}
+                    </Badge>
+                  ))}
                 </div>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">{post.date}</span>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="text-[#82FAFA] hover:text-black hover:bg-[#82FAFA] transition-colors group p-2"
-                  >
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
+                <div className="flex items-center text-amber-300 text-sm font-medium group-hover:text-amber-200 transition-colors">
+                  Read More
+                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* Newsletter Subscription */}
+        {/* Load More Section */}
         <div className="text-center">
-          <Card className="bg-black/30 border-[#FFE552] p-8 max-w-2xl mx-auto">
-            <div className="flex justify-center mb-4">
-              <div className="bg-[#FFE552] p-3 rounded-full">
-                <BookOpen className="w-6 h-6 text-black" />
+          <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-3 bg-transparent">
+            Load More Articles
+          </Button>
+        </div>
+
+        {/* Newsletter Signup */}
+        <div className="mt-20">
+          <Card className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-white/20 text-white">
+            <CardContent className="p-8 text-center">
+              <h3 className="text-2xl font-bold mb-4">Stay Connected</h3>
+              <p className="text-gray-300 mb-6 max-w-md mx-auto">
+                Subscribe to receive our latest reflections and spiritual insights directly in your inbox.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                />
+                <Button className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6">Subscribe</Button>
               </div>
-            </div>
-
-            <h3 className="text-white font-sora text-2xl font-bold mb-4">Stay Connected</h3>
-
-            <p className="text-gray-300 font-inter mb-6">
-              Subscribe to our newsletter to receive the latest blog posts, spiritual insights, and updates from our
-              Rosary community.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 bg-black/50 border border-[#82FAFA]/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#82FAFA] transition-colors"
-              />
-              <Button className="bg-[#FFE552] text-black hover:bg-[#82FAFA] transition-colors">
-                Subscribe
-                <Heart className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
+            </CardContent>
           </Card>
         </div>
       </div>
