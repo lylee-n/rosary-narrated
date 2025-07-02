@@ -144,7 +144,7 @@ export const translations: Record<Language, Translations> = {
             full: 'On the Cross, Jesus gave us everything: His body, His blood, His heart—and His mother. "Woman, behold your son... Son, behold your mother" (John 19:26–27). Mary stood at the foot of the Cross, silent in sorrow, enduring the pain of watching her Son—God Himself—scourged, mocked, and crucified. And yet, she didn\'t turn away. "Her soul pierced by sorrow" (Luke 2:35), she became our mother too. "His face was like the sun shining in full strength" (Revelation 1:16). "God did not spare His own Son, but gave Him up for us all" (Romans 8:32). Mary continues to intercede for us—because she loves as only a mother can.',
           },
         },
-        cta: "Understand the Mysteries",
+        cta: "Pray",
       },
       play: {
         title: "The Mysteries of the Rosary",
@@ -325,145 +325,21 @@ export const translations: Record<Language, Translations> = {
             title: "Hỗ trợ Hàng tháng",
             description:
               "Trở thành người hỗ trợ hàng tháng và giúp chúng tôi phát triển và duy trì chương trình này cho cộng đồng toàn cầu.",
-            cta: "SUPPORT MONTHLY",
+            cta: "HỖ TRỢ HÀNG THÁNG",
           },
           oneTime: {
-            title: "One-Time Donation",
-            description:
-              "Make a one-time contribution to support the development and hosting of these audiovisual experiences.",
-            cta: "DONATE ONCE",
+            title: "Quyên góp Một lần",
+            description: "Đóng góp một lần để hỗ trợ việc phát triển và lưu trữ những trải nghiệm nghe nhìn này.",
+            cta: "QUYÊN GÓP MỘT LẦN",
           },
           volunteer: {
-            title: "Volunteering",
-            description: "Want to join us in building something bigger with your skills and time? Get Involved!",
-            cta: "VOLUNTEER",
+            title: "Tình nguyện",
+            description:
+              "Muốn tham gia với chúng tôi để xây dựng điều gì đó lớn hơn với kỹ năng và thời gian của bạn? Tham gia!",
+            cta: "TÌNH NGUYỆN",
           },
         },
-        contact: "Have an awesome idea or feedback? Drop us an email at",
-      },
-    },
-    audio: {
-      play: "Play",
-      pause: "Pause",
-      rewind: "Rewind 10 seconds",
-      fastForward: "Fast forward 10 seconds",
-      loading: "Loading audio...",
-      error: "Error loading audio",
-    },
-    common: {
-      close: "Close",
-      loading: "Loading...",
-      error: "An error occurred",
-      retry: "Retry",
-    },
-    footer: {
-      copyright: "All rights reserved.",
-      poweredBy: "Powered by",
-    },
-  },
-  vi: {
-    nav: {
-      about: "GIỚI THIỆU",
-      why: "TẠI SAO",
-      pray: "NỀN TẢNG",
-      community: "CỘNG ĐỒNG",
-      support: "HỖ TRỢ",
-    },
-    sections: {
-      about: {
-        title: "Chào mừng đến với Rosary Narrated",
-        subtitle:
-          "Sẵn sàng trải nghiệm Kinh Mân Côi theo một cách hoàn toàn mới? Chúng tôi đang xây dựng một cộng đồng xung quanh những suy niệm có hướng dẫn dựa trên những hiểu biết thần học cho mỗi thập. Dù bạn bắt đầu từ đâu, ở đây đều có điều gì đó dành cho bạn.",
-        cta: "Tại sao",
-      },
-      why: {
-        title: "Tại sao cầu nguyện Kinh Mân Côi?",
-        cards: {
-          card1: {
-            short: "Hãy hướng mắt về Chúa Giêsu, Đấng khởi đầu và hoàn thành đức tin của chúng ta.",
-            full: "Kinh Mân Côi không phải là một bài tụng vô nghĩa. Đó là một thiền định thiêng liêng—một album ảnh tâm linh dẫn chúng ta qua cuộc đời, tình yêu và sự hy sinh của Chúa Giêsu Kitô. Mỗi thập tiết lộ một mầu nhiệm sống động: Niềm vui, Đau khổ, Vinh quang của Ngài. Bằng cách cầu nguyện Kinh Mân Côi, chúng ta không lạc lối trong lời nói—chúng ta tìm thấy gương mặt Ngài trong mỗi mầu nhiệm. Hãy hướng mắt về Chúa Giêsu, Đấng khởi đầu và hoàn thành đức tin của chúng ta.",
-          },
-          card2: {
-            short: "Nơi nào có hai hoặc ba người tụ họp nhân danh Ta, thì Ta ở giữa họ (Mt 18:20)",
-            full: 'Chúa Giêsu đã nói "Nơi nào có hai hoặc ba người tụ họp nhân danh Ta, thì Ta ở giữa họ" (Mt 18:20). Ngài khao khát chúng ta cầu nguyện cùng nhau, cho nhau. Ai tốt hơn để cầu nguyện với chúng ta hơn người đã đi từng bước trong cuộc đời trần thế bên cạnh Ngài—chính Mẹ của Ngài? Mẹ Maria không xa cách. Mẹ là Nữ Hoàng Mẹ của Thiên đàng, luôn cầu bầu cho chúng ta với tình yêu dịu dàng.',
-          },
-          card3: {
-            short: "Mẹ Maria tiếp tục cầu bầu cho chúng ta—vì Mẹ yêu thương như chỉ có một người mẹ mới có thể.",
-            full: 'Trên Thánh Giá, Chúa Giêsu đã ban cho chúng ta tất cả: Mình, Máu, Trái Tim—và Mẹ của Ngài. "Hỡi Bà, đây là con trai Bà... Này con, đây là Mẹ con" (Ga 19:26–27). Mẹ Maria đã đứng dưới chân Thánh Giá, im lặng trong đau buồn, chịu đựng nỗi đau khi chứng kiến Con mình—chính Thiên Chúa—bị đánh đòn, chế nhạo và đóng đinh. Và Mẹ không quay mặt đi. Mẹ đã trở thành mẹ của chúng ta. Mẹ Maria tiếp tục cầu bầu cho chúng ta—vì Mẹ yêu thương như chỉ có một người mẹ mới có thể.',
-          },
-        },
-        cta: "Cầu nguyện",
-      },
-      play: {
-        title: "Các Mầu Nhiệm của Kinh Mân Côi",
-        subtitle:
-          "Mỗi Mầu Nhiệm kể một câu chuyện. Trải nghiệm chúng qua âm thanh và hình ảnh được thiết kế để giúp bạn kết nối. Chọn một bộ để bắt đầu.",
-        mysteryTitles: ["Vui", "Sáng", "Thương", "Mừng"],
-        modal: {
-          significance: "Ý nghĩa:",
-          reflection: "Suy niệm:",
-          choosePerspectives: "Chọn Góc nhìn:",
-          perspectives: "Góc nhìn",
-          speed: "Tốc độ:",
-        },
-        cta: "Cộng đồng",
-      },
-      community: {
-        title: "Sắp ra mắt",
-        comingSoon: "Sắp ra mắt",
-        sections: {
-          community: {
-            title: "Cộng đồng",
-            description:
-              "Tìm vị trí của bạn trong đức tin có thể phức tạp. Chúng tôi hiểu điều đó. Chúng tôi đã trải qua. Ở đây, chúng tôi đang xây dựng điều gì đó khác biệt.",
-          },
-          connections: {
-            title: "Kết nối Thường xuyên",
-            description:
-              "Các cuộc gặp gỡ ảo nơi bạn có thể xuất hiện ở bất cứ đâu về mặt tâm linh. Thảo luận về quan điểm Kinh thánh. Thảo luận về những điều khó khăn. Nói về những chuyện đời. Tìm những người cũng hiểu, hoặc không. Cầu nguyện cùng nhau.",
-          },
-          interactive: {
-            title: "Đức tin Tương tác",
-            description:
-              "Làm cho việc nghiên cứu Kinh thánh trở nên ít đáng sợ hơn và giống như những món ăn tâm hồn nhỏ gọn hòa nhập vào thế giới hàng ngày của bạn.",
-          },
-          building: {
-            title: "Những gì chúng tôi đang xây dựng",
-            description: "Một số điều thú vị đang được thực hiện:",
-            features: [
-              "Không gian trực tiếp và ảo cho cầu nguyện và trò chuyện thật",
-              "Suy niệm Kinh thánh đánh thức bạn mạnh mẽ đến mức bạn hủy thẻ thành viên Starbucks",
-              "Thử thách phát triển có thể thực hiện được",
-              "Hỗ trợ đồng đẳng hữu ích",
-            ],
-          },
-        },
-        cta: "Tham gia!",
-      },
-      support: {
-        title: "Duy trì điều này",
-        subtitle:
-          "Chúng tôi đang xây dựng điều gì đó có ý nghĩa ở đây – kết nối những hiểu biết thần học và khả năng tiếp cận cho khán giả toàn cầu. Sự hỗ trợ của bạn giúp chúng tôi duy trì hoạt động và tiếp cận nhiều người cần điều này hơn.",
-        cards: {
-          monthly: {
-            title: "Hỗ trợ Hàng tháng",
-            description:
-              "Trở thành người hỗ trợ hàng tháng và giúp chúng tôi phát triển và duy trì chương trình này cho cộng đồng toàn cầu.",
-            cta: "SUPPORT MONTHLY",
-          },
-          oneTime: {
-            title: "One-Time Donation",
-            description:
-              "Make a one-time contribution to support the development and hosting of these audiovisual experiences.",
-            cta: "DONATE ONCE",
-          },
-          volunteer: {
-            title: "Volunteering",
-            description: "Want to join us in building something bigger with your skills and time? Get Involved!",
-            cta: "VOLUNTEER",
-          },
-        },
-        contact: "Have an awesome idea or feedback? Drop us an email at",
+        contact: "Có ý tưởng tuyệt vời hoặc phản hồi? Gửi email cho chúng tôi tại",
       },
     },
     audio: {
