@@ -46,7 +46,7 @@ export const ANIMATIONS = {
   fadeOut: "animate-out fade-out duration-300",
 } as const
 
-// Navigation items
+// Navigation items - Updated to reflect new structure
 export const NAV_ITEMS: NavItem[] = [
   { name: "WHAT", label: "WHAT", icon: Home },
   { name: "WHY", label: "WHY", icon: HelpCircle },
