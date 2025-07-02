@@ -2,14 +2,15 @@ import type { Language } from "@/types"
 
 export interface Translations {
   nav: {
-    about: string
+    what: string
+    how: string
     why: string
-    pray: string
+    foundation: string
     community: string
     support: string
   }
   sections: {
-    about: {
+    how: {
       title: string
       subtitle: string
       cta: string
@@ -32,7 +33,7 @@ export interface Translations {
       }
       cta: string
     }
-    play: {
+    foundation: {
       title: string
       subtitle: string
       mysteryTitles: string[]
@@ -120,14 +121,15 @@ export interface Translations {
 export const translations: Record<Language, Translations> = {
   en: {
     nav: {
-      about: "HOW",
+      what: "WHAT",
+      how: "HOW",
       why: "WHY",
-      pray: "FOUNDATION",
+      foundation: "FOUNDATION",
       community: "COMMUNITY",
       support: "SUPPORT",
     },
     sections: {
-      about: {
+      how: {
         title: "Welcome to Rosary Narrated",
         subtitle:
           "Ready to experience the Rosary in a whole new way? We're building a community around guided reflections rooted in theological insights for each decade. No matter where you're starting from, there's something here for you.",
@@ -151,7 +153,7 @@ export const translations: Record<Language, Translations> = {
         },
         cta: "Pray",
       },
-      play: {
+      foundation: {
         title: "The Mysteries of the Rosary",
         subtitle:
           "Each Mystery tells a story. Experience them through audio and visuals designed to help you connect. Choose a set to get started.",
@@ -249,14 +251,15 @@ export const translations: Record<Language, Translations> = {
   },
   vi: {
     nav: {
-      about: "CÁCH THỨC",
+      what: "CÁI GÌ",
+      how: "CÁCH THỨC",
       why: "TẠI SAO",
-      pray: "NỀN TẢNG",
+      foundation: "NỀN TẢNG",
       community: "CỘNG ĐỒNG",
       support: "HỖ TRỢ",
     },
     sections: {
-      about: {
+      how: {
         title: "Chào mừng đến với Rosary Narrated",
         subtitle:
           "Sẵn sàng trải nghiệm Kinh Mân Côi theo một cách hoàn toàn mới? Chúng tôi đang xây dựng một cộng đồng xung quanh những suy niệm có hướng dẫn dựa trên những hiểu biết thần học cho mỗi thập. Dù bạn bắt đầu từ đâu, ở đây đều có điều gì đó dành cho bạn.",
@@ -280,7 +283,7 @@ export const translations: Record<Language, Translations> = {
         },
         cta: "Cầu nguyện",
       },
-      play: {
+      foundation: {
         title: "Các Mầu Nhiệm của Kinh Mân Côi",
         subtitle:
           "Mỗi Mầu Nhiệm kể một câu chuyện. Trải nghiệm chúng qua âm thanh và hình ảnh được thiết kế để giúp bạn kết nối. Chọn một bộ để bắt đầu.",

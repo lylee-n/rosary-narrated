@@ -1,15 +1,14 @@
 "use client"
 
-import { AppProvider } from "@/components/app-provider"
+import { AppProvider, useApp } from "@/components/app-provider"
 import { AppLayout } from "@/components/layout/app-layout"
-import { AboutSection } from "@/components/sections/about"
+import { HowSection } from "@/components/sections/how"
 import { WhySection } from "@/components/sections/why"
-import { PlaySection } from "@/components/sections/play"
+import { FoundationSection } from "@/components/sections/foundation"
 import { CommunitySection } from "@/components/sections/community"
 import { SupportSection } from "@/components/sections/support"
 import { WhatSection } from "@/components/sections/what"
 import { BlogsSection } from "@/components/sections/blogs"
-import { useApp } from "@/components/app-provider"
 
 function MainContent() {
   const { currentView } = useApp()
@@ -20,10 +19,10 @@ function MainContent() {
         return <WhatSection />
       case "WHY":
         return <WhySection />
-      case "PLAY":
-        return <PlaySection />
-      case "ABOUT":
-        return <AboutSection />
+      case "FOUNDATION":
+        return <FoundationSection />
+      case "HOW":
+        return <HowSection />
       case "COMMUNITY":
         return <CommunitySection />
       case "BLOGS":

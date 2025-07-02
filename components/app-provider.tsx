@@ -2,9 +2,7 @@
 
 import type React from "react"
 import { createContext, useContext, useState, useCallback } from "react"
-import type { ViewType, Language, AppError } from "@/types"
-
-export type View = "ABOUT" | "WHY" | "PLAY" | "COMMUNITY" | "SUPPORT"
+import type { ViewType, Language, AppError } from "@/lib/types"
 
 interface AppContextType {
   // Language state
@@ -34,8 +32,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // Language state
   const [language, setLanguage] = useState<Language>("en")
 
-  // Navigation state
-  const [currentView, setCurrentView] = useState<ViewType>("PLAY")
+  // Navigation state - Default to "WHAT" page
+  const [currentView, setCurrentView] = useState<ViewType>("WHAT")
 
   // Global loading state
   const [isLoading, setIsLoading] = useState(false)

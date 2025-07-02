@@ -48,10 +48,10 @@ export const ANIMATIONS = {
 
 // Navigation items
 export const NAV_ITEMS: NavItem[] = [
-  { name: "WHAT", label: "WHAT", icon: Home }, // Changed from HelpCircle to Home
-  { name: "WHY", label: "WHY", icon: HelpCircle }, // Changed from Compass to HelpCircle (question mark)
-  { name: "PLAY", label: "FOUNDATION", icon: BookOpen },
-  { name: "ABOUT", label: "HOW", icon: Compass }, // Changed from Home to Compass
+  { name: "WHAT", label: "WHAT", icon: Home },
+  { name: "WHY", label: "WHY", icon: HelpCircle },
+  { name: "FOUNDATION", label: "FOUNDATION", icon: BookOpen },
+  { name: "HOW", label: "HOW", icon: Compass },
   { name: "COMMUNITY", label: "COMMUNITY", icon: Users },
   { name: "BLOGS", label: "BLOGS", icon: BookText },
   { name: "SUPPORT", label: "SUPPORT", icon: Heart },

@@ -7,7 +7,7 @@ import { PlayModal } from "@/components/play-section/play-modal"
 import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
 
-export function PlaySection() {
+export function FoundationSection() {
   const { setView } = useApp()
   const [selectedMysterySetIndex, setSelectedMysterySetIndex] = useState<number | null>(null)
 
@@ -76,7 +76,7 @@ export function PlaySection() {
         </div>
 
         <div className="text-center mt-24">
-          <CustomButton onClick={() => setView("ABOUT")} size="lg" variant="yellow">
+          <CustomButton onClick={() => setView("HOW")} size="lg" variant="yellow">
             <span className="hidden md:inline">How to pray the Rosary</span>
             <span className="md:hidden">How</span>
           </CustomButton>
