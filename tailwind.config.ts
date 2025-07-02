@@ -1,11 +1,19 @@
 import type { Config } from "tailwindcss"
-import defaultConfig from "shadcn/ui/tailwind.config"
 
-const config = {
-  ...defaultConfig,
-  content: [...defaultConfig.content, "./pages/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}", "*.{js,ts,jsx,tsx,mdx}"],
+/**
+ * Stand-alone Tailwind configuration.
+ * – No external preset, so it works on every install/build.
+ * – Keeps all previous theme customisations.
+ */
+const config: Config = {
+  content: [
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./pages/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+    "*.{js,ts,jsx,tsx,mdx}",
+  ],
   theme: {
-    ...defaultConfig.theme,
     container: {
       center: true,
       padding: "2rem",
@@ -14,7 +22,7 @@ const config = {
       },
     },
     extend: {
-      ...defaultConfig.theme.extend,
+      /* --------- your previous custom tokens ---------- */
       minHeight: {
         screen: "100vh",
         "screen-small": "100svh",
@@ -79,7 +87,7 @@ const config = {
       },
     },
   },
-  plugins: [...defaultConfig.plugins, require("tailwindcss-animate")],
-} satisfies Config
+  plugins: [require("tailwindcss-animate")],
+}
 
 export default config
