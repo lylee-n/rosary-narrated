@@ -161,7 +161,7 @@ export function AboutSection() {
                         variant="yellow"
                         className="relative bg-[#FFE552] border border-[#FFE552] text-black hover:bg-[#FFE552] hover:border-[#FFE552] font-bold uppercase"
                       >
-                        Next
+                        <span className="font-bold">Next</span> <span className="font-bold">→</span>
                       </CustomButton>
                     </div>
                   </div>
