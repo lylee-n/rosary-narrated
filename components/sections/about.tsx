@@ -5,7 +5,6 @@ import { useRosaryState } from "@/hooks/use-rosary-state"
 import { DailyMysterySelector } from "@/components/rosary-guide/daily-mystery-selector"
 import { RosaryVisualizer } from "@/components/rosary-guide/rosary-visualizer"
 import { MYSTERY_IMAGES } from "@/constants"
-import { cn } from "@/lib/utils" // Import cn for conditional class names
 
 // Define the types for our rosary elements
 type RosaryElement = {
@@ -154,18 +153,13 @@ export function AboutSection() {
                     </div>
                   </div>
                   <div className="flex justify-center flex-shrink-0 relative z-20">
-                    {/* Removed the conditional background/padding from this div */}
                     <div className="relative">
-                      {/* Halo effect - always yellow */}
                       <div className="absolute inset-0 bg-[#FFE552] rounded-lg blur-md opacity-50 animate-pulse"></div>
                       <CustomButton
                         onClick={handleNext}
                         size="md"
-                        variant="yellow" // Always yellow variant for solid background
-                        className={cn(
-                          "relative",
-                          isGloriousMysteries && "text-black border border-[#FFE552]", // Explicitly set black text and yellow border for Glorious
-                        )}
+                        variant="yellow"
+                        className="relative bg-[#FFE552] border border-[#FFE552] text-black hover:bg-[#FFE552] hover:border-[#FFE552]"
                       >
                         Next
                       </CustomButton>
