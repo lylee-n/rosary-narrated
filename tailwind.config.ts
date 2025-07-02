@@ -1,10 +1,5 @@
 import type { Config } from "tailwindcss"
 
-/**
- * Stand-alone Tailwind configuration.
- * – No external preset, so it works on every install/build.
- * – Keeps all previous theme customisations.
- */
 const config: Config = {
   content: [
     "./app/**/*.{ts,tsx}",
@@ -22,7 +17,6 @@ const config: Config = {
       },
     },
     extend: {
-      /* --------- your previous custom tokens ---------- */
       minHeight: {
         screen: "100vh",
         "screen-small": "100svh",
