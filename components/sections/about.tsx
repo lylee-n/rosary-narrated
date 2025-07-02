@@ -96,18 +96,26 @@ export function AboutSection() {
             onBeadClick={handleBeadClick}
           />
           <div className="lg:w-[65%] flex items-start justify-center">
-            <div
-              className="bg-white/5 rounded-2xl p-5 backdrop-blur-sm w-full h-[650px] lg:h-[600px] flex flex-col relative overflow-hidden shadow-lg shadow-white/10"
-              style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-            >
+            <div className="bg-white/5 rounded-2xl p-5 backdrop-blur-sm w-full h-[650px] lg:h-[600px] flex flex-col relative overflow-hidden shadow-lg shadow-white/10">
+              {/* Background Image */}
+              <div className="absolute inset-0 z-0">
+                <div
+                  className="w-full h-full"
+                  style={{
+                    backgroundImage: `url(${backgroundImage})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                />
+              </div>
+
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 z-10" />
+
               {displayStepData && (
                 <>
-                  <div className="flex items-center space-x-3 mb-4 flex-shrink-0 relative z-10">
+                  <div className="flex items-center space-x-3 mb-4 flex-shrink-0 relative z-20">
                     <div className="w-7 h-7 bg-[#FFE552] text-black rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
                       {displayStepData.type === "cross" ? (
                         <span className="text-[10px]">✝</span>
@@ -119,7 +127,7 @@ export function AboutSection() {
                     </div>
                     <h4 className="text-white font-sora text-lg font-bold">{displayStepData.title}</h4>
                   </div>
-                  <div className="flex-1 overflow-y-auto mb-4 relative z-10">
+                  <div className="flex-1 overflow-y-auto mb-4 relative z-20">
                     <div className="space-y-4">
                       {displayStepData.content.map((item, index) => (
                         <div key={index}>
@@ -131,7 +139,7 @@ export function AboutSection() {
                       ))}
                     </div>
                   </div>
-                  <div className="flex justify-center flex-shrink-0 relative z-10">
+                  <div className="flex justify-center flex-shrink-0 relative z-20">
                     <CustomButton onClick={handleNext} size="md" variant="yellow">
                       Next
                     </CustomButton>
