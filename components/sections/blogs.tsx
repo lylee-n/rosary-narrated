@@ -1,9 +1,9 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, User, ArrowRight } from "lucide-react"
+import { Calendar, Clock, User, ArrowRight, Heart, MessageCircle, Share2 } from "lucide-react"
 
 export function BlogsSection() {
   const blogPost = {
@@ -41,124 +41,188 @@ Replace mine with Your Heart, Your Blood, Your Light. Your ways are higher than 
   }
 
   return (
-    <section className="w-full py-16">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-16">
+    <section className="w-full py-16 relative">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 via-transparent to-purple-600/10"></div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Header with Decorative Elements */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-amber-400/20 to-purple-600/20 mb-6">
+            <MessageCircle className="w-8 h-8 text-amber-300" />
+          </div>
           <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-6">
-            Blogs
+            Spiritual
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-purple-400">
+              Reflections
+            </span>
           </h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">
-            Reflections on faith, prayer, and finding Jesus in our daily lives
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto font-inter leading-relaxed">
+            Journey through faith, prayer, and finding Jesus in our daily lives. Discover profound insights that
+            illuminate the path to spiritual fulfillment.
           </p>
         </div>
 
-        {/* Featured Blog Post */}
-        <div className="mb-16">
-          <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white overflow-hidden">
-            <div className="relative">
-              <div className="absolute top-4 left-4 z-10">
-                <Badge className="bg-amber-500/20 text-amber-300 border-amber-400/30">Featured</Badge>
+        {/* Hero Article */}
+        <div className="mb-20">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-amber-900/20 border border-white/10">
+            {/* Decorative Elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-amber-400/10 to-transparent rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-400/10 to-transparent rounded-full blur-2xl"></div>
+
+            <div className="relative p-8 md:p-12">
+              <div className="flex items-center gap-3 mb-6">
+                <Badge className="bg-amber-500/20 text-amber-300 border-amber-400/30 px-3 py-1">Featured Article</Badge>
+                <div className="h-1 w-12 bg-gradient-to-r from-amber-400 to-purple-400 rounded-full"></div>
               </div>
-              <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 p-8">
-                <CardHeader className="p-0 mb-6">
-                  <div className="flex items-center gap-4 text-sm text-gray-300 mb-4">
-                    <div className="flex items-center gap-1">
+
+              <div className="grid lg:grid-cols-3 gap-8 items-center">
+                <div className="lg:col-span-2">
+                  <h2 className="text-white font-sora text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                    {blogPost.title}
+                  </h2>
+                  <p className="text-gray-300 text-lg leading-relaxed mb-8 line-clamp-4">
+                    {blogPost.content.substring(0, 300)}...
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-6 mb-8">
+                    <div className="flex items-center gap-2 text-gray-400">
                       <User className="w-4 h-4" />
-                      <span>{blogPost.author}</span>
+                      <span className="font-medium">{blogPost.author}</span>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2 text-gray-400">
                       <Calendar className="w-4 h-4" />
                       <span>{blogPost.date}</span>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2 text-gray-400">
                       <Clock className="w-4 h-4" />
                       <span>{blogPost.readTime}</span>
                     </div>
                   </div>
-                  <CardTitle className="text-3xl md:text-4xl font-bold mb-4 text-left">{blogPost.title}</CardTitle>
-                  <CardDescription className="text-gray-300 text-lg leading-relaxed text-left">
-                    {blogPost.excerpt}
-                  </CardDescription>
-                </CardHeader>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {blogPost.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline" className="border-white/30 text-white">
-                      {tag}
-                    </Badge>
-                  ))}
+
+                  <Button className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    Read Full Story
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
                 </div>
-                <Button className="bg-white text-black hover:bg-gray-100 font-semibold">
-                  Read Full Article
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
+
+                <div className="lg:col-span-1">
+                  <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                    <h3 className="text-white font-semibold mb-4">Article Tags</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {blogPost.tags.map((tag, index) => (
+                        <Badge
+                          key={index}
+                          variant="outline"
+                          className="border-white/20 text-white hover:bg-white/10 transition-colors cursor-pointer"
+                        >
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
 
-        {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {[1, 2, 3, 4, 5, 6].map((index) => (
-            <Card
-              key={index}
-              className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/15 transition-all duration-300 group cursor-pointer"
-            >
-              <CardHeader>
-                <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
-                  <Calendar className="w-4 h-4" />
-                  <span>{blogPost.date}</span>
-                  <span>•</span>
-                  <Clock className="w-4 h-4" />
-                  <span>{blogPost.readTime}</span>
+        {/* Recent Articles Grid */}
+        <div className="mb-16">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-white font-sora text-3xl md:text-4xl font-bold">Recent Articles</h2>
+            <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 bg-transparent">
+              View All
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {[1, 2, 3, 4, 5, 6].map((index) => (
+              <Card
+                key={index}
+                className="group bg-white/5 backdrop-blur-sm border-white/10 text-white hover:bg-white/10 transition-all duration-500 cursor-pointer overflow-hidden rounded-xl"
+              >
+                <div className="relative">
+                  {/* Article Image Placeholder */}
+                  <div className="h-48 bg-gradient-to-br from-purple-600/30 to-amber-600/20 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+                    <div className="absolute top-4 left-4">
+                      <Badge className="bg-black/30 text-white border-white/20">
+                        {blogPost.tags[index % blogPost.tags.length]}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+                      <span>{blogPost.date}</span>
+                      <span>•</span>
+                      <span>{blogPost.readTime}</span>
+                    </div>
+
+                    <CardTitle className="text-xl font-bold mb-3 group-hover:text-amber-300 transition-colors duration-300 line-clamp-2">
+                      {blogPost.title}
+                    </CardTitle>
+
+                    <CardDescription className="text-gray-300 leading-relaxed mb-6 line-clamp-3">
+                      {blogPost.excerpt}
+                    </CardDescription>
+
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4 text-sm text-gray-400">
+                        <div className="flex items-center gap-1">
+                          <Heart className="w-4 h-4" />
+                          <span>{12 + index}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <MessageCircle className="w-4 h-4" />
+                          <span>{3 + index}</span>
+                        </div>
+                      </div>
+
+                      <Button variant="ghost" size="sm" className="text-amber-300 hover:text-amber-200 p-0">
+                        <Share2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </CardContent>
                 </div>
-                <CardTitle className="text-xl font-bold mb-3 group-hover:text-amber-300 transition-colors text-left">
-                  {blogPost.title}
-                </CardTitle>
-                <CardDescription className="text-gray-300 leading-relaxed text-left line-clamp-3">
-                  {blogPost.excerpt}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {blogPost.tags.slice(0, 2).map((tag, tagIndex) => (
-                    <Badge key={tagIndex} variant="outline" className="border-white/30 text-white text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-                <div className="flex items-center text-amber-300 text-sm font-medium group-hover:text-amber-200 transition-colors">
-                  Read More
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+              </Card>
+            ))}
+          </div>
         </div>
 
-        {/* Load More Section */}
-        <div className="text-center">
-          <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-3 bg-transparent">
-            Load More Articles
-          </Button>
-        </div>
+        {/* Newsletter Section */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-amber-600/10 rounded-2xl blur-xl"></div>
+          <Card className="relative bg-white/5 backdrop-blur-sm border-white/10 text-white rounded-2xl overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-amber-400/20 to-transparent rounded-full blur-2xl"></div>
+            <CardContent className="p-8 md:p-12 text-center relative">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-amber-400/20 to-purple-600/20 mb-6">
+                <Heart className="w-8 h-8 text-amber-300" />
+              </div>
 
-        {/* Newsletter Signup */}
-        <div className="mt-20">
-          <Card className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-white/20 text-white">
-            <CardContent className="p-8 text-center">
-              <h3 className="text-2xl font-bold mb-4">Stay Connected</h3>
-              <p className="text-gray-300 mb-6 max-w-md mx-auto">
-                Subscribe to receive our latest reflections and spiritual insights directly in your inbox.
+              <h3 className="text-white font-sora text-2xl md:text-3xl font-bold mb-4">Join Our Spiritual Journey</h3>
+              <p className="text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                Receive weekly reflections, prayer guides, and spiritual insights that will deepen your relationship
+                with Jesus and enrich your faith journey.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+
+              <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
                 <input
                   type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                  placeholder="Enter your email address"
+                  className="flex-1 px-6 py-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-300"
                 />
-                <Button className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6">Subscribe</Button>
+                <Button className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                  Subscribe
+                </Button>
               </div>
+
+              <p className="text-xs text-gray-400 mt-4">
+                No spam, unsubscribe at any time. Your email is safe with us.
+              </p>
             </CardContent>
           </Card>
         </div>
