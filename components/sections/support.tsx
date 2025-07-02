@@ -23,10 +23,10 @@ export function SupportSection() {
       </div>
 
       <div className="flex justify-center mb-16">
-        <ChevronDown className="text-white w-8 h-8" />
+        <ChevronDown className="text-gray-400 w-8 h-8" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-16">
         {/* Support Monthly Card */}
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">{t.sections.support.cards.monthly.title}</h3>
@@ -65,10 +65,10 @@ export function SupportSection() {
       </div>
 
       <div className="flex justify-center mb-16">
-        <ChevronDown className="text-white w-8 h-8" />
+        <ChevronDown className="text-gray-400 w-8 h-8" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
         {/* Volunteer Card */}
         <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">
