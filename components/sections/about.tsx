@@ -79,6 +79,9 @@ export function AboutSection() {
   // Get the background image for the current mystery set
   const backgroundImage = getMysteryBackgroundImage(currentMysterySet)
 
+  // Check if current mystery set is Glorious Mysteries (set 4)
+  const isGloriousMysteries = currentMysterySet === 4
+
   return (
     <section className="w-full py-16">
       <div className="container mx-auto px-4">
@@ -125,14 +128,22 @@ export function AboutSection() {
                         <span className="text-[10px]">{displayStepData.id.length > 3 ? "M1" : displayStepData.id}</span>
                       )}
                     </div>
-                    <h4 className="text-white font-sora text-lg font-bold">{displayStepData.title}</h4>
+                    <h4 className={`font-sora text-lg font-bold ${isGloriousMysteries ? "text-black" : "text-white"}`}>
+                      {displayStepData.title}
+                    </h4>
                   </div>
                   <div className="flex-1 overflow-y-auto mb-4 relative z-20 bg-black/30 backdrop-blur-[1px] rounded-lg p-4">
                     <div className="space-y-4">
                       {displayStepData.content.map((item, index) => (
                         <div key={index}>
-                          <h5 className="text-[#FFE552] font-sora text-base font-semibold mb-2">{item.subtitle}</h5>
-                          <p className="text-gray-300 font-inter text-sm leading-relaxed whitespace-pre-line">
+                          <h5
+                            className={`font-sora text-base font-semibold mb-2 ${isGloriousMysteries ? "text-black" : "text-[#FFE552]"}`}
+                          >
+                            {item.subtitle}
+                          </h5>
+                          <p
+                            className={`font-inter text-sm leading-relaxed whitespace-pre-line ${isGloriousMysteries ? "text-gray-800" : "text-gray-300"}`}
+                          >
                             {item.text}
                           </p>
                         </div>
