@@ -99,7 +99,7 @@ export function AboutSection() {
             onBeadClick={handleBeadClick}
           />
           <div className="lg:w-[65%] flex items-start justify-center">
-            <div className="bg-white/10 rounded-2xl p-5 backdrop-blur-md w-full h-[650px] lg:h-[600px] flex flex-col relative overflow-hidden shadow-lg shadow-white/20">
+            <div className="bg-white/10 rounded-2xl p-5 backdrop-blur-lg w-full h-[650px] lg:h-[600px] flex flex-col relative overflow-hidden shadow-lg shadow-white/20">
               {/* Background Image */}
               <div className="absolute inset-0 z-0">
                 <div
@@ -115,6 +115,9 @@ export function AboutSection() {
 
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 z-10" />
+
+              {/* Dark/White Overlay for whole card */}
+              <div className={`absolute inset-0 z-15 ${isGloriousMysteries ? "bg-white/20" : "bg-black/30"}`} />
 
               {displayStepData && (
                 <>
@@ -137,14 +140,17 @@ export function AboutSection() {
                   >
                     <div className="space-y-4">
                       {displayStepData.content.map((item, index) => (
-                        <div key={index}>
+                        <div
+                          key={index}
+                          className={`group transition-all duration-300 hover:bg-white/15 hover:backdrop-blur-sm hover:rounded-lg hover:p-3 hover:shadow-lg cursor-pointer ${isGloriousMysteries ? "hover:bg-black/15" : "hover:bg-white/15"}`}
+                        >
                           <h5
-                            className={`font-sora text-base font-semibold mb-2 ${isGloriousMysteries ? "text-blue-800" : "text-[#FFE552]"}`}
+                            className={`font-sora text-base font-semibold mb-2 group-hover:scale-105 transition-transform duration-300 ${isGloriousMysteries ? "text-blue-800" : "text-[#FFE552]"}`}
                           >
                             {item.subtitle}
                           </h5>
                           <p
-                            className={`font-inter text-sm leading-relaxed whitespace-pre-line transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-sm hover:rounded-lg hover:p-3 hover:shadow-lg cursor-pointer ${isGloriousMysteries ? "text-black hover:bg-black/10" : "text-gray-300 hover:bg-white/10"}`}
+                            className={`font-inter text-sm leading-relaxed whitespace-pre-line group-hover:scale-105 transition-transform duration-300 ${isGloriousMysteries ? "text-black" : "text-gray-300"}`}
                           >
                             {item.text}
                           </p>
