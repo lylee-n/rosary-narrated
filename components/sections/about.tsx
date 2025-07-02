@@ -159,7 +159,7 @@ export function AboutSection() {
                         onClick={handleNext}
                         size="md"
                         variant="yellow"
-                        className="relative bg-[#FFE552] border border-[#FFE552] text-black hover:bg-[#FFE552] hover:border-[#FFE552] font-medium uppercase tracking-normal"
+                        className="relative bg-[#FFE552] border border-[#FFE552] text-black hover:bg-[#FFE552] hover:border-[#FFE552] font-medium uppercase"
                       >
                         Next
                       </CustomButton>
