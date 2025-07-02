@@ -117,7 +117,7 @@ export const translations: Record<Language, Translations> = {
     nav: {
       about: "ABOUT",
       why: "WHY",
-      pray: "PRAY",
+      pray: "FOUNDATION",
       community: "COMMUNITY",
       support: "SUPPORT",
     },
@@ -167,7 +167,7 @@ export const translations: Record<Language, Translations> = {
           community: {
             title: "Community",
             description:
-              "Finding your place in faith can be complicated. We get it. We've been through it. Here, we're building something different.",
+              "Finding your place in faith can be complicated. We get it. Here, we're building something different.",
           },
           connections: {
             title: "Regular Connections",
@@ -241,7 +241,7 @@ export const translations: Record<Language, Translations> = {
     nav: {
       about: "GIỚI THIỆU",
       why: "TẠI SAO",
-      pray: "CẦU NGUYỆN",
+      pray: "NỀN TẢNG",
       community: "CỘNG ĐỒNG",
       support: "HỖ TRỢ",
     },
