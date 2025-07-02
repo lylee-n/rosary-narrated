@@ -86,9 +86,9 @@ export function AboutSection() {
         </div>
 
         <div className="text-center mb-32">
-          <CustomButton onClick={() => setView("WHY")} size="lg" variant="yellow">
-            <span className="hidden md:inline">Why Pray the Rosary?</span>
-            <span className="md:hidden">Why?</span>
+          <CustomButton onClick={() => setView("COMMUNITY")} size="lg" variant="yellow">
+            <span className="hidden md:inline">Join the community</span>
+            <span className="md:hidden">Community</span>
           </CustomButton>
         </div>
       </div>

@@ -126,7 +126,7 @@ export const translations: Record<Language, Translations> = {
         title: "Welcome to Rosary Narrated",
         subtitle:
           "Ready to experience the Rosary in a whole new way? We're building a community around guided reflections rooted in theological insights for each decade. No matter where you're starting from, there's something here for you.",
-        cta: "Why",
+        cta: "Join the community",
       },
       why: {
         title: "Why Pray the Rosary?",
@@ -158,7 +158,7 @@ export const translations: Record<Language, Translations> = {
           perspectives: "Perspectives",
           speed: "Speed:",
         },
-        cta: "Community",
+        cta: "How to pray the Rosary",
       },
       community: {
         title: "Coming Soon",

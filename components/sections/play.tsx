@@ -76,9 +76,9 @@ export function PlaySection() {
         </div>
 
         <div className="text-center mt-24">
-          <CustomButton onClick={() => setView("COMMUNITY")} size="lg" variant="yellow">
-            <span className="hidden md:inline">Join the Community</span>
-            <span className="md:hidden">Community</span>
+          <CustomButton onClick={() => setView("ABOUT")} size="lg" variant="yellow">
+            <span className="hidden md:inline">How to pray the Rosary</span>
+            <span className="md:hidden">How</span>
           </CustomButton>
         </div>
       </div>
