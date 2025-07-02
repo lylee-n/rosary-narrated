@@ -7,12 +7,16 @@ import { WhySection } from "@/components/sections/why"
 import { PlaySection } from "@/components/sections/play"
 import { SupportSection } from "@/components/sections/support"
 import { CommunitySection } from "@/components/sections/community"
+import { WhatSection } from "@/components/sections/what"
+import { BlogsSection } from "@/components/sections/blogs"
 
 function AppContent() {
   const { currentView } = useApp()
 
   const renderCurrentView = () => {
     switch (currentView) {
+      case "WHAT":
+        return <WhatSection />
       case "ABOUT":
         return <AboutSection />
       case "WHY":
@@ -21,10 +25,12 @@ function AppContent() {
         return <PlaySection />
       case "COMMUNITY":
         return <CommunitySection />
+      case "BLOGS":
+        return <BlogsSection />
       case "SUPPORT":
         return <SupportSection />
       default:
-        return <AboutSection />
+        return <WhatSection />
     }
   }
 
