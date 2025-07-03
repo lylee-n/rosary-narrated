@@ -19,8 +19,14 @@ export function Header() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-black/90 backdrop-blur-md border-b border-white/10">
-      <div className="container mx-auto px-4">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full">
+      {/* Desktop Header Background */}
+      <div className="hidden md:block absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+      {/* Mobile Header Background */}
+      <div className="md:hidden absolute inset-0 bg-black/95"></div>
+
+      <div className="relative container mx-auto px-4">
         {/* --- DESKTOP HEADER (UNCHANGED) --- */}
         <div className="hidden md:flex items-center justify-between h-20">
           <div className="text-2xl font-bold font-sora text-white">
@@ -48,51 +54,51 @@ export function Header() {
           <div className="w-0" />
         </div>
 
-        {/* --- MOBILE HEADER (FIXED FOR SCROLLING) --- */}
+        {/* --- MOBILE HEADER (STABILIZED) --- */}
         <div className="md:hidden">
-          <div className="flex flex-col items-center space-y-3 py-3 min-h-[100px]">
+          <div className="flex flex-col items-center h-24 justify-center space-y-2 py-2">
             {/* Row 1: Logo */}
-            <div className="text-xl font-bold font-sora text-white flex-shrink-0">
+            <div className="text-lg font-bold font-sora text-white leading-none">
               Rosary<span className="text-[#FFE552]"> narrated</span>
             </div>
             {/* Row 2: Icon Navigation */}
-            <div className="flex-shrink-0 w-full flex justify-center">
-              <TooltipProvider delayDuration={0}>
-                <nav className="flex items-center justify-center space-x-2">
-                  {navItems.map((item) => {
-                    const isActive = currentView === item.name
-                    const isHighlighted = item.name === "FOUNDATION" || item.name === "HOW"
-                    const isGrayed = !isActive && !isHighlighted
+            <div className="w-full flex justify-center">
+              <nav className="flex items-center justify-center space-x-1.5">
+                {navItems.map((item) => {
+                  const isActive = currentView === item.name
+                  const isHighlighted = item.name === "FOUNDATION" || item.name === "HOW"
+                  const isGrayed = !isActive && !isHighlighted
 
-                    return (
-                      <Tooltip key={item.name}>
+                  return (
+                    <TooltipProvider key={item.name} delayDuration={300}>
+                      <Tooltip>
                         <TooltipTrigger asChild>
                           <button
                             onClick={() => setView(item.name)}
-                            className={`p-2 rounded-full transition-all duration-200 ${
+                            className={`p-1.5 rounded-full transition-all duration-150 ${
                               isActive
-                                ? "bg-[#FFE552] transform scale-110"
+                                ? "bg-[#FFE552]"
                                 : isHighlighted
-                                  ? "hover:bg-white/10 shadow-[0_0_20px_rgba(255,229,82,0.9)] border-2 border-[#FFE552]/70 hover:scale-105"
-                                  : "hover:bg-white/10 hover:scale-105"
+                                  ? "hover:bg-white/10 shadow-[0_0_18px_rgba(255,229,82,0.8)] border-2 border-[#FFE552]/60"
+                                  : "hover:bg-white/10"
                             }`}
                           >
                             <item.icon
-                              className={`h-5 w-5 transition-colors ${
-                                isActive ? "text-black" : isGrayed ? "text-white/40" : "text-white/80"
+                              className={`h-4 w-4 transition-colors ${
+                                isActive ? "text-black" : isGrayed ? "text-white/35" : "text-white/80"
                               }`}
                             />
                             <span className="sr-only">{item.label}</span>
                           </button>
                         </TooltipTrigger>
-                        <TooltipContent className="bg-black/90 text-white border-gray-700 backdrop-blur-sm">
+                        <TooltipContent className="bg-black/95 text-white border-gray-600 text-xs">
                           <p>{item.label}</p>
                         </TooltipContent>
                       </Tooltip>
-                    )
-                  })}
-                </nav>
-              </TooltipProvider>
+                    </TooltipProvider>
+                  )
+                })}
+              </nav>
             </div>
           </div>
         </div>
