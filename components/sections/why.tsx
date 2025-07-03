@@ -27,7 +27,7 @@ export function WhySection() {
       <div
         className="relative w-full"
         style={{
-          backgroundImage: "url('/images/background.gif')",
+          backgroundImage: "url('/images/Mary-womb-golden-light.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed", // Creates a parallax effect on scroll

@@ -7,7 +7,15 @@ import { FloatingSupportButton } from "@/components/ui/floating-support-button"
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen bg-black">
+    <div
+      className="flex flex-col min-h-screen"
+      style={{
+        backgroundImage: "url('/images/background.gif')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
       {/* Header */}
       <Header />
 
