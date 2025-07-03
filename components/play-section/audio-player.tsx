@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { memo, useCallback } from "react"
-import { Play, Pause, ChevronsRight } from "lucide-react"
+import { Play, Pause } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 
@@ -17,8 +17,6 @@ interface AudioPlayerProps {
   onSeekBy: (seconds: number) => void
   onPlayPause: () => void
   onSpeedChange: (speed: number) => void
-  onNext: () => void
-  isNextDisabled: boolean
 }
 
 // Custom circular skip icons
@@ -53,8 +51,6 @@ export const AudioPlayer = memo(function AudioPlayer({
   onSeekBy,
   onPlayPause,
   onSpeedChange,
-  onNext,
-  isNextDisabled,
 }: AudioPlayerProps) {
   const formatTime = useCallback((time: number): string => {
     if (!isFinite(time) || isNaN(time)) return "0:00"
@@ -169,18 +165,6 @@ export const AudioPlayer = memo(function AudioPlayer({
           aria-label="Skip forward 10 seconds"
         >
           <SkipForwardIcon />
-        </Button>
-
-        {/* Next Decade Button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onNext}
-          disabled={isLoading || !duration || isNextDisabled}
-          className="text-white hover:text-[#82FAFA] hover:bg-white/10 p-2 disabled:opacity-50"
-          aria-label="Next Decade"
-        >
-          <ChevronsRight size={16} />
         </Button>
       </div>
     </div>

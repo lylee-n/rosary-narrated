@@ -1,9 +1,12 @@
 "use client"
 
-import type React from "react"
+import { memo } from "react"
 import { MysteryBead } from "./mystery-bead"
 import { MysteryContentDisplay } from "./mystery-content-display"
-import type { Mystery, NowPlaying, PerspectiveType } from "@/types"
+import { PerspectiveButtons } from "./perspective-buttons"
+import { AudioPlayer } from "./audio-player"
+import type { Mystery, NowPlaying } from "@/types"
+import type React from "react"
 
 interface DesktopMysteryDisplayProps {
   mysteries: Mystery[]
@@ -16,16 +19,14 @@ interface DesktopMysteryDisplayProps {
   isLoading: boolean
   audioRef: React.RefObject<HTMLAudioElement>
   onToggleMystery: (index: number) => void
-  onPlayAudio: (index: number, perspective: PerspectiveType) => void
+  onPlayAudio: (mysteryIndex: number, perspective: 3 | 7 | 12) => void
   onSeek: (time: number) => void
   onSeekBy: (seconds: number) => void
   onPlayPause: () => void
   onSpeedChange: (speed: number) => void
-  onPlayNext: () => void
-  isLastMystery: boolean
 }
 
-export function DesktopMysteryDisplay({
+export const DesktopMysteryDisplay = memo(function DesktopMysteryDisplay({
   mysteries,
   expandedMysteryItem,
   nowPlaying,
@@ -41,57 +42,84 @@ export function DesktopMysteryDisplay({
   onSeekBy,
   onPlayPause,
   onSpeedChange,
-  onPlayNext,
-  isLastMystery,
 }: DesktopMysteryDisplayProps) {
   return (
     <div className="hidden md:block">
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-        {mysteries.map((mystery, index) => (
-          <div key={mystery.name} className="flex flex-col items-center text-center">
-            <MysteryBead
-              index={index}
-              isExpanded={expandedMysteryItem === index}
-              isPlaying={isPlaying && nowPlaying?.mysteryIndex === index}
-              onClick={() => onToggleMystery(index)}
-            />
-            {index < mysteries.length - 1 && (
-              <div
-                className="h-px w-full bg-white/20"
-                style={{
-                  animation: expandedMysteryItem === index ? "lineRevealLeftToRight 0.5s ease-out forwards" : "none",
-                }}
+      <div className="relative mb-8">
+        {/* Connection Line */}
+        <div
+          className={`absolute left-1/2 transform -translate-x-1/2 w-full max-w-5xl h-1 bg-[#FFE552] rounded-full shadow-lg shadow-yellow-400/30 ${
+            expandedMysteryItem === null ? "animate-[lineRevealLeftToRight_1.5s_ease-out] opacity-0" : ""
+          }`}
+          style={{
+            top: "40px",
+            zIndex: 1,
+            opacity: expandedMysteryItem !== null ? 0.3 : undefined,
+            animationDelay: expandedMysteryItem === null ? "2.5s" : undefined,
+            animationFillMode: expandedMysteryItem === null ? "forwards" : undefined,
+          }}
+        />
+
+        {/* Mystery Beads */}
+        <div className="flex justify-between items-start gap-2 lg:gap-4 max-w-6xl mx-auto mt-4 relative z-10">
+          {mysteries.map((mystery, index) => (
+            <div key={index} className="flex-1">
+              <MysteryBead
+                index={index}
+                isExpanded={expandedMysteryItem === index}
+                isOtherExpanded={expandedMysteryItem !== null && expandedMysteryItem !== index}
+                onClick={() => onToggleMystery(index)}
+                animationDelay={index * 0.4}
               />
-            )}
-            <div className="mt-4">
-              <h3 className="font-bold text-lg text-white">{mystery.name}</h3>
-              <p className="text-sm text-white/70">{mystery.fruit}</p>
+              <div className="text-center">
+                <h3
+                  className={`text-[#FFE552] text-xs lg:text-sm xl:text-base font-semibold mb-2 lg:mb-3 cursor-pointer hover:text-yellow-300 transition-colors duration-300 font-inter px-1 ${
+                    expandedMysteryItem !== null && expandedMysteryItem !== index ? "opacity-30" : ""
+                  }`}
+                  onClick={() => onToggleMystery(index)}
+                >
+                  {mystery.title}
+                </h3>
+              </div>
             </div>
-            {expandedMysteryItem === index && (
-              <div className="mt-4 w-full">
-                <MysteryContentDisplay
-                  mystery={mystery}
-                  mysteryIndex={index}
+          ))}
+        </div>
+      </div>
+
+      {/* Expanded Mystery Content */}
+      {expandedMysteryItem !== null && (
+        <div className="max-w-6xl mx-auto animate-in fade-in duration-300 mb-8">
+          <div className="backdrop-blur-md bg-white/15 rounded-2xl p-3 lg:p-4 xl:p-6">
+            <div className="grid grid-cols-3 gap-4 lg:gap-6 xl:gap-8">
+              <div className="col-span-2">
+                <MysteryContentDisplay mystery={mysteries[expandedMysteryItem]} />
+              </div>
+              <div className="col-span-1">
+                <PerspectiveButtons
+                  mysteryIndex={expandedMysteryItem}
                   nowPlaying={nowPlaying}
                   isPlaying={isPlaying}
-                  currentTime={currentTime}
-                  duration={duration}
-                  playbackSpeed={playbackSpeed}
-                  isLoading={isLoading}
-                  audioRef={audioRef}
-                  onPlayAudio={onPlayAudio}
-                  onSeek={onSeek}
-                  onSeekBy={onSeekBy}
-                  onPlayPause={onPlayPause}
-                  onSpeedChange={onSpeedChange}
-                  onPlayNext={onPlayNext}
-                  isLastMystery={isLastMystery}
+                  onPlay={onPlayAudio}
                 />
+                {nowPlaying && nowPlaying.mysteryIndex === expandedMysteryItem && (
+                  <AudioPlayer
+                    audioRef={audioRef}
+                    currentTime={currentTime}
+                    duration={duration}
+                    playbackSpeed={playbackSpeed}
+                    isPlaying={isPlaying}
+                    isLoading={isLoading}
+                    onSeek={onSeek}
+                    onSeekBy={onSeekBy}
+                    onPlayPause={onPlayPause}
+                    onSpeedChange={onSpeedChange}
+                  />
+                )}
               </div>
-            )}
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   )
-}
+})

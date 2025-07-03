@@ -1,72 +1,27 @@
 "use client"
 
-import type React from "react"
-import { PerspectiveSelector } from "./perspective-selector"
-import { AudioPlayer } from "./audio-player"
-import type { Mystery, NowPlaying, PerspectiveType } from "@/types"
+import { memo } from "react"
+import type { Mystery } from "@/types"
 
 interface MysteryContentDisplayProps {
   mystery: Mystery
-  mysteryIndex: number
-  nowPlaying: NowPlaying | null
-  isPlaying: boolean
-  currentTime: number
-  duration: number
-  playbackSpeed: number
-  isLoading: boolean
-  audioRef: React.RefObject<HTMLAudioElement>
-  onPlayAudio: (index: number, perspective: PerspectiveType) => void
-  onSeek: (time: number) => void
-  onSeekBy: (seconds: number) => void
-  onPlayPause: () => void
-  onSpeedChange: (speed: number) => void
-  onPlayNext: () => void
-  isLastMystery: boolean
+  className?: string
 }
 
-export function MysteryContentDisplay({
+export const MysteryContentDisplay = memo(function MysteryContentDisplay({
   mystery,
-  mysteryIndex,
-  nowPlaying,
-  isPlaying,
-  currentTime,
-  duration,
-  playbackSpeed,
-  isLoading,
-  audioRef,
-  onPlayAudio,
-  onSeek,
-  onSeekBy,
-  onPlayPause,
-  onSpeedChange,
-  onPlayNext,
-  isLastMystery,
+  className = "",
 }: MysteryContentDisplayProps) {
-  const handlePerspectiveSelect = (perspective: PerspectiveType) => {
-    onPlayAudio(mysteryIndex, perspective)
-  }
-
   return (
-    <div className="w-full space-y-4">
-      <PerspectiveSelector
-        mysteryIndex={mysteryIndex}
-        onSelect={handlePerspectiveSelect}
-        currentPerspective={nowPlaying?.mysteryIndex === mysteryIndex ? nowPlaying.perspective : null}
-      />
-      <AudioPlayer
-        audioRef={audioRef}
-        currentTime={currentTime}
-        duration={duration}
-        playbackSpeed={playbackSpeed}
-        isPlaying={isPlaying}
-        isLoading={isLoading}
-        onSeek={onSeek}
-        onSeekBy={onSeekBy}
-        onPlayPause={onPlayPause}
-        onSpeedChange={onSpeedChange}
-        onNext={onPlayNext}
-        isNextDisabled={isLastMystery}
-      />
+    <div className={`space-y-4 lg:space-y-6 ${className}`}>
+      <div>
+        <strong className="text-[#82FAFA] block mb-1 lg:mb-2 font-inter text-sm lg:text-base">Significance:</strong>
+        <p className="font-inter text-white leading-relaxed text-xs lg:text-sm">{mystery.significance}</p>
+      </div>
+      <div>
+        <strong className="text-[#82FAFA] block mb-1 lg:mb-2 font-inter text-sm lg:text-base">Reflection:</strong>
+        <p className="font-inter text-white leading-relaxed text-xs lg:text-sm">{mystery.reflection}</p>
+      </div>
     </div>
   )
-}
+})

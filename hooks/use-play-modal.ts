@@ -1,68 +1,103 @@
 "use client"
 
-import { useState, useCallback } from "react"
-import { useAudioPlayer } from "./use-audio-player"
-import type { PerspectiveType } from "@/types"
-import { rosaryMysteriesDataEn } from "@/lib/rosary-data-en"
+import { useState, useCallback, useMemo } from "react"
+import { useAudioPlayer } from "@/hooks/use-audio-player"
 
+/**
+ * Keys used to look-up a mystery set by index (0-based)
+ * 0 → joyful, 1 → luminous, 2 → sorrowful, 3 → glorious
+ */
+const MYSTERY_SET_KEYS = ["joyful", "luminous", "sorrowful", "glorious"] as const
+
+/**
+ * Hook used by <PlayModal/> to encapsulate all UI / audio logic.
+ * It returns the exact shape consumed by the modal component.
+ */
 export function usePlayModal(selectedMysterySetIndex: number) {
+  /* ───────────────────────────── State ───────────────────────────── */
   const [expandedMysteryItem, setExpandedMysteryItem] = useState<number | null>(null)
-  const audioPlayer = useAudioPlayer()
 
-  const { nowPlaying, play, cleanup } = audioPlayer
+  /* ──────────────────────── Audio management ─────────────────────── */
+  const {
+    nowPlaying,
+    isPlaying,
+    currentTime,
+    duration,
+    playbackSpeed,
+    isLoading,
+    error,
+    audioRef,
+    play,
+    pause,
+    seek,
+    seekBy,
+    setPlaybackSpeed,
+    cleanup,
+    clearError,
+  } = useAudioPlayer()
 
-  const currentMysterySetDetails =
-    rosaryMysteriesDataEn[(selectedMysterySetIndex + 1) as keyof typeof rosaryMysteriesDataEn]
+  /* ───────────────────────── Helper refs ─────────────────────────── */
+  const currentMysterySetKey = useMemo(
+    () => MYSTERY_SET_KEYS[selectedMysterySetIndex] ?? "joyful",
+    [selectedMysterySetIndex],
+  )
 
-  const toggleMysteryItem = useCallback((index: number) => {
-    setExpandedMysteryItem((prev) => (prev === index ? null : index))
-  }, [])
+  /* ────────────────────── UI interaction logic ───────────────────── */
+  const toggleMysteryItem = useCallback(
+    (index: number) => {
+      const isOpeningNewItem = expandedMysteryItem !== index
+      setExpandedMysteryItem((prev) => (prev === index ? null : index))
 
-  const playAudio = useCallback(
-    (mysteryIndex: number, perspective: PerspectiveType) => {
-      if (!currentMysterySetDetails) return
-      const mysterySetKey = currentMysterySetDetails.key
-      play(mysterySetKey, mysteryIndex, perspective)
-      if (expandedMysteryItem !== mysteryIndex) {
-        setExpandedMysteryItem(mysteryIndex)
+      // stop current audio when switching items / collapsing the same one
+      if (nowPlaying && nowPlaying.mysteryIndex !== index && isOpeningNewItem) {
+        cleanup()
+      } else if (expandedMysteryItem === index && nowPlaying && nowPlaying.mysteryIndex === index) {
+        cleanup()
       }
     },
-    [currentMysterySetDetails, play, expandedMysteryItem],
+    [expandedMysteryItem, nowPlaying, cleanup],
+  )
+
+  const playAudio = useCallback(
+    (mysteryItemIndex: number, perspective: 3 | 7 | 12) => {
+      play(currentMysterySetKey, mysteryItemIndex, perspective)
+    },
+    [currentMysterySetKey, play],
   )
 
   const handlePlayPause = useCallback(() => {
-    if (audioPlayer.isPlaying) {
-      audioPlayer.pause()
+    if (isPlaying) {
+      pause()
     } else if (nowPlaying) {
       play(nowPlaying.mysterySetKey, nowPlaying.mysteryIndex, nowPlaying.perspective)
     }
-  }, [audioPlayer.isPlaying, audioPlayer.pause, nowPlaying, play])
+  }, [isPlaying, pause, nowPlaying, play])
 
   const handleClose = useCallback(() => {
     cleanup()
   }, [cleanup])
 
-  const playNextMystery = useCallback(() => {
-    if (!nowPlaying || !currentMysterySetDetails) return
-
-    const { perspective, mysteryIndex } = nowPlaying
-    const nextMysteryIndex = mysteryIndex + 1
-
-    if (nextMysteryIndex < currentMysterySetDetails.mysteries.length) {
-      playAudio(nextMysteryIndex, perspective)
-    }
-  }, [nowPlaying, currentMysterySetDetails, playAudio])
-
-  const isLastMystery = nowPlaying ? nowPlaying.mysteryIndex >= currentMysterySetDetails.mysteries.length - 1 : true
-
+  /* ───────────────────────────── Return ──────────────────────────── */
   return {
+    /* UI */
     expandedMysteryItem,
-    ...audioPlayer,
     toggleMysteryItem,
+    handleClose,
+
+    /* Audio API passthrough */
+    nowPlaying,
+    isPlaying,
+    currentTime,
+    duration,
+    playbackSpeed,
+    isLoading,
+    error,
+    audioRef,
     playAudio,
     handlePlayPause,
-    handleClose,
-    playNextMystery,
-    isLastMystery,
+    seek,
+    seekBy,
+    setPlaybackSpeed,
+    clearError,
   }
 }
