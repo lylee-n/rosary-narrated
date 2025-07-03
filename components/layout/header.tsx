@@ -19,7 +19,7 @@ export function Header() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-black/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full bg-black/90 backdrop-blur-md border-b border-white/10">
       <div className="container mx-auto px-4">
         {/* --- DESKTOP HEADER (UNCHANGED) --- */}
         <div className="hidden md:flex items-center justify-between h-20">
@@ -48,49 +48,53 @@ export function Header() {
           <div className="w-0" />
         </div>
 
-        {/* --- MOBILE HEADER (ENHANCED) --- */}
-        <div className="md:hidden flex flex-col items-center space-y-4 py-3">
-          {/* Row 1: Logo */}
-          <div className="text-2xl font-bold font-sora text-white">
-            Rosary<span className="text-[#FFE552]"> narrated</span>
-          </div>
-          {/* Row 2: Icon Navigation */}
-          <TooltipProvider delayDuration={0}>
-            <nav className="flex items-center justify-center space-x-2">
-              {navItems.map((item) => {
-                const isActive = currentView === item.name
-                const isHighlighted = item.name === "FOUNDATION" || item.name === "HOW"
-                const isGrayed = !isActive && !isHighlighted
+        {/* --- MOBILE HEADER (FIXED FOR SCROLLING) --- */}
+        <div className="md:hidden">
+          <div className="flex flex-col items-center space-y-3 py-3 min-h-[100px]">
+            {/* Row 1: Logo */}
+            <div className="text-xl font-bold font-sora text-white flex-shrink-0">
+              Rosary<span className="text-[#FFE552]"> narrated</span>
+            </div>
+            {/* Row 2: Icon Navigation */}
+            <div className="flex-shrink-0 w-full flex justify-center">
+              <TooltipProvider delayDuration={0}>
+                <nav className="flex items-center justify-center space-x-2">
+                  {navItems.map((item) => {
+                    const isActive = currentView === item.name
+                    const isHighlighted = item.name === "FOUNDATION" || item.name === "HOW"
+                    const isGrayed = !isActive && !isHighlighted
 
-                return (
-                  <Tooltip key={item.name}>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={() => setView(item.name)}
-                        className={`p-2 rounded-full transition-colors ${
-                          isActive
-                            ? "bg-[#FFE552]"
-                            : isHighlighted
-                              ? "hover:bg-white/10 shadow-[0_0_20px_rgba(255,229,82,0.9)] border-2 border-[#FFE552]/70"
-                              : "hover:bg-white/10"
-                        }`}
-                      >
-                        <item.icon
-                          className={`h-5 w-5 ${
-                            isActive ? "text-black" : isGrayed ? "text-white/40" : "text-white/80"
-                          }`}
-                        />
-                        <span className="sr-only">{item.label}</span>
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-black/80 text-white border-gray-700">
-                      <p>{item.label}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                )
-              })}
-            </nav>
-          </TooltipProvider>
+                    return (
+                      <Tooltip key={item.name}>
+                        <TooltipTrigger asChild>
+                          <button
+                            onClick={() => setView(item.name)}
+                            className={`p-2 rounded-full transition-all duration-200 ${
+                              isActive
+                                ? "bg-[#FFE552] transform scale-110"
+                                : isHighlighted
+                                  ? "hover:bg-white/10 shadow-[0_0_20px_rgba(255,229,82,0.9)] border-2 border-[#FFE552]/70 hover:scale-105"
+                                  : "hover:bg-white/10 hover:scale-105"
+                            }`}
+                          >
+                            <item.icon
+                              className={`h-5 w-5 transition-colors ${
+                                isActive ? "text-black" : isGrayed ? "text-white/40" : "text-white/80"
+                              }`}
+                            />
+                            <span className="sr-only">{item.label}</span>
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-black/90 text-white border-gray-700 backdrop-blur-sm">
+                          <p>{item.label}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    )
+                  })}
+                </nav>
+              </TooltipProvider>
+            </div>
+          </div>
         </div>
       </div>
     </header>
