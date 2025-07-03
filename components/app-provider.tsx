@@ -21,7 +21,7 @@ const AppContext = createContext<AppContextType | null>(null)
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>("en")
-  const [currentView, setCurrentView] = useState<ViewType>("WHY") // Default to WHY to show the changes
+  const [currentView, setCurrentView] = useState<ViewType>("FOUNDATION") // Changed from "WHY" to "FOUNDATION"
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<AppError | null>(null)
 

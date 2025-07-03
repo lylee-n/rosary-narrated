@@ -48,7 +48,7 @@ export function Header() {
           <div className="w-0" />
         </div>
 
-        {/* --- MOBILE HEADER (CORRECTED) --- */}
+        {/* --- MOBILE HEADER (ENHANCED) --- */}
         <div className="md:hidden flex flex-col items-center space-y-4 py-3">
           {/* Row 1: Logo */}
           <div className="text-2xl font-bold font-sora text-white">
@@ -59,7 +59,8 @@ export function Header() {
             <nav className="flex items-center justify-center space-x-2">
               {navItems.map((item) => {
                 const isActive = currentView === item.name
-                const hasHalo = !isActive && (item.name === "FOUNDATION" || item.name === "HOW")
+                const isHighlighted = item.name === "FOUNDATION" || item.name === "HOW"
+                const isGrayed = !isActive && !isHighlighted
 
                 return (
                   <Tooltip key={item.name}>
@@ -67,10 +68,18 @@ export function Header() {
                       <button
                         onClick={() => setView(item.name)}
                         className={`p-2 rounded-full transition-colors ${
-                          isActive ? "bg-[#FFE552]" : "hover:bg-white/10"
-                        } ${hasHalo ? "shadow-[0_0_15px_rgba(255,229,82,0.6)] border border-[#FFE552]/40" : ""}`}
+                          isActive
+                            ? "bg-[#FFE552]"
+                            : isHighlighted
+                              ? "hover:bg-white/10 shadow-[0_0_20px_rgba(255,229,82,0.9)] border-2 border-[#FFE552]/70"
+                              : "hover:bg-white/10"
+                        }`}
                       >
-                        <item.icon className={`h-5 w-5 ${isActive ? "text-black" : "text-white/80"}`} />
+                        <item.icon
+                          className={`h-5 w-5 ${
+                            isActive ? "text-black" : isGrayed ? "text-white/40" : "text-white/80"
+                          }`}
+                        />
                         <span className="sr-only">{item.label}</span>
                       </button>
                     </TooltipTrigger>
