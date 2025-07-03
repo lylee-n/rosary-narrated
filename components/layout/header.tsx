@@ -19,12 +19,12 @@ export function Header() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full">
       {/* This div creates the background. It's solid on mobile for performance and blurred on desktop. */}
       <div className="absolute inset-0 bg-black/95 md:bg-black/80 md:backdrop-blur-sm" />
 
       <div className="relative container mx-auto px-4">
-        {/* --- DESKTOP HEADER (RESTORED & UNCHANGED) --- */}
+        {/* --- DESKTOP HEADER (UNCHANGED) --- */}
         <div className="hidden md:flex items-center justify-between h-20">
           <div className="text-2xl font-bold font-sora text-white">
             Rosary<span className="text-[#FFE552]"> narrated</span>
@@ -51,8 +51,8 @@ export function Header() {
           <div className="w-0" />
         </div>
 
-        {/* --- MOBILE HEADER (STABILIZED & CORRECTED SPACING) --- */}
-        <div className="md:hidden flex flex-col items-center justify-center space-y-4 py-3 min-h-[104px]">
+        {/* --- MOBILE HEADER (STABILIZED) --- */}
+        <div className="md:hidden flex flex-col items-center justify-center space-y-4 py-3 h-[104px]">
           {/* Row 1: Logo */}
           <div className="text-xl font-bold font-sora text-white">
             Rosary<span className="text-[#FFE552]"> narrated</span>
