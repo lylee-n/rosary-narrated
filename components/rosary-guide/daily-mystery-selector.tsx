@@ -1,51 +1,87 @@
 "use client"
 
-import { dailyMysteries } from "@/lib/rosary-utils"
+import { CustomButton } from "@/components/ui/custom-button"
 
 interface DailyMysterySelectorProps {
   currentDay: string
-  selectedDay: string
-  onDayClick: (dayName: string) => void
+  selectedDay: string | null
+  onDayClick: (day: string) => void
 }
 
-export const DailyMysterySelector = ({ currentDay, selectedDay, onDayClick }: DailyMysterySelectorProps) => {
+const mysterySchedule = [
+  { day: "Monday", mystery: "Joyful", mysteryType: "Mysteries" },
+  { day: "Tuesday", mystery: "Sorrowful", mysteryType: "Mysteries" },
+  { day: "Wednesday", mystery: "Glorious", mysteryType: "Mysteries" },
+  { day: "Thursday", mystery: "Luminous", mysteryType: "Mysteries" },
+  { day: "Friday", mystery: "Sorrowful", mysteryType: "Mysteries" },
+  { day: "Saturday", mystery: "Joyful", mysteryType: "Mysteries" },
+  { day: "Sunday", mystery: "Glorious", mysteryType: "Mysteries" },
+]
+
+export function DailyMysterySelector({ currentDay, selectedDay, onDayClick }: DailyMysterySelectorProps) {
   return (
-    <div className="max-w-5xl mx-auto text-center mb-16">
-      <p className="text-lg md:text-xl text-gray-300 font-inter font-light leading-relaxed mb-16 text-center">
-        As a general rule:
-      </p>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-3 md:gap-4 text-gray-300 text-sm md:text-base px-4 md:px-0 relative">
-        {dailyMysteries.map((item) => {
-          const isToday = item.day === currentDay
-          const isSelected = item.day === selectedDay
+    <div className="w-full max-w-4xl mx-auto">
+      <p className="text-white/80 text-lg md:text-xl mb-8 md:mb-12">As a general rule:</p>
+
+      {/* Desktop Grid Layout */}
+      <div className="hidden md:grid grid-cols-4 gap-4 lg:gap-6">
+        {mysterySchedule.map(({ day, mystery, mysteryType }) => {
+          const isToday = day === currentDay
+          const isSelected = day === (selectedDay || currentDay)
+
           return (
-            <div key={item.day} className="relative">
-              {isToday && (
-                <p className="text-base text-gray-400 font-inter font-light mb-2 absolute -top-8 left-1/2 transform -translate-x-1/2">
-                  (Today)
-                </p>
-              )}
-              <button
-                onClick={() => onDayClick(item.day)}
-                className="flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 hover:bg-white/10 cursor-pointer w-full"
-              >
-                <p
-                  className={`font-bold text-sm md:text-base ${isSelected ? "text-[#FFE552]" : isToday ? "text-white" : "text-gray-400"}`}
-                >
-                  {item.day}
-                </p>
-                <p
-                  className={`text-center leading-tight text-xs md:text-sm ${isSelected ? "text-[#FFE552]" : isToday ? "text-gray-300" : "text-gray-500"}`}
-                >
-                  {item.mystery}
-                </p>
-                <p
-                  className={`text-center leading-tight text-xs md:text-sm ${isSelected ? "text-[#FFE552]" : isToday ? "text-gray-300" : "text-gray-500"}`}
-                >
-                  Mysteries
-                </p>
-              </button>
-            </div>
+            <CustomButton
+              key={day}
+              onClick={() => onDayClick(day)}
+              variant={isSelected ? "yellow" : "outline"}
+              size="lg"
+              className={`
+                h-auto py-4 px-3 flex flex-col items-center justify-center text-center
+                ${
+                  isSelected
+                    ? "bg-[#FFE552] text-black border-[#FFE552]"
+                    : "bg-white/10 text-white border-white/20 hover:bg-white/20"
+                }
+              `}
+            >
+              <div className="font-sora font-bold text-base mb-1">
+                {day}
+                {isToday && <span className="text-sm font-normal ml-1">(Today)</span>}
+              </div>
+              <div className="font-inter text-sm opacity-80">{mystery}</div>
+              <div className="font-inter text-sm opacity-80">{mysteryType}</div>
+            </CustomButton>
+          )
+        })}
+      </div>
+
+      {/* Mobile Grid Layout */}
+      <div className="md:hidden grid grid-cols-2 gap-3">
+        {mysterySchedule.map(({ day, mystery, mysteryType }) => {
+          const isToday = day === currentDay
+          const isSelected = day === (selectedDay || currentDay)
+
+          return (
+            <CustomButton
+              key={day}
+              onClick={() => onDayClick(day)}
+              variant={isSelected ? "yellow" : "outline"}
+              size="lg"
+              className={`
+                h-auto py-4 px-3 flex flex-col items-center justify-center text-center
+                ${
+                  isSelected
+                    ? "bg-[#FFE552] text-black border-[#FFE552]"
+                    : "bg-white/10 text-white border-white/20 hover:bg-white/20"
+                }
+              `}
+            >
+              {/* Mobile: Show (Today) above the day name */}
+              {isToday && <div className="font-inter text-xs opacity-80 mb-1">(Today)</div>}
+              <div className="font-sora font-bold text-base mb-1">{day}</div>
+              <div className="font-inter text-sm opacity-80">{mystery}</div>
+              <div className="font-inter text-sm opacity-80">{mysteryType}</div>
+            </CustomButton>
           )
         })}
       </div>
