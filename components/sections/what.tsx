@@ -49,7 +49,7 @@ export function WhatSection() {
               <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Interactive Prayer Beads</h2>
             </div>
             <p className="text-base text-gray-300 font-inter leading-relaxed pl-8">
-              Tap each bead, follow the prayers, stay present — beginner friendly.
+              Tap each bead, follow the prayers, stay present.
             </p>
           </div>
         </div>

@@ -22,7 +22,7 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-center h-20">
           <div className="absolute left-4 text-2xl font-bold font-sora text-white">
-            Rosary<span className="text-[#FFE552]">.narrated</span>
+            Rosary<span className="text-[#FFE552]"> narrated</span>
           </div>
           <nav className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (

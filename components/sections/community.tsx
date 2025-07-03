@@ -14,11 +14,9 @@ export function CommunitySection() {
           Community
         </h1>
 
-        {/* Moved text outside of card and centered */}
-        <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed mb-16">
+        <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed mb-8">
           Finding your place in faith can be complicated. We get it. Here, we're building something different.
         </p>
-
         <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">Coming soon ...</p>
       </div>
 
