@@ -9,38 +9,46 @@ interface RosaryVisualizerProps {
 }
 
 export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }: RosaryVisualizerProps) {
-  const renderBead = (element: RosaryElement, index: number) => {
+  const renderBead = (element: RosaryElement) => {
     const isActive = element.id === currentStepId
-    const isCompleted = false // You might want to track completed steps
+    let beadClasses = ""
 
-    let beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
-
-    if (element.type === "cross") {
-      beadClasses =
-        "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative shadow-lg"
-    } else if (element.type === "mystery") {
-      beadClasses = "w-5 h-5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
-    } else if (element.type === "stem") {
-      beadClasses = "w-3.5 h-3.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
-    } else if (element.type === "spacer") {
-      beadClasses =
-        "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 bg-transparent border-transparent opacity-30"
+    switch (element.type) {
+      case "cross":
+        beadClasses =
+          "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative shadow-lg"
+        break
+      case "mystery":
+        beadClasses = "w-5 h-5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
+      case "stem":
+        beadClasses = "w-3.5 h-3.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
+      case "hail-mary":
+        beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
+      case "spacer":
+        // Spacers are non-interactive and invisible
+        beadClasses = "w-1.5 h-1.5 rounded-full bg-transparent border-transparent"
+        break
+      default:
+        beadClasses = "w-2.5 h-2.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
     }
 
     if (isActive) {
       beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
-    } else if (isCompleted) {
-      if (element.type !== "spacer") {
-        beadClasses += " bg-green-500 border-green-500"
-      }
     } else {
-      if (element.type !== "spacer") {
-        beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
-      }
+      beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
     }
 
     return (
-      <div key={element.id} className={beadClasses} onClick={() => onBeadClick(element.id)} title={element.title}>
+      <div
+        key={element.id}
+        className={beadClasses}
+        onClick={element.type !== "spacer" ? () => onBeadClick(element.id) : undefined}
+        title={element.type !== "spacer" ? element.title : ""}
+      >
         {element.type === "cross" && (
           <div className="relative">
             <div className="absolute w-0.5 h-4 bg-current left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
@@ -53,17 +61,19 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
 
   const getEnhancedRosaryElements = () => {
     const mainBeads = rosaryElements.filter((el) => el.type === "mystery" || el.type === "hail-mary")
+
+    // Find M1 and rotate the array to start with it. This is a more robust way to handle positioning.
+    const m1Index = mainBeads.findIndex((bead) => bead.id === "M1")
+    const rotatedBeads = m1Index !== -1 ? [...mainBeads.slice(m1Index), ...mainBeads.slice(0, m1Index)] : mainBeads
+
     const enhancedBeads: RosaryElement[] = []
 
-    for (let i = 0; i < mainBeads.length; i++) {
-      const currentBead = mainBeads[i]
-
+    for (const currentBead of rotatedBeads) {
       if (currentBead.type === "mystery") {
-        const prevDecade = currentBead.id.startsWith("M1") ? "5" : String(Number.parseInt(currentBead.id.charAt(1)) - 1)
         enhancedBeads.push({
-          id: `${prevDecade}.11`,
+          id: `spacer-before-${currentBead.id}`,
           type: "spacer" as const,
-          title: `Spacer before ${currentBead.id}`,
+          title: "",
           content: [],
         })
       }
@@ -71,16 +81,14 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
       enhancedBeads.push(currentBead)
 
       if (currentBead.type === "mystery") {
-        const currentDecade = currentBead.id.charAt(1)
         enhancedBeads.push({
-          id: `${currentDecade}.0`,
+          id: `spacer-after-${currentBead.id}`,
           type: "spacer" as const,
-          title: `Spacer after ${currentBead.id}`,
+          title: "",
           content: [],
         })
       }
     }
-
     return enhancedBeads
   }
 
@@ -94,9 +102,9 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
             <div className="flex justify-center mb-4">
               {rosaryElements
                 .filter((el) => el.type === "cross")
-                .map((element, index) => (
+                .map((element) => (
                   <div key={element.id} className="transform rotate-180">
-                    {renderBead(element, index)}
+                    {renderBead(element)}
                   </div>
                 ))}
             </div>
@@ -104,9 +112,9 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
             <div className="flex flex-col items-center space-y-2 mb-6">
               {rosaryElements
                 .filter((el) => el.type === "stem")
-                .map((element, index) => (
+                .map((element) => (
                   <div key={element.id} className="transform rotate-180">
-                    {renderBead(element, index)}
+                    {renderBead(element)}
                   </div>
                 ))}
             </div>
@@ -115,12 +123,9 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
               <div className="absolute inset-0">
                 {enhancedMainBeads.map((element, index) => {
                   const totalBeads = enhancedMainBeads.length
-                  const m1Index = enhancedMainBeads.findIndex((bead) => bead.id === "M1")
-
-                  // Calculate the angle for each bead, with M1 positioned at the top.
-                  // We treat M1 as the starting point (index 0) for the angle calculation.
-                  const effectiveIndex = (index - (m1Index !== -1 ? m1Index : 0) + totalBeads) % totalBeads
-                  const angle = (effectiveIndex / totalBeads) * 2 * Math.PI - Math.PI / 2
+                  // The array is now rotated, so M1 is at index 1 (after its spacer).
+                  // We position the bead at index 1 at the top of the circle (-90deg).
+                  const angle = ((index - 1) / totalBeads) * 2 * Math.PI - Math.PI / 2
 
                   const radius = 75
                   const x = Math.cos(angle) * radius
@@ -135,7 +140,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                         top: `calc(50% + ${y}px)`,
                       }}
                     >
-                      {renderBead(element, index)}
+                      {renderBead(element)}
                     </div>
                   )
                 })}
@@ -145,9 +150,9 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
             <div className="flex flex-col items-center space-y-2 mt-6">
               {rosaryElements
                 .filter((el) => el.type === "final")
-                .map((element, index) => (
+                .map((element) => (
                   <div key={element.id} className="transform rotate-180">
-                    {renderBead(element, index)}
+                    {renderBead(element)}
                   </div>
                 ))}
             </div>
