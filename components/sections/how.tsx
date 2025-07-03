@@ -106,8 +106,15 @@ export function HowSection() {
           backgroundAttachment: "fixed", // Creates a parallax effect on scroll
         }}
       >
-        {/* Dark Overlay for background image (dark overlay only, no blur) */}
+        {/* Dark Overlay with blur border effect for background image */}
         <div className="absolute inset-0 bg-black/40 z-0" />
+        <div
+          className="absolute inset-0 backdrop-blur-sm z-0"
+          style={{
+            maskImage: "radial-gradient(ellipse at center, transparent 60%, black 80%)",
+            WebkitMaskImage: "radial-gradient(ellipse at center, transparent 60%, black 80%)",
+          }}
+        />
 
         {/* Centered Content (Rosary + Prayer Card) */}
         <div className="container relative mx-auto px-4 z-10 py-16 lg:py-24">

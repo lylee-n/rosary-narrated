@@ -13,13 +13,15 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     const isActive = element.id === currentStepId
     const isCompleted = false // You might want to track completed steps
 
-    let beadClasses = "w-4 h-4 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
+    let beadClasses = "w-3 h-3 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
 
     if (element.type === "cross") {
       beadClasses =
-        "w-6 h-8 cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-lg font-bold"
+        "w-8 h-10 cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-xl font-bold bg-amber-800 border-amber-600 rounded-md shadow-lg"
     } else if (element.type === "mystery") {
       beadClasses = "w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
+    } else if (element.type === "stem") {
+      beadClasses = "w-3 h-3 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
     }
 
     if (isActive) {
@@ -32,7 +34,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
 
     return (
       <div key={element.id} className={beadClasses} onClick={() => onBeadClick(element.id)} title={element.title}>
-        {element.type === "cross" && "✝"}
+        {element.type === "cross" && "†"}
       </div>
     )
   }
@@ -45,7 +47,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
         <div className="absolute inset-0 bg-black/50 backdrop-blur-md rounded-lg" />
 
         {/* Rosary content - flipped upside down so cross is at bottom */}
-        <div className="relative z-10 p-6 transform rotate-180">
+        <div className="relative z-10 p-8 py-12 transform rotate-180">
           <div className="flex flex-col items-center space-y-4">
             {/* Cross - now at bottom due to rotation */}
             <div className="flex justify-center mb-4">
@@ -59,7 +61,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
             </div>
 
             {/* Stem beads (3 Hail Marys + 1 Our Father) */}
-            <div className="flex flex-col items-center space-y-2 mb-6">
+            <div className="flex flex-col items-center space-y-3 mb-8">
               {rosaryElements
                 .filter((el) => el.type === "stem")
                 .map((element, index) => (
