@@ -66,3 +66,9 @@
     font-family: var(--font-sora);
   }
 }
+
+/* Override any button styles that might be interfering */
+button {
+  background: inherit !important;
+  color: inherit !important;
+}

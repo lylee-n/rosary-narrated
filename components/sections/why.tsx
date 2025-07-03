@@ -150,7 +150,24 @@ export function WhySection() {
           <div className="text-center py-16 md:py-24">
             <button
               onClick={() => setView("HOW")}
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 bg-[#FFE552] text-black hover:bg-[#FFD700] shadow-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              style={{
+                backgroundColor: "#FFE552",
+                color: "black",
+                border: "none",
+                borderRadius: "6px",
+                padding: "12px 32px",
+                fontSize: "14px",
+                fontWeight: "500",
+                cursor: "pointer",
+                boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+                transition: "all 0.2s ease-in-out",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = "#FFD700"
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = "#FFE552"
+              }}
             >
               <span className="hidden md:inline">Learn how to pray the Rosary</span>
               <span className="md:hidden">Learn how</span>
