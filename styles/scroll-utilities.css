@@ -1,0 +1,79 @@
+/* Mobile scroll fixes */
+@media (max-width: 768px) {
+  .mobile-scroll-container {
+    /* Ensure full scroll range on mobile */
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Fix for iOS Safari scroll bounce */
+  .mobile-scroll-container {
+    position: relative;
+  }
+
+  /* Prevent scroll issues with fixed backgrounds on mobile */
+  .mobile-bg-fix {
+    background-attachment: scroll !important;
+  }
+
+  /* Fix bottom scroll glitch */
+  body {
+    /* Prevent overscroll bounce */
+    overscroll-behavior-y: contain;
+    /* Ensure consistent height */
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Fix for scroll container */
+  .scroll-container {
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Ensure proper scroll behavior */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Fix for mobile viewport units */
+@supports (height: 100dvh) {
+  .min-h-screen {
+    min-height: 100dvh;
+  }
+}
+
+/* Modal specific mobile fixes */
+@media (max-width: 768px) {
+  .modal-mobile-fix {
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+  }
+}
+
+/* Prevent scroll bounce and glitches */
+html {
+  overscroll-behavior: contain;
+}
+
+body {
+  overscroll-behavior-y: contain;
+}
+
+/* Fix for bottom scroll glitch specifically */
+@media (max-width: 768px) {
+  .main-content-container {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    margin-bottom: 0;
+  }
+
+  /* Ensure footer is always visible */
+  .footer-container {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+}
