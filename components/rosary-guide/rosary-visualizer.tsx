@@ -38,7 +38,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
 
     if (isActive) {
       beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
-    } else {
+    } else if (element.type !== "spacer") {
       beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
     }
 
