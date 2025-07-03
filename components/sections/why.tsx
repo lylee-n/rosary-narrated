@@ -148,19 +148,13 @@ export function WhySection() {
       <div className="w-full bg-black/30">
         <div className="container mx-auto px-4">
           <div className="text-center py-16 md:py-24">
-            <button
+            <div
               onClick={() => setView("HOW")}
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 cursor-pointer transition-all duration-200"
               style={{
                 backgroundColor: "#FFE552",
-                color: "black",
-                border: "none",
-                borderRadius: "6px",
-                padding: "12px 32px",
-                fontSize: "14px",
-                fontWeight: "500",
-                cursor: "pointer",
+                color: "#000000",
                 boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-                transition: "all 0.2s ease-in-out",
               }}
               onMouseEnter={(e) => {
                 e.target.style.backgroundColor = "#FFD700"
@@ -171,7 +165,7 @@ export function WhySection() {
             >
               <span className="hidden md:inline">Learn how to pray the Rosary</span>
               <span className="md:hidden">Learn how</span>
-            </button>
+            </div>
           </div>
         </div>
       </div>
