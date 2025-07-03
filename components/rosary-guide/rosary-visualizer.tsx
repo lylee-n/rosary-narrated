@@ -13,13 +13,13 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     const isActive = element.id === currentStepId
     const isCompleted = false // You might want to track completed steps
 
-    // Default size for Hail Mary beads - reduced to prevent overlap
-    let beadClasses = "w-3 h-3 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
+    // Halved size for Hail Mary beads - reduced to prevent overlap
+    let beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
 
     if (element.type === "cross") {
-      // Minimalist cross styling
+      // Circular cross styling for consistency with rounded beads
       beadClasses =
-        "w-6 h-8 cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-base font-normal relative"
+        "w-7 h-7 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative bg-amber-800 border-amber-600 shadow-lg"
     } else if (element.type === "mystery") {
       beadClasses = "w-5 h-5 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
     } else if (element.type === "stem") {
@@ -38,10 +38,9 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
       <div key={element.id} className={beadClasses} onClick={() => onBeadClick(element.id)} title={element.title}>
         {element.type === "cross" && (
           <div className="relative">
-            {/* Minimalist cross - vertical line */}
-            <div className="absolute w-0.5 h-5 bg-current left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-            {/* Minimalist cross - horizontal line */}
-            <div className="absolute w-3 h-0.5 bg-current left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-1"></div>
+            {/* Vector-style minimalist cross in circle */}
+            <div className="absolute w-0.5 h-4 bg-white left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
+            <div className="absolute w-3 h-0.5 bg-white left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-0.5 rounded-full"></div>
           </div>
         )}
       </div>
@@ -50,11 +49,8 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
 
   return (
     <div className="lg:w-[35%] flex items-center justify-center">
-      {/* Container with dark overlay and blur matching prayer card - extended height */}
-      <div className="relative rounded-lg overflow-hidden">
-        {/* Dark overlay and blur background */}
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-md rounded-lg" />
-
+      {/* Container with glass-like effect matching the prayer card */}
+      <div className="relative rounded-xl overflow-hidden border border-white/20 bg-black/30 backdrop-blur-sm shadow-2xl">
         {/* Rosary content - flipped upside down so cross is at bottom - extended container height */}
         <div className="relative z-10 px-6 py-8 h-[650px] lg:h-[600px] transform rotate-180 flex items-center justify-center">
           <div className="flex flex-col items-center space-y-4">
