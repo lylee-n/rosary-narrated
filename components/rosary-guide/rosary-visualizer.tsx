@@ -13,21 +13,16 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     const isActive = element.id === currentStepId
     const isCompleted = false // You might want to track completed steps
 
-    // Halved size for Hail Mary beads - reduced to prevent overlap
     let beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
 
     if (element.type === "cross") {
-      // Cross styling - removed wooden styling, now matches other beads when inactive
       beadClasses =
         "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative shadow-lg"
     } else if (element.type === "mystery") {
-      // Reduced border thickness for Mystery beads from border-2 to border
       beadClasses = "w-5 h-5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
     } else if (element.type === "stem") {
-      // Thinner border for stem beads
       beadClasses = "w-3.5 h-3.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
     } else if (element.type === "spacer") {
-      // Transparent spacer beads - same size as Hail Mary beads but transparent
       beadClasses =
         "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 bg-transparent border-transparent opacity-30"
     }
@@ -40,7 +35,6 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
       }
     } else {
       if (element.type !== "spacer") {
-        // All beads (including cross) now use the same styling when inactive
         beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
       }
     }
@@ -49,7 +43,6 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
       <div key={element.id} className={beadClasses} onClick={() => onBeadClick(element.id)} title={element.title}>
         {element.type === "cross" && (
           <div className="relative">
-            {/* Vector-style minimalist cross in circle */}
             <div className="absolute w-0.5 h-4 bg-current left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
             <div className="absolute w-3 h-0.5 bg-current left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-0.5 rounded-full"></div>
           </div>
@@ -58,15 +51,13 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     )
   }
 
-  // Function to insert spacer beads into the rosary elements
   const getEnhancedRosaryElements = () => {
     const mainBeads = rosaryElements.filter((el) => el.type === "mystery" || el.type === "hail-mary")
-    const enhancedBeads = []
+    const enhancedBeads: RosaryElement[] = []
 
     for (let i = 0; i < mainBeads.length; i++) {
       const currentBead = mainBeads[i]
 
-      // Add spacer before Mystery beads
       if (currentBead.type === "mystery") {
         const prevDecade = currentBead.id.startsWith("M1") ? "5" : String(Number.parseInt(currentBead.id.charAt(1)) - 1)
         enhancedBeads.push({
@@ -79,7 +70,6 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
 
       enhancedBeads.push(currentBead)
 
-      // Add spacer after Mystery beads
       if (currentBead.type === "mystery") {
         const currentDecade = currentBead.id.charAt(1)
         enhancedBeads.push({
@@ -98,12 +88,9 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
 
   return (
     <div className="lg:w-[35%] flex items-center justify-center">
-      {/* Container with glass-like effect - changed to bg-white/10 */}
       <div className="relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
-        {/* Rosary content - flipped upside down so cross is at bottom - extended container height */}
         <div className="relative z-10 px-6 py-8 h-[650px] lg:h-[600px] transform rotate-180 flex items-center justify-center">
           <div className="flex flex-col items-center space-y-4">
-            {/* Cross - now at bottom due to rotation */}
             <div className="flex justify-center mb-4">
               {rosaryElements
                 .filter((el) => el.type === "cross")
@@ -114,7 +101,6 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                 ))}
             </div>
 
-            {/* Stem beads (3 Hail Marys + 1 Our Father) */}
             <div className="flex flex-col items-center space-y-2 mb-6">
               {rosaryElements
                 .filter((el) => el.type === "stem")
@@ -125,30 +111,20 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                 ))}
             </div>
 
-            {/* Main rosary loop with enhanced beads including spacers */}
             <div className="relative w-44 h-44">
-              {/* Circular arrangement of decades */}
               <div className="absolute inset-0">
                 {enhancedMainBeads.map((element, index) => {
                   const totalBeads = enhancedMainBeads.length
-
-                  // Find M1 index to calculate proper offset
                   const m1Index = enhancedMainBeads.findIndex((bead) => bead.id === "M1")
 
-                  // Calculate angle with M1 positioned at the top (directly above center)
-                  // Start from top (-π/2) and distribute beads evenly
-                  let baseAngle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
+                  // Calculate the angle for each bead, with M1 positioned at the top.
+                  // We treat M1 as the starting point (index 0) for the angle calculation.
+                  const effectiveIndex = (index - (m1Index !== -1 ? m1Index : 0) + totalBeads) % totalBeads
+                  const angle = (effectiveIndex / totalBeads) * 2 * Math.PI - Math.PI / 2
 
-                  // Calculate offset to position M1 at the top
-                  if (m1Index !== -1) {
-                    const m1BaseAngle = (m1Index / totalBeads) * 2 * Math.PI - Math.PI / 2
-                    const offsetAngle = -m1BaseAngle // This will move M1 to -π/2 (top)
-                    baseAngle += offsetAngle
-                  }
-
-                  const radius = 75 // Base radius
-                  const x = Math.cos(baseAngle) * radius
-                  const y = Math.sin(baseAngle) * radius
+                  const radius = 75
+                  const x = Math.cos(angle) * radius
+                  const y = Math.sin(angle) * radius
 
                   return (
                     <div
@@ -166,7 +142,6 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
               </div>
             </div>
 
-            {/* Final prayers */}
             <div className="flex flex-col items-center space-y-2 mt-6">
               {rosaryElements
                 .filter((el) => el.type === "final")
