@@ -33,7 +33,9 @@ export function Header() {
                 className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                   currentView === item.name
                     ? "text-black bg-[#FFE552]"
-                    : "text-white/80 hover:text-white hover:bg-white/10"
+                    : item.name === "FOUNDATION" || item.name === "HOW"
+                      ? "text-white/80 hover:text-white hover:bg-white/10 shadow-[0_0_15px_rgba(255,229,82,0.5)] border border-[#FFE552]/30"
+                      : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {item.label}

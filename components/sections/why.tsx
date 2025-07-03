@@ -27,7 +27,7 @@ export function WhySection() {
       <div
         className="relative w-full"
         style={{
-          backgroundImage: "url('/images/Mary-womb-golden-light.png')",
+          backgroundImage: "url('/images/background.gif')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed", // Creates a parallax effect on scroll
@@ -38,59 +38,63 @@ export function WhySection() {
 
         {/* Centered Content (3 Glass Cards) */}
         <div className="container relative mx-auto px-4 z-10 py-16 lg:py-24">
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
-            {/* Card 1: Spiritual Benefits */}
-            <div className="w-full h-[550px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
-              <div className="relative z-10 flex flex-col h-full p-8">
-                <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">Spiritual Benefits</h3>
-                <div className="flex-1 space-y-4 text-white/90">
-                  <div className="flex items-start space-x-3">
-                    <span className="text-[#FFE552] mt-1">•</span>
-                    <span>Deepens your relationship with Jesus and Mary</span>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <span className="text-[#FFE552] mt-1">•</span>
-                    <span>Brings peace and tranquility to your mind and heart</span>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <span className="text-[#FFE552] mt-1">•</span>
-                    <span>Strengthens your faith and trust in God</span>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <span className="text-[#FFE552] mt-1">•</span>
-                    <span>Provides protection from evil and temptation</span>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <span className="text-[#FFE552] mt-1">•</span>
-                    <span>Helps you meditate on the life of Christ</span>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <span className="text-[#FFE552] mt-1">•</span>
-                    <span>Brings healing and comfort in times of suffering</span>
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+            <div className="space-y-8">
+              {/* Card 1: Spiritual Benefits */}
+              <div className="w-full h-[400px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
+                <div className="relative z-10 flex flex-col h-full p-8">
+                  <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">Spiritual Benefits</h3>
+                  <div className="flex-1 space-y-4 text-white/90">
+                    <div className="flex items-start space-x-3">
+                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span>Deepens your relationship with Jesus and Mary</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span>Brings peace and tranquility to your mind and heart</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span>Strengthens your faith and trust in God</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span>Provides protection from evil and temptation</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span>Helps you meditate on the life of Christ</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span>Brings healing and comfort in times of suffering</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Card 2: Historical Significance */}
-            <div className="w-full h-[550px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
-              <div className="relative z-10 flex flex-col h-full p-8">
-                <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">Historical Significance</h3>
-                <div className="flex-1 space-y-4 text-white/90 leading-relaxed">
-                  <p>
-                    The Rosary has been prayed by Catholics for over 800 years. It was given to St. Dominic by the
-                    Blessed Virgin Mary herself as a powerful weapon against heresy and sin.
-                  </p>
-                  <p>
-                    Throughout history, the Rosary has been credited with numerous miracles, including the victory at
-                    the Battle of Lepanto in 1571, which saved Christian Europe from Ottoman invasion.
-                  </p>
+              {/* Card 2: Historical Significance */}
+              <div className="w-full h-[400px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
+                <div className="relative z-10 flex flex-col h-full p-8">
+                  <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">
+                    Historical Significance
+                  </h3>
+                  <div className="flex-1 space-y-4 text-white/90 leading-relaxed">
+                    <p>
+                      The Rosary has been prayed by Catholics for over 800 years. It was given to St. Dominic by the
+                      Blessed Virgin Mary herself as a powerful weapon against heresy and sin.
+                    </p>
+                    <p>
+                      Throughout history, the Rosary has been credited with numerous miracles, including the victory at
+                      the Battle of Lepanto in 1571, which saved Christian Europe from Ottoman invasion.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Card 3: The 15 Promises */}
-            <div className="w-full h-[550px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
+            <div className="w-full h-[820px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
               <div className="relative z-10 flex flex-col h-full p-8">
                 <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">The 15 Promises</h3>
                 <div className="flex-1 overflow-y-auto pr-4">
