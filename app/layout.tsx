@@ -1,25 +1,27 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Sora } from "next/font/google"
-import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "@/components/ui/sonner"
-import { ErrorBoundary } from "@/components/ui/error-boundary"
+import { Toaster } from "@/components/ui/toaster"
+import { AppProvider } from "@/components/app-provider"
+import "./globals.css"
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
 })
 
 const sora = Sora({
   subsets: ["latin"],
   variable: "--font-sora",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
-  title: "Rosary Course - Guided Prayer Experience",
-  description: "Experience the beauty of the Rosary with guided prayers and reflections for all ages.",
-  keywords: ["rosary", "prayer", "catholic", "meditation", "spiritual", "guided prayer"],
+  title: "Rosary Course - Learn to Pray the Rosary",
+  description: "A comprehensive course to learn how to pray the Holy Rosary with audio guidance and visual aids.",
+  keywords: "rosary, prayer, catholic, meditation, holy rosary, mysteries",
   authors: [{ name: "Rosary Course Team" }],
   creator: "Rosary Course",
   publisher: "Rosary Course",
@@ -30,8 +32,8 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL("https://rosary-course.vercel.app"),
   openGraph: {
-    title: "Rosary Course - Guided Prayer Experience",
-    description: "Experience the beauty of the Rosary with guided prayers and reflections for all ages.",
+    title: "Rosary Course - Learn to Pray the Rosary",
+    description: "A comprehensive course to learn how to pray the Holy Rosary with audio guidance and visual aids.",
     url: "https://rosary-course.vercel.app",
     siteName: "Rosary Course",
     locale: "en_US",
@@ -39,8 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rosary Course - Guided Prayer Experience",
-    description: "Experience the beauty of the Rosary with guided prayers and reflections for all ages.",
+    title: "Rosary Course - Learn to Pray the Rosary",
+    description: "A comprehensive course to learn how to pray the Holy Rosary with audio guidance and visual aids.",
   },
   robots: {
     index: true,
@@ -63,13 +65,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${sora.variable} font-inter antialiased`}>
-        <ErrorBoundary>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+      <body className={`${inter.variable} ${sora.variable} font-sans antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+          <AppProvider>
             {children}
             <Toaster />
-          </ThemeProvider>
-        </ErrorBoundary>
+          </AppProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
