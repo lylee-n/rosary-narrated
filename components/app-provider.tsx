@@ -21,8 +21,7 @@ const AppContext = createContext<AppContextType | null>(null)
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>("en")
-  // FORCING "WHAT" VIEW ON LOAD TO DEBUG
-  const [currentView, setCurrentView] = useState<ViewType>("WHAT")
+  const [currentView, setCurrentView] = useState<ViewType>("WHY") // Default to WHY to show the changes
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<AppError | null>(null)
 

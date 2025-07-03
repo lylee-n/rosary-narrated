@@ -1,7 +1,6 @@
 "use client"
 
 import { useApp } from "@/components/app-provider"
-import { CustomButton } from "@/components/ui/custom-button"
 import { BookOpen, Church, Handshake, Heart, HelpCircle, Rss, Sparkles } from "lucide-react"
 import type { NavItem } from "@/lib/types"
 
@@ -42,11 +41,6 @@ export function Header() {
               </button>
             ))}
           </nav>
-          <div className="hidden md:block">
-            <CustomButton variant="yellow" size="sm">
-              Pray Now
-            </CustomButton>
-          </div>
         </div>
       </div>
     </header>
