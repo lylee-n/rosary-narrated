@@ -131,22 +131,24 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
               <div className="absolute inset-0">
                 {enhancedMainBeads.map((element, index) => {
                   const totalBeads = enhancedMainBeads.length
-                  // Adjust the starting angle to center M1 above S5 (top of circle)
-                  // Start at -π/2 (top) and find M1's position to align it properly
-                  let angle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
 
-                  // Find the M1 bead index to calculate offset needed for centering
+                  // Find M1 index to calculate proper offset
                   const m1Index = enhancedMainBeads.findIndex((bead) => bead.id === "M1")
+
+                  // Calculate angle with M1 positioned at the top (directly above center)
+                  // Start from top (-π/2) and distribute beads evenly
+                  let baseAngle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
+
+                  // Calculate offset to position M1 at the top
                   if (m1Index !== -1) {
-                    // Calculate the offset needed to center M1 at the top
-                    const m1CurrentAngle = (m1Index / totalBeads) * 2 * Math.PI - Math.PI / 2
-                    const offsetAngle = -m1CurrentAngle // Offset to move M1 to top (0 radians from -π/2)
-                    angle += offsetAngle
+                    const m1BaseAngle = (m1Index / totalBeads) * 2 * Math.PI - Math.PI / 2
+                    const offsetAngle = -m1BaseAngle // This will move M1 to -π/2 (top)
+                    baseAngle += offsetAngle
                   }
 
                   const radius = 75 // Base radius
-                  const x = Math.cos(angle) * radius
-                  const y = Math.sin(angle) * radius
+                  const x = Math.cos(baseAngle) * radius
+                  const y = Math.sin(baseAngle) * radius
 
                   return (
                     <div
