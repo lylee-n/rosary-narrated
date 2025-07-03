@@ -10,7 +10,10 @@ export function WhatSection() {
         backgroundImage: "url('/images/jesus-resurrected.png')",
       }}
     >
+      {/* This div creates the dark overlay on top of the background image */}
       <div className="absolute inset-0 bg-black/60" />
+
+      {/* This div holds the content and sits on top of the overlay */}
       <div className="relative z-10 container mx-auto px-4 py-16">
         <div className="text-center mb-16">
           <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-12">
