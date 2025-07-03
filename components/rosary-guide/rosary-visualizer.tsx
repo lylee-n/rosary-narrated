@@ -9,28 +9,6 @@ interface RosaryVisualizerProps {
 }
 
 export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }: RosaryVisualizerProps) {
-  // Helper function to check if a bead is one of the specifically affected beads
-  const isAffectedBead = (id: string): boolean => {
-    const affectedBeads = [
-      "1.1",
-      "1.10",
-      "2.1",
-      "2.10",
-      "3.1",
-      "3.10",
-      "4.1",
-      "4.10",
-      "5.1",
-      "5.10",
-      "M1",
-      "M2",
-      "M3",
-      "M4",
-      "M5",
-    ]
-    return affectedBeads.includes(id)
-  }
-
   const renderBead = (element: RosaryElement, index: number) => {
     const isActive = element.id === currentStepId
     const isCompleted = false // You might want to track completed steps
@@ -39,9 +17,9 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     let beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
 
     if (element.type === "cross") {
-      // Circular cross styling with thinner border
+      // Circular cross styling - thinner border, yellow when active
       beadClasses =
-        "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative"
+        "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative shadow-lg"
     } else if (element.type === "mystery") {
       beadClasses = "w-5 h-5 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
     } else if (element.type === "stem") {
@@ -50,7 +28,6 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     }
 
     if (isActive) {
-      // Cross should also be yellow when active
       if (element.type === "cross") {
         beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
       } else {
@@ -60,7 +37,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
       beadClasses += " bg-green-500 border-green-500"
     } else {
       if (element.type === "cross") {
-        beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
+        beadClasses += " bg-amber-800 border-amber-600"
       } else {
         beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
       }
@@ -79,9 +56,30 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     )
   }
 
+  // Function to get specific positioning adjustments for overlapping beads
+  const getBeadPositionAdjustment = (element: RosaryElement, index: number) => {
+    const beadId = element.id
+
+    // Specific adjustments for overlapping beads
+    const adjustments: { [key: string]: { x: number; y: number } } = {
+      "1.1": { x: -3, y: 0 }, // Move away from M1
+      "1.10": { x: 3, y: -3 }, // Move away from M2
+      "2.1": { x: 3, y: -3 }, // Move away from M2
+      "2.10": { x: 3, y: 0 }, // Move away from M3
+      "3.1": { x: 3, y: 0 }, // Move away from M3
+      "3.10": { x: 0, y: 3 }, // Move away from M4
+      "4.1": { x: 0, y: 3 }, // Move away from M4
+      "4.10": { x: -3, y: 3 }, // Move away from M5
+      "5.1": { x: -3, y: 3 }, // Move away from M5
+      "5.10": { x: -3, y: 0 }, // Move away from M1
+    }
+
+    return adjustments[beadId] || { x: 0, y: 0 }
+  }
+
   return (
     <div className="lg:w-[35%] flex items-center justify-center">
-      {/* Container with glass-like effect matching the prayer card - changed to bg-white/15 */}
+      {/* Container with glass-like effect - changed to bg-white/15 */}
       <div className="relative rounded-xl overflow-hidden border border-white/20 bg-white/15 backdrop-blur-sm shadow-2xl">
         {/* Rosary content - flipped upside down so cross is at bottom - extended container height */}
         <div className="relative z-10 px-6 py-8 h-[650px] lg:h-[600px] transform rotate-180 flex items-center justify-center">
@@ -108,7 +106,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                 ))}
             </div>
 
-            {/* Main rosary loop - with specific bead positioning */}
+            {/* Main rosary loop - adjusted radius to fit better */}
             <div className="relative w-44 h-44">
               {/* Circular arrangement of decades */}
               <div className="absolute inset-0">
@@ -118,25 +116,15 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                     const totalBeads = rosaryElements.filter(
                       (el) => el.type === "mystery" || el.type === "hail-mary",
                     ).length
-
-                    // Calculate angle for each bead
-                    let angle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
-
-                    // Apply specific adjustments for affected beads
-                    if (element.id === "1.1") angle -= 0.05 // Move away from M1
-                    if (element.id === "1.10") angle += 0.05 // Move away from M2
-                    if (element.id === "2.1") angle -= 0.05 // Move away from M2
-                    if (element.id === "2.10") angle += 0.05 // Move away from M3
-                    if (element.id === "3.1") angle -= 0.05 // Move away from M3
-                    if (element.id === "3.10") angle += 0.05 // Move away from M4
-                    if (element.id === "4.1") angle -= 0.05 // Move away from M4
-                    if (element.id === "4.10") angle += 0.05 // Move away from M5
-                    if (element.id === "5.1") angle -= 0.05 // Move away from M5
-                    if (element.id === "5.10") angle += 0.05 // Move away from M1
-
+                    const angle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
                     const radius = 75 // Base radius
-                    const x = Math.cos(angle) * radius
-                    const y = Math.sin(angle) * radius
+                    const baseX = Math.cos(angle) * radius
+                    const baseY = Math.sin(angle) * radius
+
+                    // Get specific position adjustments for overlapping beads
+                    const adjustment = getBeadPositionAdjustment(element, index)
+                    const x = baseX + adjustment.x
+                    const y = baseY + adjustment.y
 
                     return (
                       <div
