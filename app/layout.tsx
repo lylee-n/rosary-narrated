@@ -2,7 +2,9 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Sora } from "next/font/google"
 import "./globals.css"
-import { AppLayout } from "@/components/layout/app-layout"
+import { AppProvider } from "@/components/app-provider"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const sora = Sora({ subsets: ["latin"], variable: "--font-sora" })
@@ -20,8 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${sora.variable} font-sans`}>
-        <AppLayout>{children}</AppLayout>
+      <body className={`${inter.variable} ${sora.variable} font-sans bg-black text-white`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <AppProvider>
+            {children}
+            <Toaster />
+          </AppProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

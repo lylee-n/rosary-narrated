@@ -18,7 +18,9 @@ export function FloatingSupportButton() {
   }
 
   const supportButtonElement = (
-    <div className="fixed bottom-4 right-4 z-[9999]">
+    // THE FIX: Added `pointer-events-auto` to the button's container.
+    // This explicitly makes the button and its container interactive again.
+    <div className="fixed bottom-4 right-4 z-[9999] pointer-events-auto">
       <button
         onClick={() => setView("SUPPORT")}
         className="relative flex items-center justify-center text-black hover:scale-110 transition-all duration-300 group"
