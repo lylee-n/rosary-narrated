@@ -1,23 +1,19 @@
 "use client"
 
-import { useApp } from "@/components/app-provider"
-
 export function CommunitySection() {
-  const { setView } = useApp()
-
   return (
-    <div className="container mx-auto px-4 py-16">
-      {/* Community Header */}
-      <div className="text-center mb-16">
-        <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-12">
-          Community
-        </h1>
+    <section className="min-h-screen flex items-center justify-center px-4 py-20">
+      <div className="max-w-4xl mx-auto text-center space-y-8">
+        <h1 className="text-5xl md:text-7xl font-bold font-sora text-white mb-8">Community</h1>
 
-        <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed mb-8">
-          Finding your place in faith can be complicated. We get it. Here, we're building something different.
+        <p className="text-xl md:text-2xl text-white/80 leading-relaxed mb-8">
+          Finding your place in a community of believers who share your devotion to the Rosary creates bonds that
+          transcend the ordinary. Here, faith becomes fellowship, and prayer becomes a shared journey toward deeper
+          spiritual understanding.
         </p>
-        <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">Coming soon ...</p>
+
+        <p className="text-lg text-white/60">Coming soon ...</p>
       </div>
-    </div>
+    </section>
   )
 }
