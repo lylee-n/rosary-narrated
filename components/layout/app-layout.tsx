@@ -1,29 +1,27 @@
 "use client"
 
 import type React from "react"
-
-import { AppProvider } from "@/components/app-provider"
-import { FloatingSupportButton } from "@/components/ui/floating-support-button"
-import { Toaster } from "@/components/ui/toaster"
-import { TooltipProvider } from "@/components/ui/tooltip"
 import { Header } from "./header"
+import { Footer } from "./footer"
+import { FloatingSupportButton } from "@/components/ui/floating-support-button"
+import { AppProvider } from "@/components/app-provider"
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { Toaster } from "@/components/ui/toaster"
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <AppProvider>
       <TooltipProvider>
-        <div className="relative min-h-screen">
-          {/* Animated background - z-[-1] keeps it behind everything */}
-          <div
-            className="fixed inset-0 z-[-1] bg-[url('/images/background.gif')] bg-cover bg-center pointer-events-none"
-            style={{ transform: "translateZ(0)" }}
-          />
+        {/* Global Background Layer */}
+        {/* This div is fixed to the viewport, sits at the very bottom of the z-index stack, and ignores all clicks. */}
+        <div className="fixed inset-0 z-[-1] bg-[url('/images/background.gif')] bg-cover bg-center pointer-events-none" />
 
+        {/* Content Layer */}
+        {/* This div contains all the interactive content and establishes the main stacking context. */}
+        <div className="relative z-0 flex flex-col min-h-screen">
           <Header />
-
-          {/* Main content area - REMOVED style={{ transform: "translateZ(0)" }} */}
-          <main className="relative z-0">{children}</main>
-
+          <main className="flex-grow">{children}</main>
+          <Footer />
           <FloatingSupportButton />
           <Toaster />
         </div>

@@ -2,12 +2,17 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Sora } from "next/font/google"
 import "./globals.css"
-import { AppProvider } from "@/components/app-provider"
-import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "@/components/ui/toaster"
+import { AppLayout } from "@/components/layout/app-layout"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const sora = Sora({ subsets: ["latin"], variable: "--font-sora" })
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+})
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
+})
 
 export const metadata: Metadata = {
   title: "Rosary Narrated",
@@ -21,14 +26,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${sora.variable} font-sans bg-black text-white`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <AppProvider>
-            {children}
-            <Toaster />
-          </AppProvider>
-        </ThemeProvider>
+    <html lang="en" className="dark">
+      <body className={`${inter.variable} ${sora.variable} pt-[104px] md:pt-20`}>
+        <AppLayout>{children}</AppLayout>
       </body>
     </html>
   )
