@@ -106,8 +106,8 @@ export function HowSection() {
           backgroundAttachment: "fixed", // Creates a parallax effect on scroll
         }}
       >
-        {/* Dark Overlay with blur for background image */}
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-0" />
+        {/* Dark Overlay for background image (dark overlay only, no blur) */}
+        <div className="absolute inset-0 bg-black/50 z-0" />
 
         {/* Centered Content (Rosary + Prayer Card) */}
         <div className="container relative mx-auto px-4 z-10 py-16 lg:py-24">
