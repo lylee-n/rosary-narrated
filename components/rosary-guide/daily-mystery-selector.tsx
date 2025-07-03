@@ -14,7 +14,9 @@ export const DailyMysterySelector = memo(function DailyMysterySelector({
   selectedMysterySetIndex,
   onMysterySetChange,
 }: DailyMysteryProps) {
-  const { t } = useTranslations()
+  // useTranslations returns an object whose keys map to translated strings
+  const translations = useTranslations()
+  const tr = (key: string) => (translations as Record<string, string>)[key] ?? key
 
   const getDayOfWeek = () => {
     const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
@@ -34,8 +36,8 @@ export const DailyMysterySelector = memo(function DailyMysterySelector({
   return (
     <div className="w-full max-w-4xl mx-auto px-4">
       <div className="text-center mb-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{t("howToPrayRosary")}</h2>
-        <p className="text-white/80 text-lg">{t("generalRule")}</p>
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{tr("howToPrayRosary")}</h2>
+        <p className="text-white/80 text-lg">{tr("generalRule")}</p>
       </div>
 
       {/* Desktop Grid Layout */}
@@ -68,10 +70,10 @@ export const DailyMysterySelector = memo(function DailyMysterySelector({
               `}
             >
               <div className="font-semibold text-lg capitalize">
-                {t(day)} {isToday && "(Today)"}
+                {tr(day)} {isToday && "(Today)"}
               </div>
               <div className="text-sm opacity-80 capitalize">
-                {t(mystery)} {t("mysteries")}
+                {tr(mystery)} {tr("mysteries")}
               </div>
             </button>
           )
@@ -108,9 +110,9 @@ export const DailyMysterySelector = memo(function DailyMysterySelector({
               `}
             >
               {isToday && <div className="text-xs text-[#82FAFA] font-medium mb-1">(Today)</div>}
-              <div className="font-semibold text-base capitalize">{t(day)}</div>
+              <div className="font-semibold text-base capitalize">{tr(day)}</div>
               <div className="text-xs opacity-80 capitalize">
-                {t(mystery)} {t("mysteries")}
+                {tr(mystery)} {tr("mysteries")}
               </div>
             </button>
           )
