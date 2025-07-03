@@ -45,27 +45,33 @@ export function WhySection() {
 
         {/* The 15 Promises Card */}
         <div className="max-w-4xl mx-auto mb-24">
-          <div className="relative bg-[url('/images/Mary-womb-golden-light.png')] bg-cover bg-center bg-no-repeat rounded-lg p-8 overflow-hidden">
+          <div className="relative bg-[url('/images/Mary-womb-golden-light.png')] bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden">
             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm border border-gray-700/50 rounded-lg"></div>
             <div className="relative z-10">
-              <h2 className="text-white font-sora text-2xl md:text-3xl font-semibold mb-8 text-center">
-                The 15 Promises of Our Lady to Those Who Pray the Rosary
-              </h2>
-              <div className="space-y-4">
-                {promises.map((promise, index) => (
-                  <div
-                    key={index}
-                    className="grid grid-cols-[2.5rem_1fr] gap-3 transition-transform duration-200 hover:-translate-y-1 cursor-pointer"
-                  >
-                    <span className="text-[#82FAFA] font-bold mt-1">{index + 1}.</span>
-                    <p className="text-gray-300 font-inter leading-relaxed text-base">{promise}</p>
-                  </div>
-                ))}
+              {/* Heading with solid black background */}
+              <div className="bg-black py-6 px-8">
+                <h2 className="text-white font-sora text-2xl md:text-3xl font-semibold text-center mb-0">
+                  The 15 Promises of Our Lady to Those Who Pray the Rosary
+                </h2>
               </div>
-              <div className="mt-8 text-center">
-                <p className="text-gray-400 font-inter text-sm italic">
-                  (Given to St. Dominic and Blessed Alan de la Roche)
-                </p>
+              {/* Promises content with padding */}
+              <div className="p-8 pt-4">
+                <div className="space-y-4">
+                  {promises.map((promise, index) => (
+                    <div
+                      key={index}
+                      className="grid grid-cols-[2.5rem_1fr] gap-3 transition-transform duration-200 hover:-translate-y-1 cursor-pointer"
+                    >
+                      <span className="text-[#82FAFA] font-bold mt-1">{index + 1}.</span>
+                      <p className="text-gray-300 font-inter leading-relaxed text-base">{promise}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-8 text-center">
+                  <p className="text-gray-400 font-inter text-sm italic">
+                    (Given to St. Dominic and Blessed Alan de la Roche)
+                  </p>
+                </div>
               </div>
             </div>
           </div>
