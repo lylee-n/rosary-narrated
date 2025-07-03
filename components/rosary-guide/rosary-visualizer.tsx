@@ -1,115 +1,162 @@
 "use client"
 
-import { Cross } from "lucide-react"
-import { cn } from "@/lib/utils"
 import type { RosaryElement } from "@/types"
 
 interface RosaryVisualizerProps {
   rosaryElements: RosaryElement[]
   currentStepId: string
-  onBeadClick: (id: string) => void
+  onBeadClick: (stepId: string) => void
 }
 
-export const RosaryVisualizer = ({ rosaryElements, currentStepId, onBeadClick }: RosaryVisualizerProps) => {
-  const renderBead = (element: RosaryElement, index: number) => {
+export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }: RosaryVisualizerProps) {
+  const renderBead = (element: RosaryElement) => {
     const isActive = element.id === currentStepId
-    const isClickable = element.type !== "spacer"
+    let beadClasses = ""
 
-    // Make spacer beads completely transparent
-    if (element.type === "spacer") {
-      return <div key={element.id} className="w-4 h-4 opacity-0 pointer-events-none" />
+    switch (element.type) {
+      case "cross":
+        beadClasses =
+          "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative shadow-lg"
+        break
+      case "mystery":
+        beadClasses = "w-5 h-5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
+      case "stem":
+        beadClasses = "w-3.5 h-3.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
+      case "hail-mary":
+        beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
+      case "spacer":
+        // Spacers are non-interactive and invisible
+        beadClasses = "w-1.5 h-1.5 rounded-full bg-transparent border-transparent"
+        break
+      default:
+        beadClasses = "w-2.5 h-2.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
     }
 
-    const baseClasses = "rounded-full transition-all duration-200 flex items-center justify-center text-xs font-bold"
-
-    let sizeClasses = "w-4 h-4"
-    let colorClasses = "bg-white/20 border border-white/30"
-
-    if (element.type === "mystery") {
-      sizeClasses = "w-6 h-6"
-      colorClasses = isActive ? "bg-[#FFE552] text-black" : "bg-white/30 border border-white/50"
-    } else if (element.type === "cross") {
-      sizeClasses = "w-8 h-8"
-      colorClasses = isActive ? "bg-[#FFE552] text-black" : "bg-white/30 border border-white/50"
-    } else if (element.type === "hail-mary") {
-      sizeClasses = "w-3 h-3"
-      colorClasses = isActive ? "bg-[#FFE552] text-black" : "bg-white/20 border border-white/30"
+    if (isActive) {
+      beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
+    } else if (element.type !== "spacer") {
+      beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
     }
 
     return (
-      <button
+      <div
         key={element.id}
-        onClick={() => isClickable && onBeadClick(element.id)}
-        className={cn(
-          baseClasses,
-          sizeClasses,
-          colorClasses,
-          isClickable ? "cursor-pointer hover:bg-white/40" : "cursor-default",
-          isActive && "ring-2 ring-[#FFE552]/50",
-        )}
-        disabled={!isClickable}
+        className={beadClasses}
+        onClick={element.type !== "spacer" ? () => onBeadClick(element.id) : undefined}
+        title={element.type !== "spacer" ? element.title : ""}
       >
-        {element.type === "cross" && <Cross size={12} />}
-        {element.type === "mystery" && (
-          <span className="text-[10px]">
-            {element.id.includes("M1")
-              ? "1"
-              : element.id.includes("M2")
-                ? "2"
-                : element.id.includes("M3")
-                  ? "3"
-                  : element.id.includes("M4")
-                    ? "4"
-                    : element.id.includes("M5")
-                      ? "5"
-                      : ""}
-          </span>
+        {element.type === "cross" && (
+          <div className="relative">
+            <div className="absolute w-0.5 h-4 bg-current left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
+            <div className="absolute w-3 h-0.5 bg-current left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-0.5 rounded-full"></div>
+          </div>
         )}
-      </button>
+      </div>
     )
   }
 
-  // Separate elements into main loop and stem
-  const crossElement = rosaryElements.find((el) => el.type === "cross")
-  const stemElements = rosaryElements.filter((el) => el.type === "stem")
-  const loopElements = rosaryElements.filter((el) => !["cross", "stem"].includes(el.type))
+  const getEnhancedRosaryElements = () => {
+    const mainBeads = rosaryElements.filter((el) => el.type === "mystery" || el.type === "hail-mary")
+
+    // Find M1 and rotate the array to start with it. This is a more robust way to handle positioning.
+    const m1Index = mainBeads.findIndex((bead) => bead.id === "M1")
+    const rotatedBeads = m1Index !== -1 ? [...mainBeads.slice(m1Index), ...mainBeads.slice(0, m1Index)] : mainBeads
+
+    const enhancedBeads: RosaryElement[] = []
+
+    for (const currentBead of rotatedBeads) {
+      if (currentBead.type === "mystery") {
+        enhancedBeads.push({
+          id: `spacer-before-${currentBead.id}`,
+          type: "spacer" as const,
+          title: "",
+          content: [],
+        })
+      }
+
+      enhancedBeads.push(currentBead)
+
+      if (currentBead.type === "mystery") {
+        enhancedBeads.push({
+          id: `spacer-after-${currentBead.id}`,
+          type: "spacer" as const,
+          title: "",
+          content: [],
+        })
+      }
+    }
+    return enhancedBeads
+  }
+
+  const enhancedMainBeads = getEnhancedRosaryElements()
 
   return (
     <div className="lg:w-[35%] flex items-center justify-center">
-      <div className="relative">
-        {/* Main Rosary Loop */}
-        <div className="relative w-64 h-64">
-          {loopElements.map((element, index) => {
-            const totalElements = loopElements.length
-            const angle = (index * 360) / totalElements - 90 // Start from top
-            const radius = 120
-            const x = Math.cos((angle * Math.PI) / 180) * radius
-            const y = Math.sin((angle * Math.PI) / 180) * radius
+      <div className="relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
+        <div className="relative z-10 px-6 py-8 h-[650px] lg:h-[600px] transform rotate-180 flex items-center justify-center">
+          <div className="flex flex-col items-center space-y-4">
+            <div className="flex justify-center mb-4">
+              {rosaryElements
+                .filter((el) => el.type === "cross")
+                .map((element) => (
+                  <div key={element.id} className="transform rotate-180">
+                    {renderBead(element)}
+                  </div>
+                ))}
+            </div>
 
-            return (
-              <div
-                key={element.id}
-                className="absolute"
-                style={{
-                  left: `calc(50% + ${x}px)`,
-                  top: `calc(50% + ${y}px)`,
-                  transform: "translate(-50%, -50%)",
-                }}
-              >
-                {renderBead(element, index)}
+            <div className="flex flex-col items-center space-y-2 mb-6">
+              {rosaryElements
+                .filter((el) => el.type === "stem")
+                .map((element) => (
+                  <div key={element.id} className="transform rotate-180">
+                    {renderBead(element)}
+                  </div>
+                ))}
+            </div>
+
+            <div className="relative w-44 h-44">
+              <div className="absolute inset-0">
+                {enhancedMainBeads.map((element, index) => {
+                  const totalBeads = enhancedMainBeads.length
+                  // The array is now rotated, so M1 is at index 1 (after its spacer).
+                  // We position the bead at index 1 at the top of the circle (-90deg).
+                  const angle = ((index - 1) / totalBeads) * 2 * Math.PI - Math.PI / 2
+
+                  const radius = 75
+                  const x = Math.cos(angle) * radius
+                  const y = Math.sin(angle) * radius
+
+                  return (
+                    <div
+                      key={element.id}
+                      className="absolute transform -translate-x-1/2 -translate-y-1/2 rotate-180"
+                      style={{
+                        left: `calc(50% + ${x}px)`,
+                        top: `calc(50% + ${y}px)`,
+                      }}
+                    >
+                      {renderBead(element)}
+                    </div>
+                  )
+                })}
               </div>
-            )
-          })}
-        </div>
+            </div>
 
-        {/* Stem (vertical chain) */}
-        <div className="absolute left-1/2 top-full transform -translate-x-1/2 flex flex-col items-center space-y-2">
-          {stemElements.map((element, index) => (
-            <div key={element.id}>{renderBead(element, index)}</div>
-          ))}
-
-          {/* Cross at the bottom */}
-          {crossElement && <div className="mt-2">{renderBead(crossElement, 0)}</div>}
+            <div className="flex flex-col items-center space-y-2 mt-6">
+              {rosaryElements
+                .filter((el) => el.type === "final")
+                .map((element) => (
+                  <div key={element.id} className="transform rotate-180">
+                    {renderBead(element)}
+                  </div>
+                ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

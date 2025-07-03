@@ -152,18 +152,14 @@ export function HowSection() {
                         </div>
                       </div>
                       <div className="flex justify-center flex-shrink-0">
-                        {/* Enhanced Next button styling to match the community button */}
-                        <div className="relative group">
-                          <div className="absolute -inset-0.5 bg-gradient-to-r from-[#FFE552] to-[#FFE552] rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300 group-hover:duration-200 animate-pulse"></div>
-                          <CustomButton
-                            onClick={handleNext}
-                            size="lg"
-                            variant="yellow"
-                            className="relative bg-[#FFE552] border-2 border-[#FFE552] text-black hover:bg-[#FFE552]/90 font-bold uppercase tracking-wide text-sm px-8 py-3 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                          >
-                            Next
-                          </CustomButton>
-                        </div>
+                        <CustomButton
+                          onClick={handleNext}
+                          size="md"
+                          variant="yellow"
+                          className="bg-[#FFE552] hover:bg-[#FFE552]/90 text-black font-bold px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+                        >
+                          Next
+                        </CustomButton>
                       </div>
                     </>
                   )}
@@ -178,18 +174,10 @@ export function HowSection() {
       <div className="w-full bg-black/30">
         <div className="container mx-auto px-4">
           <div className="text-center py-16 md:py-24">
-            <div className="relative group inline-block">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-[#FFE552] to-[#FFE552] rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300 group-hover:duration-200 animate-pulse"></div>
-              <CustomButton
-                onClick={() => setView("COMMUNITY")}
-                size="lg"
-                variant="yellow"
-                className="relative bg-[#FFE552] border-2 border-[#FFE552] text-black hover:bg-[#FFE552]/90 font-bold uppercase tracking-wide transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                <span className="hidden md:inline">Join the community</span>
-                <span className="md:hidden">Community</span>
-              </CustomButton>
-            </div>
+            <CustomButton onClick={() => setView("COMMUNITY")} size="lg" variant="yellow">
+              <span className="hidden md:inline">Join the community</span>
+              <span className="md:hidden">Community</span>
+            </CustomButton>
           </div>
         </div>
       </div>
