@@ -1,12 +1,8 @@
 "use client"
 
 import { Headphones, Eye, MousePointer } from "lucide-react"
-import { CustomButton } from "@/components/ui/custom-button"
-import { useApp } from "@/components/app-provider"
 
 export function WhatSection() {
-  const { setView } = useApp()
-
   return (
     <section className="w-full py-16">
       <div className="container mx-auto px-4">
@@ -56,12 +52,6 @@ export function WhatSection() {
               Tap each bead, follow the prayers, stay present — beginner friendly.
             </p>
           </div>
-        </div>
-
-        <div className="text-center">
-          <CustomButton onClick={() => setView("WHY")} size="lg">
-            Why pray the Rosary
-          </CustomButton>
         </div>
       </div>
     </section>

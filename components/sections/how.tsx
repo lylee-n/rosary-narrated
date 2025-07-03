@@ -1,5 +1,4 @@
 "use client"
-import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
 import { useRosaryState } from "@/hooks/use-rosary-state"
 import { DailyMysterySelector } from "@/components/rosary-guide/daily-mystery-selector"
@@ -152,32 +151,18 @@ export function HowSection() {
                         </div>
                       </div>
                       <div className="flex justify-center flex-shrink-0">
-                        <CustomButton
+                        <button
                           onClick={handleNext}
-                          size="md"
-                          variant="yellow"
-                          className="bg-[#FFE552] hover:bg-[#FFE552]/90 text-black font-bold px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+                          className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-bold px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
                         >
                           Next
-                        </CustomButton>
+                        </button>
                       </div>
                     </>
                   )}
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* --- Bottom part (Community Button) --- */}
-      <div className="w-full bg-black/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center py-16 md:py-24">
-            <CustomButton onClick={() => setView("COMMUNITY")} size="lg" variant="yellow">
-              <span className="hidden md:inline">Join the community</span>
-              <span className="md:hidden">Community</span>
-            </CustomButton>
           </div>
         </div>
       </div>

@@ -1,6 +1,5 @@
 "use client"
 
-import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
 
 export function WhySection() {
@@ -141,18 +140,6 @@ export function WhySection() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* --- Bottom part (Learn How Button) --- */}
-      <div className="w-full bg-black/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center py-16 md:py-24">
-            <CustomButton onClick={() => setView("HOW")} size="lg" variant="yellow">
-              <span className="hidden md:inline">Learn how to pray the Rosary</span>
-              <span className="md:hidden">Learn how</span>
-            </CustomButton>
           </div>
         </div>
       </div>

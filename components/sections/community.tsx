@@ -1,7 +1,6 @@
 "use client"
 
 import { ChevronDown, Users, Calendar, BookOpen } from "lucide-react"
-import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
 
 export function CommunitySection() {
@@ -109,10 +108,6 @@ export function CommunitySection() {
         <p className="text-lg text-gray-300 font-inter leading-relaxed mb-8">
           Build this with us. Help us make this happen.
         </p>
-        <CustomButton onClick={() => setView("SUPPORT")} size="lg" variant="yellow">
-          <span className="hidden md:inline">Get Involved</span>
-          <span className="md:hidden">Support</span>
-        </CustomButton>
       </div>
     </div>
   )
