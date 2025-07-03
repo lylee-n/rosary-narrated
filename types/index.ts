@@ -15,3 +15,4 @@ export type RosaryElement = {
   title: string
   content: { subtitle: string; text: string }[]
 }
+</merged_code>
