@@ -1,9 +1,9 @@
 "use client"
 
 import { useApp } from "@/components/app-provider"
-import { BookOpen, Church, Handshake, Heart, HelpCircle, Menu, Rss, Sparkles } from "lucide-react"
+import { BookOpen, Church, Handshake, Heart, HelpCircle, Rss, Sparkles } from "lucide-react"
 import type { NavItem } from "@/lib/types"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 export function Header() {
   const { currentView, setView } = useApp()
@@ -18,26 +18,22 @@ export function Header() {
     { name: "SUPPORT", label: "Support", icon: Heart },
   ]
 
-  const handleNavItemClick = (viewName: NavItem["name"]) => {
-    setView(viewName)
-  }
-
   return (
     <header className="sticky top-0 z-50 w-full bg-black/80 backdrop-blur-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          {/* Logo - always visible */}
+          {/* Logo */}
           <div className="text-2xl font-bold font-sora text-white">
             Rosary<span className="text-[#FFE552]"> narrated</span>
           </div>
 
-          {/* Desktop Navigation - centered */}
-          <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          {/* Desktop Navigation (Unchanged) */}
+          <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <nav className="flex items-center space-x-1">
               {navItems.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => handleNavItemClick(item.name)}
+                  onClick={() => setView(item.name)}
                   className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                     currentView === item.name
                       ? "text-black bg-[#FFE552]"
@@ -52,41 +48,33 @@ export function Header() {
             </nav>
           </div>
 
-          {/* Mobile Navigation - hamburger menu */}
+          {/* Mobile Icon Navigation */}
           <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <button className="p-2 text-white">
-                  <Menu size={24} />
-                  <span className="sr-only">Open menu</span>
-                </button>
-              </SheetTrigger>
-              <SheetContent side="right" className="bg-black/90 border-l-gray-800 text-white">
-                <SheetHeader>
-                  <SheetTitle className="text-2xl font-bold font-sora text-white">
-                    Rosary<span className="text-[#FFE552]"> narrated</span>
-                  </SheetTitle>
-                </SheetHeader>
-                <nav className="mt-8 flex flex-col space-y-4">
-                  {navItems.map((item) => (
-                    <SheetClose asChild key={item.name}>
+            <TooltipProvider delayDuration={0}>
+              <nav className="flex items-center space-x-2">
+                {navItems.map((item) => (
+                  <Tooltip key={item.name}>
+                    <TooltipTrigger asChild>
                       <button
-                        onClick={() => handleNavItemClick(item.name)}
-                        className={`text-lg py-2 px-4 rounded-md text-left ${
-                          currentView === item.name ? "bg-[#FFE552] text-black" : "text-white/80 hover:bg-white/10"
+                        onClick={() => setView(item.name)}
+                        className={`p-2 rounded-full transition-colors ${
+                          currentView === item.name ? "bg-[#FFE552]" : "hover:bg-white/10"
                         }`}
                       >
-                        {item.label}
+                        <item.icon
+                          className={`h-5 w-5 ${currentView === item.name ? "text-black" : "text-white/80"}`}
+                        />
+                        <span className="sr-only">{item.label}</span>
                       </button>
-                    </SheetClose>
-                  ))}
-                </nav>
-              </SheetContent>
-            </Sheet>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-black/80 text-white border-gray-700">
+                      <p>{item.label}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </nav>
+            </TooltipProvider>
           </div>
-
-          {/* Empty div for desktop layout spacing, ensures logo is left and nav is centered */}
-          <div className="hidden md:block w-0" />
         </div>
       </div>
     </header>
