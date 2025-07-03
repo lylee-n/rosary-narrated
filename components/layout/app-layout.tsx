@@ -7,26 +7,23 @@ import { FloatingSupportButton } from "@/components/ui/floating-support-button"
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      className="flex flex-col min-h-screen"
-      style={{
-        backgroundImage: "url('/images/background.gif')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-    >
-      {/* Header */}
-      <Header />
-
-      {/* Main content area - ensure it can scroll properly and has minimum height */}
-      <main className="flex-grow">{children}</main>
-
-      {/* Footer */}
-      <Footer />
-
-      {/* Floating Support Button */}
-      <FloatingSupportButton />
+    <div className="relative min-h-screen">
+      {/* Global Background GIF */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          backgroundImage: "url('/images/background.gif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      {/* Content wrapper with transparency, allowing the global background to be visible */}
+      <div className="relative z-10 flex flex-col min-h-screen bg-transparent">
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+        <FloatingSupportButton />
+      </div>
     </div>
   )
 }
