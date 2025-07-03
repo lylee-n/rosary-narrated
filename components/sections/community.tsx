@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronDown, Users, Calendar, BookOpen } from "lucide-react"
+import { Users, Calendar, BookOpen } from "lucide-react"
 import { useApp } from "@/components/app-provider"
 
 export function CommunitySection() {
@@ -18,6 +18,8 @@ export function CommunitySection() {
         <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed mb-16">
           Finding your place in faith can be complicated. We get it. Here, we're building something different.
         </p>
+
+        <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">Coming soon ...</p>
       </div>
 
       <div className="max-w-5xl mx-auto space-y-12 mb-16">
@@ -49,16 +51,6 @@ export function CommunitySection() {
               Making scripture study feels less intimidating and more like bite size soul foods that integrates into
               your daily world.
             </p>
-          </div>
-        </div>
-
-        {/* Coming Soon text with chevron arrow - reduced size */}
-        <div className="text-center my-12">
-          <h2 className="text-[#82FAFA] font-sora text-2xl md:text-4xl lg:text-5xl leading-none font-extrabold md:font-bold mb-8">
-            Coming Soon
-          </h2>
-          <div className="flex justify-center mb-8">
-            <ChevronDown size={32} className="text-[#82FAFA] animate-bounce" />
           </div>
         </div>
 

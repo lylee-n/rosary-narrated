@@ -1,6 +1,5 @@
 "use client"
 
-import { CustomButton } from "@/components/ui/custom-button"
 import { useTranslations } from "@/hooks/use-translations"
 import { ChevronDown } from "lucide-react"
 import { useRef } from "react"
@@ -39,14 +38,12 @@ export function SupportSection() {
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
             {t.sections.support.cards.monthly.description}
           </p>
-          <CustomButton
-            variant="yellow"
-            size="lg"
-            className="w-full"
+          <button
+            className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl w-full"
             onClick={() => window.open("https://stripe.com/monthly-support", "_blank")}
           >
             {t.sections.support.cards.monthly.cta}
-          </CustomButton>
+          </button>
         </div>
 
         {/* Donate One-Time Card */}
@@ -55,14 +52,12 @@ export function SupportSection() {
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
             {t.sections.support.cards.oneTime.description}
           </p>
-          <CustomButton
-            variant="yellow"
-            size="lg"
-            className="w-full"
+          <button
+            className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl w-full"
             onClick={() => window.open("https://stripe.com/one-time-donation", "_blank")}
           >
             {t.sections.support.cards.oneTime.cta}
-          </CustomButton>
+          </button>
         </div>
       </div>
 
@@ -86,14 +81,12 @@ export function SupportSection() {
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
             {t.sections.support.cards.volunteer.description}
           </p>
-          <CustomButton
-            variant="yellow"
-            size="lg"
-            className="w-full"
+          <button
+            className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl w-full"
             onClick={() => (window.location.href = "mailto:rosarynarrated@gmail.com")}
           >
             {t.sections.support.cards.volunteer.cta}
-          </CustomButton>
+          </button>
         </div>
 
         {/* Partner Card */}
@@ -102,14 +95,12 @@ export function SupportSection() {
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
             {t.sections.support.cards.partner.description}
           </p>
-          <CustomButton
-            variant="yellow"
-            size="lg"
-            className="w-full"
+          <button
+            className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl w-full"
             onClick={() => (window.location.href = "mailto:rosarynarrated@gmail.com")}
           >
             {t.sections.support.cards.partner.cta}
-          </CustomButton>
+          </button>
         </div>
       </div>
 

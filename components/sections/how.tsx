@@ -153,7 +153,7 @@ export function HowSection() {
                       <div className="flex justify-center flex-shrink-0">
                         <button
                           onClick={handleNext}
-                          className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-bold px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+                          className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
                         >
                           Next
                         </button>

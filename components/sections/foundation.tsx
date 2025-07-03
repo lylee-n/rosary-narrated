@@ -4,7 +4,6 @@ import { useState } from "react"
 import Image from "next/image"
 import { rosaryMysteriesDataEn } from "@/lib/rosary-data-en"
 import { PlayModal } from "@/components/play-section/play-modal"
-import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
 
 export function FoundationSection() {
@@ -73,13 +72,6 @@ export function FoundationSection() {
               </div>
             )
           })}
-        </div>
-
-        <div className="text-center mt-24">
-          <CustomButton onClick={() => setView("HOW")} size="lg" variant="yellow">
-            <span className="hidden md:inline">How to pray the Rosary</span>
-            <span className="md:hidden">How</span>
-          </CustomButton>
         </div>
       </div>
 

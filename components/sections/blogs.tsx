@@ -1,7 +1,5 @@
 "use client"
 
-import { ChevronDown } from "lucide-react"
-
 export function BlogsSection() {
   return (
     <section className="w-full py-16">
@@ -10,16 +8,7 @@ export function BlogsSection() {
           <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-12">
             Blogs
           </h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">
-            Coming soon
-          </p>
-        </div>
-
-        <div className="text-center my-12">
-          
-          <div className="flex justify-center mb-8">
-            
-          </div>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">Coming soon ...</p>
         </div>
       </div>
     </section>
