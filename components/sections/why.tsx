@@ -7,7 +7,6 @@ export function WhySection() {
 
   return (
     <section className="w-full bg-transparent">
-      {/* --- Top part (Title) --- */}
       <div className="w-full bg-black/30">
         <div className="container mx-auto px-4">
           <div className="text-center pt-16 md:pt-24 pb-12 md:pb-16">
@@ -22,24 +21,21 @@ export function WhySection() {
         </div>
       </div>
 
-      {/* --- Full Bleed Container with Mary Background --- */}
       <div
         className="relative w-full"
         style={{
           backgroundImage: "url('/images/Mary-womb-golden-light.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundAttachment: "fixed", // Creates a parallax effect on scroll
+          backgroundAttachment: "fixed",
+          transform: "translateZ(0)", // Isolate this background on its own rendering layer
         }}
       >
-        {/* Dark Overlay for readability */}
         <div className="absolute inset-0 bg-black/50 z-0" />
 
-        {/* Centered Content (3 Glass Cards) */}
         <div className="container relative mx-auto px-4 z-10 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             <div className="space-y-8">
-              {/* Card 1: Spiritual Benefits */}
               <div className="w-full h-[400px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
                 <div className="relative z-10 flex flex-col h-full p-8">
                   <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">Spiritual Benefits</h3>
@@ -72,7 +68,6 @@ export function WhySection() {
                 </div>
               </div>
 
-              {/* Card 2: Historical Significance */}
               <div className="w-full h-[400px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
                 <div className="relative z-10 flex flex-col h-full p-8">
                   <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">
@@ -92,7 +87,6 @@ export function WhySection() {
               </div>
             </div>
 
-            {/* Card 3: The 15 Promises */}
             <div className="w-full h-[820px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
               <div className="relative z-10 flex flex-col h-full p-8">
                 <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">The 15 Promises</h3>

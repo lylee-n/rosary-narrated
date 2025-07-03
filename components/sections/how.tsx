@@ -6,13 +6,6 @@ import { RosaryVisualizer } from "@/components/rosary-guide/rosary-visualizer"
 import { MYSTERY_IMAGES } from "@/constants"
 import { Cross } from "lucide-react"
 
-type RosaryElement = {
-  id: string
-  type: "cross" | "stem" | "mystery" | "hail-mary" | "final" | "spacer"
-  title: string
-  content: { subtitle: string; text: string }[]
-}
-
 const getMysterySetForDayName = (dayName: string): number => {
   switch (dayName) {
     case "Monday":
@@ -64,10 +57,6 @@ export function HowSection() {
         </div>
       </div>
 
-      {/* 
-        THE REVERT: Removed `z-0` from this container.
-        It is no longer needed because the global background is now correctly at `z-[-1]`.
-      */}
       <div
         className="relative w-full min-h-[800px]"
         style={{
@@ -75,6 +64,7 @@ export function HowSection() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",
+          transform: "translateZ(0)", // Isolate this background on its own rendering layer
         }}
       >
         <div className="absolute inset-0 bg-black/50 z-0" />

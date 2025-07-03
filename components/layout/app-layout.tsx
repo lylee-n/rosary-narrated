@@ -1,34 +1,33 @@
 "use client"
 
 import type React from "react"
-import { Header } from "./header"
-import { Footer } from "./footer"
+
+import { AppProvider } from "@/components/app-provider"
 import { FloatingSupportButton } from "@/components/ui/floating-support-button"
+import { Toaster } from "@/components/ui/toaster"
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { Header } from "./header"
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative min-h-screen">
-      {/* 
-        THE FIX: Changed `z-0` to `z-[-1]`.
-        This places the global background at the very bottom of the stacking order,
-        ensuring it can never cover up any other content, including other fixed backgrounds.
-      */}
-      <div
-        className="fixed inset-0 z-[-1] pointer-events-none"
-        style={{
-          backgroundImage: "url('/images/background.gif')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          transform: "translateZ(0)",
-        }}
-      />
+    <AppProvider>
+      <TooltipProvider>
+        <div className="relative min-h-screen">
+          {/* Animated background - z-[-1] keeps it behind everything */}
+          <div
+            className="fixed inset-0 z-[-1] bg-[url('/images/background.gif')] bg-cover bg-center pointer-events-none"
+            style={{ transform: "translateZ(0)" }}
+          />
 
-      <div className="relative z-10 flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-grow pt-[104px] md:pt-20">{children}</main>
-        <Footer />
-        <FloatingSupportButton />
-      </div>
-    </div>
+          <Header />
+
+          {/* Main content area - REMOVED style={{ transform: "translateZ(0)" }} */}
+          <main className="relative z-0">{children}</main>
+
+          <FloatingSupportButton />
+          <Toaster />
+        </div>
+      </TooltipProvider>
+    </AppProvider>
   )
 }
