@@ -1,5 +1,6 @@
 "use client"
 
+import { CustomButton } from "@/components/ui/custom-button"
 import { useApp } from "@/components/app-provider"
 
 export function WhySection() {
@@ -148,24 +149,10 @@ export function WhySection() {
       <div className="w-full bg-black/30">
         <div className="container mx-auto px-4">
           <div className="text-center py-16 md:py-24">
-            <div
-              onClick={() => setView("HOW")}
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 cursor-pointer transition-all duration-200"
-              style={{
-                backgroundColor: "#FFE552",
-                color: "#000000",
-                boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "#FFD700"
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "#FFE552"
-              }}
-            >
+            <CustomButton onClick={() => setView("HOW")} size="lg" variant="yellow">
               <span className="hidden md:inline">Learn how to pray the Rosary</span>
               <span className="md:hidden">Learn how</span>
-            </div>
+            </CustomButton>
           </div>
         </div>
       </div>
