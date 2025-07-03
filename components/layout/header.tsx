@@ -7,7 +7,7 @@ import Link from "next/link"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useApp } from "@/components/app-provider"
 import { BookOpen, Church, CircleHelp, Home, MessageSquareHeart, Sparkles, Users } from "lucide-react"
-import { useMobile } from "@/lib/hooks/use-mobile"
+import { useIsMobile } from "@/lib/hooks/use-mobile"
 
 const navItems = [
   { href: "foundation", icon: Home, label: "Foundation" },
@@ -21,7 +21,7 @@ const navItems = [
 
 export function Header() {
   const { view, setView } = useApp()
-  const isMobile = useMobile()
+  const isMobile = useIsMobile()
 
   const NavLink = ({
     href,
