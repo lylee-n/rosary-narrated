@@ -3,8 +3,7 @@
 import { useApp } from "@/components/app-provider"
 import { BookOpen, Church, Handshake, Heart, HelpCircle, Menu, Rss, Sparkles } from "lucide-react"
 import type { NavItem } from "@/lib/types"
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 
 export function Header() {
   const { currentView, setView } = useApp()
@@ -19,65 +18,75 @@ export function Header() {
     { name: "SUPPORT", label: "Support", icon: Heart },
   ]
 
-  const handleNavClick = (viewName: string) => {
+  const handleNavItemClick = (viewName: NavItem["name"]) => {
     setView(viewName)
   }
 
   return (
     <header className="sticky top-0 z-50 w-full bg-black/80 backdrop-blur-sm">
       <div className="container mx-auto px-4">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo - always visible */}
           <div className="text-2xl font-bold font-sora text-white">
             Rosary<span className="text-[#FFE552]"> narrated</span>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center space-x-1 md:flex">
-            {navItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => handleNavClick(item.name)}
-                className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
-                  currentView === item.name
-                    ? "bg-[#FFE552] text-black"
-                    : item.name === "FOUNDATION" || item.name === "HOW"
-                      ? "border border-[#FFE552]/50 text-white/80 shadow-[0_0_25px_rgba(255,229,82,0.8)] hover:bg-white/10 hover:text-white"
-                      : "text-white/80 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </nav>
+          {/* Desktop Navigation - centered */}
+          <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <nav className="flex items-center space-x-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => handleNavItemClick(item.name)}
+                  className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                    currentView === item.name
+                      ? "text-black bg-[#FFE552]"
+                      : item.name === "FOUNDATION" || item.name === "HOW"
+                        ? "text-white/80 hover:text-white hover:bg-white/10 shadow-[0_0_25px_rgba(255,229,82,0.7)] border border-[#FFE552]/50"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+          </div>
 
-          {/* Mobile Navigation */}
+          {/* Mobile Navigation - hamburger menu */}
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6 text-white" />
-                  <span className="sr-only">Open Menu</span>
-                </Button>
+                <button className="p-2 text-white">
+                  <Menu size={24} />
+                  <span className="sr-only">Open menu</span>
+                </button>
               </SheetTrigger>
               <SheetContent side="right" className="bg-black/90 border-l-gray-800 text-white">
-                <div className="grid gap-4 py-6">
+                <SheetHeader>
+                  <SheetTitle className="text-2xl font-bold font-sora text-white">
+                    Rosary<span className="text-[#FFE552]"> narrated</span>
+                  </SheetTitle>
+                </SheetHeader>
+                <nav className="mt-8 flex flex-col space-y-4">
                   {navItems.map((item) => (
                     <SheetClose asChild key={item.name}>
                       <button
-                        onClick={() => handleNavClick(item.name)}
-                        className={`-mx-3 flex items-center gap-4 rounded-lg px-3 py-2 text-base font-semibold ${
-                          currentView === item.name ? "bg-[#FFE552] text-black" : "hover:bg-white/10"
+                        onClick={() => handleNavItemClick(item.name)}
+                        className={`text-lg py-2 px-4 rounded-md text-left ${
+                          currentView === item.name ? "bg-[#FFE552] text-black" : "text-white/80 hover:bg-white/10"
                         }`}
                       >
-                        {item.icon && <item.icon className="h-5 w-5" />}
                         {item.label}
                       </button>
                     </SheetClose>
                   ))}
-                </div>
+                </nav>
               </SheetContent>
             </Sheet>
           </div>
+
+          {/* Empty div for desktop layout spacing, ensures logo is left and nav is centered */}
+          <div className="hidden md:block w-0" />
         </div>
       </div>
     </header>
