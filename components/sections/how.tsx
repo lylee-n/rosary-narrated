@@ -9,7 +9,7 @@ import { MYSTERY_IMAGES } from "@/constants"
 // Define the types for our rosary elements
 type RosaryElement = {
   id: string
-  type: "cross" | "stem" | "mystery" | "hail-mary" | "final"
+  type: "cross" | "stem" | "mystery" | "hail-mary" | "final" | "spacer"
   title: string
   content: { subtitle: string; text: string }[]
 }

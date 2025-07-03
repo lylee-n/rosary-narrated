@@ -9,36 +9,9 @@ interface RosaryVisualizerProps {
 }
 
 export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }: RosaryVisualizerProps) {
-  // Create spacer beads to prevent overlap
-  const createSpacerBeads = () => {
-    const spacerBeads = [
-      { id: "1.11", type: "spacer" as const, title: "Spacer", content: [] },
-      { id: "2.0", type: "spacer" as const, title: "Spacer", content: [] },
-      { id: "2.11", type: "spacer" as const, title: "Spacer", content: [] },
-      { id: "3.0", type: "spacer" as const, title: "Spacer", content: [] },
-      { id: "3.11", type: "spacer" as const, title: "Spacer", content: [] },
-      { id: "4.0", type: "spacer" as const, title: "Spacer", content: [] },
-      { id: "4.11", type: "spacer" as const, title: "Spacer", content: [] },
-      { id: "5.0", type: "spacer" as const, title: "Spacer", content: [] },
-      { id: "5.11", type: "spacer" as const, title: "Spacer", content: [] },
-      { id: "1.0", type: "spacer" as const, title: "Spacer", content: [] },
-    ]
-    return spacerBeads
-  }
-
-  // Check if a bead is a spacer bead
-  const isSpacerBead = (beadId: string) => {
-    const spacerIds = ["1.11", "2.0", "2.11", "3.0", "3.11", "4.0", "4.11", "5.0", "5.11", "1.0"]
-    return spacerIds.includes(beadId)
-  }
-
-  const renderBead = (
-    element: RosaryElement | { id: string; type: "spacer"; title: string; content: any[] },
-    index: number,
-  ) => {
+  const renderBead = (element: RosaryElement, index: number) => {
     const isActive = element.id === currentStepId
     const isCompleted = false // You might want to track completed steps
-    const isSpacer = element.type === "spacer"
 
     // Halved size for Hail Mary beads - reduced to prevent overlap
     let beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
@@ -53,34 +26,31 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
       // Thinner border for stem beads
       beadClasses = "w-3.5 h-3.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
     } else if (element.type === "spacer") {
-      // Transparent spacer beads
+      // Transparent spacer beads - same size as Hail Mary beads but transparent
       beadClasses =
-        "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 opacity-0"
+        "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 bg-transparent border-transparent opacity-30"
     }
 
-    if (isActive && !isSpacer) {
+    if (isActive) {
       if (element.type === "cross") {
         beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
-      } else {
+      } else if (element.type !== "spacer") {
         beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
       }
-    } else if (isCompleted && !isSpacer) {
-      beadClasses += " bg-green-500 border-green-500"
-    } else if (!isSpacer) {
+    } else if (isCompleted) {
+      if (element.type !== "spacer") {
+        beadClasses += " bg-green-500 border-green-500"
+      }
+    } else {
       if (element.type === "cross") {
         beadClasses += " bg-amber-800 border-amber-600"
-      } else {
+      } else if (element.type !== "spacer") {
         beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
       }
     }
 
     return (
-      <div
-        key={element.id}
-        className={beadClasses}
-        onClick={() => !isSpacer && onBeadClick(element.id)}
-        title={element.title}
-      >
+      <div key={element.id} className={beadClasses} onClick={() => onBeadClick(element.id)} title={element.title}>
         {element.type === "cross" && (
           <div className="relative">
             {/* Vector-style minimalist cross in circle */}
@@ -92,38 +62,43 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     )
   }
 
-  // Combine rosary elements with spacer beads
-  const getAllBeads = () => {
-    const spacerBeads = createSpacerBeads()
-    const mysteryAndHailMaryBeads = rosaryElements.filter((el) => el.type === "mystery" || el.type === "hail-mary")
+  // Function to insert spacer beads into the rosary elements
+  const getEnhancedRosaryElements = () => {
+    const mainBeads = rosaryElements.filter((el) => el.type === "mystery" || el.type === "hail-mary")
+    const enhancedBeads = []
 
-    // Insert spacer beads at appropriate positions
-    const allBeads: (RosaryElement | { id: string; type: "spacer"; title: string; content: any[] })[] = []
+    for (let i = 0; i < mainBeads.length; i++) {
+      const currentBead = mainBeads[i]
 
-    mysteryAndHailMaryBeads.forEach((bead, index) => {
-      allBeads.push(bead)
-
-      // Add spacer beads after specific beads
-      if (bead.id === "1.10") {
-        allBeads.push(spacerBeads.find((s) => s.id === "1.11")!)
-        allBeads.push(spacerBeads.find((s) => s.id === "2.0")!)
-      } else if (bead.id === "2.10") {
-        allBeads.push(spacerBeads.find((s) => s.id === "2.11")!)
-        allBeads.push(spacerBeads.find((s) => s.id === "3.0")!)
-      } else if (bead.id === "3.10") {
-        allBeads.push(spacerBeads.find((s) => s.id === "3.11")!)
-        allBeads.push(spacerBeads.find((s) => s.id === "4.0")!)
-      } else if (bead.id === "4.10") {
-        allBeads.push(spacerBeads.find((s) => s.id === "4.11")!)
-        allBeads.push(spacerBeads.find((s) => s.id === "5.0")!)
-      } else if (bead.id === "5.10") {
-        allBeads.push(spacerBeads.find((s) => s.id === "5.11")!)
-        allBeads.push(spacerBeads.find((s) => s.id === "1.0")!)
+      // Add spacer before Mystery beads
+      if (currentBead.type === "mystery") {
+        const prevDecade = currentBead.id.startsWith("M1") ? "5" : String(Number.parseInt(currentBead.id.charAt(1)) - 1)
+        enhancedBeads.push({
+          id: `${prevDecade}.11`,
+          type: "spacer" as const,
+          title: `Spacer before ${currentBead.id}`,
+          content: [],
+        })
       }
-    })
 
-    return allBeads
+      enhancedBeads.push(currentBead)
+
+      // Add spacer after Mystery beads
+      if (currentBead.type === "mystery") {
+        const currentDecade = currentBead.id.charAt(1)
+        enhancedBeads.push({
+          id: `${currentDecade}.0`,
+          type: "spacer" as const,
+          title: `Spacer after ${currentBead.id}`,
+          content: [],
+        })
+      }
+    }
+
+    return enhancedBeads
   }
+
+  const enhancedMainBeads = getEnhancedRosaryElements()
 
   return (
     <div className="lg:w-[35%] flex items-center justify-center">
@@ -154,12 +129,12 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                 ))}
             </div>
 
-            {/* Main rosary loop with spacer beads */}
+            {/* Main rosary loop with enhanced beads including spacers */}
             <div className="relative w-44 h-44">
-              {/* Circular arrangement of decades with spacers */}
+              {/* Circular arrangement of decades */}
               <div className="absolute inset-0">
-                {getAllBeads().map((element, index) => {
-                  const totalBeads = getAllBeads().length
+                {enhancedMainBeads.map((element, index) => {
+                  const totalBeads = enhancedMainBeads.length
                   const angle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
                   const radius = 75 // Base radius
                   const x = Math.cos(angle) * radius
