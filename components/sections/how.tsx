@@ -118,8 +118,8 @@ export function HowSection() {
               onBeadClick={handleBeadClick}
             />
             <div className="lg:w-[65%] flex items-start justify-center">
-              {/* The Prayer Card container with glass-like effect - changed to bg-white/30 */}
-              <div className="w-full h-[650px] lg:h-[600px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/30 backdrop-blur-sm shadow-2xl">
+              {/* The Prayer Card container with glass-like effect - changed to bg-white/15 */}
+              <div className="w-full h-[650px] lg:h-[600px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/15 backdrop-blur-sm shadow-2xl">
                 {/* Prayer card content */}
                 <div className="relative z-10 flex flex-col h-full p-6">
                   {displayStepData && (
