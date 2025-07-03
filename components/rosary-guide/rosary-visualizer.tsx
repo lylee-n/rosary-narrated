@@ -17,11 +17,9 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
 
     if (element.type === "cross") {
       beadClasses =
-        "w-8 h-10 cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-xl font-bold bg-amber-800 border-amber-600 rounded-md shadow-lg"
+        "w-8 h-10 cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-xl font-bold bg-amber-800 border-2 border-amber-600 rounded-sm shadow-lg"
     } else if (element.type === "mystery") {
-      beadClasses = "w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
-    } else if (element.type === "stem") {
-      beadClasses = "w-3 h-3 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
+      beadClasses = "w-5 h-5 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
     }
 
     if (isActive) {
@@ -34,23 +32,23 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
 
     return (
       <div key={element.id} className={beadClasses} onClick={() => onBeadClick(element.id)} title={element.title}>
-        {element.type === "cross" && "†"}
+        {element.type === "cross" && "✟"}
       </div>
     )
   }
 
   return (
     <div className="lg:w-[35%] flex items-center justify-center">
-      {/* Container with dark overlay and blur matching prayer card */}
+      {/* Container with dark overlay and blur matching prayer card - extended height */}
       <div className="relative rounded-lg overflow-hidden">
         {/* Dark overlay and blur background */}
         <div className="absolute inset-0 bg-black/50 backdrop-blur-md rounded-lg" />
 
-        {/* Rosary content - flipped upside down so cross is at bottom */}
-        <div className="relative z-10 p-8 py-12 transform rotate-180">
-          <div className="flex flex-col items-center space-y-4">
+        {/* Rosary content - flipped upside down so cross is at bottom - extended container */}
+        <div className="relative z-10 p-8 transform rotate-180" style={{ minHeight: "550px" }}>
+          <div className="flex flex-col items-center space-y-6 h-full justify-between">
             {/* Cross - now at bottom due to rotation */}
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center">
               {rosaryElements
                 .filter((el) => el.type === "cross")
                 .map((element, index) => (
@@ -60,8 +58,8 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                 ))}
             </div>
 
-            {/* Stem beads (3 Hail Marys + 1 Our Father) */}
-            <div className="flex flex-col items-center space-y-3 mb-8">
+            {/* Stem beads (3 Hail Marys + 1 Our Father) - reduced size and spacing */}
+            <div className="flex flex-col items-center space-y-3">
               {rosaryElements
                 .filter((el) => el.type === "stem")
                 .map((element, index) => (
@@ -72,7 +70,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
             </div>
 
             {/* Main rosary loop */}
-            <div className="relative w-48 h-48">
+            <div className="relative w-52 h-52 flex-shrink-0">
               {/* Circular arrangement of decades */}
               <div className="absolute inset-0">
                 {rosaryElements
@@ -82,7 +80,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                       (el) => el.type === "mystery" || el.type === "hail-mary",
                     ).length
                     const angle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
-                    const radius = 80
+                    const radius = 90
                     const x = Math.cos(angle) * radius
                     const y = Math.sin(angle) * radius
 
@@ -103,7 +101,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
             </div>
 
             {/* Final prayers */}
-            <div className="flex flex-col items-center space-y-2 mt-6">
+            <div className="flex flex-col items-center space-y-3">
               {rosaryElements
                 .filter((el) => el.type === "final")
                 .map((element, index) => (
