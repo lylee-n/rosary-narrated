@@ -1,4 +1,11 @@
-// Define the rosary layout positions
+// ─────────────────────────────────────────────────────────────
+// NEW helpers used by RosaryVisualizer
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Absolute positions (in % of container) for each rosary element
+ * so the cross sits at the bottom and the circle wraps clockwise.
+ */
 export const getRosaryElementPosition = (id: string): { top: string; left: string } => {
   const positions: Record<string, { top: string; left: string }> = {
     // Cross at the bottom (moved from top)
@@ -75,10 +82,13 @@ export const getRosaryElementPosition = (id: string): { top: string; left: strin
     "M1/Final": { top: "45%", left: "50%" }, // Center
   }
 
-  return positions[id] || { top: "50%", left: "50%" }
+  return positions[id] ?? { top: "50%", left: "50%" }
 }
 
-// Define connections between rosary elements
+/**
+ * Order of SVG lines that connect the beads.
+ * Updated so the cross begins at the bottom.
+ */
 export const rosaryConnections: [string, string][] = [
   // Cross to stem
   ["✝", "S1"],
@@ -154,3 +164,21 @@ export const rosaryConnections: [string, string][] = [
   ["H5-9", "H5-10"],
   ["H5-10", "M1"], // Complete the circle back to first mystery
 ]
+
+import {
+  dailyMysteries,
+  rosarySequence,
+  getMysterySetForDay,
+  getMysterySetForDayName,
+  buildRosaryElements,
+  getDynamicM1Content,
+} from "./rosary"
+
+export {
+  dailyMysteries,
+  rosarySequence,
+  getMysterySetForDay,
+  getMysterySetForDayName,
+  buildRosaryElements,
+  getDynamicM1Content,
+}
