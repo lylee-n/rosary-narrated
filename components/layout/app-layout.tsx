@@ -17,8 +17,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="fixed inset-0 z-[-1] bg-[url('/images/background.gif')] bg-cover bg-center pointer-events-none" />
 
         {/* Content Layer */}
-        {/* This div contains all the interactive content and establishes the main stacking context. */}
-        <div className="relative z-0 flex flex-col min-h-screen">
+        {/* `isolation-auto` is not a standard tailwind class, so we use a style tag.
+            `isolation: isolate` creates a new stacking context, which is the key to this fix.
+            It ensures the z-[-1] on the background does not interfere with the content's own layering.
+            This is the modern, correct way to solve this without hacks. */}
+        <div className="relative flex flex-col min-h-screen" style={{ isolation: "isolate" }}>
           <Header />
           <main className="flex-grow">{children}</main>
           <Footer />

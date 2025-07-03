@@ -1,21 +1,30 @@
 "use client"
 
-import * as React from "react"
+import { useState, useEffect } from "react"
 
-const MOBILE_BREAKPOINT = 768
+const MOBILE_BREAKPOINT = 768 // Corresponds to md: in Tailwind
 
-export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
+export function useIsMobile(): boolean {
+  // Start with `false` on the server and for the initial client render.
+  const [isMobile, setIsMobile] = useState(false)
 
-  React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
-    const onChange = () => {
+  useEffect(() => {
+    // This effect only runs on the client, after hydration.
+    const checkDevice = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
     }
-    mql.addEventListener("change", onChange)
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    return () => mql.removeEventListener("change", onChange)
-  }, [])
 
-  return !!isMobile
+    // Run the check once on mount.
+    checkDevice()
+
+    // Add a listener for window resize events.
+    window.addEventListener("resize", checkDevice)
+
+    // Cleanup the listener when the component unmounts.
+    return () => {
+      window.removeEventListener("resize", checkDevice)
+    }
+  }, []) // The empty dependency array ensures this runs only once on mount.
+
+  return isMobile
 }
