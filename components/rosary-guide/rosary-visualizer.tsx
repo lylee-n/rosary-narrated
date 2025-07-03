@@ -1,98 +1,86 @@
 "use client"
 
+import { Cross } from "lucide-react"
+import { useRosaryLayout } from "@/hooks/use-rosary-layout"
+import { rosaryConnections } from "@/lib/rosary-utils"
 import type { RosaryElement } from "@/types"
 
 interface RosaryVisualizerProps {
   rosaryElements: RosaryElement[]
   currentStepId: string
-  onBeadClick: (stepId: string) => void
+  onBeadClick: (id: string) => void
 }
 
-export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }: RosaryVisualizerProps) {
-  const renderBead = (element: RosaryElement, index: number) => {
-    const isActive = element.id === currentStepId
-    const isCompleted = false // You might want to track completed steps
+export const RosaryVisualizer = ({ rosaryElements, currentStepId, onBeadClick }: RosaryVisualizerProps) => {
+  const { getRosaryElementPosition } = useRosaryLayout()
 
-    let beadClasses = "w-4 h-4 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
-
-    if (element.type === "cross") {
-      beadClasses =
-        "w-6 h-8 cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-lg font-bold"
-    } else if (element.type === "mystery") {
-      beadClasses = "w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
-    }
-
-    if (isActive) {
-      beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
-    } else if (isCompleted) {
-      beadClasses += " bg-green-500 border-green-500"
-    } else {
-      beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
-    }
-
-    return (
-      <div key={element.id} className={beadClasses} onClick={() => onBeadClick(element.id)} title={element.title}>
-        {element.type === "cross" && "✝"}
-      </div>
-    )
+  const getLineCoords = (id1: string, id2: string) => {
+    const pos1 = getRosaryElementPosition(id1)
+    const pos2 = getRosaryElementPosition(id2)
+    const x1 = Number.parseFloat(pos1.left.replace("%", ""))
+    const y1 = Number.parseFloat(pos1.top.replace("%", ""))
+    const x2 = Number.parseFloat(pos2.left.replace("%", ""))
+    const y2 = Number.parseFloat(pos2.top.replace("%", ""))
+    return { x1, y1, x2, y2 }
   }
 
   return (
-    <div className="lg:w-[35%] flex items-center justify-center">
+    <div className="lg:w-[35%] flex justify-center items-start">
       {/* Container with dark overlay and blur matching prayer card */}
       <div className="relative rounded-lg overflow-hidden">
         {/* Dark overlay and blur background */}
         <div className="absolute inset-0 bg-black/50 backdrop-blur-md rounded-lg" />
 
         {/* Rosary content */}
-        <div className="relative z-10 p-6">
-          <div className="flex flex-col items-center space-y-4">
-            {/* Cross */}
-            <div className="flex justify-center mb-4">
-              {rosaryElements.filter((el) => el.type === "cross").map((element, index) => renderBead(element, index))}
-            </div>
+        <div className="relative z-10 w-full h-[600px] p-6">
+          {rosaryElements.map((element) => {
+            const position = getRosaryElementPosition(element.id)
+            const isSelected = currentStepId === element.id
+            const isMystery = element.type === "mystery"
+            const isCross = element.type === "cross"
+            const isFinal = element.id === "M1/Final"
+            const isStem = element.type === "stem"
 
-            {/* Stem beads (3 Hail Marys + 1 Our Father) */}
-            <div className="flex flex-col items-center space-y-2 mb-6">
-              {rosaryElements.filter((el) => el.type === "stem").map((element, index) => renderBead(element, index))}
-            </div>
+            // Check if this is one of the M1-M5 mystery beads
+            const isMysteryBead = ["M1", "M2", "M3", "M4", "M5"].includes(element.id)
 
-            {/* Main rosary loop */}
-            <div className="relative w-48 h-48">
-              {/* Circular arrangement of decades */}
-              <div className="absolute inset-0">
-                {rosaryElements
-                  .filter((el) => el.type === "mystery" || el.type === "hail-mary")
-                  .map((element, index) => {
-                    const totalBeads = rosaryElements.filter(
-                      (el) => el.type === "mystery" || el.type === "hail-mary",
-                    ).length
-                    const angle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
-                    const radius = 80
-                    const x = Math.cos(angle) * radius
-                    const y = Math.sin(angle) * radius
-
-                    return (
-                      <div
-                        key={element.id}
-                        className="absolute transform -translate-x-1/2 -translate-y-1/2"
-                        style={{
-                          left: `calc(50% + ${x}px)`,
-                          top: `calc(50% + ${y}px)`,
-                        }}
-                      >
-                        {renderBead(element, index)}
-                      </div>
-                    )
-                  })}
-              </div>
-            </div>
-
-            {/* Final prayers */}
-            <div className="flex flex-col items-center space-y-2 mt-6">
-              {rosaryElements.filter((el) => el.type === "final").map((element, index) => renderBead(element, index))}
-            </div>
-          </div>
+            return (
+              <button
+                key={element.id}
+                onClick={() => onBeadClick(element.id)}
+                className={`absolute ${isMystery || isCross || isFinal ? "w-5 h-5" : "w-3.5 h-3.5"} rounded-full border-2 flex items-center justify-center font-bold text-xs transition-all duration-300 transform -translate-x-1/2 -translate-y-1/2 ${
+                  isSelected
+                    ? "bg-transparent border-[#FFE552] text-[#FFE552] scale-110 shadow-lg"
+                    : isMysteryBead
+                      ? "bg-transparent border-[#FFE552] text-[#FFE552] hover:bg-[#FFE552] hover:text-black hover:scale-105"
+                      : isMystery || isCross || isFinal
+                        ? "bg-gray-600 border-gray-500 text-white hover:scale-105"
+                        : isStem
+                          ? "bg-transparent border-gray-600 text-gray-400 hover:border-gray-400 hover:scale-105"
+                          : "bg-transparent border-gray-600 text-transparent hover:border-gray-400 hover:scale-105"
+                }`}
+                style={{ top: position.top, left: position.left }}
+              >
+                {isCross ? (
+                  <Cross size={10} />
+                ) : element.type === "hail-mary" ? (
+                  ""
+                ) : (
+                  <span className="text-[8px] font-bold">{element.id.length > 3 ? "M1" : element.id}</span>
+                )}
+              </button>
+            )
+          })}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            style={{ zIndex: -10 }}
+          >
+            {rosaryConnections.map(([id1, id2], index) => (
+              <line key={`${id1}-${id2}-${index}`} {...getLineCoords(id1, id2)} stroke="#6B7280" strokeWidth="0.3" />
+            ))}
+          </svg>
         </div>
       </div>
     </div>

@@ -106,8 +106,8 @@ export function HowSection() {
           backgroundAttachment: "fixed", // Creates a parallax effect on scroll
         }}
       >
-        {/* Dark Overlay for readability - matching Timeline Modal settings */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 z-0" />
+        {/* Dark Overlay for background image (dark overlay only, no blur) */}
+        <div className="absolute inset-0 bg-black/40 z-0" />
 
         {/* Centered Content (Rosary + Prayer Card) */}
         <div className="container relative mx-auto px-4 z-10 py-16 lg:py-24">
@@ -118,53 +118,58 @@ export function HowSection() {
               onBeadClick={handleBeadClick}
             />
             <div className="lg:w-[65%] flex items-start justify-center">
-              {/* The Prayer Card container */}
-              <div className="w-full h-[650px] lg:h-[600px] flex flex-col">
-                {displayStepData && (
-                  <>
-                    <div className="flex items-center space-x-3 mb-4 flex-shrink-0">
-                      <div className="w-7 h-7 bg-[#FFE552] text-black rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
-                        {displayStepData.type === "cross" ? (
-                          <span className="text-[10px]">✝</span>
-                        ) : displayStepData.type === "hail-mary" ? (
-                          ""
-                        ) : (
-                          <span className="text-[10px]">
-                            {displayStepData.id.length > 3 ? "M1" : displayStepData.id}
-                          </span>
-                        )}
+              {/* The Prayer Card container with consistent dark overlay and blur */}
+              <div className="w-full h-[650px] lg:h-[600px] flex flex-col relative rounded-lg overflow-hidden">
+                {/* Dark overlay and blur background for entire prayer card */}
+                <div className="absolute inset-0 bg-black/50 backdrop-blur-md rounded-lg" />
+
+                {/* Prayer card content */}
+                <div className="relative z-10 flex flex-col h-full p-6">
+                  {displayStepData && (
+                    <>
+                      <div className="flex items-center space-x-3 mb-4 flex-shrink-0">
+                        <div className="w-7 h-7 bg-[#FFE552] text-black rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+                          {displayStepData.type === "cross" ? (
+                            <span className="text-[10px]">✝</span>
+                          ) : displayStepData.type === "hail-mary" ? (
+                            ""
+                          ) : (
+                            <span className="text-[10px]">
+                              {displayStepData.id.length > 3 ? "M1" : displayStepData.id}
+                            </span>
+                          )}
+                        </div>
+                        <h4 className="font-sora text-lg font-bold text-white">{displayStepData.title}</h4>
                       </div>
-                      <h4 className="font-sora text-lg font-bold text-white">{displayStepData.title}</h4>
-                    </div>
-                    {/* Scrollable container without blur/overlay */}
-                    <div className="flex-1 overflow-y-auto mb-4">
-                      {/* Inner container for the text block with consistent dark overlay for all mysteries */}
-                      <div className="space-y-4 rounded-lg p-4 shadow-lg bg-black/50 backdrop-blur-md">
-                        {displayStepData.content.map((item, index) => (
-                          <div key={index}>
-                            <h5 className="font-sora text-base font-semibold mb-2 text-[#FFE552]">{item.subtitle}</h5>
-                            <p className="font-inter text-sm leading-relaxed whitespace-pre-line text-white">
-                              {item.text}
-                            </p>
-                          </div>
-                        ))}
+                      {/* Scrollable container */}
+                      <div className="flex-1 overflow-y-auto mb-4">
+                        <div className="space-y-4">
+                          {displayStepData.content.map((item, index) => (
+                            <div key={index}>
+                              <h5 className="font-sora text-base font-semibold mb-2 text-[#FFE552]">{item.subtitle}</h5>
+                              <p className="font-inter text-sm leading-relaxed whitespace-pre-line text-white">
+                                {item.text}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex justify-center flex-shrink-0">
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-[#FFE552] rounded-lg blur-md opacity-50 animate-pulse"></div>
-                        <CustomButton
-                          onClick={handleNext}
-                          size="md"
-                          variant="yellow"
-                          className="relative bg-[#FFE552] border border-[#FFE552] text-black hover:bg-[#FFE552] hover:border-[#FFE552] font-bold uppercase"
-                        >
-                          Next
-                        </CustomButton>
+                      <div className="flex justify-center flex-shrink-0">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-[#FFE552] rounded-lg blur-md opacity-50 animate-pulse"></div>
+                          <CustomButton
+                            onClick={handleNext}
+                            size="md"
+                            variant="yellow"
+                            className="relative bg-[#FFE552] border border-[#FFE552] text-black hover:bg-[#FFE552] hover:border-[#FFE552] font-bold uppercase"
+                          >
+                            Next
+                          </CustomButton>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
