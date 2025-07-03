@@ -20,8 +20,8 @@ export function CommunitySection() {
         <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">Coming soon ...</p>
       </div>
 
+      {/* Two cards on the same row - reduced width */}
       <div className="max-w-5xl mx-auto space-y-12 mb-16">
-        {/* Two cards on the same row - reduced width */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Regular Connections Card */}
           <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6">
