@@ -4,6 +4,7 @@ import { useRosaryState } from "@/hooks/use-rosary-state"
 import { DailyMysterySelector } from "@/components/rosary-guide/daily-mystery-selector"
 import { RosaryVisualizer } from "@/components/rosary-guide/rosary-visualizer"
 import { MYSTERY_IMAGES } from "@/constants"
+import { Cross } from "lucide-react" // Import the Cross icon
 
 // Define the types for our rosary elements
 type RosaryElement = {
@@ -126,7 +127,7 @@ export function HowSection() {
                       <div className="flex items-center space-x-3 mb-4 flex-shrink-0">
                         <div className="w-7 h-7 bg-[#FFE552] text-black rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
                           {displayStepData.type === "cross" ? (
-                            <span className="text-[10px]">✝</span>
+                            <Cross size={16} strokeWidth={3} /> // Changed from <span>✝</span> to Lucide Cross icon
                           ) : displayStepData.type === "hail-mary" ? (
                             ""
                           ) : (
@@ -153,7 +154,7 @@ export function HowSection() {
                       <div className="flex justify-center flex-shrink-0">
                         <button
                           onClick={handleNext}
-                          className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+                          className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-semibold px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
                         >
                           Next
                         </button>
