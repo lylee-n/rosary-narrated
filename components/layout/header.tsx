@@ -19,7 +19,7 @@ export function Header() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full">
       {/* This div creates the background. It's solid on mobile for performance and blurred on desktop. */}
       <div className="absolute inset-0 bg-black/95 md:bg-black/80 md:backdrop-blur-sm" />
 
@@ -52,13 +52,12 @@ export function Header() {
         </div>
 
         {/* --- MOBILE HEADER (STABILIZED & HYDRATION-SAFE) --- */}
-        <div className="md:hidden flex flex-col items-center justify-center space-y-4 py-3 min-h-[104px]">
+        <div className="md:hidden flex flex-col items-center justify-center space-y-4 py-3 h-[104px]">
           {/* Row 1: Logo */}
           <div className="text-xl font-bold font-sora text-white">
             Rosary<span className="text-[#FFE552]"> narrated</span>
           </div>
           {/* Row 2: Icon Navigation */}
-          {/* A single TooltipProvider wraps the entire nav to prevent hydration errors. */}
           <TooltipProvider delayDuration={0}>
             <nav className="flex items-center justify-center space-x-2">
               {navItems.map((item) => {
