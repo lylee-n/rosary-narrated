@@ -88,7 +88,53 @@ body {
   * {
     @apply border-border;
   }
+
+  html {
+    /* Fix mobile viewport issues and prevent overscroll */
+    height: 100%;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+  }
+
   body {
     @apply bg-background text-foreground;
+    /* Ensure proper mobile scrolling */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    /* Prevent scroll bounce on mobile */
+    position: relative;
+  }
+
+  /* Ensure mobile scroll behavior works properly */
+  @media (max-width: 768px) {
+    html {
+      /* Use dynamic viewport height on supported browsers */
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      /* Prevent rubber band scrolling on iOS */
+      overscroll-behavior: contain;
+      /* Smooth scrolling with momentum */
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Fix for bottom scroll glitch */
+    .main-container {
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+  }
+}
+
+/* Additional mobile fixes */
+@supports (-webkit-touch-callout: none) {
+  /* iOS specific fixes */
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
   }
 }
