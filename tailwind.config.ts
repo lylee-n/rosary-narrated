@@ -1,11 +1,16 @@
 import type { Config } from "tailwindcss"
-import defaultConfig from "shadcn/ui/tailwind.config"
+import animate from "tailwindcss-animate"
 
-const config = {
-  ...defaultConfig,
-  content: [...defaultConfig.content, "./pages/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}", "*.{js,ts,jsx,tsx,mdx}"],
+const config: Config = {
+  darkMode: ["class"],
+  content: [
+    "./app/**/*.{ts,tsx,js,jsx,mdx}",
+    "./components/**/*.{ts,tsx,js,jsx,mdx}",
+    "./pages/**/*.{ts,tsx,js,jsx,mdx}",
+    "./src/**/*.{ts,tsx,js,jsx,mdx}",
+    "*.{js,ts,jsx,tsx,mdx}",
+  ],
   theme: {
-    ...defaultConfig.theme,
     container: {
       center: true,
       padding: "2rem",
@@ -14,17 +19,14 @@ const config = {
       },
     },
     extend: {
-      ...defaultConfig.theme.extend,
-      minHeight: {
-        screen: "100vh",
-        "screen-small": "100svh",
-      },
+      /* --------  Design Tokens (CSS vars set in globals)  -------- */
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -54,11 +56,18 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+
+      minHeight: {
+        screen: "100vh",
+        "screen-small": "100svh",
+      },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -73,13 +82,14 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+
       fontFamily: {
         sans: ["var(--font-inter)", "sans-serif"],
         sora: ["var(--font-sora)", "sans-serif"],
       },
     },
   },
-  plugins: [...defaultConfig.plugins, require("tailwindcss-animate")],
-} satisfies Config
+  plugins: [animate],
+}
 
 export default config
