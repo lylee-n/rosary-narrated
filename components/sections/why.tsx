@@ -149,7 +149,11 @@ export function WhySection() {
       <div className="w-full bg-black/30">
         <div className="container mx-auto px-4">
           <div className="text-center py-16 md:py-24">
-            <CustomButton onClick={() => setView("HOW")} size="lg" variant="yellow">
+            <CustomButton
+              onClick={() => setView("HOW")}
+              size="lg"
+              className="bg-[#FFE552] text-black hover:bg-[#FFD700] shadow-lg"
+            >
               <span className="hidden md:inline">Learn how to pray the Rosary</span>
               <span className="md:hidden">Learn how</span>
             </CustomButton>

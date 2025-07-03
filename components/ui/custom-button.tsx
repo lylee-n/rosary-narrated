@@ -15,7 +15,7 @@ const customButtonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        yellow: "!bg-[#FFE552] !text-black hover:!bg-[#FFD700] shadow-lg border-0",
+        yellow: "bg-[#FFE552] text-black hover:bg-[#FFE552]/90",
       },
       size: {
         default: "h-10 px-4 py-2",
