@@ -1,17 +1,4 @@
-/**
- * Rosary helpers – **one single source of truth**
- * ------------------------------------------------
- * • Visual-layout helpers (positions & SVG links)
- * • Logical helpers (dailyMysteries, buildRosaryElements …)
- * ------------------------------------------------
- * Nothing is imported from a non-existent module any more.
- */
-
 import type { RosaryElement, MysteryData } from "@/types"
-
-/* ────────────────────────────────────
-   BASIC DATA
-   ──────────────────────────────────── */
 
 export const dailyMysteries = [
   { day: "Monday", mystery: "Joyful", index: 0 },
@@ -24,22 +11,87 @@ export const dailyMysteries = [
 ]
 
 export const rosarySequence = [
-  "✝",
+  "cross",
   "S1",
   "S2",
   "S3",
   "S4",
-  "M1",
-  ...Array.from({ length: 10 }, (_, i) => `H1-${i + 1}`),
-  "M2",
-  ...Array.from({ length: 10 }, (_, i) => `H2-${i + 1}`),
-  "M3",
-  ...Array.from({ length: 10 }, (_, i) => `H3-${i + 1}`),
-  "M4",
-  ...Array.from({ length: 10 }, (_, i) => `H4-${i + 1}`),
-  "M5",
-  ...Array.from({ length: 10 }, (_, i) => `H5-${i + 1}`),
+  "S5",
   "M1/Final",
+  ...Array.from({ length: 10 }, (_, i) => `1.${i + 1}`),
+  "M2",
+  ...Array.from({ length: 10 }, (_, i) => `2.${i + 1}`),
+  "M3",
+  ...Array.from({ length: 10 }, (_, i) => `3.${i + 1}`),
+  "M4",
+  ...Array.from({ length: 10 }, (_, i) => `4.${i + 1}`),
+  "M5",
+  ...Array.from({ length: 10 }, (_, i) => `5.${i + 1}`),
+  "M1/Final",
+]
+
+export const rosaryConnections = [
+  ["cross", "S1"],
+  ["S1", "S2"],
+  ["S2", "S3"],
+  ["S3", "S4"],
+  ["S4", "S5"],
+  ["S5", "M1/Final"],
+  ["M1/Final", "1.1"],
+  ["1.1", "1.2"],
+  ["1.2", "1.3"],
+  ["1.3", "1.4"],
+  ["1.4", "1.5"],
+  ["1.5", "1.6"],
+  ["1.6", "1.7"],
+  ["1.7", "1.8"],
+  ["1.8", "1.9"],
+  ["1.9", "1.10"],
+  ["1.10", "M2"],
+  ["M2", "2.1"],
+  ["2.1", "2.2"],
+  ["2.2", "2.3"],
+  ["2.3", "2.4"],
+  ["2.4", "2.5"],
+  ["2.5", "2.6"],
+  ["2.6", "2.7"],
+  ["2.7", "2.8"],
+  ["2.8", "2.9"],
+  ["2.9", "2.10"],
+  ["2.10", "M3"],
+  ["M3", "3.1"],
+  ["3.1", "3.2"],
+  ["3.2", "3.3"],
+  ["3.3", "3.4"],
+  ["3.4", "3.5"],
+  ["3.5", "3.6"],
+  ["3.6", "3.7"],
+  ["3.7", "3.8"],
+  ["3.8", "3.9"],
+  ["3.9", "3.10"],
+  ["3.10", "M4"],
+  ["M4", "4.1"],
+  ["4.1", "4.2"],
+  ["4.2", "4.3"],
+  ["4.3", "4.4"],
+  ["4.4", "4.5"],
+  ["4.5", "4.6"],
+  ["4.6", "4.7"],
+  ["4.7", "4.8"],
+  ["4.8", "4.9"],
+  ["4.9", "4.10"],
+  ["4.10", "M5"],
+  ["M5", "5.1"],
+  ["5.1", "5.2"],
+  ["5.2", "5.3"],
+  ["5.3", "5.4"],
+  ["5.4", "5.5"],
+  ["5.5", "5.6"],
+  ["5.6", "5.7"],
+  ["5.7", "5.8"],
+  ["5.8", "5.9"],
+  ["5.9", "5.10"],
+  ["5.10", "M1/Final"],
 ]
 
 export const getMysterySetForDay = (dayOfWeek: number): number => {
@@ -78,64 +130,9 @@ export const getMysterySetForDayName = (dayName: string): number => {
   }
 }
 
-/* ────────────────────────────────────
-   LAYOUT HELPERS  (Visual positions)
-   ──────────────────────────────────── */
-
-/** Absolute positions (% of wrapper) so the **cross is at the bottom** */
-export const getRosaryElementPosition = (id: string): { top: string; left: string } => {
-  // (Only the special beads are enumerated; hail-Mary beads are laid out
-  //  programmatically by RosaryVisualizer if desired.)
-  const positions: Record<string, { top: string; left: string }> = {
-    "✝": { top: "95%", left: "50%" },
-    S1: { top: "85%", left: "50%" },
-    S2: { top: "75%", left: "50%" },
-    S3: { top: "65%", left: "50%" },
-    S4: { top: "55%", left: "50%" },
-
-    M1: { top: "15%", left: "50%" },
-    M2: { top: "73%", left: "71%" },
-    M3: { top: "45%", left: "18%" },
-    M4: { top: "39%", left: "80%" },
-    M5: { top: "76%", left: "35%" },
-
-    "M1/Final": { top: "45%", left: "50%" },
-  }
-
-  return positions[id] ?? { top: "50%", left: "50%" }
-}
-
-/** SVG connections between beads (cross first) */
-export const rosaryConnections: [string, string][] = [
-  ["✝", "S1"],
-  ["S1", "S2"],
-  ["S2", "S3"],
-  ["S3", "S4"],
-  ["S4", "M1"],
-  // Decade 1
-  ...Array.from({ length: 10 }, (_, i) => [i === 0 ? "M1" : `H1-${i}`, `H1-${i + 1}`]),
-  ["H1-10", "M2"],
-  // Decade 2
-  ...Array.from({ length: 10 }, (_, i) => [i === 0 ? "M2" : `H2-${i}`, `H2-${i + 1}`]),
-  ["H2-10", "M3"],
-  // Decade 3
-  ...Array.from({ length: 10 }, (_, i) => [i === 0 ? "M3" : `H3-${i}`, `H3-${i + 1}`]),
-  ["H3-10", "M4"],
-  // Decade 4
-  ...Array.from({ length: 10 }, (_, i) => [i === 0 ? "M4" : `H4-${i}`, `H4-${i + 1}`]),
-  ["H4-10", "M5"],
-  // Decade 5
-  ...Array.from({ length: 10 }, (_, i) => [i === 0 ? "M5" : `H5-${i}`, `H5-${i + 1}`]),
-  ["H5-10", "M1"], // close the loop
-]
-
-/* ────────────────────────────────────
-   CONTENT HELPERS
-   ──────────────────────────────────── */
-
 export const buildRosaryElements = (mysteryData: MysteryData): RosaryElement[] => [
   {
-    id: "✝",
+    id: "cross",
     type: "cross",
     title: "Make the Sign of the Cross",
     content: [
@@ -145,57 +142,250 @@ export const buildRosaryElements = (mysteryData: MysteryData): RosaryElement[] =
       },
     ],
   },
-  { id: "S1", type: "stem", title: "The Apostles' Creed", content: [] },
-  { id: "S2", type: "stem", title: "Our Father", content: [] },
-  { id: "S3", type: "stem", title: "Hail Mary 1", content: [] },
-  { id: "S4", type: "stem", title: "Hail Mary 2", content: [] },
-
-  // Five mystery beads (M1…M5) and 50 hail-Mary beads (H1-1 … H5-10)
-  ...Array.from({ length: 5 }, (_, decade) => {
-    const mId = `M${decade + 1}` as const
-    const decadeElements: RosaryElement[] = [
+  {
+    id: "S1",
+    type: "stem",
+    title: "The Apostles' Creed",
+    content: [
       {
-        id: mId,
-        type: "mystery",
-        title: `${decade + 1}ᵗʰ Mystery`,
-        content: [],
+        subtitle: "The Apostles' Creed",
+        text: "I believe in God, the Father Almighty, Creator of Heaven and earth; and in Jesus Christ, His only Son, Our Lord, Who was conceived by the Holy Ghost, born of the Virgin Mary, suffered under Pontius Pilate, was crucified; died, and was buried. He descended into Hell; the third day He arose again from the dead; He ascended into Heaven, sitteth at the right hand of God, the Father Almighty; from thence He shall come to judge the living and the dead. I believe in the Holy Spirit, the holy Catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and the life everlasting. Amen.",
       },
-      ...Array.from({ length: 10 }, (_, i) => ({
-        id: `H${decade + 1}-${i + 1}`,
-        type: "hail-mary" as const,
-        title: `Hail Mary ${i + 1}`,
-        content: [],
-      })),
-    ]
-    return decadeElements
-  }).flat(),
-
+    ],
+  },
+  {
+    id: "S2",
+    type: "stem",
+    title: "Our Father",
+    content: [
+      {
+        subtitle: "Our Father",
+        text: "Our Father, Who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil, Amen.",
+      },
+    ],
+  },
+  {
+    id: "S3",
+    type: "stem",
+    title: "Hail Mary (1st)",
+    content: [
+      { subtitle: "For the increase of Faith", text: "" },
+      {
+        subtitle: "Hail Mary",
+        text: "Hail Mary, full of grace. The Lord is with thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death, Amen.",
+      },
+    ],
+  },
+  {
+    id: "S4",
+    type: "stem",
+    title: "Hail Mary (2nd)",
+    content: [
+      { subtitle: "For the increase of Hope", text: "" },
+      {
+        subtitle: "Hail Mary",
+        text: "Hail Mary, full of grace. The Lord is with thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death, Amen.",
+      },
+    ],
+  },
+  {
+    id: "S5",
+    type: "stem",
+    title: "Hail Mary (3rd)",
+    content: [
+      { subtitle: "For the increase of Charity", text: "" },
+      {
+        subtitle: "Hail Mary",
+        text: "Hail Mary, full of grace. The Lord is with thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death, Amen.",
+      },
+    ],
+  },
   {
     id: "M1/Final",
     type: "mystery",
-    title: "Glory Be / Hail, Holy Queen",
-    content: [],
+    title: "First Mystery / Final Prayer",
+    content: [
+      {
+        subtitle: "Glory Be",
+        text: "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.",
+      },
+    ],
   },
+  ...Array.from({ length: 10 }, (_, i) => ({
+    id: `1.${i + 1}`,
+    type: "hail-mary" as const,
+    title: `Hail Mary ${i + 1}`,
+    content: [
+      {
+        subtitle: "Hail Mary",
+        text: "Hail Mary, full of grace. The Lord is with thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death, Amen.",
+      },
+    ],
+  })),
+  {
+    id: "M2",
+    type: "mystery",
+    title: "Second Mystery",
+    content: [
+      {
+        subtitle: "Glory Be",
+        text: "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.",
+      },
+      {
+        subtitle: "Fatima Prayer",
+        text: "O My Jesus, forgive us our sins, save us from the fires of Hell, and lead all souls to Heaven, especially those most need of Thy mercy. Amen.",
+      },
+      {
+        subtitle: `The Second Mystery of the ${mysteryData.title}: ${mysteryData.mysteries[1].title}`,
+        text: `${mysteryData.mysteries[1].significance} ${mysteryData.mysteries[1].reflection}`,
+      },
+      {
+        subtitle: "Our Father",
+        text: "Our Father, Who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil, Amen.",
+      },
+    ],
+  },
+  ...Array.from({ length: 10 }, (_, i) => ({
+    id: `2.${i + 1}`,
+    type: "hail-mary" as const,
+    title: `Hail Mary ${i + 1}`,
+    content: [
+      {
+        subtitle: "Hail Mary",
+        text: "Hail Mary, full of grace. The Lord is with thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death, Amen.",
+      },
+    ],
+  })),
+  {
+    id: "M3",
+    type: "mystery",
+    title: "Third Mystery",
+    content: [
+      {
+        subtitle: "Glory Be",
+        text: "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.",
+      },
+      {
+        subtitle: "Fatima Prayer",
+        text: "O My Jesus, forgive us our sins, save us from the fires of Hell, and lead all souls to Heaven, especially those most need of Thy mercy. Amen.",
+      },
+      {
+        subtitle: `The Third Mystery of the ${mysteryData.title}: ${mysteryData.mysteries[2].title}`,
+        text: `${mysteryData.mysteries[2].significance} ${mysteryData.mysteries[2].reflection}`,
+      },
+      {
+        subtitle: "Our Father",
+        text: "Our Father, Who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil, Amen.",
+      },
+    ],
+  },
+  ...Array.from({ length: 10 }, (_, i) => ({
+    id: `3.${i + 1}`,
+    type: "hail-mary" as const,
+    title: `Hail Mary ${i + 1}`,
+    content: [
+      {
+        subtitle: "Hail Mary",
+        text: "Hail Mary, full of grace. The Lord is with thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death, Amen.",
+      },
+    ],
+  })),
+  {
+    id: "M4",
+    type: "mystery",
+    title: "Fourth Mystery",
+    content: [
+      {
+        subtitle: "Glory Be",
+        text: "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.",
+      },
+      {
+        subtitle: "Fatima Prayer",
+        text: "O My Jesus, forgive us our sins, save us from the fires of Hell, and lead all souls to Heaven, especially those most need of Thy mercy. Amen.",
+      },
+      {
+        subtitle: `The Fourth Mystery of the ${mysteryData.title}: ${mysteryData.mysteries[3].title}`,
+        text: `${mysteryData.mysteries[3].significance} ${mysteryData.mysteries[3].reflection}`,
+      },
+      {
+        subtitle: "Our Father",
+        text: "Our Father, Who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil, Amen.",
+      },
+    ],
+  },
+  ...Array.from({ length: 10 }, (_, i) => ({
+    id: `4.${i + 1}`,
+    type: "hail-mary" as const,
+    title: `Hail Mary ${i + 1}`,
+    content: [
+      {
+        subtitle: "Hail Mary",
+        text: "Hail Mary, full of grace. The Lord is with thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death, Amen.",
+      },
+    ],
+  })),
+  {
+    id: "M5",
+    type: "mystery",
+    title: "Fifth Mystery",
+    content: [
+      {
+        subtitle: "Glory Be",
+        text: "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.",
+      },
+      {
+        subtitle: "Fatima Prayer",
+        text: "O My Jesus, forgive us our sins, save us from the fires of Hell, and lead all souls to Heaven, especially those most need of Thy mercy. Amen.",
+      },
+      {
+        subtitle: `The Fifth Mystery of the ${mysteryData.title}: ${mysteryData.mysteries[4].title}`,
+        text: `${mysteryData.mysteries[4].significance} ${mysteryData.mysteries[4].reflection}`,
+      },
+      {
+        subtitle: "Our Father",
+        text: "Our Father, Who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil, Amen.",
+      },
+    ],
+  },
+  ...Array.from({ length: 10 }, (_, i) => ({
+    id: `5.${i + 1}`,
+    type: "hail-mary" as const,
+    title: `Hail Mary ${i + 1}`,
+    content: [
+      {
+        subtitle: "Hail Mary",
+        text: "Hail Mary, full of grace. The Lord is with thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death, Amen.",
+      },
+    ],
+  })),
 ]
 
-export const getDynamicM1Content = (previousStep: string | null, mysteryData: MysteryData) => {
-  // Simple example – modify to suit your full content needs
-  if (previousStep === "H5-10") {
+export const getDynamicM1Content = (previousStepId: string | null, mysteryData: MysteryData) => {
+  if (previousStepId === "5.10") {
     return [
       {
+        subtitle: "Glory Be",
+        text: "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.",
+      },
+      {
         subtitle: "Hail, Holy Queen",
-        text: "Hail, Holy Queen, Mother of Mercy…",
+        text: "Hail, Holy Queen, Mother of Mercy, our life, our sweetness and our hope! To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn, then, O most gracious Advocate, thine eyes of mercy toward us, and after this, our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us, O holy Mother of God. That we may be made worthy of the promises of Christ.",
       },
     ]
   }
+  // Default to First Mystery content (covers initial state and coming from S5)
   return [
     {
-      subtitle: `First Mystery of the ${mysteryData.title}`,
-      text: mysteryData.mysteries[0].significance,
+      subtitle: "Glory Be",
+      text: "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.",
+    },
+    {
+      subtitle: `The First Mystery of the ${mysteryData.title}: ${mysteryData.mysteries[0].title}`,
+      text: `${mysteryData.mysteries[0].significance} ${mysteryData.mysteries[0].reflection}`,
+    },
+    {
+      subtitle: "Our Father",
+      text: "Our Father, Who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil, Amen.",
     },
   ]
 }
-
-/* ────────────────────────────────────
-   EXPORTED API
-   ──────────────────────────────────── */
