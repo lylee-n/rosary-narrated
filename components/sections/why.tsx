@@ -1,118 +1,155 @@
 "use client"
 
-import type React from "react"
+import { CustomButton } from "@/components/ui/custom-button"
+import { useApp } from "@/components/app-provider"
 
-import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
+export function WhySection() {
+  const { setView } = useApp()
 
-/**
- * LOCAL IMAGE
- * Mary-womb-golden-light full-bleed background
- * (already in public/images/Mary-womb-golden-light.png)
- */
-const bgSrc = "/images/Mary-womb-golden-light.png"
-
-type GlassCardProps = {
-  className?: string
-  title: string
-  children: React.ReactNode
-}
-
-function GlassCard({ className, title, children }: GlassCardProps) {
   return (
-    <Card className={cn("w-full backdrop-blur-sm bg-white/10 border border-white/20 shadow-xl", className)}>
-      <CardContent className="p-6 space-y-4 text-sm leading-relaxed text-white/90">
-        <h3 className="text-xl font-semibold text-white">{title}</h3>
-        {children}
-      </CardContent>
-    </Card>
-  )
-}
-
-export default function WhySection() {
-  return (
-    <section className="relative isolate overflow-hidden">
-      {/* FULL-BLEED BACKGROUND */}
-      <Image
-        src={bgSrc || "/placeholder.svg"}
-        alt="Mary – golden light"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center pointer-events-none opacity-60"
-      />
-
-      {/* DARK OVERLAY for readability */}
-      <div className="absolute inset-0 bg-black/50" />
-
-      {/* CONTENT */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 py-20 lg:py-28">
-        {/* Section Heading */}
-        <header className="mb-12 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white">Why Pray the Rosary?</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-white/90">
-            Discover the profound spiritual benefits and promises attached to this ancient devotion.
-          </p>
-        </header>
-
-        {/* GLASS CARDS GRID */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Card 1 – Spiritual Benefits */}
-          <GlassCard title="Spiritual Benefits">
-            <ul className="space-y-2 list-disc list-inside">
-              {[
-                "Deepens meditation on Christ’s life",
-                "Strengthens virtue and discipline",
-                "Offers powerful intercession",
-                "Brings peace in times of trial",
-                "Unites families in prayer",
-                "Fosters a habit of contemplation",
-              ].map((benefit) => (
-                <li key={benefit} className="marker:text-yellow-300">
-                  {benefit}
-                </li>
-              ))}
-            </ul>
-          </GlassCard>
-
-          {/* Card 2 – Historical Significance */}
-          <GlassCard title="Historical Significance">
-            <p>
-              The Rosary emerged in its current form in the Middle Ages and has been championed by countless saints.
-              Tradition holds that Saint Dominic received it from the Blessed Mother as a tool to combat heresy and draw
-              souls to Christ. Over centuries it became a universal prayer for Christians seeking a structured
-              meditation on the mysteries of salvation.
+    <section className="w-full">
+      {/* --- Top part (Title) --- */}
+      <div className="w-full bg-black/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center pt-16 md:pt-24 pb-12 md:pb-16">
+            <h2 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-8">
+              Why Pray the Rosary?
+            </h2>
+            <p className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto">
+              The Rosary is one of the most powerful prayers in the Catholic tradition, offering countless spiritual
+              benefits and graces.
             </p>
-          </GlassCard>
+          </div>
+        </div>
+      </div>
 
-          {/* Card 3 – The 15 Promises */}
-          <GlassCard title="The 15 Promises" className="lg:col-span-1">
-            <div className="max-h-72 overflow-y-auto pr-2">
-              <ol className="space-y-2 list-decimal list-inside">
-                {[
-                  "Those who faithfully serve me by recitation of the Rosary shall receive signal graces.",
-                  "I promise my special protection and the greatest graces to all who shall recite the Rosary.",
-                  "The Rosary shall be a powerful armor against hell; it will destroy vice, decrease sin, and defeat heresies.",
-                  "It will cause virtue and good works to flourish; it will obtain for souls the abundant mercy of God.",
-                  "The soul which recommends itself to me by the recitation of the Rosary shall not perish.",
-                  "Whoever shall recite the Rosary devoutly shall never be conquered by misfortune.",
-                  "Whoever shall have a true devotion to the Rosary shall not die without the Sacraments of the Church.",
-                  "Those who are faithful to reciting the Rosary shall have during their life and at their death the light of God and the plenitude of His graces.",
-                  "I shall deliver from purgatory those who have been devoted to the Rosary.",
-                  "The faithful children of the Rosary shall merit a high degree of glory in heaven.",
-                  "You shall obtain all you ask of me by the recitation of the Rosary.",
-                  "All who propagate the holy Rosary shall be aided by me in their necessities.",
-                  "I have obtained from my Son that all the advocates of the Rosary shall have for intercessors the entire celestial court during their life and at the hour of death.",
-                  "Those who recite the Rosary are my sons and daughters, and brothers and sisters of my only Son Jesus Christ.",
-                  "Devotion to my Rosary is a great sign of predestination.",
-                ].map((promise, idx) => (
-                  <li key={idx}>{promise}</li>
-                ))}
-              </ol>
+      {/* --- Full Bleed Container with Mary Background --- */}
+      <div
+        className="relative w-full"
+        style={{
+          backgroundImage: "url('/images/Mary-womb-golden-light.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed", // Creates a parallax effect on scroll
+        }}
+      >
+        {/* Dark Overlay for readability */}
+        <div className="absolute inset-0 bg-black/50 z-0" />
+
+        {/* Centered Content (3 Glass Cards) */}
+        <div className="container relative mx-auto px-4 z-10 py-16 lg:py-24">
+          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+            {/* Card 1: Spiritual Benefits */}
+            <div className="w-full h-[550px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
+              <div className="relative z-10 flex flex-col h-full p-8">
+                <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">Spiritual Benefits</h3>
+                <div className="flex-1 space-y-4 text-white/90">
+                  <div className="flex items-start space-x-3">
+                    <span className="text-[#FFE552] mt-1">•</span>
+                    <span>Deepens your relationship with Jesus and Mary</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <span className="text-[#FFE552] mt-1">•</span>
+                    <span>Brings peace and tranquility to your mind and heart</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <span className="text-[#FFE552] mt-1">•</span>
+                    <span>Strengthens your faith and trust in God</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <span className="text-[#FFE552] mt-1">•</span>
+                    <span>Provides protection from evil and temptation</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <span className="text-[#FFE552] mt-1">•</span>
+                    <span>Helps you meditate on the life of Christ</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <span className="text-[#FFE552] mt-1">•</span>
+                    <span>Brings healing and comfort in times of suffering</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p className="mt-4 text-xs text-right text-white/60">— Attributed to Our Lady to St.&nbsp;Dominic</p>
-          </GlassCard>
+
+            {/* Card 2: Historical Significance */}
+            <div className="w-full h-[550px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
+              <div className="relative z-10 flex flex-col h-full p-8">
+                <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">Historical Significance</h3>
+                <div className="flex-1 space-y-4 text-white/90 leading-relaxed">
+                  <p>
+                    The Rosary has been prayed by Catholics for over 800 years. It was given to St. Dominic by the
+                    Blessed Virgin Mary herself as a powerful weapon against heresy and sin.
+                  </p>
+                  <p>
+                    Throughout history, the Rosary has been credited with numerous miracles, including the victory at
+                    the Battle of Lepanto in 1571, which saved Christian Europe from Ottoman invasion.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3: The 15 Promises */}
+            <div className="w-full h-[550px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
+              <div className="relative z-10 flex flex-col h-full p-8">
+                <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">The 15 Promises</h3>
+                <div className="flex-1 overflow-y-auto pr-4">
+                  <div className="space-y-3 text-white/90 text-sm leading-relaxed">
+                    <p>
+                      • Whoever shall faithfully serve me by the recitation of the Rosary, shall receive signal graces.
+                    </p>
+                    <p>
+                      • I promise my special protection and the greatest graces to all those who shall recite the
+                      Rosary.
+                    </p>
+                    <p>
+                      • The Rosary shall be a powerful armor against hell, it will destroy vice, decrease sin, and
+                      defeat heresies.
+                    </p>
+                    <p>
+                      • The Rosary will cause virtue and good works to flourish; it will obtain for souls the abundant
+                      mercy of God.
+                    </p>
+                    <p>• The soul which recommends itself to me by the recitation of the Rosary, shall not perish.</p>
+                    <p>
+                      • Whoever shall recite the Rosary devoutly, applying himself to the consideration of its sacred
+                      mysteries shall never be conquered by misfortune.
+                    </p>
+                    <p>• God will not chastise him in His justice, he shall not perish by an unprovided death.</p>
+                    <p>• If he be just he shall remain in the grace of God, and become worthy of eternal life.</p>
+                    <p>
+                      • Whoever shall have a true devotion for the Rosary shall not die without the sacraments of the
+                      Church.
+                    </p>
+                    <p>
+                      • Those who are faithful to recite the Rosary shall have during their life and at their death the
+                      light of God and the plenititude of His graces.
+                    </p>
+                    <p>• At the moment of death they shall be protected by the saints of heaven.</p>
+                    <p>• I shall deliver from purgatory those who have been devoted to the Rosary.</p>
+                    <p>• The faithful children of the Rosary shall merit a high degree of glory in heaven.</p>
+                    <p>• You shall obtain all you ask of me by the recitation of the Rosary.</p>
+                    <p>• All those who propagate the holy Rosary shall be aided by me in their necessities.</p>
+                  </div>
+                  <p className="text-white/70 text-xs italic mt-6">
+                    — Promises given by Our Lady to St. Dominic and Blessed Alan de la Roche
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* --- Bottom part (Learn How Button) --- */}
+      <div className="w-full bg-black/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center py-16 md:py-24">
+            <CustomButton onClick={() => setView("HOW")} size="lg" variant="yellow">
+              <span className="hidden md:inline">Learn how to pray the Rosary</span>
+              <span className="md:hidden">Learn how</span>
+            </CustomButton>
+          </div>
         </div>
       </div>
     </section>

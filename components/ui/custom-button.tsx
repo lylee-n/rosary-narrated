@@ -1,39 +1,48 @@
-import type React from "react"
-import { ArrowRight } from "lucide-react"
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+
 import { cn } from "@/lib/utils"
 
-interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode
-  size?: "sm" | "md" | "lg"
-  variant?: "default" | "outline" | "yellow"
-  showArrow?: boolean
+const customButtonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+        yellow: "bg-[#FFE552] text-black hover:bg-[#FFE552]/90",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  },
+)
+
+export interface CustomButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof customButtonVariants> {
+  asChild?: boolean
 }
 
-export function CustomButton({
-  children,
-  className,
-  size = "md",
-  variant = "default",
-  showArrow = true,
-  ...props
-}: CustomButtonProps) {
-  return (
-    <button
-      className={cn(
-        "inline-flex items-center justify-center gap-3 px-8 py-3 rounded-full border-2 font-medium uppercase tracking-normal transition-all duration-300",
-        {
-          "border-[#82FAFA] bg-transparent text-[#82FAFA] hover:bg-[#82FAFA] hover:text-black": variant === "default",
-          "border-[#FFE552] bg-transparent text-[#FFE552] hover:bg-[#FFE552] hover:text-black": variant === "yellow",
-          "px-6 py-2 text-xs": size === "sm",
-          "px-8 py-3 text-sm": size === "md",
-          "px-10 py-4 text-base": size === "lg",
-        },
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      {showArrow && <ArrowRight size={16} />}
-    </button>
-  )
-}
+const CustomButton = React.forwardRef<HTMLButtonElement, CustomButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return <Comp className={cn(customButtonVariants({ variant, size, className }))} ref={ref} {...props} />
+  },
+)
+CustomButton.displayName = "CustomButton"
+
+export { CustomButton, customButtonVariants }

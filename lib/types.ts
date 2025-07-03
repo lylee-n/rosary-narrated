@@ -29,5 +29,3 @@ export interface NavItem {
 // Mystery and perspective types
 export type MysterySetKey = "joyful" | "luminous" | "sorrowful" | "glorious"
 export type PerspectiveType = 3 | 7 | 12
-
-// Add other shared types here if needed
