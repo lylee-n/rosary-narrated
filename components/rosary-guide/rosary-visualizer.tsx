@@ -28,7 +28,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
         beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
         break
       case "spacer":
-        // Spacers are non-interactive and invisible
+        // Spacers are non-interactive and should be fully transparent
         beadClasses = "w-1.5 h-1.5 rounded-full bg-transparent border-transparent"
         break
       default:
@@ -39,7 +39,10 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     if (isActive) {
       beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
     } else {
-      beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
+      // IMPORTANT: Only apply inactive styles to non-spacer beads
+      if (element.type !== "spacer") {
+        beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
+      }
     }
 
     return (
@@ -62,7 +65,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
   const getEnhancedRosaryElements = () => {
     const mainBeads = rosaryElements.filter((el) => el.type === "mystery" || el.type === "hail-mary")
 
-    // Find M1 and rotate the array to start with it. This is a more robust way to handle positioning.
+    // Find M1 and rotate the array to start with it.
     const m1Index = mainBeads.findIndex((bead) => bead.id === "M1")
     const rotatedBeads = m1Index !== -1 ? [...mainBeads.slice(m1Index), ...mainBeads.slice(0, m1Index)] : mainBeads
 

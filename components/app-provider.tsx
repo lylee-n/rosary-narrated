@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { createContext, useContext, useState, useCallback } from "react"
-import type { ViewType, Language, AppError } from "@/lib/types"
+import type { Language, AppError } from "@/lib/types"
 
 interface AppContextType {
   // Language state
@@ -10,8 +10,8 @@ interface AppContextType {
   setLanguage: (language: Language) => void
 
   // Navigation state
-  currentView: ViewType
-  setView: (view: ViewType) => void
+  currentView: string
+  setCurrentView: (view: string) => void
 
   // Global loading state
   isLoading: boolean
@@ -26,14 +26,14 @@ interface AppContextType {
   handleError: (error: unknown, type?: AppError["type"]) => void
 }
 
-const AppContext = createContext<AppContextType | null>(null)
+const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   // Language state
   const [language, setLanguage] = useState<Language>("en")
 
-  // Navigation state - Default to "WHAT" page
-  const [currentView, setCurrentView] = useState<ViewType>("WHAT")
+  // Navigation state - Default to "HOW" page
+  const [currentView, setCurrentView] = useState<string>("HOW")
 
   // Global loading state
   const [isLoading, setIsLoading] = useState(false)
@@ -42,7 +42,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<AppError | null>(null)
 
   // Navigation handler
-  const setView = useCallback((view: ViewType) => {
+  const setView = useCallback((view: string) => {
     setCurrentView(view)
     // Clear any errors when navigating
     setError(null)
@@ -80,7 +80,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     language,
     setLanguage,
     currentView,
-    setView,
+    setCurrentView,
     isLoading,
     setIsLoading,
     error,
@@ -94,7 +94,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
 export function useApp() {
   const context = useContext(AppContext)
-  if (!context) {
+  if (context === undefined) {
     throw new Error("useApp must be used within an AppProvider")
   }
   return context

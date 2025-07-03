@@ -30,7 +30,7 @@ function MainContent() {
       case "SUPPORT":
         return <SupportSection />
       default:
-        return <WhatSection />
+        return <HowSection />
     }
   }
 
