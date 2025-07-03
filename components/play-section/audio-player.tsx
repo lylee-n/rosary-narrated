@@ -115,7 +115,7 @@ export const AudioPlayer = memo(function AudioPlayer({
               min={0.5}
               max={2}
               step={0.25}
-              className="w-full [&>span:first-child]:h-1.5 [&>span:first-child]:bg-transparent [&_[role=slider]]:bg-stone-200 [&_[role=slider]]:border-stone-200 [&_[role=slider]]:w-4 [&_[role=slider]]:h-4 [&>span:first-child>span]:bg-[#82FAFA]"
+              className="w-full [&>span:first-child]:h-1.5 [&>span:first-child]:bg-white/20 [&_[role=slider]]:bg-stone-200 [&_[role=slider]]:border-stone-200 [&_[role=slider]]:w-4 [&_[role=slider]]:h-4 [&>span:first-child>span]:bg-transparent"
               disabled={isLoading}
             />
           </div>
