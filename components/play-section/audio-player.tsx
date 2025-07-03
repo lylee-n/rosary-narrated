@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { memo, useCallback } from "react"
-import { Play, Pause, SkipForward } from "lucide-react"
+import { Play, Pause, ChevronsRight } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 
@@ -17,7 +17,6 @@ interface AudioPlayerProps {
   onSeekBy: (seconds: number) => void
   onPlayPause: () => void
   onSpeedChange: (speed: number) => void
-  onNext?: () => void
 }
 
 // Custom circular skip icons
@@ -52,7 +51,6 @@ export const AudioPlayer = memo(function AudioPlayer({
   onSeekBy,
   onPlayPause,
   onSpeedChange,
-  onNext,
 }: AudioPlayerProps) {
   const formatTime = useCallback((time: number): string => {
     if (!isFinite(time) || isNaN(time)) return "0:00"
@@ -86,12 +84,6 @@ export const AudioPlayer = memo(function AudioPlayer({
     onSeekBy(10)
   }, [onSeekBy])
 
-  const handleNext = useCallback(() => {
-    if (onNext) {
-      onNext()
-    }
-  }, [onNext])
-
   return (
     <div className="mt-4 p-4 bg-black/30 backdrop-blur-sm rounded-lg border border-white/10">
       {/* Progress Bar with custom styling */}
@@ -112,7 +104,7 @@ export const AudioPlayer = memo(function AudioPlayer({
         </div>
       </div>
 
-      {/* Speed Control Slider - Made transparent background */}
+      {/* Speed Control Slider */}
       <div className="mb-4">
         <div className="flex items-center space-x-3">
           <span className="text-xs text-white/70 font-medium min-w-[35px]">Speed</span>
@@ -123,7 +115,7 @@ export const AudioPlayer = memo(function AudioPlayer({
               min={0.5}
               max={2}
               step={0.25}
-              className="w-full [&>span:first-child]:h-1.5 [&>span:first-child]:bg-white/20 [&_[role=slider]]:bg-gray-200 [&_[role=slider]]:border-gray-200 [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&>span:first-child>span]:bg-[#82FAFA]"
+              className="w-full [&>span:first-child]:h-1.5 [&>span:first-child]:bg-transparent [&_[role=slider]]:bg-stone-200 [&_[role=slider]]:border-stone-200 [&_[role=slider]]:w-4 [&_[role=slider]]:h-4 [&>span:first-child>span]:bg-[#82FAFA]"
               disabled={isLoading}
             />
           </div>
@@ -175,16 +167,15 @@ export const AudioPlayer = memo(function AudioPlayer({
           <SkipForwardIcon />
         </Button>
 
-        {/* Next Decade */}
+        {/* Next Decade Button (visual only for now) */}
         <Button
           variant="ghost"
           size="sm"
-          onClick={handleNext}
-          disabled={isLoading || !duration}
-          className="text-white hover:text-[#82FAFA] hover:bg-white/10 p-2"
-          aria-label="Next decade"
+          disabled
+          className="text-white hover:text-[#82FAFA] hover:bg-white/10 p-2 disabled:opacity-50"
+          aria-label="Next Decade"
         >
-          <SkipForward size={16} />
+          <ChevronsRight size={16} />
         </Button>
       </div>
     </div>
