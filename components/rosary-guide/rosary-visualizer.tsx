@@ -17,13 +17,14 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     let beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
 
     if (element.type === "cross") {
-      // Circular cross styling for consistency with rounded beads
+      // Circular cross styling for consistency with rounded beads - thinner border
       beadClasses =
-        "w-7 h-7 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative bg-amber-800 border-amber-600 shadow-lg"
+        "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative bg-amber-800 border-amber-600 shadow-lg"
     } else if (element.type === "mystery") {
       beadClasses = "w-5 h-5 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
     } else if (element.type === "stem") {
-      beadClasses = "w-3.5 h-3.5 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
+      // Thinner border for stem beads
+      beadClasses = "w-3.5 h-3.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
     }
 
     if (isActive) {
@@ -49,8 +50,8 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
 
   return (
     <div className="lg:w-[35%] flex items-center justify-center">
-      {/* Container with glass-like effect matching the prayer card */}
-      <div className="relative rounded-xl overflow-hidden border border-white/20 bg-black/30 backdrop-blur-sm shadow-2xl">
+      {/* Container with glass-like effect matching the prayer card - changed to bg-white/30 */}
+      <div className="relative rounded-xl overflow-hidden border border-white/20 bg-white/30 backdrop-blur-sm shadow-2xl">
         {/* Rosary content - flipped upside down so cross is at bottom - extended container height */}
         <div className="relative z-10 px-6 py-8 h-[650px] lg:h-[600px] transform rotate-180 flex items-center justify-center">
           <div className="flex flex-col items-center space-y-4">
@@ -65,8 +66,8 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                 ))}
             </div>
 
-            {/* Stem beads (3 Hail Marys + 1 Our Father) */}
-            <div className="flex flex-col items-center space-y-2 mb-6">
+            {/* Stem beads (3 Hail Marys + 1 Our Father) - increased spacing */}
+            <div className="flex flex-col items-center space-y-3 mb-6">
               {rosaryElements
                 .filter((el) => el.type === "stem")
                 .map((element, index) => (
@@ -76,8 +77,8 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                 ))}
             </div>
 
-            {/* Main rosary loop - adjusted radius to fit better */}
-            <div className="relative w-44 h-44">
+            {/* Main rosary loop - increased radius to create more space between beads */}
+            <div className="relative w-52 h-52">
               {/* Circular arrangement of decades */}
               <div className="absolute inset-0">
                 {rosaryElements
@@ -87,7 +88,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                       (el) => el.type === "mystery" || el.type === "hail-mary",
                     ).length
                     const angle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
-                    const radius = 75 // Slightly reduced radius
+                    const radius = 90 // Increased radius from 75 to 90 for more spacing
                     const x = Math.cos(angle) * radius
                     const y = Math.sin(angle) * radius
 
