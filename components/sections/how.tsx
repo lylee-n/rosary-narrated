@@ -98,7 +98,7 @@ export function HowSection() {
 
       {/* --- Full Bleed Container with Dynamic Background --- */}
       <div
-        className="relative w-full min-h-[800px]"
+        className="relative w-full min-h-[800px] z-0"
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",
