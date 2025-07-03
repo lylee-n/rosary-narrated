@@ -1,123 +1,54 @@
 "use client"
 
-import { memo } from "react"
-import { useTranslations } from "@/hooks/use-translations"
+import { dailyMysteries } from "@/lib/rosary-utils"
 
-interface DailyMysteryProps {
-  selectedMysterySetIndex: number
-  onMysterySetChange: (index: number) => void
+interface DailyMysterySelectorProps {
+  currentDay: string
+  selectedDay: string
+  onDayClick: (dayName: string) => void
 }
 
-const MYSTERY_SETS = ["joyful", "luminous", "sorrowful", "glorious"] as const
-
-export const DailyMysterySelector = memo(function DailyMysterySelector({
-  selectedMysterySetIndex,
-  onMysterySetChange,
-}: DailyMysteryProps) {
-  // useTranslations returns an object whose keys map to translated strings
-  const translations = useTranslations()
-  const tr = (key: string) => (translations as Record<string, string>)[key] ?? key
-
-  const getDayOfWeek = () => {
-    const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
-    const today = new Date().getDay()
-    return days[today]
-  }
-
-  const getTodayMysteryIndex = () => {
-    const today = new Date().getDay()
-    const mysteryMap = [3, 0, 2, 3, 1, 2, 0] // Sunday=Glorious, Monday=Joyful, etc.
-    return mysteryMap[today]
-  }
-
-  const todayMysteryIndex = getTodayMysteryIndex()
-  const todayDay = getDayOfWeek()
-
+export const DailyMysterySelector = ({ currentDay, selectedDay, onDayClick }: DailyMysterySelectorProps) => {
   return (
-    <div className="w-full max-w-4xl mx-auto px-4">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{tr("howToPrayRosary")}</h2>
-        <p className="text-white/80 text-lg">{tr("generalRule")}</p>
-      </div>
-
-      {/* Desktop Grid Layout */}
-      <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { day: "monday", mystery: "joyful", index: 0 },
-          { day: "tuesday", mystery: "sorrowful", index: 2 },
-          { day: "wednesday", mystery: "glorious", index: 3 },
-          { day: "thursday", mystery: "luminous", index: 1 },
-          { day: "friday", mystery: "sorrowful", index: 2 },
-          { day: "saturday", mystery: "joyful", index: 0 },
-          { day: "sunday", mystery: "glorious", index: 3 },
-        ].map(({ day, mystery, index }) => {
-          const isToday = day === todayDay
-          const isSelected = selectedMysterySetIndex === index
-
+    <div className="max-w-5xl mx-auto text-center mb-16">
+      <p className="text-lg md:text-xl text-gray-300 font-inter font-light leading-relaxed mb-16 text-center">
+        As a general rule:
+      </p>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-3 md:gap-4 text-gray-300 text-sm md:text-base px-4 md:px-0">
+        {dailyMysteries.map((item) => {
+          const isToday = item.day === currentDay
+          const isSelected = item.day === selectedDay
           return (
-            <button
-              key={day}
-              onClick={() => onMysterySetChange(index)}
-              className={`
-                p-4 rounded-lg border transition-all duration-200 text-center
-                ${
-                  isSelected
-                    ? "bg-[#82FAFA]/20 border-[#82FAFA] text-[#82FAFA]"
-                    : isToday
-                      ? "bg-white/10 border-white/30 text-white hover:bg-white/20"
-                      : "bg-white/5 border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
-                }
-              `}
-            >
-              <div className="font-semibold text-lg capitalize">
-                {tr(day)} {isToday && "(Today)"}
-              </div>
-              <div className="text-sm opacity-80 capitalize">
-                {tr(mystery)} {tr("mysteries")}
-              </div>
-            </button>
-          )
-        })}
-      </div>
+            <div key={item.day}>
+              <button
+                onClick={() => onDayClick(item.day)}
+                className="flex flex-col items-center justify-center space-y-1 p-2 rounded-lg transition-all duration-200 hover:bg-white/10 cursor-pointer w-full h-full"
+              >
+                {/* For mobile view, show (Today) above the day */}
+                {isToday && <p className="text-xs text-gray-400 font-inter font-light md:hidden">(Today)</p>}
 
-      {/* Mobile Grid Layout */}
-      <div className="md:hidden grid grid-cols-2 gap-3">
-        {[
-          { day: "monday", mystery: "joyful", index: 0 },
-          { day: "tuesday", mystery: "sorrowful", index: 2 },
-          { day: "wednesday", mystery: "glorious", index: 3 },
-          { day: "thursday", mystery: "luminous", index: 1 },
-          { day: "friday", mystery: "sorrowful", index: 2 },
-          { day: "saturday", mystery: "joyful", index: 0 },
-          { day: "sunday", mystery: "glorious", index: 3 },
-        ].map(({ day, mystery, index }) => {
-          const isToday = day === todayDay
-          const isSelected = selectedMysterySetIndex === index
-
-          return (
-            <button
-              key={day}
-              onClick={() => onMysterySetChange(index)}
-              className={`
-                p-3 rounded-lg border transition-all duration-200 text-center
-                ${
-                  isSelected
-                    ? "bg-[#82FAFA]/20 border-[#82FAFA] text-[#82FAFA]"
-                    : isToday
-                      ? "bg-white/10 border-white/30 text-white hover:bg-white/20"
-                      : "bg-white/5 border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
-                }
-              `}
-            >
-              {isToday && <div className="text-xs text-[#82FAFA] font-medium mb-1">(Today)</div>}
-              <div className="font-semibold text-base capitalize">{tr(day)}</div>
-              <div className="text-xs opacity-80 capitalize">
-                {tr(mystery)} {tr("mysteries")}
-              </div>
-            </button>
+                <p
+                  className={`font-bold text-sm md:text-base ${isSelected ? "text-[#FFE552]" : isToday ? "text-white" : "text-gray-400"}`}
+                >
+                  {item.day}
+                  {/* For desktop view, show (Today) inline */}
+                  {isToday && <span className="hidden md:inline text-sm font-light text-gray-400"> (Today)</span>}
+                </p>
+                <p
+                  className={`text-center leading-tight text-xs md:text-sm ${isSelected ? "text-[#FFE552]" : isToday ? "text-gray-300" : "text-gray-500"}`}
+                >
+                  {item.mystery}
+                </p>
+                <p
+                  className={`text-center leading-tight text-xs md:text-sm ${isSelected ? "text-[#FFE552]" : isToday ? "text-gray-300" : "text-gray-500"}`}
+                >
+                  Mysteries
+                </p>
+              </button>
+            </div>
           )
         })}
       </div>
     </div>
   )
-})
+}
