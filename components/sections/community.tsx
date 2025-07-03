@@ -1,4 +1,6 @@
 "use client"
+
+import { Users, Calendar, BookOpen } from "lucide-react"
 import { useApp } from "@/components/app-provider"
 
 export function CommunitySection() {
@@ -16,6 +18,86 @@ export function CommunitySection() {
           Finding your place in faith can be complicated. We get it. Here, we're building something different.
         </p>
         <p className="text-lg text-gray-300 max-w-2xl mx-auto font-inter leading-relaxed">Coming soon ...</p>
+      </div>
+
+      {/* Two cards on the same row - reduced width */}
+      <div className="max-w-5xl mx-auto space-y-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Regular Connections Card */}
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="w-10 h-10 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-3">
+                <Calendar size={20} className="text-[#82FAFA]" />
+              </div>
+              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Regular Connections</h2>
+            </div>
+            <p className="text-base text-gray-300 font-inter leading-relaxed pl-8">
+              Virtual meetups where you can show up where you are spiritually. Discuss scriptural perspectives. Discuss
+              hard stuff. Talk through life stuff. Find people who also get it, or not. Pray together.
+            </p>
+          </div>
+
+          {/* Interactive Faith Card */}
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="w-10 h-10 bg-[#FFE552]/20 rounded-full flex items-center justify-center mr-3">
+                <BookOpen size={20} className="text-[#FFE552]" />
+              </div>
+              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">Interactive Faith</h2>
+            </div>
+            <p className="text-base text-gray-300 font-inter leading-relaxed pl-8">
+              Making scripture study feels less intimidating and more like bite size soul foods that integrates into
+              your daily world.
+            </p>
+          </div>
+        </div>
+
+        {/* What We're Building Card - Centered below with reduced width and left-aligned text */}
+        <div className="flex justify-center">
+          <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-6 md:p-8 max-w-2xl w-full">
+            <div className="flex items-center mb-6">
+              <div className="w-10 h-10 bg-[#82FAFA]/20 rounded-full flex items-center justify-center mr-3">
+                <Users size={20} className="text-[#82FAFA]" />
+              </div>
+              <h2 className="text-white font-sora text-xl md:text-2xl font-semibold">What We're Building</h2>
+            </div>
+            <p className="text-base text-gray-300 font-inter leading-relaxed mb-8 pl-8">
+              Some exciting stuff in the works:
+            </p>
+            {/* Vertical bullet points list */}
+            <ul className="space-y-3 max-w-xl pl-8">
+              <li className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-base text-gray-300 font-inter leading-relaxed">
+                  Live and virtual spaces for prayer and real talk
+                </span>
+              </li>
+              <li className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-base text-gray-300 font-inter leading-relaxed">
+                  Scripture reflections that wake you up so hard that you cancel your Starbucks membership card
+                </span>
+              </li>
+              <li className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-base text-gray-300 font-inter leading-relaxed">
+                  Growth challenges that feel doable
+                </span>
+              </li>
+              <li className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-base text-gray-300 font-inter leading-relaxed">Peer-support that's helpful</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Call to Action - Outside of cards */}
+      <div className="text-center max-w-3xl mx-auto">
+        <p className="text-lg text-gray-300 font-inter leading-relaxed mb-8">
+          Build this with us. Help us make this happen.
+        </p>
       </div>
     </div>
   )
