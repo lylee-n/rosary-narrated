@@ -4,17 +4,19 @@ import { Headphones, Eye, MousePointer } from "lucide-react"
 
 export function WhatSection() {
   return (
-    <section
-      className="relative w-full min-h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
-      style={{
-        backgroundImage: "url('/images/jesus-resurrected.png')",
-      }}
-    >
-      {/* This div creates the dark overlay on top of the background image */}
-      <div className="absolute inset-0 bg-black/60" />
+    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image Layer */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center bg-fixed"
+        style={{
+          backgroundImage: "url('/images/jesus-resurrected.png')",
+        }}
+      />
+      {/* Dark Overlay Layer */}
+      <div className="absolute inset-0 z-10 bg-black/60" />
 
-      {/* This div holds the content and sits on top of the overlay */}
-      <div className="relative z-10 container mx-auto px-4 py-16">
+      {/* Content Layer */}
+      <div className="relative z-20 container mx-auto px-4 py-16">
         <div className="text-center mb-16">
           <h1 className="text-white font-sora text-4xl md:text-6xl lg:text-7xl leading-none font-extrabold md:font-bold mb-12">
             Rosary Narrated
