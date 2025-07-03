@@ -21,7 +21,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-black/80 backdrop-blur-sm">
       <div className="container mx-auto px-4">
-        {/* Desktop Header - Unchanged */}
+        {/* --- DESKTOP HEADER (UNCHANGED) --- */}
         <div className="hidden md:flex items-center justify-between h-20">
           <div className="text-2xl font-bold font-sora text-white">
             Rosary<span className="text-[#FFE552]"> narrated</span>
@@ -48,31 +48,38 @@ export function Header() {
           <div className="w-0" />
         </div>
 
-        {/* Mobile Header - New Stacked Layout */}
+        {/* --- MOBILE HEADER (CORRECTED) --- */}
         <div className="md:hidden flex flex-col items-center space-y-4 py-3">
+          {/* Row 1: Logo */}
           <div className="text-2xl font-bold font-sora text-white">
             Rosary<span className="text-[#FFE552]"> narrated</span>
           </div>
+          {/* Row 2: Icon Navigation */}
           <TooltipProvider delayDuration={0}>
-            <nav className="flex items-center space-x-2">
-              {navItems.map((item) => (
-                <Tooltip key={item.name}>
-                  <TooltipTrigger asChild>
-                    <button
-                      onClick={() => setView(item.name)}
-                      className={`p-2 rounded-full transition-colors ${
-                        currentView === item.name ? "bg-[#FFE552]" : "hover:bg-white/10"
-                      }`}
-                    >
-                      <item.icon className={`h-5 w-5 ${currentView === item.name ? "text-black" : "text-white/80"}`} />
-                      <span className="sr-only">{item.label}</span>
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent className="bg-black/80 text-white border-gray-700">
-                    <p>{item.label}</p>
-                  </TooltipContent>
-                </Tooltip>
-              ))}
+            <nav className="flex items-center justify-center space-x-2">
+              {navItems.map((item) => {
+                const isActive = currentView === item.name
+                const hasHalo = !isActive && (item.name === "FOUNDATION" || item.name === "HOW")
+
+                return (
+                  <Tooltip key={item.name}>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => setView(item.name)}
+                        className={`p-2 rounded-full transition-colors ${
+                          isActive ? "bg-[#FFE552]" : "hover:bg-white/10"
+                        } ${hasHalo ? "shadow-[0_0_15px_rgba(255,229,82,0.6)] border border-[#FFE552]/40" : ""}`}
+                      >
+                        <item.icon className={`h-5 w-5 ${isActive ? "text-black" : "text-white/80"}`} />
+                        <span className="sr-only">{item.label}</span>
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-black/80 text-white border-gray-700">
+                      <p>{item.label}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                )
+              })}
             </nav>
           </TooltipProvider>
         </div>
