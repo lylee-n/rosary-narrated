@@ -19,21 +19,20 @@ export const DailyMysterySelector = ({ currentDay, selectedDay, onDayClick }: Da
           const isToday = item.day === currentDay
           const isSelected = item.day === selectedDay
           return (
-            <div key={item.day} className="relative">
+            <div key={item.day} className="relative flex flex-col items-center">
+              {/* Desktop: Show (Today) above the day name, outside the button */}
+              {isToday && <p className="hidden md:block text-xs text-gray-400 font-inter font-light mb-1">(Today)</p>}
               <button
                 onClick={() => onDayClick(item.day)}
                 className="flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 hover:bg-white/10 cursor-pointer w-full"
               >
-                {/* Mobile: Show (Today) above day name, Desktop: Show inline */}
+                {/* Mobile: Show (Today) above day name, inside the button */}
                 {isToday && <p className="text-xs text-gray-400 font-inter font-light md:hidden">(Today)</p>}
                 <p
                   className={`font-bold text-sm md:text-base ${isSelected ? "text-[#FFE552]" : isToday ? "text-white" : "text-gray-400"}`}
                 >
                   {item.day}
-                  {/* Desktop: Show (Today) inline */}
-                  {isToday && (
-                    <span className="hidden md:inline text-base text-gray-400 font-inter font-light ml-2">(Today)</span>
-                  )}
+                  {/* Removed Desktop: Show (Today) inline from here */}
                 </p>
                 <p
                   className={`text-center leading-tight text-xs md:text-sm ${isSelected ? "text-[#FFE552]" : isToday ? "text-gray-300" : "text-gray-500"}`}
