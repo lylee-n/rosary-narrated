@@ -4,9 +4,8 @@ import { useRosaryState } from "@/hooks/use-rosary-state"
 import { DailyMysterySelector } from "@/components/rosary-guide/daily-mystery-selector"
 import { RosaryVisualizer } from "@/components/rosary-guide/rosary-visualizer"
 import { MYSTERY_IMAGES } from "@/constants"
-import { Cross } from "lucide-react" // Import the Cross icon
+import { Cross } from "lucide-react"
 
-// Define the types for our rosary elements
 type RosaryElement = {
   id: string
   type: "cross" | "stem" | "mystery" | "hail-mary" | "final" | "spacer"
@@ -14,27 +13,6 @@ type RosaryElement = {
   content: { subtitle: string; text: string }[]
 }
 
-// Mystery set mapping based on day of week
-const getMysterySetForDay = (dayOfWeek: number): number => {
-  // dayOfWeek: 0 = Sunday, 1 = Monday, 2 = Tuesday, etc.
-  switch (dayOfWeek) {
-    case 1: // Monday
-    case 6: // Saturday
-      return 1 // Joyful Mysteries
-    case 2: // Tuesday
-    case 5: // Friday
-      return 3 // Sorrowful Mysteries
-    case 3: // Wednesday
-    case 0: // Sunday
-      return 4 // Glorious Mysteries
-    case 4: // Thursday
-      return 2 // Luminous Mysteries
-    default:
-      return 1 // Default to Joyful
-  }
-}
-
-// Get mystery set for a specific day name
 const getMysterySetForDayName = (dayName: string): number => {
   switch (dayName) {
     case "Monday":
@@ -53,10 +31,7 @@ const getMysterySetForDayName = (dayName: string): number => {
   }
 }
 
-// Get background image based on mystery set
 const getMysteryBackgroundImage = (mysterySet: number): string => {
-  // Mystery sets: 1 = Joyful, 2 = Luminous, 3 = Sorrowful, 4 = Glorious
-  // MYSTERY_IMAGES array: [0] = Joyful, [1] = Luminous, [2] = Sorrowful, [3] = Glorious
   return MYSTERY_IMAGES[mysterySet - 1] || MYSTERY_IMAGES[0]
 }
 
@@ -73,18 +48,11 @@ export function HowSection() {
     handleNext,
   } = useRosaryState()
 
-  // Get the current mystery set number
   const currentMysterySet = getMysterySetForDayName(selectedDay || currentDay)
-
-  // Get the background image for the current mystery set
   const backgroundImage = getMysteryBackgroundImage(currentMysterySet)
-
-  // Check if current mystery set is Glorious Mysteries (set 4)
-  const isGloriousMysteries = currentMysterySet === 4
 
   return (
     <section className="w-full">
-      {/* --- Top part (Title & Selector) --- */}
       <div className="w-full bg-black/30">
         <div className="container mx-auto px-4">
           <div className="text-center pt-16 md:pt-24 pb-12 md:pb-16">
@@ -96,20 +64,21 @@ export function HowSection() {
         </div>
       </div>
 
-      {/* --- Full Bleed Container with Dynamic Background --- */}
+      {/* 
+        THE REVERT: Removed `z-0` from this container.
+        It is no longer needed because the global background is now correctly at `z-[-1]`.
+      */}
       <div
-        className="relative w-full min-h-[800px] z-0"
+        className="relative w-full min-h-[800px]"
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundAttachment: "fixed", // Creates a parallax effect on scroll
+          backgroundAttachment: "fixed",
         }}
       >
-        {/* Dark Overlay ONLY for background image (no blur as specifically requested) */}
         <div className="absolute inset-0 bg-black/50 z-0" />
 
-        {/* Centered Content (Rosary + Prayer Card) */}
         <div className="container relative mx-auto px-4 z-10 py-16 lg:py-24">
           <div className="flex flex-col lg:flex-row lg:gap-8 gap-8 lg:items-start">
             <RosaryVisualizer
@@ -118,16 +87,14 @@ export function HowSection() {
               onBeadClick={handleBeadClick}
             />
             <div className="lg:w-[65%] flex items-start justify-center">
-              {/* The Prayer Card container with glass-like effect - changed to bg-white/10 */}
               <div className="w-full h-[650px] lg:h-[600px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
-                {/* Prayer card content */}
                 <div className="relative z-10 flex flex-col h-full p-6">
                   {displayStepData && (
                     <>
                       <div className="flex items-center space-x-3 mb-4 flex-shrink-0">
                         <div className="w-7 h-7 bg-[#FFE552] text-black rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
                           {displayStepData.type === "cross" ? (
-                            <Cross size={16} strokeWidth={3} /> // Changed from <span>✝</span> to Lucide Cross icon
+                            <Cross size={16} strokeWidth={3} />
                           ) : displayStepData.type === "hail-mary" ? (
                             ""
                           ) : (
@@ -138,7 +105,6 @@ export function HowSection() {
                         </div>
                         <h4 className="font-sora text-lg font-bold text-white">{displayStepData.title}</h4>
                       </div>
-                      {/* Scrollable container */}
                       <div className="flex-1 overflow-y-auto mb-4">
                         <div className="space-y-4">
                           {displayStepData.content.map((item, index) => (
