@@ -45,7 +45,7 @@ export function WhySection() {
 
         {/* The 15 Promises Card */}
         <div className="max-w-4xl mx-auto mb-24">
-          <div className="relative bg-[url('/images/joyful-mary-cosmic-womb.png')] bg-cover bg-center bg-no-repeat rounded-lg p-8 overflow-hidden">
+          <div className="relative bg-[url('/images/Mary-womb-golden-light.png')] bg-cover bg-center bg-no-repeat rounded-lg p-8 overflow-hidden">
             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm border border-gray-700/50 rounded-lg"></div>
             <div className="relative z-10">
               <h2 className="text-white font-sora text-2xl md:text-3xl font-semibold mb-8 text-center">
