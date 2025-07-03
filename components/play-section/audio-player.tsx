@@ -17,6 +17,8 @@ interface AudioPlayerProps {
   onSeekBy: (seconds: number) => void
   onPlayPause: () => void
   onSpeedChange: (speed: number) => void
+  onNext: () => void
+  isNextDisabled: boolean
 }
 
 // Custom circular skip icons
@@ -51,6 +53,8 @@ export const AudioPlayer = memo(function AudioPlayer({
   onSeekBy,
   onPlayPause,
   onSpeedChange,
+  onNext,
+  isNextDisabled,
 }: AudioPlayerProps) {
   const formatTime = useCallback((time: number): string => {
     if (!isFinite(time) || isNaN(time)) return "0:00"
@@ -167,11 +171,12 @@ export const AudioPlayer = memo(function AudioPlayer({
           <SkipForwardIcon />
         </Button>
 
-        {/* Next Decade Button (visual only for now) */}
+        {/* Next Decade Button */}
         <Button
           variant="ghost"
           size="sm"
-          disabled
+          onClick={onNext}
+          disabled={isLoading || !duration || isNextDisabled}
           className="text-white hover:text-[#82FAFA] hover:bg-white/10 p-2 disabled:opacity-50"
           aria-label="Next Decade"
         >

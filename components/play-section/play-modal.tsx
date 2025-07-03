@@ -34,6 +34,8 @@ export function PlayModal({ selectedMysterySetIndex, onClose }: PlayModalProps) 
     seekBy,
     setPlaybackSpeed,
     clearError,
+    playNextMystery,
+    isLastMystery,
   } = usePlayModal(selectedMysterySetIndex)
 
   const handleModalClose = () => {
@@ -110,6 +112,8 @@ export function PlayModal({ selectedMysterySetIndex, onClose }: PlayModalProps) 
               onSeekBy={seekBy}
               onPlayPause={handlePlayPause}
               onSpeedChange={setPlaybackSpeed}
+              onPlayNext={playNextMystery}
+              isLastMystery={isLastMystery}
             />
 
             {/* Mobile View */}
@@ -129,33 +133,35 @@ export function PlayModal({ selectedMysterySetIndex, onClose }: PlayModalProps) 
               onSeekBy={seekBy}
               onPlayPause={handlePlayPause}
               onSpeedChange={setPlaybackSpeed}
+              onPlayNext={playNextMystery}
+              isLastMystery={isLastMystery}
             />
           </div>
         </div>
       </div>
 
       <style jsx>{`
-        @keyframes beadReveal {
-          0% {
-            opacity: 0;
-            transform: translateY(20px) scale(0.8);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
+      @keyframes beadReveal {
+        0% {
+          opacity: 0;
+          transform: translateY(20px) scale(0.8);
         }
-        @keyframes lineRevealLeftToRight {
-          0% {
-            opacity: 0;
-            clip-path: inset(0 100% 0 0);
-          }
-          100% {
-            opacity: 1;
-            clip-path: inset(0 0 0 0);
-          }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
         }
-      `}</style>
+      }
+      @keyframes lineRevealLeftToRight {
+        0% {
+          opacity: 0;
+          clip-path: inset(0 100% 0 0);
+        }
+        100% {
+          opacity: 1;
+          clip-path: inset(0 0 0 0);
+        }
+      }
+    `}</style>
     </div>
   )
 }
