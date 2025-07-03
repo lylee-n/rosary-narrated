@@ -13,28 +13,19 @@ import { BlogsSection } from "@/components/sections/blogs"
 function MainContent() {
   const { currentView } = useApp()
 
-  const renderCurrentView = () => {
-    switch (currentView) {
-      case "WHAT":
-        return <WhatSection />
-      case "WHY":
-        return <WhySection />
-      case "FOUNDATION":
-        return <FoundationSection />
-      case "HOW":
-        return <HowSection />
-      case "COMMUNITY":
-        return <CommunitySection />
-      case "BLOGS":
-        return <BlogsSection />
-      case "SUPPORT":
-        return <SupportSection />
-      default:
-        return <WhatSection />
-    }
-  }
-
-  return <AppLayout>{renderCurrentView()}</AppLayout>
+  // This will now definitively render the correct component based on the state.
+  // By setting the default state to "WHAT", we ensure WhatSection is loaded.
+  return (
+    <AppLayout>
+      {currentView === "WHAT" && <WhatSection />}
+      {currentView === "WHY" && <WhySection />}
+      {currentView === "FOUNDATION" && <FoundationSection />}
+      {currentView === "HOW" && <HowSection />}
+      {currentView === "COMMUNITY" && <CommunitySection />}
+      {currentView === "BLOGS" && <BlogsSection />}
+      {currentView === "SUPPORT" && <SupportSection />}
+    </AppLayout>
+  )
 }
 
 export default function Home() {
