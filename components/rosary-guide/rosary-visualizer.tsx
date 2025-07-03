@@ -17,11 +17,12 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     let beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
 
     if (element.type === "cross") {
-      // Circular cross styling - thinner border, yellow when active
+      // Cross styling - removed wooden styling, now matches other beads when inactive
       beadClasses =
         "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative shadow-lg"
     } else if (element.type === "mystery") {
-      beadClasses = "w-5 h-5 rounded-full border-2 cursor-pointer transition-all duration-200 hover:scale-110"
+      // Reduced border thickness for Mystery beads from border-2 to border
+      beadClasses = "w-5 h-5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
     } else if (element.type === "stem") {
       // Thinner border for stem beads
       beadClasses = "w-3.5 h-3.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
@@ -32,19 +33,14 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     }
 
     if (isActive) {
-      if (element.type === "cross") {
-        beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
-      } else if (element.type !== "spacer") {
-        beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
-      }
+      beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
     } else if (isCompleted) {
       if (element.type !== "spacer") {
         beadClasses += " bg-green-500 border-green-500"
       }
     } else {
-      if (element.type === "cross") {
-        beadClasses += " bg-amber-800 border-amber-600"
-      } else if (element.type !== "spacer") {
+      if (element.type !== "spacer") {
+        // All beads (including cross) now use the same styling when inactive
         beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
       }
     }
@@ -135,7 +131,19 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
               <div className="absolute inset-0">
                 {enhancedMainBeads.map((element, index) => {
                   const totalBeads = enhancedMainBeads.length
-                  const angle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
+                  // Adjust the starting angle to center M1 above S5 (top of circle)
+                  // Start at -π/2 (top) and find M1's position to align it properly
+                  let angle = (index / totalBeads) * 2 * Math.PI - Math.PI / 2
+
+                  // Find the M1 bead index to calculate offset needed for centering
+                  const m1Index = enhancedMainBeads.findIndex((bead) => bead.id === "M1")
+                  if (m1Index !== -1) {
+                    // Calculate the offset needed to center M1 at the top
+                    const m1CurrentAngle = (m1Index / totalBeads) * 2 * Math.PI - Math.PI / 2
+                    const offsetAngle = -m1CurrentAngle // Offset to move M1 to top (0 radians from -π/2)
+                    angle += offsetAngle
+                  }
+
                   const radius = 75 // Base radius
                   const x = Math.cos(angle) * radius
                   const y = Math.sin(angle) * radius
