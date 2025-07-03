@@ -40,12 +40,7 @@ export const PrayerDetailsPanel = ({ stepData, onNextClick }: PrayerDetailsPanel
           </div>
         </div>
         <div className="flex justify-center flex-shrink-0">
-          <CustomButton
-            onClick={onNextClick}
-            size="lg"
-            variant="yellow"
-            className="font-sora font-semibold px-8 py-3 text-base"
-          >
+          <CustomButton onClick={onNextClick} size="md" variant="yellow">
             Next
           </CustomButton>
         </div>
