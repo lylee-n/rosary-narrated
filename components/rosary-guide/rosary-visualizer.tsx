@@ -1,9 +1,8 @@
 "use client"
 
-import { useMemo } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import type { RosaryElement } from "@/types"
-import { useRosaryLayout } from "@/hooks/use-rosary-layout"
-import { rosaryConnections } from "@/lib/rosary-utils"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface RosaryVisualizerProps {
   rosaryElements: RosaryElement[]
@@ -12,140 +11,150 @@ interface RosaryVisualizerProps {
 }
 
 export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }: RosaryVisualizerProps) {
-  const { getRosaryElementPosition } = useRosaryLayout()
+  const [isClient, setIsClient] = useState(false)
+  const circleContainerRef = useRef<HTMLDivElement>(null)
+  const [radius, setRadius] = useState(80)
 
-  // 1. Fix Hydration Error and remove duplicates by creating a stable, unique list of elements.
-  const uniqueRosaryElements = useMemo(() => {
-    const seen = new Set()
-    return rosaryElements.filter((el) => {
-      const duplicate = seen.has(el.id)
-      seen.add(el.id)
-      return !duplicate
-    })
+  useEffect(() => {
+    setIsClient(true)
+
+    const updateRadius = () => {
+      if (circleContainerRef.current) {
+        const containerWidth = circleContainerRef.current.offsetWidth
+        // Set radius to be slightly less than half the container width to account for bead size
+        setRadius(containerWidth / 2 - 20)
+      }
+    }
+
+    // Initial radius calculation
+    updateRadius()
+
+    // Use ResizeObserver to update radius on container resize
+    const resizeObserver = new ResizeObserver(updateRadius)
+    if (circleContainerRef.current) {
+      resizeObserver.observe(circleContainerRef.current)
+    }
+
+    return () => resizeObserver.disconnect()
+  }, [])
+
+  const enhancedMainBeads = useMemo(() => {
+    const mainBeadsSource = rosaryElements.filter((el) => el.type === "mystery" || el.type === "hail-mary")
+    const mainBeads = mainBeadsSource.filter((bead, index, self) => index === self.findIndex((b) => b.id === bead.id))
+
+    const m1Index = mainBeads.findIndex((bead) => bead.id === "M1/Final")
+    const rotatedBeads = m1Index !== -1 ? [...mainBeads.slice(m1Index), ...mainBeads.slice(0, m1Index)] : mainBeads
+
+    const enhancedBeads: RosaryElement[] = []
+    for (const currentBead of rotatedBeads) {
+      if (currentBead.type === "mystery") {
+        enhancedBeads.push({ id: `spacer-before-${currentBead.id}`, type: "spacer", title: "", content: [] })
+      }
+      enhancedBeads.push(currentBead)
+      if (currentBead.type === "mystery") {
+        enhancedBeads.push({ id: `spacer-after-${currentBead.id}`, type: "spacer", title: "", content: [] })
+      }
+    }
+    return enhancedBeads
   }, [rosaryElements])
 
-  // 2. Memoize bead positions for performance.
-  const beadPositions = useMemo(() => {
-    const positions: { [key: string]: { x: number; y: number } } = {}
-    uniqueRosaryElements.forEach((el) => {
-      const pos = getRosaryElementPosition(el.id)
-      // Convert percentage strings to numbers for SVG coordinates
-      positions[el.id] = {
-        x: Number.parseFloat(pos.left),
-        y: Number.parseFloat(pos.top),
-      }
-    })
-    return positions
-  }, [uniqueRosaryElements, getRosaryElementPosition])
-
-  const getBeadRadius = (type: RosaryElement["type"]) => {
-    switch (type) {
-      case "cross":
-        return 5 // Make cross larger
-      case "mystery":
-        return 3.5
-      case "stem":
-        return 2.5
-      case "hail-mary":
-        return 1.5
-      default:
-        return 0
-    }
-  }
-
   const renderBead = (element: RosaryElement) => {
-    const pos = beadPositions[element.id]
-    if (!pos || element.type === "spacer") return null
-
     const isActive = element.id === currentStepId
-    const radius = getBeadRadius(element.type)
+    let beadClasses = ""
 
-    const beadColor = "rgba(255, 255, 255, 0.2)"
-    const beadBorder = "rgba(255, 255, 255, 0.4)"
-    const activeColor = "#FFE552"
+    if (element.type === "spacer") {
+      // Spacers are invisible and non-interactive
+      return <div key={element.id} className="w-1.5 h-1.5" />
+    }
+
+    switch (element.type) {
+      case "cross":
+        beadClasses =
+          "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative shadow-lg"
+        break
+      case "mystery":
+        beadClasses = "w-5 h-5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
+      case "stem":
+        beadClasses = "w-3.5 h-3.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
+      case "hail-mary":
+        beadClasses = "w-1.5 h-1.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
+      default:
+        beadClasses = "w-2.5 h-2.5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+        break
+    }
+
+    if (isActive) {
+      beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
+    } else {
+      beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
+    }
 
     return (
-      <g
-        key={element.id}
-        transform={`translate(${pos.x}, ${pos.y})`}
-        onClick={() => onBeadClick(element.id)}
-        className="cursor-pointer group"
-        aria-label={element.title}
-      >
-        <circle
-          r={radius}
-          fill={isActive ? activeColor : beadColor}
-          stroke={isActive ? activeColor : beadBorder}
-          strokeWidth={0.3}
-          className="transition-transform duration-200 group-hover:scale-125"
-          style={{ transform: isActive ? "scale(1.5)" : "scale(1)" }}
-        />
+      <div key={element.id} className={beadClasses} onClick={() => onBeadClick(element.id)} title={element.title}>
         {element.type === "cross" && (
-          <>
-            <line
-              x1="0"
-              y1={-radius * 0.8}
-              x2="0"
-              y2={radius * 0.8}
-              stroke={isActive ? "black" : "white"}
-              strokeWidth="0.5"
-            />
-            <line
-              x1={-radius * 0.5}
-              y1="0"
-              x2={radius * 0.5}
-              y2="0"
-              stroke={isActive ? "black" : "white"}
-              strokeWidth="0.5"
-            />
-          </>
+          <div className="relative">
+            <div className="absolute w-0.5 h-4 bg-current left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
+            <div className="absolute w-3 h-0.5 bg-current left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-0.5 rounded-full"></div>
+          </div>
         )}
-      </g>
+      </div>
     )
   }
 
-  // Check for unique connections to avoid duplicate lines
-  const uniqueConnections = useMemo(() => {
-    const seen = new Set<string>()
-    return rosaryConnections.filter((conn) => {
-      const key = conn.sort().join("-")
-      if (seen.has(key)) {
-        return false
-      }
-      seen.add(key)
-      return true
-    })
-  }, [])
+  if (!isClient) {
+    return (
+      <div className="lg:w-[35%] flex items-center justify-center p-4">
+        <Skeleton className="w-full h-[500px] lg:h-[600px] rounded-xl" />
+      </div>
+    )
+  }
 
   return (
-    // 3. Make the component responsive.
-    <div className="w-full lg:w-[45%] max-w-2xl mx-auto p-2 sm:p-4">
-      <div className="relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl aspect-[1/1.2]">
-        <svg viewBox="-5 -20 110 140" className="w-full h-full absolute inset-0">
-          <g>
-            {/* Render Connection Lines */}
-            {uniqueConnections.map(([startId, endId], index) => {
-              const startPos = beadPositions[startId]
-              const endPos = beadPositions[endId]
-              if (!startPos || !endPos) return null
+    <div className="lg:w-[35%] flex items-center justify-center">
+      <div className="relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl w-full max-w-md mx-auto">
+        <div className="relative z-10 px-4 py-8 min-h-[550px] lg:min-h-[600px] flex items-center justify-center">
+          <div className="flex flex-col items-center space-y-4">
+            <div className="flex justify-center mb-4">
+              {rosaryElements.filter((el) => el.type === "cross").map(renderBead)}
+            </div>
 
-              return (
-                <line
-                  key={`line-${index}`}
-                  x1={startPos.x}
-                  y1={startPos.y}
-                  x2={endPos.x}
-                  y2={endPos.y}
-                  className="stroke-white/30"
-                  strokeWidth="0.2"
-                />
-              )
-            })}
+            <div className="flex flex-col items-center space-y-2 mb-6">
+              {rosaryElements.filter((el) => el.type === "stem").map(renderBead)}
+            </div>
 
-            {/* Render Beads */}
-            {uniqueRosaryElements.map(renderBead)}
-          </g>
-        </svg>
+            <div
+              ref={circleContainerRef}
+              className="relative w-[70vw] h-[70vw] max-w-[220px] max-h-[220px] sm:w-60 sm:h-60"
+            >
+              <div className="absolute inset-0">
+                {enhancedMainBeads.map((element, index) => {
+                  const totalBeads = enhancedMainBeads.length
+                  // Position M1/Final (at index 1 after spacer) at the bottom (90deg or PI/2) to connect with the stem
+                  const angle = ((index - 1) / totalBeads) * 2 * Math.PI + Math.PI / 2
+
+                  const x = Math.cos(angle) * radius
+                  const y = Math.sin(angle) * radius
+
+                  return (
+                    <div
+                      key={element.id}
+                      className="absolute transform -translate-x-1/2 -translate-y-1/2"
+                      style={{
+                        left: `calc(50% + ${x}px)`,
+                        top: `calc(50% + ${y}px)`,
+                      }}
+                    >
+                      {renderBead(element)}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

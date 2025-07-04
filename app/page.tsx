@@ -1,35 +1,14 @@
 "use client"
 
-import dynamic from "next/dynamic"
 import { AppProvider, useApp } from "@/components/app-provider"
 import { AppLayout } from "@/components/layout/app-layout"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-
-const WhatSection = dynamic(() => import("@/components/sections/what").then((mod) => mod.WhatSection), {
-  loading: () => <LoadingSpinner />,
-})
-const WhySection = dynamic(() => import("@/components/sections/why").then((mod) => mod.WhySection), {
-  loading: () => <LoadingSpinner />,
-})
-const FoundationSection = dynamic(
-  () => import("@/components/sections/foundation").then((mod) => mod.FoundationSection),
-  {
-    loading: () => <LoadingSpinner />,
-  },
-)
-const HowSection = dynamic(() => import("@/components/sections/how").then((mod) => mod.HowSection), {
-  loading: () => <LoadingSpinner />,
-})
-const CommunitySection = dynamic(() => import("@/components/sections/community").then((mod) => mod.CommunitySection), {
-  loading: () => <LoadingSpinner />,
-})
-const SupportSection = dynamic(() => import("@/components/sections/support").then((mod) => mod.SupportSection), {
-  loading: () => <LoadingSpinner />,
-})
-const PrivacyPolicySection = dynamic(
-  () => import("@/components/sections/privacy-policy").then((mod) => mod.PrivacyPolicySection),
-  { loading: () => <LoadingSpinner /> },
-)
+import { HowSection } from "@/components/sections/how"
+import { WhySection } from "@/components/sections/why"
+import { FoundationSection } from "@/components/sections/foundation"
+import { CommunitySection } from "@/components/sections/community"
+import { SupportSection } from "@/components/sections/support"
+import { WhatSection } from "@/components/sections/what"
+import { PrivacyPolicySection } from "@/components/sections/privacy-policy"
 
 function MainContent() {
   const { currentView } = useApp()
