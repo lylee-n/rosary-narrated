@@ -1,30 +1,50 @@
 "use client"
 
 import type React from "react"
-import { Header } from "./header"
-import { Footer } from "./footer"
-import { FloatingSupportButton } from "@/components/ui/floating-support-button"
+import { useState, useCallback } from "react"
 
-export function AppLayout({ children }: { children: React.ReactNode }) {
+import { HeroSection } from "@/components/sections/hero"
+import { AboutSection } from "@/components/sections/about"
+import { SpeakersSection } from "@/components/sections/speakers"
+import { ScheduleSection } from "@/components/sections/schedule"
+import { VenueSection } from "@/components/sections/venue"
+import { SponsorsSection } from "@/components/sections/sponsors"
+import { ContactSection } from "@/components/sections/contact"
+import { Footer } from "@/components/footer"
+import { PrivacySection } from "@/components/sections/privacy"
+
+type View = "HOME" | "ABOUT" | "SPEAKERS" | "SCHEDULE" | "VENUE" | "SPONSORS" | "CONTACT" | "PRIVACY"
+
+export const AppLayout: React.FC = () => {
+  const [currentView, setCurrentView] = useState<View>("HOME")
+
+  const renderContent = useCallback((view: View) => {
+    switch (view) {
+      case "HOME":
+        return <HeroSection />
+      case "ABOUT":
+        return <AboutSection />
+      case "SPEAKERS":
+        return <SpeakersSection />
+      case "SCHEDULE":
+        return <ScheduleSection />
+      case "VENUE":
+        return <VenueSection />
+      case "SPONSORS":
+        return <SponsorsSection />
+      case "CONTACT":
+        return <ContactSection />
+      case "PRIVACY":
+        return <PrivacySection />
+      default:
+        return <HeroSection />
+    }
+  }, [])
+
   return (
-    <div className="relative min-h-screen">
-      {/* Global Background GIF */}
-      <div
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: "url('/images/background.gif')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      {/* Content wrapper with transparency, allowing the global background to be visible */}
-      <div className="relative z-10 flex flex-col min-h-screen bg-transparent">
-        <Header />
-        {/* The main content area. The broken padding has been REMOVED from here. */}
-        <main className="flex-grow">{children}</main>
-        <Footer />
-        <FloatingSupportButton />
-      </div>
-    </div>
+    <>
+      <main>{renderContent(currentView)}</main>
+      <Footer onViewChange={setCurrentView} />
+    </>
   )
 }

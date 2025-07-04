@@ -19,8 +19,8 @@ export interface RosaryElement {
   content: { subtitle: string; text: string }[]
 }
 
-// Main navigation view types
-export type ViewType = "WHAT" | "WHY" | "FOUNDATION" | "HOW" | "COMMUNITY" | "BLOGS" | "SUPPORT"
+// Main navigation view types (removed BLOGS)
+export type ViewType = "WHAT" | "WHY" | "FOUNDATION" | "HOW" | "COMMUNITY" | "SUPPORT" | "PRIVACY"
 
 // Language options
 export type Language = "en" | "vi"
