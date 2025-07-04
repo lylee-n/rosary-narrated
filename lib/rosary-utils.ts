@@ -139,7 +139,10 @@ export const getMysteryBackgroundImage = (mysterySet: number): string => {
 }
 
 export const buildRosaryElements = (mysteryData: MysteryData): RosaryElement[] => {
-  return rosarySequence.map((id) => {
+  // Use a sequence without the duplicate M1/Final at the end for layout purposes.
+  const rosaryLayoutSequence = rosarySequence.slice(0, -1)
+
+  return rosaryLayoutSequence.map((id) => {
     const baseElement = { id, title: "", content: [], type: "spacer" as RosaryElement["type"] }
 
     if (id.includes(".")) {
