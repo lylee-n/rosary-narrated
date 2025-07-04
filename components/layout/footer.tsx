@@ -1,35 +1,26 @@
 "use client"
 
-import { Youtube, Linkedin, Mail, Shield } from "lucide-react"
+import { Youtube, Linkedin, Mail } from "lucide-react"
 import { useTranslations } from "@/hooks/use-translations"
 import { CONTACT } from "@/constants"
+import { useApp } from "@/components/app-provider"
 
-interface FooterProps {
-  onViewChange?: (view: string) => void
-}
-
-export function Footer({ onViewChange }: FooterProps) {
+export function Footer() {
   const t = useTranslations()
-
-  const handlePrivacyClick = () => {
-    if (onViewChange) {
-      onViewChange("PRIVACY")
-    }
-  }
+  const { setCurrentView } = useApp()
 
   return (
     <footer className="bg-black border-t border-white/10 text-gray-500 text-center font-inter">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center items-center gap-8 mb-5">
+        <div className="mb-6">
           <button
-            onClick={handlePrivacyClick}
-            className="text-gray-500 hover:text-[#FFE552] transition-colors duration-300 flex items-center gap-2"
-            aria-label="Privacy Policy"
+            onClick={() => setCurrentView("PRIVACY")}
+            className="text-gray-400 hover:text-[#FFE552] transition-colors duration-300 text-sm"
           >
-            <Shield size={18} />
-            <span className="text-sm">Privacy Policy</span>
+            Privacy Policy
           </button>
-          <div className="w-px h-6 bg-gray-600"></div>
+        </div>
+        <div className="flex justify-center items-center gap-8 mb-5">
           <a
             href={CONTACT.youtube}
             target="_blank"

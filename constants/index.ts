@@ -1,5 +1,5 @@
 import { Home, Heart, Users, Compass, HelpCircle, BookOpen } from "lucide-react"
-import type { NavItem, MysterySetKey, PerspectiveType } from "@/lib/types"
+import type { NavItem, MysterySetKey, PerspectiveType } from "@/types"
 
 // Theme colors
 export const COLORS = {
@@ -46,7 +46,7 @@ export const ANIMATIONS = {
   fadeOut: "animate-out fade-out duration-300",
 } as const
 
-// Navigation items (removed BLOGS)
+// Navigation items
 export const NAV_ITEMS: NavItem[] = [
   { name: "WHAT", label: "WHAT", icon: Home },
   { name: "WHY", label: "WHY", icon: HelpCircle },
