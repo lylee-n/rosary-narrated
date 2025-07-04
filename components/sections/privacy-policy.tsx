@@ -20,7 +20,7 @@ export function PrivacyPolicySection() {
               General Data Protection Regulation (GDPR).
             </p>
 
-            <h2 className="text-2xl font-bold text-white/90">1. Data We Collect</h2>
+            <h2 className="text-2xl font-bold text-white/90 mt-10">1. Data We Collect</h2>
             <p>
               We believe in data minimization. Our Service is designed to be used without collecting any personally
               identifiable information (PII).
@@ -37,19 +37,19 @@ export function PrivacyPolicySection() {
               </li>
             </ul>
 
-            <h2 className="text-2xl font-bold text-white/90">2. How We Use Information</h2>
+            <h2 className="text-2xl font-bold text-white/90 mt-10">2. How We Use Information</h2>
             <p>
               Since we do not collect any personal data, we do not use it for any purpose. Your use of the Service is
               entirely anonymous.
             </p>
 
-            <h2 className="text-2xl font-bold text-white/90">3. Data Sharing and Disclosure</h2>
+            <h2 className="text-2xl font-bold text-white/90 mt-10">3. Data Sharing and Disclosure</h2>
             <p>
               We do not have any personal data to share. We will not disclose any information to third parties, as we do
               not collect it in the first place.
             </p>
 
-            <h2 className="text-2xl font-bold text-white/90">4. Your Rights Under GDPR</h2>
+            <h2 className="text-2xl font-bold text-white/90 mt-10">4. Your Rights Under GDPR</h2>
             <p>
               The GDPR provides individuals with a number of rights regarding their personal data. As we do not collect
               or process any of your personal data, these rights are not applicable in the context of our Service.
@@ -66,26 +66,26 @@ export function PrivacyPolicySection() {
               <li>Rights in relation to automated decision making and profiling.</li>
             </ul>
 
-            <h2 className="text-2xl font-bold text-white/90">5. Data Security</h2>
+            <h2 className="text-2xl font-bold text-white/90 mt-10">5. Data Security</h2>
             <p>
               The security of your data is important to us, but remember that no method of transmission over the
               Internet or method of electronic storage is 100% secure. While we do not collect personal data, we still
               employ best practices to ensure our website is secure.
             </p>
 
-            <h2 className="text-2xl font-bold text-white/90">6. Children's Privacy</h2>
+            <h2 className="text-2xl font-bold text-white/90 mt-10">6. Children's Privacy</h2>
             <p>
               Our Service does not address anyone under the age of 13. We do not knowingly collect personally
               identifiable information from children under 13.
             </p>
 
-            <h2 className="text-2xl font-bold text-white/90">7. Changes to This Privacy Policy</h2>
+            <h2 className="text-2xl font-bold text-white/90 mt-10">7. Changes to This Privacy Policy</h2>
             <p>
               We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new
               Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.
             </p>
 
-            <h2 className="text-2xl font-bold text-white/90">8. Contact Us</h2>
+            <h2 className="text-2xl font-bold text-white/90 mt-10">8. Contact Us</h2>
             <p>
               If you have any questions about this Privacy Policy, you can contact us by email:
               <a href="mailto:rosarynarrated@gmail.com" className="text-[#FFE552] hover:underline ml-2">
