@@ -60,10 +60,11 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
   }
 
   const getEnhancedRosaryElements = () => {
-    const mainBeads = rosaryElements.filter((el) => el.type === "mystery" || el.type === "hail-mary")
+    const mainBeadsSource = rosaryElements.filter((el) => el.type === "mystery" || el.type === "hail-mary")
+    const mainBeads = mainBeadsSource.filter((bead, index, self) => index === self.findIndex((b) => b.id === bead.id))
 
     // Find M1 and rotate the array to start with it. This is a more robust way to handle positioning.
-    const m1Index = mainBeads.findIndex((bead) => bead.id === "M1")
+    const m1Index = mainBeads.findIndex((bead) => bead.id === "M1/Final")
     const rotatedBeads = m1Index !== -1 ? [...mainBeads.slice(m1Index), ...mainBeads.slice(0, m1Index)] : mainBeads
 
     const enhancedBeads: RosaryElement[] = []
