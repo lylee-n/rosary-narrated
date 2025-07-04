@@ -7,14 +7,14 @@ import { useApp } from "@/components/app-provider"
 
 export function Footer() {
   const t = useTranslations()
-  const { setCurrentView } = useApp()
+  const { setView } = useApp()
 
   return (
     <footer className="bg-black border-t border-white/10 text-gray-500 text-center font-inter">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <button
-            onClick={() => setCurrentView("PRIVACY")}
+            onClick={() => setView("PRIVACY")}
             className="text-gray-400 hover:text-[#FFE552] transition-colors duration-300 text-sm"
           >
             Privacy Policy

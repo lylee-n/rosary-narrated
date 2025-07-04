@@ -1,7 +1,7 @@
 "use client"
 
 import { useApp } from "@/components/app-provider"
-import { BookOpen, Church, Handshake, Heart, HelpCircle, Rss, Sparkles } from "lucide-react"
+import { BookOpen, Church, Handshake, Heart, HelpCircle, Sparkles } from "lucide-react"
 import type { NavItem } from "@/lib/types"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
@@ -14,7 +14,6 @@ export function Header() {
     { name: "FOUNDATION", label: "Foundation", icon: Church },
     { name: "HOW", label: "How", icon: BookOpen },
     { name: "COMMUNITY", label: "Community", icon: Handshake },
-    { name: "BLOGS", label: "Blogs", icon: Rss },
     { name: "SUPPORT", label: "Support", icon: Heart },
   ]
 
