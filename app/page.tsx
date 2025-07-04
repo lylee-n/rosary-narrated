@@ -5,34 +5,30 @@ import { AppProvider, useApp } from "@/components/app-provider"
 import { AppLayout } from "@/components/layout/app-layout"
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 
-const loadingComponent = () => (
-  <div className="flex-grow flex items-center justify-center">
-    <LoadingSpinner />
-  </div>
-)
-
 const WhatSection = dynamic(() => import("@/components/sections/what").then((mod) => mod.WhatSection), {
-  loading: loadingComponent,
+  loading: () => <LoadingSpinner />,
 })
 const WhySection = dynamic(() => import("@/components/sections/why").then((mod) => mod.WhySection), {
-  loading: loadingComponent,
+  loading: () => <LoadingSpinner />,
 })
 const FoundationSection = dynamic(
   () => import("@/components/sections/foundation").then((mod) => mod.FoundationSection),
-  { loading: loadingComponent },
+  {
+    loading: () => <LoadingSpinner />,
+  },
 )
 const HowSection = dynamic(() => import("@/components/sections/how").then((mod) => mod.HowSection), {
-  loading: loadingComponent,
+  loading: () => <LoadingSpinner />,
 })
 const CommunitySection = dynamic(() => import("@/components/sections/community").then((mod) => mod.CommunitySection), {
-  loading: loadingComponent,
+  loading: () => <LoadingSpinner />,
 })
 const SupportSection = dynamic(() => import("@/components/sections/support").then((mod) => mod.SupportSection), {
-  loading: loadingComponent,
+  loading: () => <LoadingSpinner />,
 })
 const PrivacyPolicySection = dynamic(
   () => import("@/components/sections/privacy-policy").then((mod) => mod.PrivacyPolicySection),
-  { loading: loadingComponent },
+  { loading: () => <LoadingSpinner /> },
 )
 
 function MainContent() {
