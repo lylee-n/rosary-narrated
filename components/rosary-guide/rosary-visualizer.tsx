@@ -1,6 +1,6 @@
 "use client"
 
-import type { RosaryElement } from "@/types"
+import type { RosaryElement } from "@/lib/types"
 
 interface RosaryVisualizerProps {
   rosaryElements: RosaryElement[]

@@ -1,100 +1,57 @@
-"use client"
-
-export function PrivacyPolicySection() {
+const PrivacyPolicy = () => {
   return (
-    <section className="bg-black text-white/80 font-inter py-16 md:py-24">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold font-sora text-center mb-12 text-white">Privacy Policy</h1>
+    <section className="py-12">
+      <div className="container mx-auto">
+        <h2 className="text-3xl font-bold mb-6">Privacy Policy</h2>
 
-          <div className="space-y-8 text-gray-300 prose prose-invert prose-lg max-w-none">
-            <p>
-              <strong>Last Updated:</strong>{" "}
-              {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-            </p>
+        <p className="mb-4">
+          Your privacy is important to us. It is our policy to respect your privacy regarding any information we may
+          collect from you across our website, and other sites we own and operate.
+        </p>
 
-            <p>
-              This Privacy Policy describes how Rosary Narrated ("we," "us," or "our") collects, uses, and handles your
-              information when you use our website (the "Service"). We are committed to protecting your privacy and
-              ensuring that your personal data is handled in a safe and responsible manner in compliance with the
-              General Data Protection Regulation (GDPR).
-            </p>
+        <p className="mb-4">
+          We only ask for personal information when we truly need it to provide a service to you. We collect it by fair
+          and lawful means, with your knowledge and consent. We also let you know why we’re collecting it and how it
+          will be used.
+        </p>
 
-            <h2 className="text-2xl font-bold text-white/90">1. Data We Collect</h2>
-            <p>
-              We believe in data minimization. Our Service is designed to be used without collecting any personally
-              identifiable information (PII).
-            </p>
-            <ul>
-              <li>
-                <strong>Anonymous Usage Data:</strong> We do not use cookies or tracking technologies that identify you
-                personally. We do not collect your IP address, browser type, device information, or any other personal
-                data.
-              </li>
-              <li>
-                <strong>No User Accounts:</strong> The Service does not require you to create an account. All features
-                are accessible without logging in.
-              </li>
-            </ul>
+        <p className="mb-4">
+          We only retain collected information for as long as necessary to provide you with your requested service. What
+          data we store, we’ll protect within commercially acceptable means to prevent loss and theft, as well as
+          unauthorized access, disclosure, copying, use or modification.
+        </p>
 
-            <h2 className="text-2xl font-bold text-white/90">2. How We Use Information</h2>
-            <p>
-              Since we do not collect any personal data, we do not use it for any purpose. Your use of the Service is
-              entirely anonymous.
-            </p>
+        <p className="mb-4">
+          We don’t share any personally identifying information publicly or with third-parties, except when required to
+          by law.
+        </p>
 
-            <h2 className="text-2xl font-bold text-white/90">3. Data Sharing and Disclosure</h2>
-            <p>
-              We do not have any personal data to share. We will not disclose any information to third parties, as we do
-              not collect it in the first place.
-            </p>
+        <p className="mb-4">
+          You are free to refuse our request for your personal information, with the understanding that we may be unable
+          to provide you with some of your desired services.
+        </p>
 
-            <h2 className="text-2xl font-bold text-white/90">4. Your Rights Under GDPR</h2>
-            <p>
-              The GDPR provides individuals with a number of rights regarding their personal data. As we do not collect
-              or process any of your personal data, these rights are not applicable in the context of our Service.
-              However, we fully support your rights to privacy, which include:
-            </p>
-            <ul>
-              <li>The right to be informed</li>
-              <li>The right of access</li>
-              <li>The right to rectification</li>
-              <li>The right to erasure</li>
-              <li>The right to restrict processing</li>
-              <li>The right to data portability</li>
-              <li>The right to object</li>
-              <li>Rights in relation to automated decision making and profiling.</li>
-            </ul>
+        <p className="mb-4">
+          Your continued use of our website will be regarded as acceptance of our practices around privacy and personal
+          information. If you have any questions about how we handle user data and personal information, feel free to
+          contact us.
+        </p>
 
-            <h2 className="text-2xl font-bold text-white/90">5. Data Security</h2>
-            <p>
-              The security of your data is important to us, but remember that no method of transmission over the
-              Internet or method of electronic storage is 100% secure. While we do not collect personal data, we still
-              employ best practices to ensure our website is secure.
-            </p>
+        <h3 className="text-2xl font-semibold mt-8 mb-4">This policy is effective as of [Date].</h3>
 
-            <h2 className="text-2xl font-bold text-white/90">6. Children's Privacy</h2>
-            <p>
-              Our Service does not address anyone under the age of 13. We do not knowingly collect personally
-              identifiable information from children under 13.
-            </p>
-
-            <h2 className="text-2xl font-bold text-white/90">7. Changes to This Privacy Policy</h2>
-            <p>
-              We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new
-              Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.
-            </p>
-
-            <h2 className="text-2xl font-bold text-white/90">8. Contact Us</h2>
-            <p>
-              If you have any questions about this Privacy Policy, you can contact us by email:
-              <a href="mailto:rosarynarrated@gmail.com" className="text-[#FFE552] hover:underline ml-2">
-                rosarynarrated@gmail.com
-              </a>
-            </p>
-          </div>
-        </div>
+        <p>
+          Generated by{" "}
+          <a
+            href="https://www.websitepolicies.com/blog/privacy-policy-template"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WebsitePolicies.com Privacy Policy Generator
+          </a>
+        </p>
       </div>
     </section>
   )
 }
+
+export default PrivacyPolicy
