@@ -39,7 +39,7 @@ export function SupportSection() {
             {t.sections.support.cards.monthly.description}
           </p>
           <button
-            className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl w-full"
+            className="bg-[#FFE552] hover:bg-[#FFE552] hover:shadow-[0_0_20px_rgba(255,229,82,0.6)] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg w-full"
             onClick={() => window.open("https://stripe.com/monthly-support", "_blank")}
           >
             {t.sections.support.cards.monthly.cta}
@@ -53,7 +53,7 @@ export function SupportSection() {
             {t.sections.support.cards.oneTime.description}
           </p>
           <button
-            className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl w-full"
+            className="bg-[#FFE552] hover:bg-[#FFE552] hover:shadow-[0_0_20px_rgba(255,229,82,0.6)] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg w-full"
             onClick={() => window.open("https://stripe.com/one-time-donation", "_blank")}
           >
             {t.sections.support.cards.oneTime.cta}
@@ -82,7 +82,7 @@ export function SupportSection() {
             {t.sections.support.cards.volunteer.description}
           </p>
           <button
-            className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl w-full"
+            className="bg-[#FFE552] hover:bg-[#FFE552] hover:shadow-[0_0_20px_rgba(255,229,82,0.6)] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg w-full"
             onClick={() => (window.location.href = "mailto:rosarynarrated@gmail.com")}
           >
             {t.sections.support.cards.volunteer.cta}
@@ -96,7 +96,7 @@ export function SupportSection() {
             {t.sections.support.cards.partner.description}
           </p>
           <button
-            className="bg-[#FFE552] hover:bg-[#FFD700] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl w-full"
+            className="bg-[#FFE552] hover:bg-[#FFE552] hover:shadow-[0_0_20px_rgba(255,229,82,0.6)] text-black font-medium px-8 py-3 rounded-lg transition-all duration-200 shadow-lg w-full"
             onClick={() => (window.location.href = "mailto:rosarynarrated@gmail.com")}
           >
             {t.sections.support.cards.partner.cta}
