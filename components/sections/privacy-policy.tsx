@@ -29,16 +29,18 @@ export function PrivacyPolicySection() {
 
             <h3 className="text-xl font-semibold text-[#82FAFA] mt-6">Website Analytics</h3>
             <p>
-              We use GoatCounter to collect anonymous website usage statistics. The data collected includes:
+              We use Google Analytics to collect anonymous website usage statistics. The data collected includes:
             </p>
             <ul className="ml-6 space-y-2">
               <li>• Number of page views</li>
               <li>• Which pages are visited</li>
               <li>• General location (country level only)</li>
               <li>• Referral sources</li>
+              <li>• Device and browser information</li>
+              <li>• Session duration and user engagement</li>
             </ul>
             <p className="mt-4">
-              No cookies are used, no personal information is collected, and your IP address is not stored.
+              Google Analytics uses cookies to collect this data. You can opt out of Google Analytics tracking by using browser settings or extensions that block analytics scripts.
             </p>
 
             <h3 className="text-xl font-semibold text-[#82FAFA] mt-6">Email Newsletter</h3>
@@ -91,7 +93,7 @@ export function PrivacyPolicySection() {
               described below:
             </p>
             <ul className="ml-6 space-y-2">
-              <li>• <strong>GoatCounter:</strong> Anonymous website usage data is processed by GoatCounter</li>
+              <li>• <strong>Google Analytics:</strong> Anonymous website usage data is processed by Google in accordance with their privacy policy</li>
               <li>• <strong>Email Service Provider:</strong> If you subscribe to our newsletter, your email address is stored with our email service provider to deliver newsletters</li>
               <li>• <strong>Legal Requirements:</strong> We may disclose information if required by law or to protect our rights</li>
             </ul>
@@ -127,7 +129,7 @@ export function PrivacyPolicySection() {
               We retain your personal data only for as long as necessary:
             </p>
             <ul className="ml-6 space-y-2">
-              <li>• <strong>Analytics data:</strong> Anonymous analytics data is retained by GoatCounter</li>
+              <li>• <strong>Analytics data:</strong> Anonymous analytics data is retained by Google Analytics according to their data retention policies (default: 26 months)</li>
               <li>• <strong>Newsletter subscriptions:</strong> We retain your email address until you unsubscribe</li>
             </ul>
 
