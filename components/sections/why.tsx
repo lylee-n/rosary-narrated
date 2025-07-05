@@ -43,7 +43,7 @@ export function WhySection() {
               <div className="w-full h-[400px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
                 <div className="relative z-10 flex flex-col h-full p-8 pb-6">
                   <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">Spiritual Benefits</h3>
-                  <div className="flex-1 flex flex-col justify-start space-y-0 text-white/90">
+                  <div className="flex-1 space-y-0 text-white/90">
                     <div className="flex items-start space-x-3 p-2 rounded-lg transition-all duration-300 hover:bg-white/10 hover:shadow-lg cursor-pointer">
                       <span className="text-white/90 mt-1">•</span>
                       <span>Deepens your relationship with Jesus and Mary</span>
