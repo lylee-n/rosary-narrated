@@ -138,3 +138,14 @@ body {
     overscroll-behavior-y: contain;
   }
 }
+
+/* Background attachment fix for mobile viewport issues */
+.bg-mary-background {
+  background-attachment: scroll;
+}
+
+@media (min-width: 768px) {
+  .bg-mary-background {
+    background-attachment: fixed;
+  }
+}
