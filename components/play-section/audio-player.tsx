@@ -66,7 +66,7 @@ export const AudioPlayer = memo(function AudioPlayer({
   }, [onSeekBy])
 
   return (
-    <div className="mt-4 p-4 bg-black/40 backdrop-blur-sm rounded-lg border border-white/10">
+    <div className="mt-4 p-4 bg-black/50 backdrop-blur-sm rounded-lg border border-white/10">
       {/* Progress Bar with custom styling */}
       <div className="mb-4 mt-4">
         <div className="relative">
