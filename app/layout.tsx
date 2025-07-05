@@ -25,10 +25,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <Script
-          defer
+          async
           data-goatcounter="https://rosarynarrated.goatcounter.com/count"
           src="//gc.zgo.at/count.js"
-          strategy="afterInteractive"
         />
       </head>
       <body className={`${inter.variable} ${sora.variable} font-sans bg-black text-white`}>
