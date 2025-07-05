@@ -40,32 +40,32 @@ export function WhySection() {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             <div className="space-y-8">
               {/* Card 1: Spiritual Benefits */}
-              <div className="w-full h-[400px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
+              <div className="w-full h-[400px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl transition-all duration-300 hover:bg-white/15 hover:border-white/30 hover:shadow-3xl hover:scale-105">
                 <div className="relative z-10 flex flex-col h-full p-8">
                   <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">Spiritual Benefits</h3>
                   <div className="flex-1 space-y-4 text-white/90">
                     <div className="flex items-start space-x-3">
-                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span className="text-white/90 mt-1">•</span>
                       <span>Deepens your relationship with Jesus and Mary</span>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span className="text-white/90 mt-1">•</span>
                       <span>Brings peace and tranquility to your mind and heart</span>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span className="text-white/90 mt-1">•</span>
                       <span>Strengthens your faith and trust in God</span>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span className="text-white/90 mt-1">•</span>
                       <span>Provides protection from evil and temptation</span>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span className="text-white/90 mt-1">•</span>
                       <span>Helps you meditate on the life of Christ</span>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <span className="text-[#FFE552] mt-1">•</span>
+                      <span className="text-white/90 mt-1">•</span>
                       <span>Brings healing and comfort in times of suffering</span>
                     </div>
                   </div>
@@ -73,7 +73,7 @@ export function WhySection() {
               </div>
 
               {/* Card 2: Historical Significance */}
-              <div className="w-full h-[400px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
+              <div className="w-full h-[400px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl transition-all duration-300 hover:bg-white/15 hover:border-white/30 hover:shadow-3xl hover:scale-105">
                 <div className="relative z-10 flex flex-col h-full p-8">
                   <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">
                     Historical Significance
@@ -93,7 +93,7 @@ export function WhySection() {
             </div>
 
             {/* Card 3: The 15 Promises */}
-            <div className="w-full h-[820px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl">
+            <div className="w-full h-[820px] flex flex-col relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl transition-all duration-300 hover:bg-white/15 hover:border-white/30 hover:shadow-3xl hover:scale-105">
               <div className="relative z-10 flex flex-col h-full p-8">
                 <h3 className="text-white font-sora text-2xl font-bold mb-6 flex-shrink-0">The 15 Promises</h3>
                 <div className="flex-1 overflow-y-auto pr-4">

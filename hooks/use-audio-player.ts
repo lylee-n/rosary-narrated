@@ -50,7 +50,7 @@ export function useAudioPlayer() {
       setIsLoading(false)
       setIsPlaying(false)
       setError("Failed to load audio. Please try again.")
-      console.error("Audio error:", e)
+      // Audio error occurred during playback
     }
 
     audio.addEventListener("timeupdate", updateTime)
@@ -89,10 +89,10 @@ export function useAudioPlayer() {
 
       // If same track is already playing, just resume
       if (nowPlaying?.src === audioSrc && audio.paused) {
-        audio.play().catch((err) => {
-          setError("Failed to play audio. Please try again.")
-          console.error("Play error:", err)
-        })
+            audio.play().catch((err) => {
+      setError("Failed to play audio. Please try again.")
+      // Play error occurred
+    })
         return
       }
 
@@ -110,7 +110,7 @@ export function useAudioPlayer() {
 
       audio.play().catch((err) => {
         setError("Failed to play audio. Please try again.")
-        console.error("Play error:", err)
+        // Play error occurred
       })
     },
     [nowPlaying, playbackSpeed],

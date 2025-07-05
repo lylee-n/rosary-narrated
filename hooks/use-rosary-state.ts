@@ -7,6 +7,7 @@ import {
   getMysterySetForDayName,
   buildRosaryElements,
   getDynamicM1Content,
+  getDynamicCrossContent,
   rosarySequence,
 } from "@/lib/rosary-utils"
 
@@ -60,10 +61,50 @@ export const useRosaryState = () => {
     setCurrentStepId(rosarySequence[nextIndex])
   }
 
+  const handlePrevious = () => {
+    const currentIndex = rosarySequence.indexOf(currentStepId)
+    let prevIndex
+
+    if (currentStepId === "cross") {
+      // If at the beginning, go to the final M1/Final
+      prevIndex = rosarySequence.length - 1
+      setPreviousStepId("5.10") // Set context for Final Prayer
+    } else if (currentStepId === "M1/Final" && previousStepId !== "5.10") {
+      // If at M1/Final but not from Final Prayer context, go to S5
+      prevIndex = rosarySequence.indexOf("S5")
+      setPreviousStepId(null)
+    } else if (currentStepId === "M1/Final" && previousStepId === "5.10") {
+      // If at Final Prayer, go back to 5.10
+      prevIndex = rosarySequence.indexOf("5.10")
+      setPreviousStepId("5.9")
+    } else {
+      // Normal case: go to previous bead
+      prevIndex = currentIndex - 1
+      if (prevIndex < 0) {
+        prevIndex = rosarySequence.length - 1
+      }
+      
+      // Set appropriate previous context
+      if (prevIndex === 0) {
+        setPreviousStepId(null)
+      } else {
+        const prevPrevIndex = prevIndex - 1
+        setPreviousStepId(prevPrevIndex >= 0 ? rosarySequence[prevPrevIndex] : null)
+      }
+    }
+
+    setCurrentStepId(rosarySequence[prevIndex])
+  }
+
   const currentStepData = rosaryElements.find((element) => element.id === currentStepId)
   const displayStepData = useMemo(() => {
     if (currentStepId === "M1/Final") {
-      return { ...currentStepData!, content: getDynamicM1Content(previousStepId, mysteryData) }
+      const title = previousStepId === "5.10" ? "Final Prayer" : "First Mystery"
+      return { ...currentStepData!, title, content: getDynamicM1Content(previousStepId, mysteryData) }
+    }
+    if (currentStepId === "cross") {
+      const title = previousStepId === "M1/Final" ? "Prayer After the Rosary" : "Make the Sign of the Cross"
+      return { ...currentStepData!, title, content: getDynamicCrossContent(previousStepId) }
     }
     return currentStepData
   }, [currentStepId, previousStepId, mysteryData, currentStepData])
@@ -77,5 +118,6 @@ export const useRosaryState = () => {
     handleDayClick,
     handleBeadClick,
     handleNext,
+    handlePrevious,
   }
 }

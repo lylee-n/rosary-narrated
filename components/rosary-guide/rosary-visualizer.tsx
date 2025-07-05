@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo, useRef } from "react"
-import type { RosaryElement } from "@/types"
+import type { RosaryElement } from "@/lib/types"
 import { Skeleton } from "@/components/ui/skeleton"
 
 interface RosaryVisualizerProps {
@@ -70,7 +70,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     switch (element.type) {
       case "cross":
         beadClasses =
-          "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-white text-sm font-normal relative shadow-lg"
+          "w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110 flex items-center justify-center text-sm font-normal relative shadow-lg"
         break
       case "mystery":
         beadClasses = "w-5 h-5 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
@@ -87,9 +87,9 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     }
 
     if (isActive) {
-      beadClasses += " bg-[#FFE552] border-[#FFE552] text-black scale-125"
+      beadClasses += " bg-[#FFE552] border-[#FFE552] text-gray-800 scale-125"
     } else {
-      beadClasses += " bg-white/20 border-white/40 hover:bg-white/30"
+      beadClasses += " bg-white/20 border-white/40 hover:bg-white/30 text-gray-300"
     }
 
     return (
@@ -116,15 +116,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
     <div className="lg:w-[35%] flex items-center justify-center">
       <div className="relative rounded-xl overflow-hidden border border-white/20 bg-white/10 backdrop-blur-sm shadow-2xl w-full max-w-md mx-auto">
         <div className="relative z-10 px-4 py-8 min-h-[550px] lg:min-h-[600px] flex items-center justify-center">
-          <div className="flex flex-col items-center space-y-4">
-            <div className="flex justify-center mb-4">
-              {rosaryElements.filter((el) => el.type === "cross").map(renderBead)}
-            </div>
-
-            <div className="flex flex-col items-center space-y-2 mb-6">
-              {rosaryElements.filter((el) => el.type === "stem").map(renderBead)}
-            </div>
-
+          <div className="flex flex-col items-center">
             <div
               ref={circleContainerRef}
               className="relative w-[70vw] h-[70vw] max-w-[220px] max-h-[220px] sm:w-60 sm:h-60"
@@ -132,7 +124,7 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
               <div className="absolute inset-0">
                 {enhancedMainBeads.map((element, index) => {
                   const totalBeads = enhancedMainBeads.length
-                  // Position M1/Final (at index 1 after spacer) at the bottom (90deg or PI/2) to connect with the stem
+                  // Position M1/Final (at index 1 after spacer) at the bottom (+90deg or +PI/2) and flow clockwise
                   const angle = ((index - 1) / totalBeads) * 2 * Math.PI + Math.PI / 2
 
                   const x = Math.cos(angle) * radius
@@ -152,6 +144,14 @@ export function RosaryVisualizer({ rosaryElements, currentStepId, onBeadClick }:
                   )
                 })}
               </div>
+            </div>
+
+            <div className="flex flex-col items-center space-y-2 -mt-2">
+              {rosaryElements.filter((el) => el.type === "stem").reverse().map(renderBead)}
+            </div>
+
+            <div className="flex justify-center mt-4">
+              {rosaryElements.filter((el) => el.type === "cross").map(renderBead)}
             </div>
           </div>
         </div>

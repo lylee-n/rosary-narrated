@@ -1,6 +1,5 @@
-import type { MysterySetKey } from "@/types"
-
-const MYSTERY_SET_KEYS: readonly MysterySetKey[] = ["joyful", "luminous", "sorrowful", "glorious"] as const
+import type { MysterySetKey } from "@/lib/types"
+import { MYSTERY_SET_KEYS } from "@/lib/constants/mystery-sets"
 
 /**
  * Get mystery set key by index
@@ -9,7 +8,7 @@ const MYSTERY_SET_KEYS: readonly MysterySetKey[] = ["joyful", "luminous", "sorro
  */
 export function getMysterySetKey(index: number): MysterySetKey {
   if (index < 0 || index >= MYSTERY_SET_KEYS.length) {
-    console.warn(`Invalid mystery set index: ${index}. Defaulting to 'joyful'.`)
+    // Invalid mystery set index, defaulting to 'joyful'
     return "joyful"
   }
   return MYSTERY_SET_KEYS[index]

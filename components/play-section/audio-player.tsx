@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { memo, useCallback } from "react"
-import { Play, Pause } from "lucide-react"
+import { Play, Pause, Rewind, FastForward } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 
@@ -19,26 +19,7 @@ interface AudioPlayerProps {
   onSpeedChange: (speed: number) => void
 }
 
-// Custom circular skip icons
-const SkipBackIcon = () => (
-  <div className="relative flex items-center justify-center w-6 h-6">
-    <div className="absolute w-5 h-5 border-2 border-current rounded-full" />
-    <span className="text-[10px] font-bold">10</span>
-    <div className="absolute -left-1 top-1/2 transform -translate-y-1/2">
-      <div className="w-0 h-0 border-t-[3px] border-b-[3px] border-r-[4px] border-transparent border-r-current" />
-    </div>
-  </div>
-)
 
-const SkipForwardIcon = () => (
-  <div className="relative flex items-center justify-center w-6 h-6">
-    <div className="absolute w-5 h-5 border-2 border-current rounded-full" />
-    <span className="text-[10px] font-bold">10</span>
-    <div className="absolute -right-1 top-1/2 transform -translate-y-1/2">
-      <div className="w-0 h-0 border-t-[3px] border-b-[3px] border-l-[4px] border-transparent border-l-current" />
-    </div>
-  </div>
-)
 
 export const AudioPlayer = memo(function AudioPlayer({
   audioRef,
@@ -85,9 +66,9 @@ export const AudioPlayer = memo(function AudioPlayer({
   }, [onSeekBy])
 
   return (
-    <div className="mt-4 p-4 bg-black/30 backdrop-blur-sm rounded-lg border border-white/10">
+    <div className="mt-4 p-4 bg-black/40 backdrop-blur-sm rounded-lg border border-white/10">
       {/* Progress Bar with custom styling */}
-      <div className="mb-4">
+      <div className="mb-4 mt-4">
         <div className="relative">
           <Slider
             value={[currentTime]}
@@ -98,7 +79,7 @@ export const AudioPlayer = memo(function AudioPlayer({
             disabled={!duration || isLoading}
           />
         </div>
-        <div className="flex justify-between text-xs text-white/70 mt-1">
+        <div className="flex justify-between text-xs text-white/70 mt-3">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
@@ -134,7 +115,7 @@ export const AudioPlayer = memo(function AudioPlayer({
           className="text-white hover:text-[#82FAFA] hover:bg-white/10 p-2"
           aria-label="Skip back 10 seconds"
         >
-          <SkipBackIcon />
+          <Rewind size={16} />
         </Button>
 
         {/* Play/Pause */}
@@ -164,7 +145,7 @@ export const AudioPlayer = memo(function AudioPlayer({
           className="text-white hover:text-[#82FAFA] hover:bg-white/10 p-2"
           aria-label="Skip forward 10 seconds"
         >
-          <SkipForwardIcon />
+          <FastForward size={16} />
         </Button>
       </div>
     </div>

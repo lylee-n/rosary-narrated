@@ -1,4 +1,4 @@
-import type { MysterySetKey, PerspectiveType } from "@/types"
+import type { MysterySetKey, PerspectiveType } from "@/lib/types"
 
 export const MYSTERY_SET_KEYS: readonly MysterySetKey[] = ["joyful", "luminous", "sorrowful", "glorious"] as const
 

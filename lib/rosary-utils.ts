@@ -32,70 +32,6 @@ export const rosarySequence = [
   "M1/Final",
 ]
 
-export const rosaryConnections = [
-  ["cross", "S1"],
-  ["S1", "S2"],
-  ["S2", "S3"],
-  ["S3", "S4"],
-  ["S4", "S5"],
-  ["S5", "M1/Final"],
-  ["M1/Final", "1.1"],
-  ["1.1", "1.2"],
-  ["1.2", "1.3"],
-  ["1.3", "1.4"],
-  ["1.4", "1.5"],
-  ["1.5", "1.6"],
-  ["1.6", "1.7"],
-  ["1.7", "1.8"],
-  ["1.8", "1.9"],
-  ["1.9", "1.10"],
-  ["1.10", "M2"],
-  ["M2", "2.1"],
-  ["2.1", "2.2"],
-  ["2.2", "2.3"],
-  ["2.3", "2.4"],
-  ["2.4", "2.5"],
-  ["2.5", "2.6"],
-  ["2.6", "2.7"],
-  ["2.7", "2.8"],
-  ["2.8", "2.9"],
-  ["2.9", "2.10"],
-  ["2.10", "M3"],
-  ["M3", "3.1"],
-  ["3.1", "3.2"],
-  ["3.2", "3.3"],
-  ["3.3", "3.4"],
-  ["3.4", "3.5"],
-  ["3.5", "3.6"],
-  ["3.6", "3.7"],
-  ["3.7", "3.8"],
-  ["3.8", "3.9"],
-  ["3.9", "3.10"],
-  ["3.10", "M4"],
-  ["M4", "4.1"],
-  ["4.1", "4.2"],
-  ["4.2", "4.3"],
-  ["4.3", "4.4"],
-  ["4.4", "4.5"],
-  ["4.5", "4.6"],
-  ["4.6", "4.7"],
-  ["4.7", "4.8"],
-  ["4.8", "4.9"],
-  ["4.9", "4.10"],
-  ["4.10", "M5"],
-  ["M5", "5.1"],
-  ["5.1", "5.2"],
-  ["5.2", "5.3"],
-  ["5.3", "5.4"],
-  ["5.4", "5.5"],
-  ["5.5", "5.6"],
-  ["5.6", "5.7"],
-  ["5.7", "5.8"],
-  ["5.8", "5.9"],
-  ["5.9", "5.10"],
-  ["5.10", "M1/Final"],
-]
-
 export const getMysterySetForDay = (dayOfWeek: number): number => {
   switch (dayOfWeek) {
     case 1:
@@ -189,7 +125,7 @@ export const buildRosaryElements = (mysteryData: MysteryData): RosaryElement[] =
           content: [
             ...PRAYERS.GLORY_BE.content,
             {
-              subtitle: `The First Mystery of the ${mysteryData.title}: ${mysteryData.mysteries[0].title}`,
+              subtitle: `The First of the ${mysteryData.title}: ${mysteryData.mysteries[0].title}`,
               text: `${mysteryData.mysteries[0].significance} ${mysteryData.mysteries[0].reflection}`,
             },
             ...PRAYERS.OUR_FATHER.content,
@@ -209,7 +145,7 @@ export const buildRosaryElements = (mysteryData: MysteryData): RosaryElement[] =
             ...PRAYERS.GLORY_BE.content,
             ...PRAYERS.FATIMA_PRAYER.content,
             {
-              subtitle: `The ${mysteryTitles[mysteryIndex - 1]} Mystery of the ${mysteryData.title}: ${
+              subtitle: `The ${mysteryTitles[mysteryIndex - 1]} of the ${mysteryData.title}: ${
                 mysteryData.mysteries[mysteryIndex].title
               }`,
               text: `${mysteryData.mysteries[mysteryIndex].significance} ${mysteryData.mysteries[mysteryIndex].reflection}`,
@@ -225,15 +161,24 @@ export const buildRosaryElements = (mysteryData: MysteryData): RosaryElement[] =
 
 export const getDynamicM1Content = (previousStepId: string | null, mysteryData: MysteryData) => {
   if (previousStepId === "5.10") {
-    return [...PRAYERS.GLORY_BE.content, ...PRAYERS.HAIL_HOLY_QUEEN.content]
+    return [...PRAYERS.GLORY_BE.content, ...PRAYERS.FATIMA_PRAYER.content, ...PRAYERS.HAIL_HOLY_QUEEN.content]
   }
   // Default to First Mystery content (covers initial state and coming from S5)
   return [
     ...PRAYERS.GLORY_BE.content,
     {
-      subtitle: `The First Mystery of the ${mysteryData.title}: ${mysteryData.mysteries[0].title}`,
+      subtitle: `The First of the ${mysteryData.title}: ${mysteryData.mysteries[0].title}`,
       text: `${mysteryData.mysteries[0].significance} ${mysteryData.mysteries[0].reflection}`,
     },
     ...PRAYERS.OUR_FATHER.content,
   ]
+}
+
+export const getDynamicCrossContent = (previousStepId: string | null) => {
+  if (previousStepId === "M1/Final") {
+    // When coming from Final Prayer, include Prayer After the Rosary
+    return [...PRAYERS.PRAYER_AFTER_ROSARY.content, ...PRAYERS.SIGN_OF_THE_CROSS.content]
+  }
+  // Default to just Sign of the Cross
+  return PRAYERS.SIGN_OF_THE_CROSS.content
 }

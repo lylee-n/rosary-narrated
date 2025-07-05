@@ -33,7 +33,7 @@ export function SupportSection() {
 
       <div ref={supportCardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-16">
         {/* Support Monthly Card */}
-        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
+        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center transition-all duration-300 hover:bg-black/40 hover:border-gray-600/60 hover:shadow-lg hover:scale-105">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">{t.sections.support.cards.monthly.title}</h3>
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
             {t.sections.support.cards.monthly.description}
@@ -47,7 +47,7 @@ export function SupportSection() {
         </div>
 
         {/* Donate One-Time Card */}
-        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
+        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center transition-all duration-300 hover:bg-black/40 hover:border-gray-600/60 hover:shadow-lg hover:scale-105">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">{t.sections.support.cards.oneTime.title}</h3>
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
             {t.sections.support.cards.oneTime.description}
@@ -74,7 +74,7 @@ export function SupportSection() {
 
       <div ref={involvedCardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
         {/* Volunteer Card */}
-        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
+        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center transition-all duration-300 hover:bg-black/40 hover:border-gray-600/60 hover:shadow-lg hover:scale-105">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">
             {t.sections.support.cards.volunteer.title}
           </h3>
@@ -90,7 +90,7 @@ export function SupportSection() {
         </div>
 
         {/* Partner Card */}
-        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center">
+        <div className="bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-8 text-center flex flex-col items-center transition-all duration-300 hover:bg-black/40 hover:border-gray-600/60 hover:shadow-lg hover:scale-105">
           <h3 className="text-white text-2xl font-semibold mb-6 font-sora">{t.sections.support.cards.partner.title}</h3>
           <p className="text-gray-300 font-inter leading-relaxed flex-grow mb-6">
             {t.sections.support.cards.partner.description}

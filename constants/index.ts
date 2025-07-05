@@ -1,5 +1,5 @@
 import { Home, Heart, Users, Compass, HelpCircle, BookOpen } from "lucide-react"
-import type { NavItem, MysterySetKey, PerspectiveType } from "@/types"
+import type { NavItem, MysterySetKey, PerspectiveType } from "@/lib/types"
 
 // Theme colors
 export const COLORS = {
@@ -30,6 +30,13 @@ export const COLORS = {
 } as const
 
 // Audio configuration
+export { 
+  PLAYBACK_SPEEDS as AUDIO_SPEEDS,
+  AUDIO_SEEK_STEP as AUDIO_SEEK_STEP,
+  DEFAULT_PLAYBACK_SPEED as DEFAULT_AUDIO_SPEED,
+  DEFAULT_VOLUME
+} from "@/lib/constants/mystery-sets"
+
 export const AUDIO_CONFIG = {
   defaultSpeed: 1,
   speedOptions: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
@@ -57,7 +64,7 @@ export const NAV_ITEMS: NavItem[] = [
 ]
 
 // Mystery set configuration
-export const MYSTERY_SETS: MysterySetKey[] = ["joyful", "luminous", "sorrowful", "glorious"]
+export { MYSTERY_SET_KEYS as MYSTERY_SETS } from "@/lib/constants/mystery-sets"
 
 export const MYSTERY_IMAGES = [
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mother%20Mary%20and%20Baby%20Jesus.png-0JeNAZJv87hYt6zZ2jUzbD7n6ZW6fX.jpeg",
@@ -67,7 +74,7 @@ export const MYSTERY_IMAGES = [
 ] as const
 
 // Perspectives configuration
-export const PERSPECTIVES: PerspectiveType[] = [3, 7, 12]
+export { PERSPECTIVE_OPTIONS as PERSPECTIVES } from "@/lib/constants/mystery-sets"
 
 // Contact information
 export const CONTACT = {

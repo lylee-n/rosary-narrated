@@ -3,7 +3,7 @@ import { useApp } from "@/components/app-provider"
 import { useRosaryState } from "@/hooks/use-rosary-state"
 import { DailyMysterySelector } from "@/components/rosary-guide/daily-mystery-selector"
 import { RosaryVisualizer } from "@/components/rosary-guide/rosary-visualizer"
-import { Cross } from "lucide-react"
+import { Cross, ChevronLeft, ChevronRight } from "lucide-react"
 import { getMysterySetForDayName, getMysteryBackgroundImage } from "@/lib/rosary-utils"
 import { Button } from "@/components/ui/button"
 
@@ -18,6 +18,7 @@ export function HowSection() {
     handleDayClick,
     handleBeadClick,
     handleNext,
+    handlePrevious,
   } = useRosaryState()
 
   // Get the current mystery set number
@@ -89,7 +90,10 @@ export function HowSection() {
                       <div className="flex-1 overflow-y-auto mb-4">
                         <div className="space-y-4">
                           {displayStepData.content.map((item, index) => (
-                            <div key={index}>
+                            <div 
+                              key={index}
+                              className="p-3 rounded-lg transition-all duration-300 hover:bg-white/10 hover:shadow-lg cursor-pointer"
+                            >
                               <h5 className="font-sora text-base font-semibold mb-2 text-[#FFE552]">{item.subtitle}</h5>
                               <p className="font-inter text-sm leading-relaxed whitespace-pre-line text-white">
                                 {item.text}
@@ -98,13 +102,22 @@ export function HowSection() {
                           ))}
                         </div>
                       </div>
-                      <div className="flex justify-center flex-shrink-0">
+                      <div className="flex justify-center gap-4 flex-shrink-0">
+                        <Button
+                          onClick={handlePrevious}
+                          variant="yellow"
+                          className="font-semibold px-8 py-3 rounded-lg transition-all duration-200 h-auto relative hover:bg-[#FFE552] hover:shadow-[0_0_20px_rgba(255,229,82,0.6)]"
+                        >
+                          <ChevronLeft size={16} className="absolute left-3" />
+                          <span>Previous</span>
+                        </Button>
                         <Button
                           onClick={handleNext}
                           variant="yellow"
-                          className="font-semibold px-8 py-3 rounded-lg transition-all duration-200 h-auto"
+                          className="font-semibold px-8 py-3 rounded-lg transition-all duration-200 h-auto relative hover:bg-[#FFE552] hover:shadow-[0_0_20px_rgba(255,229,82,0.6)]"
                         >
-                          Next
+                          <span>Next</span>
+                          <ChevronRight size={16} className="absolute right-3" />
                         </Button>
                       </div>
                     </>
