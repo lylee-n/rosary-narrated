@@ -32,7 +32,7 @@ export function WhySection() {
         }}
       >
         {/* Dark Overlay for readability */}
-        <div className="absolute inset-0 bg-black/60 z-0" />
+        <div className="absolute inset-0 bg-black/50 z-0" />
 
         {/* Centered Content (3 Glass Cards) */}
         <div className="container relative mx-auto px-4 z-10 py-12 md:py-16 lg:py-24">
